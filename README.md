@@ -1,57 +1,33 @@
-# ✨ Kreatif Software
+# Diflowy - Dify + Flow
 
-**[Landing](https://kreatif-software.netlify.app/)**
+Share, Discover, Scale -- Your Dify FlowHub
 
-Kreatif es una Landing page de alto desempeño hecha con Astro y Tailwind. Está basada en el diseño original de Figma hecho por [Olga Skuja](https://www.olgaskuja.design/).
+## 🌟 About
+Diflowy is a vibrant community platform dedicated to sharing and discovering workflows for the Dify ecosystem. Here, you can connect with fellow Dify enthusiasts from around the globe, share your own workflows, and discover new ones that can help you scale your projects and ideas.
 
-## Features
+## 💡 Mission
+Our mission is simple yet powerful: Share, Discover, Scale. We aim to provide a central hub where creativity meets innovation in the world of Dify. Whether you're looking to contribute your latest workflow masterpiece or find inspiration for your next project, Diflowy is here for you.
 
-- Diseño limpio y simple.
-- Full Responsive.
-- Rápida y eficiente gracias a Astro.
-- Customizable con Tailwind.
-- SEO altamente optimizado.
+## 📦 Features
+- User-driven community: A place where users like you can contribute and benefit from shared knowledge.
+- Rich collection of workflows: Browse through a vast library of workflows created by the Dify community.
+- Seamless integration: Effortlessly integrate discovered workflows into your Dify projects.
+- Dynamic updates: Stay updated with the latest trends and advancements in the Dify workflow landscape.
 
-## ⚓ Puntaje en Lighthouse
+## 🌍 Community
+Join our growing community of innovators and creators. Whether you're a seasoned developer or just starting out, there's a place for you at Diflowy.
 
-<p align="center">
-	<img width="600" alt="Lighthouse Score" src="https://raw.githubusercontent.com/vasquez-esteban/kreativ-software/master/lighthouse-score.svg"/>
-</p>
+## 🤝 Contributing
+Your contributions are what make Diflowy thrive. Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests to us.
 
-## 🚀 Estructura del Proyecto
+## 📄 License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-```text
-/
-├── public/
-│   └── fonts
-│   └── favicon.svg
-│   └── og.png
-├── src/
-│   ├── components/
-│   │   └── sections/
-│   │   └── seo/
-│   │   └── ui/
-│   ├── styles/
-│   ├── utils/
-│   ├── layouts/
-│   │   └── MainHead.astro
-│   │   └── MainLayout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## 🌈 Enjoy!
+We hope you enjoy being part of the Diflowy community as much as we do. Let's build something amazing together!
 
-## 🧞 Comandos
+## 🫶 Thanks
 
-Para correr la aplicación en un entorno local
-
-| Comando          | Acción                                       |
-| :--------------- | :------------------------------------------- |
-| `git clone repo` | Clonar Repositorio                           |
-| `cd repo`        | Entrar al directorio base                    |
-| `npm install`    | Instalar Dependencias                        |
-| `npm run dev`    | Correr el servidor local en `localhost:4321` |
-
-## Más información
-
-- Licencia y Crédito en el footer de la Landing Page.
+- [Dify](https://github.com/langgenius/dify) Project
+- This Website is inspired by project: [vasquez-esteban/Kreativ-Software](https://github.com/vasquez-esteban/kreativ-software)
+- Astro Project
