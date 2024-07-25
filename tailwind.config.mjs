@@ -11,7 +11,7 @@ export default {
         medium: 500,
       },
       colors: {
-        green: "var(--green)",
+        blue: "var(--blue)",
         black: "var(--black)",
         dark: "var(--dark)",
         white: "var(--white)",

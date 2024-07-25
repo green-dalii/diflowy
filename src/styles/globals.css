@@ -20,9 +20,9 @@
   }
 
   :root {
-    --green: #b9ff66;
-    --black: rgb(0, 0, 0);
-    --dark: #191a23;
+    --blue: #cae9f8;
+    --black: rgb(15, 27, 49);
+    --dark: #086aa9;
     --white: #f3f3f3;
   }
 
@@ -94,33 +94,33 @@
       @apply bg-dark text-white rounded-lg px-[35px] py-5 transition-all duration-200;
     }
     .btn-primary:hover {
-      @apply bg-green text-black transform scale-105;
+      @apply bg-blue text-black transform scale-105;
     }
 
     .btn-secondary {
       @apply bg-transparent text-black px-[35px] py-5 rounded-lg border border-solid border-black transition-all duration-200;
     }
     .btn-secondary:hover {
-      @apply bg-black text-white border-green transform scale-105;
+      @apply bg-dark text-white border-blue transform scale-105;
     }
 
     .btn-tertiary {
-      @apply bg-green text-black rounded-lg px-[35px] py-5 transition-all duration-200;
+      @apply bg-blue text-black rounded-lg px-[35px] py-5 transition-all duration-200;
     }
     .btn-tertiary:hover {
       @apply bg-white text-black transform scale-105;
     }
 
     .greenhead {
-      @apply bg-green text-black rounded-[7px] px-[7px];
+      @apply text-black rounded-[7px] px-[7px];
     }
 
     .whitehead {
-      @apply bg-white text-black rounded-[7px] px-[7px];
+      @apply text-white rounded-[7px] px-[7px];
     }
 
     .blackhead {
-      @apply bg-black text-white rounded-[7px] px-[7px];
+      @apply text-dark rounded-[7px] px-[7px];
     }
   }
 }

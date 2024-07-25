@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 const navLinks = [
   {
     name: "Discover",
-    href: "#about",
+    href: "/discover",
   },
   {
     name: "Upload",
@@ -38,9 +38,9 @@ import brand from "../../assets/brand.svg";
     style="max-width: 1280px;"
   >
     <!-- Brand -->
-    <div class="pl-4 xl:flex-none">
-      <a href="#home">
-        <Image src={brand} alt="Brand Logo" class="w-[219px]" loading="eager" />
+    <div class="pl-5 xl:pl-0 xl:flex-none">
+      <a href="/">
+        <Image src={brand} alt="Brand Logo" class="w-36 sm:w-[200px]" loading="eager" />
       </a>
     </div>
 
@@ -65,7 +65,7 @@ import brand from "../../assets/brand.svg";
       </ul>
 
       <!-- Login -->
-      <div class="flex xl:flex-row xl:items-center px-4 xl:gap-4 flex-col">
+      <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col">
         <button class="btn-secondary">Login / Sign up</button>
       </div>
     </div>
@@ -77,7 +77,7 @@ import brand from "../../assets/brand.svg";
       aria-controls="navmenu"
       aria-expanded="false"
       id="menuButton"
-      class="w-12 h-12 xl:hidden pr-4 cursor-pointer"
+      class="w-12 h-12 xl:hidden cursor-pointer"
     >
       <Image src={bars} alt="hamburgerIcon" class="hamburgerIcon" />
     </button>

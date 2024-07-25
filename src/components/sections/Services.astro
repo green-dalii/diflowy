@@ -3,26 +3,24 @@ import SectionTitle from "../ui/SectionTitle.astro";
 import ServiceCard from "../ui/ServiceCard.astro";
 import Section from "./Section.astro";
 
-import c1 from "../../assets/pics/card-pic1.png";
-import c2 from "../../assets/pics/card-pic2.png";
-import c3 from "../../assets/pics/card-pic3.png";
-import c4 from "../../assets/pics/card-pic4.png";
-import c5 from "../../assets/pics/card-pic5.png";
-import c6 from "../../assets/pics/card-pic6.png";
+import c1 from "../../assets/pics/card-pic1.svg";
+import c2 from "../../assets/pics/card-pic2.svg";
+import c3 from "../../assets/pics/card-pic3.svg";
+import c4 from "../../assets/pics/card-pic4.svg";
+import c5 from "../../assets/pics/card-pic5.svg";
+import c6 from "../../assets/pics/card-pic6.svg";
 
 const cards = [
   {
     index: 1,
     titleTop: "Productivity",
-    titleBottom: "Optimization",
     img: c1,
     alt: "SEO",
     link: "https://google.com",
   },
   {
     index: 2,
-    titleTop: "Tools",
-    titleBottom: "advertising",
+    titleTop: "Assisent Tools",
     img: c2,
     alt: "SEO",
     link: "https://google.com",
@@ -30,31 +28,27 @@ const cards = [
   {
     index: 3,
     titleTop: "Social Media",
-    titleBottom: "Marketing",
     img: c3,
     alt: "SEO",
     link: "https://google.com",
   },
   {
     index: 1,
-    titleTop: "Marketing",
-    titleBottom: "Marketing",
+    titleTop: "Marketing Operation",
     img: c4,
     alt: "SEO",
     link: "https://google.com",
   },
   {
     index: 2,
-    titleTop: "Enterntment",
-    titleBottom: "Creation",
+    titleTop: "Life/Enterntment",
     img: c5,
     alt: "SEO",
     link: "https://google.com",
   },
   {
     index: 3,
-    titleTop: "Art/Deisgn",
-    titleBottom: "Tracking",
+    titleTop: "Writing",
     img: c6,
     alt: "SEO",
     link: "https://google.com",
@@ -74,7 +68,6 @@ const description =
           <ServiceCard
             index={card.index}
             titleTop={card.titleTop}
-            titleBottom={card.titleBottom}
             img={card.img}
             alt={card.alt}
             link={card.link}

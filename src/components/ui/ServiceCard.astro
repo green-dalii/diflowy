@@ -2,8 +2,9 @@
 import { Image } from "astro:assets";
 import Card from "./Card.astro";
 
-import gob from "../../assets/icon6.svg";
+import gob from "../../assets/icon8.svg";
 import wob from "../../assets/icon7.svg";
+import pob from "../../assets/icon6.svg";
 
 /* 
 1. White card with green title and green on black icon 
@@ -11,37 +12,41 @@ import wob from "../../assets/icon7.svg";
 3. Black card with white title and white on black icon
 */
 
-const { index, titleTop, titleBottom, img, alt, link } = Astro.props;
+const { index, titleTop, img, alt, link } = Astro.props;
 ---
 
-<Card isUnderline={true}>
-  <div
-    class=`h-[300px] w-full sm:h-full lg:gap-[60px] grid custom-grid lg:grid-cols-2 lg:grid-rows-1 p-8 sm:p-[50px] rounded-[45px] ${index === 1 ? 'bg-white' : index === 2 ? 'bg-green' : 'bg-dark text-white'}`
-  >
-    <h3 class=`flex flex-col col-span-2 lg:col-span-1`>
-      <span class=`w-[fit-content] ${index === 1 ? 'greenhead' : 'whitehead'}`
-        >{titleTop}</span
-      >
-      <span class=`w-[fit-content] ${index === 1 ? 'greenhead' : 'whitehead'}`
-        >{titleBottom}</span
-      >
-    </h3>
-    <picture
-      class="w-full h-full row-span-1 order-1 lg:order-none lg:row-span-2 flex justify-center items-center"
+<Card isUnderline={false}>
+  <a href={link} target="_blank">
+    <div
+      class=`group h-[300px] w-full sm:h-full lg:gap-[60px] grid custom-grid lg:grid-cols-2 lg:grid-rows-1 p-8 sm:p-[40px] rounded-[45px] transition-all duration-300 transform sm:hover:shadow-lg sm:hover:scale-105 ${index === 1 ? 'bg-white' : index === 2 ? 'bg-blue' : 'bg-dark text-white'}`
     >
-      <Image
-        src={img}
-        alt={alt}
-        class="h-[100px] w-auto sm:h-auto sm:w-3/4 object-cover"
-      />
-    </picture>
-    <div class="flex items-end">
-      <a href={link} class="flex items-center gap-3.5"
-        ><Image src={index === 1 || index === 2 ? gob : wob} alt={alt} />
-        <span class="hidden sm:block">Service Info</span></a
+      <h3 class=`flex flex-col col-span-2 lg:col-span-1`>
+        <span
+          class=`w-[fit-content] ${index === 1 ? 'greenhead' : index === 2 ? 'blackhead' : 'whitehead'} text-4xl`
+          >{titleTop}</span
+        >
+      </h3>
+      <picture
+        class="row-span-1 order-1 lg:order-none lg:row-span-2 flex justify-center items-center"
       >
+        <Image
+          src={img}
+          alt={alt}
+          class="h-full w-auto sm:h-auto sm:w-full object-cover"
+        />
+      </picture>
+      <div class="flex items-end">
+        <div class="flex items-center gap-3.5">
+          <Image
+            src={index === 1 ? gob : index === 2 ? pob : wob}
+            alt={alt}
+            class="group-hover:rotate-45 transition-all duration-300"
+          />
+          <span class="hidden sm:block">Click Here</span>
+        </div>
+      </div>
     </div>
-  </div>
+  </a>
 </Card>
 
 <style>

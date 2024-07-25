@@ -6,26 +6,29 @@ const initialNodes = [
     {
         id: '1',
         type: 'input',
-        data: { label: 'Input Node' },
-        position: { x: 250, y: 25 },
+        data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="dify.png" style={{maxHeight: "2em"}}/></div> },
+        position: { x: 130, y: 120 },
+        justify: 'center',
+        align: 'center',
     },
 
     {
         id: '2',
+        type: 'input',
         // you can also pass a React component as a label
-        data: { label: <div>Default Node</div> },
-        position: { x: 100, y: 125 },
+        data: { label: <div>WorkFlow</div> },
+        position: { x: 270, y: 190 },
     },
     {
         id: '3',
         type: 'output',
-        data: { label: 'Output Node' },
-        position: { x: 250, y: 250 },
+        data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="brand.svg" style={{maxHeight: "2em"}}/></div> },
+        position: { x: 200, y: 300 },
     },
 ];
 
 const initialEdges = [
-    { id: 'e1-2', source: '1', target: '2' },
+    { id: 'e1-2', source: '1', target: '3', animated: true },
     { id: 'e2-3', source: '2', target: '3', animated: true },
 ];
 
@@ -48,11 +51,10 @@ const ReactFlowComponent = () => {
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
+                zoomOnScroll={false}
+                panOnDrag={false}
                 fitView >
                 <Background />
-                <Controls />
-                <MiniMap />
-                <Panel />
             </ReactFlow>
         </div>
     );

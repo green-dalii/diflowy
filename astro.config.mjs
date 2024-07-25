@@ -8,5 +8,10 @@ export default defineConfig({
   site: "https://master--kreatif-software.netlify.app",
   integrations: [tailwind({
     configFile: "./tailwind.config.mjs"
-  }), react()]
+  }),
+  react(),
+  ],
+  security: {
+    checkOrigin: true
+  }
 });
