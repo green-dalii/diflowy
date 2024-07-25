@@ -66,7 +66,7 @@ import brand from "../../assets/brand.svg";
 
       <!-- Login -->
       <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col">
-        <button class="btn-secondary">Login / Sign up</button>
+        <button class="btn-secondary" id="login">Login / Sign up</button>
       </div>
     </div>
 
@@ -127,7 +127,6 @@ import brand from "../../assets/brand.svg";
     }
   });
 </script>
-
 <!-- 
   Use to highlight the active link in the navigation bar
   Gotta test in dev and prod bc sometimes it doesn't work
@@ -144,3 +143,8 @@ const currentPath = pathname.slice(1); // remove the first "/"
   <a class={currentPath === "contact" ? "active" : ""} href="/contact">Contact Me</a>
 </nav>
 -->
+<script>
+  const { signIn, signOut } = await import("auth-astro/client")
+  document.querySelector("#login").onclick = () => signIn("github")
+  // document.querySelector("#logout").onclick = () => signOut()
+</script>
