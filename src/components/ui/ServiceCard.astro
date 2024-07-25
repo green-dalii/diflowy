@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import Card from "./Card.astro";
 
 import gob from "../../assets/icon8.svg";
 import wob from "../../assets/icon7.svg";
@@ -15,10 +14,10 @@ import pob from "../../assets/icon6.svg";
 const { index, titleTop, img, alt, link } = Astro.props;
 ---
 
-<Card isUnderline={false}>
+<div class="rounded-[45px]">
   <a href={link} target="_blank">
     <div
-      class=`group h-[300px] w-full sm:h-full lg:gap-[60px] grid custom-grid lg:grid-cols-2 lg:grid-rows-1 p-8 sm:p-[40px] rounded-[45px] transition-all duration-300 transform sm:hover:shadow-lg sm:hover:scale-105 ${index === 1 ? 'bg-white' : index === 2 ? 'bg-blue' : 'bg-dark text-white'}`
+      class=`group h-[320px] w-full sm:h-full lg:gap-[60px] grid custom-grid lg:grid-cols-2 lg:grid-rows-1 p-8 sm:p-[40px] rounded-[45px] transition-all duration-300 sm:hover:scale-105 transform sm:hover:shadow-lg ${index === 1 ? 'bg-white' : index === 2 ? 'bg-blue' : 'bg-dark text-white'}`
     >
       <h3 class=`flex flex-col col-span-2 lg:col-span-1`>
         <span
@@ -32,7 +31,7 @@ const { index, titleTop, img, alt, link } = Astro.props;
         <Image
           src={img}
           alt={alt}
-          class="h-full w-auto sm:h-auto sm:w-full object-cover"
+          class="h-auto w-full sm:h-auto sm:w-full md:group-hover:scale-[1.2] transition-all duration-300 object-cover"
         />
       </picture>
       <div class="flex items-end">
@@ -47,7 +46,7 @@ const { index, titleTop, img, alt, link } = Astro.props;
       </div>
     </div>
   </a>
-</Card>
+</div>
 
 <style>
   .custom-grid {
