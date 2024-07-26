@@ -1,6 +1,6 @@
 import { Lucia } from "lucia";
 import { D1Adapter } from "@lucia-auth/adapter-sqlite";
-import { D1Database } from "@cloudflare/workers-types";
+// import { D1Database } from "@cloudflare/workers-types";
 import { GitHub } from "arctic";
 
 export async function onRequest(context) {
