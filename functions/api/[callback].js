@@ -20,7 +20,7 @@ export async function onRequest(context) {
       }
     });
   
-    const github = new GitHub(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET);
+    const github = new GitHub(env.GITHUB_ID, env.GITHUB_SECRET);
   
     if (url.pathname === "/api/login/github") {
       const [url, state] = await github.createAuthorizationURL();
