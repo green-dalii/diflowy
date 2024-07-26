@@ -1,0 +1,14 @@
+<!-- ---
+import { getSession } from 'auth-astro/server';
+
+const session = await getSession(Astro.request);
+---
+
+{!session ? (
+  <a href="/api/auth/signin">Sign in with GitHub</a>
+) : (
+  <div>
+    <p>Welcome, {session.user?.name}!</p>
+    <a href="/api/auth/signout">Sign out</a>
+  </div>
+)} -->

@@ -1,5 +1,7 @@
 ---
 import { Image } from "astro:assets";
+// import LoginButton from "./LoginButton.astro";
+// import { SignIn, SignOut } from 'auth-astro/components'
 
 const navLinks = [
   {
@@ -67,6 +69,8 @@ import brand from "../../assets/brand.svg";
       <!-- Login -->
       <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col">
         <button class="btn-secondary" id="login">Login / Sign up</button>
+        <!-- <LoginButton />
+        <SignIn provider="github" /> -->
       </div>
     </div>
 
@@ -143,8 +147,8 @@ const currentPath = pathname.slice(1); // remove the first "/"
   <a class={currentPath === "contact" ? "active" : ""} href="/contact">Contact Me</a>
 </nav>
 -->
-<script>
+<!-- <script>
   const { signIn, signOut } = await import("auth-astro/client")
   document.querySelector("#login").onclick = () => signIn("github")
-  // document.querySelector("#logout").onclick = () => signOut()
-</script>
+  document.querySelector("#logout").onclick = () => signOut()
+</script> -->
