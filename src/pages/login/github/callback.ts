@@ -4,7 +4,7 @@ import { generateIdFromEntropySize } from "lucia";
 
 import type { APIContext } from "astro";
 
-const lucia = initializeLucia(env.D1)
+const lucia = initializeLucia(context.env.D1)
 
 export async function GET(context: APIContext): Promise<Response> {
 	const code = context.url.searchParams.get("code");
@@ -26,7 +26,7 @@ export async function GET(context: APIContext): Promise<Response> {
 		const githubUser: GitHubUser = await githubUserResponse.json();
 
 		// Replace this with your own DB client.
-		const existingUser = await env.D1.table("user").where("github_id", "=", githubUser.id).get();
+		const existingUser = await context.env.D1.table("user").where("github_id", "=", githubUser.id).get();
 
 		if (existingUser) {
 			const session = await lucia.createSession(existingUser.id, {});
@@ -38,7 +38,7 @@ export async function GET(context: APIContext): Promise<Response> {
 		const userId = generateIdFromEntropySize(10); // 16 characters long
 
 		// Replace this with your own DB client.
-		await env.D1.table("user").insert({
+		await context.env.D1.table("user").insert({
 			id: userId,
 			github_id: githubUser.id,
 			username: githubUser.login
