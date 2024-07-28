@@ -4,8 +4,8 @@ import { D1Database } from "@cloudflare/workers-types";
 import { GitHub } from "arctic";
 
 export const github = new GitHub(
-	import.meta.env.GITHUB_CLIENT_ID,
-	import.meta.env.GITHUB_CLIENT_SECRET
+	env.GITHUB_ID,
+	env.GITHUB_SECRET
 );
 
 // 创建Lucia实例
@@ -18,7 +18,7 @@ export function initializeLucia(D1: D1Database) {
 	const lucia = new Lucia(adapter, {
         sessionCookie: {
           attributes: {
-            secure: import.meta.env.AUTH_SECRET
+            secure: env.AUTH_SECRET
           }
         },
         getUserAttributes: (attributes) => {

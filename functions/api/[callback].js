@@ -15,7 +15,7 @@ export async function onRequest(context) {
     const lucia = new Lucia(adapter, {
       sessionCookie: {
         attributes: {
-          secure: process.env.NODE_ENV === "production"
+          secure: true
         }
       }
     });
@@ -26,7 +26,7 @@ export async function onRequest(context) {
       const [url, state] = await github.createAuthorizationURL();
       const stateCookie = serializeCookie("github_oauth_state", state, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
         path: "/",
         maxAge: 60 * 60
       });
