@@ -1,4 +1,4 @@
-import { github, initializeLucia } from "../../../auth";
+import { github, initializeLucia } from "../../../auth.ts";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
 
