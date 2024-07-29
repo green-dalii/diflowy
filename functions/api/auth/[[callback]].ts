@@ -64,10 +64,10 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       ).bind(userId, githubUser.id, githubUser.login).run();
       console.log("New User created")
     }
-    
+    console.log("Preparing Cookie...")
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
-
+    console.log("Cookie Prepared, Redirecting...")
     return new Response(null, {
       status: 302,
       headers: {
