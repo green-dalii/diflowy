@@ -14,6 +14,7 @@
     "@astrojs/react": "^3.6.0",
     "@astrojs/tailwind": "^5.1.0",
     "@lucia-auth/adapter-sqlite": "^3.0.2",
+    "@types/cloudflare": "^2.7.14",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@xyflow/react": "^12.0.3",

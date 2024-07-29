@@ -1,10 +1,9 @@
 import { generateState } from "arctic";
 import { initializeGitHub } from "../../auth";
 import type { Env } from "../../auth";
-import type { PagesFunction } from "@cloudflare/workers-types";
-import { Response } from "@cloudflare/workers-types";
+import type { PagesFunction, EventContext } from "@cloudflare/workers-types";
 
-import type { APIContext } from "astro";
+// import type { APIContext } from "astro";
 
 // export async function GET(context: APIContext): Promise<Response> {
 // 	const state = generateState();
@@ -22,7 +21,7 @@ import type { APIContext } from "astro";
 // 	return context.redirect(url.toString());
 // }
 
-export const onRequestGet: PagesFunction<Env> = async (context) => {
+export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context) => {
     const github = initializeGitHub(context.env);
     const state = generateState();
     const url = await github.createAuthorizationURL(state);

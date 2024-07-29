@@ -1,5 +1,4 @@
-import type { PagesFunction } from "@cloudflare/workers-types";
-import { Response } from "@cloudflare/workers-types";
+import type { PagesFunction, EventContext } from "@cloudflare/workers-types";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
 import { initializeGitHub, initializeLucia } from "../../auth";
@@ -10,7 +9,7 @@ interface GitHubUser {
 	login: string;
 }
 
-export const onRequestGet: PagesFunction<Env> = async (context): Promise<Response> => {
+export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response>  = async (context): Promise<Response> => {
   const github = initializeGitHub(context.env);
   const lucia = initializeLucia(context.env);
 
@@ -21,7 +20,7 @@ export const onRequestGet: PagesFunction<Env> = async (context): Promise<Respons
   const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
 
   if (!code || !state || !storedState || state !== storedState) {
-    return new Response(null, { status: 400 });
+    return new Response("Invalid request parameters", { status: 400 });
   }
 
   try {
