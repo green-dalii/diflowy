@@ -57,6 +57,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     else {
       console.log("User does not exist")
       userId = generateIdFromEntropySize(10); // 生成新的用户 ID
+      console.log("New User ID>>>", userId, "Prepare to write to database...")
       // 插入新用户
       await context.env.D1.prepare(
         "INSERT INTO users (id, github_id, username) VALUES (?, ?, ?)"
