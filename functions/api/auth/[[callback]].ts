@@ -35,14 +35,13 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       }
     });
     const githubUser: GitHubUser = await githubUserResponse.json();
-    console.log("GitHub User Response>>>", githubUserResponse.json())
-    
+
     // 使用 D1 数据库查询现有用户
     const { results } = await context.env.D1.prepare(
       "SELECT * FROM user WHERE github_id = ?"
     ).bind(githubUser.id).all();
     const existingUser = results[0];
-    console.log("Existing User>>>", existingUser)
+    console.log("Existing User>>>")
 
     let userId: string;
     // 如果数据库中存在用户
