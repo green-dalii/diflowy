@@ -1,8 +1,8 @@
 import type { PagesFunction, EventContext } from "@cloudflare/workers-types";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
-import { initializeGitHub, initializeLucia } from "../../auth";
-import type { Env } from "../../auth";
+import { initializeGitHub, initializeLucia } from "../auth";
+import type { Env } from "../auth";
 
 interface GitHubUser {
 	id: string;
