@@ -1,7 +1,8 @@
 import { generateState } from "arctic";
 import { initializeGitHub } from "../../auth";
 import type { Env } from "../../auth";
-// import type { PagesFunction } from "@cloudflare/workers-types";
+import type { PagesFunction } from "@cloudflare/workers-types";
+import { Response } from "@cloudflare/workers-types";
 
 import type { APIContext } from "astro";
 
