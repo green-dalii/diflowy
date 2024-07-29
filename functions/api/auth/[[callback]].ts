@@ -34,7 +34,9 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
         Authorization: `Bearer ${tokens.accessToken}`
       }
     });
+    console.log("GitHub User Getting")
     const githubUser: GitHubUser = await githubUserResponse.json();
+    console.log("GitHub User Got")
 
     // 使用 D1 数据库查询现有用户
     const { results } = await context.env.D1.prepare(
