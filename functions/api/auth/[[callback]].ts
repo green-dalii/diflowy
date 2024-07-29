@@ -37,14 +37,12 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     });
     console.log("GitHub User Getting")
     console.log("GitHub User Response Status>>>", githubUserResponse.status, githubUserResponse.ok)
-    console.log("GitHub User Response>>>", JSON.stringify(githubUserResponse, null, 2))
-    console.dir(githubUserResponse);
     const githubUser: GitHubUser = await githubUserResponse.json();
-    console.log("GitHub User Got")
+    console.log("GitHub User Got", githubUser)
 
     // 使用 D1 数据库查询现有用户
     const { results } = await context.env.D1.prepare(
-      "SELECT * FROM user WHERE github_id = ?"
+      "SELECT * FROM users WHERE github_id = ?"
     ).bind(githubUser.id).all();
     const existingUser = results[0];
     console.log("Existing User>>>")
@@ -61,7 +59,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       userId = generateIdFromEntropySize(10); // 生成新的用户 ID
       // 插入新用户
       await context.env.D1.prepare(
-        "INSERT INTO user (id, github_id, username) VALUES (?, ?, ?)"
+        "INSERT INTO users (id, github_id, username) VALUES (?, ?, ?)"
       ).bind(userId, githubUser.id, githubUser.login).run();
       console.log("New User created")
     }
