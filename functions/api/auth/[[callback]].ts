@@ -20,7 +20,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
 
   const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
   console.log("storedState>>>", storedState)
-  
+
   if (!code || !state || !storedState || state !== storedState) {
     console.log("Invalid request parameters")
     return new Response("Invalid request parameters", { status: 400 });
@@ -28,13 +28,15 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
 
   try {
     const tokens = await github.validateAuthorizationCode(code);
+    console.log("Tokens>>>", tokens)
     const githubUserResponse = await fetch("https://api.github.com/user", {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`
       }
     });
     const githubUser: GitHubUser = await githubUserResponse.json();
-    console.log("GitHub User>>>", githubUser)
+    console.log("GitHub User Response>>>", githubUserResponse.json())
+    
     // 使用 D1 数据库查询现有用户
     const { results } = await context.env.D1.prepare(
       "SELECT * FROM user WHERE github_id = ?"
