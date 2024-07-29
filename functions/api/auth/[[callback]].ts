@@ -35,6 +35,8 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       }
     });
     console.log("GitHub User Getting")
+    console.log("GitHub User Response Status>>>", githubUserResponse.status, githubUserResponse.ok)
+    console.log("GitHub User Response>>>", githubUserResponse)
     const githubUser: GitHubUser = await githubUserResponse.json();
     console.log("GitHub User Got")
 
