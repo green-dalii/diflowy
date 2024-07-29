@@ -17,10 +17,12 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   console.log("GET Request>>>URL>>>", url, "code>>>", code, "state>>>", state)
-  
-  const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
 
+  const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
+  console.log("storedState>>>", storedState)
+  
   if (!code || !state || !storedState || state !== storedState) {
+    console.log("Invalid request parameters")
     return new Response("Invalid request parameters", { status: 400 });
   }
 
@@ -32,27 +34,31 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       }
     });
     const githubUser: GitHubUser = await githubUserResponse.json();
-
+    console.log("GitHub User>>>", githubUser)
     // 使用 D1 数据库查询现有用户
     const { results } = await context.env.D1.prepare(
       "SELECT * FROM user WHERE github_id = ?"
     ).bind(githubUser.id).all();
     const existingUser = results[0];
+    console.log("Existing User>>>", existingUser)
 
     let userId: string;
     // 如果数据库中存在用户
     if (existingUser) {
+      console.log("User exists")
       userId = existingUser.id as string;
     } 
     // 如果为新用户
     else {
+      console.log("User does not exist")
       userId = generateIdFromEntropySize(10); // 生成新的用户 ID
       // 插入新用户
       await context.env.D1.prepare(
         "INSERT INTO user (id, github_id, username) VALUES (?, ?, ?)"
       ).bind(userId, githubUser.id, githubUser.login).run();
+      console.log("New User created")
     }
-
+    
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
 
