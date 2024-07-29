@@ -28,7 +28,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
 
   try {
     const tokens = await github.validateAuthorizationCode(code);
-    console.log("Tokens>>>", tokens)
+    console.log("Tokens>>>", tokens, `Bearer ${tokens.accessToken}`)
     const githubUserResponse = await fetch("https://api.github.com/user", {
       headers: {
         "Authorization": `Bearer ${tokens.accessToken}`
