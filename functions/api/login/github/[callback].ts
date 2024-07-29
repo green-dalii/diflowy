@@ -1,16 +1,15 @@
-import type { PagesFunction } from "@cloudflare/workers-types";
+// import type { PagesFunction } from "@cloudflare/workers-types";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
 import { initializeGitHub, initializeLucia } from "../../auth";
 import type { Env } from "../../auth";
-import type { APIContext } from "astro";
 
 interface GitHubUser {
 	id: string;
 	login: string;
 }
 
-export const onRequestGet: PagesFunction<Env> = async (context) => {
+export const onRequestGet: PagesFunction<Env> = async (context): Promise<Response> => {
   const github = initializeGitHub(context.env);
   const lucia = initializeLucia(context.env);
 
@@ -42,7 +41,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     let userId: string;
     // 如果数据库中存在用户
     if (existingUser) {
-      userId = existingUser.id;
+      userId = existingUser.id as string;
     } 
     // 如果为新用户
     else {
@@ -65,10 +64,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     });
   } catch (e) {
     if (e instanceof OAuth2RequestError) {
-      return new Response(null, { status: 400 });
+      return new Response("OAuth2 Request Error", { status: 400 });
     }
     console.error(e);
-    return new Response(null, { status: 500 });
+    return new Response("Internal Server Error", { status: 500 });
   }
 };
 
