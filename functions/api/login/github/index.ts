@@ -25,6 +25,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     const github = initializeGitHub(context.env);
     const state = generateState();
     const url = await github.createAuthorizationURL(state);
+    console.log("AuthorizationURL>>>>", url)
   
     // 创建用于设置 cookie 的 Response 对象
     const response = new Response(null, {

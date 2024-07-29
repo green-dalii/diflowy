@@ -16,7 +16,8 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
   const url = new URL(context.request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-
+  console.log("GET Request>>>URL>>>", url, "code>>>", code, "state>>>", state)
+  
   const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
 
   if (!code || !state || !storedState || state !== storedState) {
