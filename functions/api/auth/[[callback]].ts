@@ -31,7 +31,8 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     console.log("Tokens>>>", tokens, `Bearer ${tokens.accessToken}`)
     const githubUserResponse = await fetch("https://api.github.com/user", {
       headers: {
-        "Authorization": `Bearer ${tokens.accessToken}`
+        "Authorization": `Bearer ${tokens.accessToken}`,
+        "User-Agent": "diflowy",
       }
     });
     console.log("GitHub User Getting")

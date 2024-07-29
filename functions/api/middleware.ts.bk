@@ -1,0 +1,82 @@
+import { initializeLucia } from "./auth";
+import type { Env } from "./auth"
+import { verifyRequestOrigin } from "lucia";
+// import { defineMiddleware } from "astro:middleware";
+import type { PagesFunction, EventContext } from "@cloudflare/workers-types";
+
+export const onRequest: PagesFunction<Env> = async (context): Promise<Response> => {
+	const { request, env, next } = context;
+	const cookies = request.headers.get("Cookie") || "";
+	const sessionId = cookies.match(/session=(.*?);/)?.[1] ?? null;
+  
+	if (!sessionId) {
+	  return new Response("Unauthorized", { status: 401 });
+	}
+  
+	try {
+	  const { session, user } = await lucia.validateSession(sessionId);
+  
+	  if (session && session.fresh) {
+		const sessionCookie = lucia.createSessionCookie(session.id);
+		const response = await next(); // 获取下一个中间件或处理请求的响应
+		response.headers.append("Set-Cookie", sessionCookie.serialize());
+		return response;
+	  }
+  
+	  if (!session) {
+		const sessionCookie = lucia.createBlankSessionCookie();
+		const response = await next(); // 获取下一个中间件或处理请求的响应
+		response.headers.append("Set-Cookie", sessionCookie.serialize());
+		return response;
+	  }
+  
+	  // 将用户和会话信息放入上下文
+	  context.locals = {
+		user,
+		session
+	  };
+  
+	  return await next(); // 继续处理请求
+	} catch (error) {
+	  console.error("Session validation error:", error);
+	  return new Response("Internal Server Error", { status: 500 });
+	}
+  };
+// 假设你有其他逻辑要处理
+// async function handleOtherLogic(context: EventContext<Env, any, Record<string, unknown>>): Promise<Response> {
+// 	// ... 其他逻辑
+// 	return new Response(null, { status: 200 });
+// }
+
+
+// export const onRequest = defineMiddleware(async (context, next) => {
+// 	if (context.request.method !== "GET") {
+// 		const originHeader = context.request.headers.get("Origin");
+// 		const hostHeader = context.request.headers.get("Host");
+// 		if (!originHeader || !hostHeader || !verifyRequestOrigin(originHeader, [hostHeader])) {
+// 			return new Response(null, {
+// 				status: 403
+// 			});
+// 		}
+// 	}
+
+// 	const sessionId = context.cookies.get(lucia.sessionCookieName)?.value ?? null;
+// 	if (!sessionId) {
+// 		context.locals.user = null;
+// 		context.locals.session = null;
+// 		return next();
+// 	}
+
+// 	const { session, user } = await lucia.validateSession(sessionId);
+// 	if (session && session.fresh) {
+// 		const sessionCookie = lucia.createSessionCookie(session.id);
+// 		context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+// 	}
+// 	if (!session) {
+// 		const sessionCookie = lucia.createBlankSessionCookie();
+// 		context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+// 	}
+// 	context.locals.session = session;
+// 	context.locals.user = user;
+// 	return next();
+// });
