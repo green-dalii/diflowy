@@ -8,6 +8,11 @@ interface User {
     // 添加其他用户属性
 }
 
+interface UserData {
+    authenticated: boolean;
+    user: User | null;
+}
+
 // 定义上下文类型
 interface AuthContextType {
     user: User | null;
@@ -39,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             setLoading(true);
             const response = await fetch('/api/user');
-            const data = await response.json();
+            const data: UserData = await response.json();
             if (data.authenticated) {
                 setUser(data.user);
             } else {
