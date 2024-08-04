@@ -21,6 +21,7 @@ export interface AppData {
 export const onRequestGet: (context: EventContext<Env, any, AppData>) => Promise<Response>  = async (context): Promise<Response> => {
     const user = context.data.user;
     const session = context.data.session;
+    console.log("User>>>", user, "Session>>>", session)
 
     if (user && session) {
         return new Response(JSON.stringify({

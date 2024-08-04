@@ -25,11 +25,10 @@ const navLinks = [
     href: "#contact",
   },
 ];
-
 ---
 
 <div
-  class="fixed w-full top-0 z-10 py-6 px-5 h-auto flex justify-center header"
+  class="fixed w-full top-0 z-10 py-5 px-5 h-auto flex justify-center header"
 >
   <nav
     aria-label="Main Navigation"
@@ -84,9 +83,10 @@ const navLinks = [
 
     <!-- Login -->
     <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
-      <button class="btn-secondary w-full xl:w-auto py-2" id="login"
-        ><a href="/login">Login</a></button
-      >
+      <a href="/login"
+        ><button class="btn-secondary w-full xl:w-auto py-2" id="login"
+          >Login</button>
+      </a>
     </div>
   </div>
 </div>
@@ -105,7 +105,7 @@ const navLinks = [
         menuButton.setAttribute("aria-expanded", `${isMenuOpen}`);
 
         if (isMenuOpen) {
-          navMenu.style.height = `${navMenu.scrollHeight+20}px`;
+          navMenu.style.height = `${navMenu.scrollHeight + 20}px`;
         } else {
           navMenu.style.height = "0px";
         }

@@ -33,7 +33,7 @@ interface AuthProviderProps {
 
 // 导出 AuthProvider 组件
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-
+    console.log('AuthProvider rendered');
     // 定义状态
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
@@ -51,6 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 setUser(null);
             }
         } catch (err) {
+            console.log('Failed to fetch user data');
             setError('Failed to fetch user data');
             setUser(null);
         } finally {
@@ -90,7 +91,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
+        console.log('useAuth must be used within an AuthProvider');
+        return {
+            user: null,
+            loading: false,
+            error: 'AuthProvider not found',
+            login: () => {},
+            logout: async () => {},
+            checkAuth: async () => {},
+        };
     }
     return context;
 };

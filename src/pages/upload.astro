@@ -1,16 +1,25 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import ProtectedPage from "../components/contexts/ProtectedPage";
+import SectionTitle from "../components/ui/SectionTitle.astro";
+import Section from "../components/sections/Section.astro";
+import Form from "../components/ui/Form.astro";
 import "../styles/globals.css";
+
+const description = "Upload your workflows to Diflowy";
 ---
 
-<MainLayout
-  title="Diflowy"
-  description="Where Dify workflows are stored"
->
-  <ProtectedPage client:load>
-    <div>
-      Diflowy
-    </div>
-  </ProtectedPage>
+<MainLayout title="Diflowy" description="Where Dify workflows are stored">
+  <div class="mt-48">
+    <Section>
+      <SectionTitle
+        sectionTitle="Share Your Workflows"
+        description={description}
+      />
+      <ProtectedPage client:only="react">
+        <div>Diflowy Upload</div>
+        <Form />
+      </ProtectedPage>
+    </Section>
+  </div>
 </MainLayout>
