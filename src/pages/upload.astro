@@ -1,5 +1,6 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import ProtectedPage from "../components/contexts/ProtectedPage";
 import "../styles/globals.css";
 ---
 
@@ -7,4 +8,9 @@ import "../styles/globals.css";
   title="Diflowy"
   description="Where Dify workflows are stored"
 >
+  <ProtectedPage client:load>
+    <div>
+      Diflowy
+    </div>
+  </ProtectedPage>
 </MainLayout>

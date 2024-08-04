@@ -1,26 +1,9 @@
 import { generateState } from "arctic";
 import { initializeGitHub } from "../../auth";
 import type { Env } from "../../auth";
-import type { PagesFunction, EventContext } from "@cloudflare/workers-types";
+import type { EventContext } from "@cloudflare/workers-types";
 
-// import type { APIContext } from "astro";
-
-// export async function GET(context: APIContext): Promise<Response> {
-// 	const state = generateState();
-//     const github = initializeGitHub(context.env.GITHUB_ID, context.env.GITHUB_SECRET);
-// 	const url = await github.createAuthorizationURL(state);
-
-// 	context.cookies.set("github_oauth_state", state, {
-// 		path: "/",
-// 		secure: true,
-// 		httpOnly: true,
-// 		maxAge: 60 * 10,
-// 		sameSite: "lax"
-// 	});
-
-// 	return context.redirect(url.toString());
-// }
-
+//Creating authorization URL
 export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context) => {
     const github = initializeGitHub(context.env);
     const state = generateState();

@@ -62,6 +62,27 @@
       font-weight: 500;
     }
 
+    @media screen and (min-width: 1280px) {
+      .header {
+        backdrop-filter: saturate(180%) blur(20px);
+        background-color: rgba(255, 255, 255, 0.7);
+        border-color: rgba(215, 215, 215, 0.7);
+        border-bottom-width: thin;
+      }
+    }
+
+    @media screen and (max-width: 1280px) {
+      .header {
+        background-color: rgba(255, 255, 255);
+      }
+      .dropdown {
+        background-color: rgba(255, 255, 255);
+        border-color: rgba(215, 215, 215, 0.7);
+        border-bottom-width: thin;
+        padding-bottom: 0em;
+      }
+    }
+
     @media (max-width: 640px) {
       body {
         font-size: 16px;
@@ -91,15 +112,17 @@
 
   @layer components {
     .btn-primary {
-      @apply bg-dark text-white rounded-lg px-[35px] py-5 transition-all duration-200;
+      @apply bg-dark text-white rounded-lg px-6 py-4 transition-all duration-200;
     }
+
     .btn-primary:hover {
       @apply bg-blue text-black transform scale-105;
     }
 
     .btn-secondary {
-      @apply bg-transparent text-black px-[35px] py-5 rounded-lg border border-solid border-black transition-all duration-200;
+      @apply bg-transparent text-black px-6 py-4 rounded-lg border border-solid border-black transition-all duration-200;
     }
+
     .btn-secondary:hover {
       @apply bg-dark text-white border-blue transform scale-105;
     }
@@ -107,6 +130,7 @@
     .btn-tertiary {
       @apply bg-blue text-black rounded-lg px-[35px] py-5 transition-all duration-200;
     }
+
     .btn-tertiary:hover {
       @apply bg-white text-black transform scale-105;
     }

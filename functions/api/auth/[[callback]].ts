@@ -1,4 +1,4 @@
-import type { PagesFunction, EventContext } from "@cloudflare/workers-types";
+import type { EventContext } from "@cloudflare/workers-types";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
 import { initializeGitHub, initializeLucia } from "../auth";
@@ -64,8 +64,9 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       ).bind(userId, githubUser.id, githubUser.login).run();
       console.log("New User created")
     }
-    console.log("Preparing Cookie...")
+    console.log("Preparing Cookie...session>>>", userId)
     const session = await lucia.createSession(userId, {});
+    console.log("Session Prepared>>>", session)
     const sessionCookie = lucia.createSessionCookie(session.id);
     console.log("Cookie Prepared, Redirecting...")
     return new Response(null, {

@@ -12,7 +12,7 @@ export interface Env {
 
 export function initializeLucia(env: Env) {
     const adapter = new D1Adapter(env.D1, {
-        user: "user",
+        user: "users",
         session: "session"
     });
 

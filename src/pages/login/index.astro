@@ -1,6 +1,12 @@
-<html lang="en">
-	<body>
-		<h1>Sign in</h1>
-		<a href="/api/login/github">Sign in with GitHub</a>
-	</body>
-</html>
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import "../../styles/globals.css";
+---
+
+<MainLayout title="Diflowy" description="Where Dify workflows are stored">
+    <section>
+        <div class="flex flex-col items-center justify-center mt-64">
+            <a href="/api/login/github"><button class="btn-primary w-full md:w-auto">Sign in with GitHub</button></a>
+        </div>
+    </section>
+</MainLayout>
