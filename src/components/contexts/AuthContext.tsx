@@ -41,10 +41,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // 检查用户身份
     const checkAuth = async () => {
+        console.log('Checking user authentication...');
         try {
             setLoading(true);
             const response = await fetch('/api/user');
             const data: UserData = await response.json();
+            console.log('Fetched user data>>>', data);
             if (data.authenticated) {
                 setUser(data.user);
             } else {
@@ -101,5 +103,6 @@ export const useAuth = () => {
             checkAuth: async () => {},
         };
     }
+    console.log('useAuth hook called with user:', context.user);
     return context;
 };
