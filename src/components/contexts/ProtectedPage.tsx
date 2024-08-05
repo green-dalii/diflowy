@@ -18,6 +18,12 @@ const ProtectedPage: React.FC<ProtectedPageProps> = ({ children }) => {
   //   }
   // }, [user, loading]);
 
+  useEffect(() => {
+    if (!loading) {
+      console.log('User is:', user);
+    }
+  }, [user, loading]);
+
   if (loading) {
     console.log('正在加载用户数据...');
     return (<div>Loading...</div>);

@@ -79,8 +79,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // 检查用户身份
     useEffect(() => {
+        console.log('checkAuth is being called');
         checkAuth();
     }, []);
+
+    useEffect(() => {
+        console.log('User state updated:', user);
+    }, [user]);
 
     return (
         <AuthContext.Provider value={{ user, loading, error, login, logout, checkAuth }}>
@@ -98,9 +103,9 @@ export const useAuth = () => {
             user: null,
             loading: false,
             error: 'AuthProvider not found',
-            login: () => {},
-            logout: async () => {},
-            checkAuth: async () => {},
+            login: () => { },
+            logout: async () => { },
+            checkAuth: async () => { },
         };
     }
     console.log('useAuth hook called with user:', context.user);
