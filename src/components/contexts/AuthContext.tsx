@@ -49,8 +49,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             console.log('Fetched user data>>>', data);
             if (data.authenticated) {
                 setUser(data.user);
+                console.log('User authenticated:', data.user);
             } else {
                 setUser(null);
+                console.log('User not authenticated');
             }
         } catch (err) {
             console.log('Failed to fetch user data');

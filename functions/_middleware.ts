@@ -1,9 +1,12 @@
 import { initializeLucia } from "./api/auth";
 import type { Env } from "./api/auth";
 import type { EventContext } from "@cloudflare/workers-types";
-import type { AppData } from "./api/user";
+// import type { AppData } from "./api/user";
+import { SignJWT } from 'jose'; 
 
-async function errorHandling(context: EventContext<Env, any, AppData>): Promise<Response> {
+
+
+async function errorHandling(context: EventContext<Env, any, any>): Promise<Response> {
     try {
         return await context.next() as unknown as Response;
     } catch (err) {
@@ -15,7 +18,7 @@ async function errorHandling(context: EventContext<Env, any, AppData>): Promise<
     }
 }
 
-async function authentication(context: EventContext<Env, any, AppData>): Promise<Response> {
+async function authentication(context: EventContext<Env, any, any>): Promise<Response> {
     const { request } = context;
     const lucia = initializeLucia(context.env);
 
@@ -33,8 +36,20 @@ async function authentication(context: EventContext<Env, any, AppData>): Promise
             const sessionCookie = lucia.createSessionCookie(session.id);
             context.data.user = user;
             context.data.session = session;
+            // const response = await context.next() as unknown as Response;
+            // response.headers.set("Set-Cookie", sessionCookie.serialize());
+            // return response;
+            // 生成 JWT
+            const jwt = await new SignJWT({ userId: user.id })
+                .setProtectedHeader({ alg: 'HS256' })
+                .setIssuedAt()
+                .setExpirationTime('1h')
+                .sign(new TextEncoder().encode(context.env.AUTH_SECRET));
+            console.log("Middleware JWT>>>", jwt)
             const response = await context.next() as unknown as Response;
             response.headers.set("Set-Cookie", sessionCookie.serialize());
+            // 设置 JWT Cookie
+            response.headers.append("Set-Cookie", `jwt=${jwt}; HttpOnly; Secure; Path=/; Max-Age=3600`);
             return response;
         }
         // 

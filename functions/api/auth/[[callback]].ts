@@ -3,6 +3,7 @@ import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
 import { initializeGitHub, initializeLucia } from "../auth";
 import type { Env } from "../auth";
+import { createJWT } from "../../jwtUtils";
 
 interface GitHubUser {
 	id: string;
@@ -64,16 +65,29 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       ).bind(userId, githubUser.id, githubUser.login).run();
       console.log("New User created")
     }
-    console.log("Preparing Cookie...session>>>", userId)
-    const session = await lucia.createSession(userId, {});
-    console.log("Session Prepared>>>", session)
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    console.log("Cookie Prepared, Redirecting...")
+    // Context Session
+    // console.log("Preparing Cookie...session>>>", userId)
+    // const session = await lucia.createSession(userId, {});
+    // console.log("Session Prepared>>>", session)
+    // const sessionCookie = lucia.createSessionCookie(session.id);
+    // console.log("Cookie Prepared, Redirecting...")
+    // return new Response(null, {
+    //   status: 302,
+    //   headers: {
+    //     Location: "/",
+    //     "Set-Cookie": sessionCookie.serialize()
+    //   }
+    // });
+    
+    // 创建 JWT
+    const token = await createJWT({ id: userId, username: githubUser.login });
+    const cookie = `auth_token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`;
+
     return new Response(null, {
       status: 302,
       headers: {
         Location: "/",
-        "Set-Cookie": sessionCookie.serialize()
+        "Set-Cookie": cookie
       }
     });
   } catch (e) {

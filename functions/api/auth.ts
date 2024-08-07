@@ -8,6 +8,7 @@ export interface Env {
     D1: D1Database;
     GITHUB_ID: string;
     GITHUB_SECRET: string;
+    AUTH_SECRET: string;
 }
 
 export function initializeLucia(env: Env) {
