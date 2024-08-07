@@ -78,11 +78,13 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     //     "Set-Cookie": sessionCookie.serialize()
     //   }
     // });
-    
+
     // 创建 JWT
     const token = await createJWT({ id: userId, username: githubUser.login });
+    console.log("Callback JWT Created>>>", token)
+    // 设置响应头
     const cookie = `auth_token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`;
-
+    console.log("Cookie Prepared, Redirecting...")
     return new Response(null, {
       status: 302,
       headers: {

@@ -1,7 +1,7 @@
 // src/components/ProtectedPage.tsx
 import React, { useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext.tsx.bk';
 
 interface ProtectedPageProps {
   children: ReactNode;
