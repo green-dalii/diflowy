@@ -51,7 +51,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
     const { request } = context;
     const cookie = request.headers.get('cookie');
     const jwt = cookie?.split('; ').find(row => row.startsWith('jwt='))?.split('=')[1];
-    console.log("JWT>>>", jwt)
+    console.log("User API JWT>>>", jwt)
     if (!jwt) {
         return new Response(JSON.stringify({ user: null }), {
             headers: { 'Content-Type': 'application/json' },
@@ -61,7 +61,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
 
     try {
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-        console.log("Payload>>>", payload)
+        console.log("User API Payload>>>", payload)
         return new Response(JSON.stringify({ user: payload }), {
             headers: { 'Content-Type': 'application/json' },
             status: 200,

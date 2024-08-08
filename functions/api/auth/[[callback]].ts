@@ -6,11 +6,11 @@ import type { Env } from "../auth";
 import { createJWT } from "../../jwtUtils";
 
 interface GitHubUser {
-	id: string;
-	login: string;
+  id: string;
+  login: string;
 }
 
-export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response>  = async (context): Promise<Response> => {
+export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context): Promise<Response> => {
   const github = initializeGitHub(context.env);
   const lucia = initializeLucia(context.env);
 
@@ -53,7 +53,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     if (existingUser) {
       console.log("User exists")
       userId = existingUser.id as string;
-    } 
+    }
     // 如果为新用户
     else {
       console.log("User does not exist")
@@ -80,7 +80,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     // });
 
     // 创建 JWT
-    const token = await createJWT({ id: userId, username: githubUser.login });
+    const token = await createJWT({ id: userId, username: githubUser.login }, context.env.AUTH_SECRET);
     console.log("Callback JWT Created>>>", token)
     // 设置响应头
     const cookie = `auth_token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`;
