@@ -50,7 +50,7 @@ import type { Env } from './auth';
 export async function onRequest(context: { request: Request; env: Env }) {
     const { request } = context;
     const cookie = request.headers.get('cookie');
-    const jwt = cookie?.split('; ').find(row => row.startsWith('jwt='))?.split('=')[1];
+    const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
     console.log("User API JWT>>>", jwt)
     if (!jwt) {
         return new Response(JSON.stringify({ user: null }), {
