@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { ReactFlow, applyEdgeChanges, applyNodeChanges, Controls, Background, MiniMap, Panel } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import '../../styles/workflow.css'
 
 const initialNodes = [
     {

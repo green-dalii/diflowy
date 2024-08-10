@@ -16,10 +16,6 @@ const navLinks = [
     href: "/upload",
   },
   {
-    name: "My Flows",
-    href: "#cases",
-  },
-  {
     name: "Blog",
     href: "#testimonials",
   },
@@ -138,7 +134,12 @@ const navLinks = [
     }
   });
 </script>
+<script
+  is:inline
+  src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"
+></script>
 <script>
+  import { parseJWT, getCookie, isAuthenticated } from "../../utils/auth";
   interface User {
     username: string;
   }
@@ -148,18 +149,45 @@ const navLinks = [
   }
 
   async function fetchUser() {
+    const authToken = getCookie("auth_token");
+    if (authToken) {
+      const jwtPayload = parseJWT(authToken);
+      console.log("Client jwtPayload>>>", jwtPayload);
+      // Check if JWT is valid
+      if (jwtPayload) {
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (jwtPayload.exp > currentTime) {
+          // JWT is up-to-date
+          console.log("JWT is up-to-date");
+          const loginButton = document.getElementById(
+            "login",
+          ) as HTMLButtonElement;
+          const loginLink = document.getElementById(
+            "login-link",
+          ) as HTMLAnchorElement;
+          loginButton.textContent = jwtPayload.username;
+          loginLink.setAttribute("href", "/api/logout");
+          return;
+        }
+      }
+    }
+
+    // If no valid JWT, fetch user from the server
+    console.log("JWT is invalid or expired");
     try {
-      const response = await fetch('/api/user');
+      const response = await fetch("/api/user");
       const data: UserResponse = await response.json();
       console.log("fetch user data>>>", data);
-      const loginButton = document.getElementById('login') as HTMLButtonElement;
-      const loginLink = document.getElementById('login-link') as HTMLAnchorElement;
+      const loginButton = document.getElementById("login") as HTMLButtonElement;
+      const loginLink = document.getElementById(
+        "login-link",
+      ) as HTMLAnchorElement;
       if (data.user) {
         loginButton.textContent = `${data.user.username}`;
-        loginLink.setAttribute('href', '/api/logout');
+        loginLink.setAttribute("href", "/api/logout");
       }
     } catch (error) {
-      console.error('Error fetching user:', error);
+      console.error("Error fetching user:", error);
     }
   }
 
