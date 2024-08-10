@@ -148,50 +148,83 @@ const navLinks = [
     user: User | null;
   }
 
-  async function fetchUser() {
-    const authToken = getCookie("auth_token");
-    if (authToken) {
-      const jwtPayload = parseJWT(authToken);
-      console.log("Client jwtPayload>>>", jwtPayload);
-      // Check if JWT is valid
-      if (jwtPayload) {
-        const currentTime = Math.floor(Date.now() / 1000);
-        if (jwtPayload.exp > currentTime) {
-          // JWT is up-to-date
-          console.log("JWT is up-to-date");
-          const loginButton = document.getElementById(
-            "login",
-          ) as HTMLButtonElement;
-          const loginLink = document.getElementById(
-            "login-link",
-          ) as HTMLAnchorElement;
-          loginButton.textContent = jwtPayload.username;
-          loginLink.setAttribute("href", "/api/logout");
-          return;
-        }
-      }
-    }
+  // async function fetchUser() {
+  //   const authToken = getCookie("auth_token");
+  //   console.log("Client authToken>>>", authToken);
+  //   if (authToken) {
+  //     const jwtPayload = parseJWT(authToken);
+  //     console.log("Client jwtPayload>>>", jwtPayload);
+  //     // Check if JWT is valid
+  //     if (jwtPayload) {
+  //       const currentTime = Math.floor(Date.now() / 1000);
+  //       if (jwtPayload.exp > currentTime) {
+  //         // JWT is up-to-date
+  //         console.log("JWT is up-to-date");
+  //         const loginButton = document.getElementById(
+  //           "login",
+  //         ) as HTMLButtonElement;
+  //         const loginLink = document.getElementById(
+  //           "login-link",
+  //         ) as HTMLAnchorElement;
+  //         loginButton.textContent = jwtPayload.username;
+  //         loginLink.setAttribute("href", "/api/logout");
+  //         return;
+  //       }
+  //     }
+  //   }
 
-    // If no valid JWT, fetch user from the server
-    console.log("JWT is invalid or expired");
-    try {
+  //   // If no valid JWT, fetch user from the server
+  //   console.log("JWT is invalid or expired");
+  //   try {
+  //     const response = await fetch("/api/user");
+  //     const data: UserResponse = await response.json();
+  //     console.log("fetch user data>>>", data);
+  //     const loginButton = document.getElementById("login") as HTMLButtonElement;
+  //     const loginLink = document.getElementById(
+  //       "login-link",
+  //     ) as HTMLAnchorElement;
+  //     if (data.user) {
+  //       loginButton.textContent = `${data.user.username}`;
+  //       loginLink.setAttribute("href", "/api/logout");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user:", error);
+  //   }
+  // }
+
+  // fetchUser();
+  async function loadUserFromStorage() {
+    const username = sessionStorage.getItem("username");
+    const loginButton = document.getElementById("login") as HTMLButtonElement;
+    const loginLink = document.getElementById("login-link") as HTMLAnchorElement;
+    const protectedContent = document.getElementById(
+      "protected-content") as HTMLDivElement;
+    if (username) {
+      console.log("Loaded username from sessionStorage:", username);
+
+      loginButton.textContent = username;
+      loginLink.setAttribute("href", "/api/logout");
+      protectedContent.style.display = "block";
+    } else {
+      console.log("No username found in sessionStorage, Call User API...");
       const response = await fetch("/api/user");
       const data: UserResponse = await response.json();
       console.log("fetch user data>>>", data);
-      const loginButton = document.getElementById("login") as HTMLButtonElement;
-      const loginLink = document.getElementById(
-        "login-link",
-      ) as HTMLAnchorElement;
       if (data.user) {
+        console.log("User found in server response");
+        sessionStorage.setItem("username", data.user.username);
         loginButton.textContent = `${data.user.username}`;
         loginLink.setAttribute("href", "/api/logout");
+        protectedContent.style.display = "block";
+      } else {
+        console.log("No user found in server response");
+        sessionStorage.removeItem("username");
+        loginButton.textContent = "Login";
+        loginLink.setAttribute("href", "/login");
+        protectedContent.style.display = "none";
       }
-    } catch (error) {
-      console.error("Error fetching user:", error);
     }
   }
-
-  fetchUser();
 </script>
 <!-- 
   Use to highlight the active link in the navigation bar

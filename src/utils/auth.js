@@ -25,3 +25,18 @@ export function isAuthenticated() {
     }
     return false;
 }
+
+export async function validateSession() {
+    try {
+      const response = await fetch('/api/user');
+      const data = await response.json();
+
+      if (!data.user) {
+        localStorage.removeItem('username');
+      } else if (!localStorage.getItem('username')) {
+        localStorage.setItem('username', data.user.username);
+      }
+    } catch (error) {
+      console.error('Error validating session:', error);
+    }
+  }
