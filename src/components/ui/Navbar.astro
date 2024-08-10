@@ -196,15 +196,20 @@ const navLinks = [
   async function loadUserFromStorage() {
     const username = sessionStorage.getItem("username");
     const loginButton = document.getElementById("login") as HTMLButtonElement;
-    const loginLink = document.getElementById("login-link") as HTMLAnchorElement;
+    const loginLink = document.getElementById(
+      "login-link",
+    ) as HTMLAnchorElement;
     const protectedContent = document.getElementById(
-      "protected-content") as HTMLDivElement;
+      "protected-content",
+    ) as HTMLDivElement | null;
     if (username) {
       console.log("Loaded username from sessionStorage:", username);
 
       loginButton.textContent = username;
       loginLink.setAttribute("href", "/api/logout");
-      protectedContent.style.display = "block";
+      if (protectedContent) {
+        protectedContent.style.display = "block";
+      }
     } else {
       console.log("No username found in sessionStorage, Call User API...");
       const response = await fetch("/api/user");
@@ -215,16 +220,24 @@ const navLinks = [
         sessionStorage.setItem("username", data.user.username);
         loginButton.textContent = `${data.user.username}`;
         loginLink.setAttribute("href", "/api/logout");
-        protectedContent.style.display = "block";
+        if (protectedContent) {
+          protectedContent.style.display = "block";
+        }
       } else {
         console.log("No user found in server response");
         sessionStorage.removeItem("username");
         loginButton.textContent = "Login";
         loginLink.setAttribute("href", "/login");
-        protectedContent.style.display = "none";
+        if (protectedContent) {
+          protectedContent.style.display = "block";
+        }
       }
     }
   }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    loadUserFromStorage();
+  });
 </script>
 <!-- 
   Use to highlight the active link in the navigation bar
