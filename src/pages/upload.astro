@@ -16,25 +16,27 @@ const description = "Upload your workflows to Diflowy";
         sectionTitle="Share Your Workflows"
         description={description}
       />
-      <div id="not-login">
-        <p>
-          If you want to upload and see the workflow results right away, please
-          log in first.
-        </p>
-        <a id="login-link" href="/login"
-          ><button class="btn-secondary w-full xl:w-auto py-2" id="login"
-            >Login</button
-          >
-        </a>
-        <p>
-          Alternatively, you can fill out the form and have it manually reviewed
-          and uploaded to the site by an administrator.
-        </p>
-        <a id="login-link" href="/login">
-          <button class="btn-secondary w-full xl:w-auto py-2" id="login"
-            >Fill the Form but slowly upload</button
-          >
-        </a>
+      <div class="sm:grid sm:grid-cols-5">
+        <div id="not-login" class="sm:col-start-2 sm:col-span-3">
+          <p>
+            If you want to upload and see the workflow results right away, please
+            log in first.
+          </p>
+          <a id="login-link" href="/login"
+            ><button class="btn-secondary w-full xl:w-auto py-2" id="login"
+              >Login</button
+            >
+          </a>
+          <p>
+            Alternatively, you can fill out the form and have it manually reviewed
+            and uploaded to the site by an administrator.
+          </p>
+          <a id="login-link" href="/login">
+            <button class="btn-secondary w-full xl:w-auto py-2" id="login"
+              >Fill the Form but slowly upload</button
+            >
+          </a>
+        </div>
       </div>
       <div id="protected-content" style="display: none;">
         <Form />
@@ -43,24 +45,13 @@ const description = "Upload your workflows to Diflowy";
   </div>
 </MainLayout>
 
-<!-- <script
-  is:inline
-  src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"
-></script>
+
 <script>
-  import { isAuthenticated } from "../utils/auth";
-  function updateUI() {
-    const protectedContent = document.getElementById(
-      "protected-content",
-    ) as HTMLDivElement;
-    const notLogin = document.getElementById("not-login") as HTMLDivElement;
-    if (isAuthenticated()) {
-      protectedContent.style.display = "block";
-      notLogin.style.display = "none";
-    } else {
-      protectedContent.style.display = "none";
-      notLogin.style.display = "block";
-    }
+  const username = sessionStorage.getItem("username");
+  const notLogin = document.getElementById("not-login");
+  const protectedContent = document.getElementById("protected-content");
+  if (username && notLogin && protectedContent) {
+    notLogin.style.display = "none";
+    protectedContent.style.display = "block";
   }
-  updateUI();
-</script> -->
+</script>

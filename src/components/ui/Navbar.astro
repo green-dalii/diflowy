@@ -81,12 +81,30 @@ const navLinks = [
     </ul>
 
     <!-- Login -->
-    <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
-      <a id="login-link" href="/login"
-        ><button class="btn-secondary w-full xl:w-auto py-2" id="login"
-          >Login</button
+    <div class="relative inline-block text-left">
+      <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
+        <a id="login-link" href="/login"
+          ><button class="btn-secondary w-full xl:w-auto py-2" id="login"
+            >Login</button
+          >
+        </a>
+      </div>
+      <div
+        id="dropdownMenu"
+        class="hidden absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg"
+      >
+        <a
+          href="/user-center"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >用户中心</a
         >
-      </a>
+        <a
+          href="#"
+          id="logoutButton"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >注销</a
+        >
+      </div>
     </div>
   </div>
 </div>
@@ -134,12 +152,7 @@ const navLinks = [
     }
   });
 </script>
-<script
-  is:inline
-  src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"
-></script>
 <script>
-  import { parseJWT, getCookie, isAuthenticated } from "../../utils/auth";
   interface User {
     username: string;
   }
@@ -148,51 +161,24 @@ const navLinks = [
     user: User | null;
   }
 
-  // async function fetchUser() {
-  //   const authToken = getCookie("auth_token");
-  //   console.log("Client authToken>>>", authToken);
-  //   if (authToken) {
-  //     const jwtPayload = parseJWT(authToken);
-  //     console.log("Client jwtPayload>>>", jwtPayload);
-  //     // Check if JWT is valid
-  //     if (jwtPayload) {
-  //       const currentTime = Math.floor(Date.now() / 1000);
-  //       if (jwtPayload.exp > currentTime) {
-  //         // JWT is up-to-date
-  //         console.log("JWT is up-to-date");
-  //         const loginButton = document.getElementById(
-  //           "login",
-  //         ) as HTMLButtonElement;
-  //         const loginLink = document.getElementById(
-  //           "login-link",
-  //         ) as HTMLAnchorElement;
-  //         loginButton.textContent = jwtPayload.username;
-  //         loginLink.setAttribute("href", "/api/logout");
-  //         return;
-  //       }
-  //     }
-  //   }
+  async function handleLogout(event: MouseEvent) {
+    event.preventDefault();
+    try {
+      const response = await fetch("/api/logout", {
+        method: "POST",
+      });
+      if (response.ok) {
+        console.log("Logout successful");
+        sessionStorage.removeItem("username");
+        window.location.href = "/login";
+      } else {
+        console.error("Failed to log out, server returned an error.");
+      }
+    } catch (error) {
+      console.error("Failed to log out, network error:", error);
+    }
+  }
 
-  //   // If no valid JWT, fetch user from the server
-  //   console.log("JWT is invalid or expired");
-  //   try {
-  //     const response = await fetch("/api/user");
-  //     const data: UserResponse = await response.json();
-  //     console.log("fetch user data>>>", data);
-  //     const loginButton = document.getElementById("login") as HTMLButtonElement;
-  //     const loginLink = document.getElementById(
-  //       "login-link",
-  //     ) as HTMLAnchorElement;
-  //     if (data.user) {
-  //       loginButton.textContent = `${data.user.username}`;
-  //       loginLink.setAttribute("href", "/api/logout");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching user:", error);
-  //   }
-  // }
-
-  // fetchUser();
   async function loadUserFromStorage() {
     const username = sessionStorage.getItem("username");
     const loginButton = document.getElementById("login") as HTMLButtonElement;
@@ -204,9 +190,9 @@ const navLinks = [
     ) as HTMLDivElement | null;
     if (username) {
       console.log("Loaded username from sessionStorage:", username);
-
       loginButton.textContent = username;
-      loginLink.setAttribute("href", "/api/logout");
+      loginLink.setAttribute("href", "#");
+      loginLink.addEventListener("click", handleLogout);
       if (protectedContent) {
         protectedContent.style.display = "block";
       }
@@ -219,7 +205,8 @@ const navLinks = [
         console.log("User found in server response");
         sessionStorage.setItem("username", data.user.username);
         loginButton.textContent = `${data.user.username}`;
-        loginLink.setAttribute("href", "/api/logout");
+        loginLink.setAttribute("href", "#");
+        loginLink.addEventListener("click", handleLogout);
         if (protectedContent) {
           protectedContent.style.display = "block";
         }
@@ -229,7 +216,7 @@ const navLinks = [
         loginButton.textContent = "Login";
         loginLink.setAttribute("href", "/login");
         if (protectedContent) {
-          protectedContent.style.display = "block";
+          protectedContent.style.display = "none";
         }
       }
     }
@@ -239,24 +226,3 @@ const navLinks = [
     loadUserFromStorage();
   });
 </script>
-<!-- 
-  Use to highlight the active link in the navigation bar
-  Gotta test in dev and prod bc sometimes it doesn't work
----
-const pathname = new URL(Astro.request.url).pathname;
-const currentPath = pathname.slice(1); // remove the first "/"
----
-
-<nav>
-  <a class={currentPath === "" ? "active" : ""} href="/">Home</a>
-  <a class={currentPath === "portfolio" ? "active" : ""} href="/portfolio">Portfolio</a>
-  <a class={currentPath === "posts" ? "active" : ""} href="/posts">Article</a>
-  <a class={currentPath === "about" ? "active" : ""} href="/about">About Me</a>
-  <a class={currentPath === "contact" ? "active" : ""} href="/contact">Contact Me</a>
-</nav>
--->
-<!-- <script>
-  const { signIn, signOut } = await import("auth-astro/client")
-  document.querySelector("#login").onclick = () => signIn("github")
-  document.querySelector("#logout").onclick = () => signOut()
-</script> -->

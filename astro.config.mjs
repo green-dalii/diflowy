@@ -11,5 +11,5 @@ export default defineConfig({
   security: {
     checkOrigin: true
   },
-  output: "static",
+  output: "static"
 });
