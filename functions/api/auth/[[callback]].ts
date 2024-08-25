@@ -12,7 +12,7 @@ interface GitHubUser {
 
 export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context): Promise<Response> => {
   const github = initializeGitHub(context.env);
-  const lucia = initializeLucia(context.env);
+  // const lucia = initializeLucia(context.env);
 
   const url = new URL(context.request.url);
   const code = url.searchParams.get("code");

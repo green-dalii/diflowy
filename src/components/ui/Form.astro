@@ -352,20 +352,21 @@ Such as:
   const selectedTagsDiv = document.getElementById("selectedTags");
 
   if (dropdownButton && dropdownTags) {
-    dropdownButton.addEventListener("click", function (event) {
+    dropdownButton.addEventListener("click", function (event: Event) {
       event.stopPropagation();
       dropdownTags.classList.toggle("hidden");
     });
 
-    document.addEventListener("click", function (event) {
+    document.addEventListener("click", function (event: Event) {
       const target = event.target as Node;
       if (target !== dropdownButton && !dropdownTags.contains(target)) {
         dropdownTags.classList.add("hidden");
       }
     });
 
-    dropdownTags.addEventListener("change", function (event) {
-      if (event.target.type === "checkbox") {
+    dropdownTags.addEventListener("change", function (event: Event) {
+      const target = event.target as HTMLInputElement;
+      if (target && target.type === "checkbox") {
         updateSelectedTags();
       }
     });
@@ -375,7 +376,7 @@ Such as:
         selectedTagsDiv.innerHTML = "";
         const checkboxes = dropdownTags.querySelectorAll(
           "input[type='checkbox']:checked",
-        );
+        ) as NodeListOf<HTMLInputElement>;
         checkboxes.forEach((checkbox) => {
           const tagValue = checkbox.value;
           const tagElement = document.createElement("span");
@@ -392,35 +393,47 @@ Such as:
     );
   }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"
-></script>
 <script>
+  /// <reference path="../../env.d.ts" />
   // Process YAML ReactFlow Data
-  import { parseYamlToReactFlow } from "../flow/yamlParser.ts";
-  const dslfile = document.getElementById("dsl-file");
-  const uploadContainer = document.getElementById("upload-container");
+  import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
+  const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
+  const uploadContainer = document.getElementById(
+    "upload-container",
+  ) as HTMLElement;
 
   // Function to handle file upload
-  function handleFile(event) {
-    // const file = event.target.files[0];
-    const file = event.target
-      ? event.target.files[0]
-      : event.dataTransfer.files[0];
+  function handleFile(event: Event | DragEvent) {
+    let file: File | undefined;
+    if ("dataTransfer" in event) {
+      // Drag and drop event
+      file = event.dataTransfer?.files[0];
+    } else if ("target" in event) {
+      // File input event
+      const target = event.target as HTMLInputElement;
+      file = target.files?.[0];
+    }
+
     if (file) {
-      const workflow_name = document.getElementById("workflowname");
-      const description = document.getElementById("description");
+      const workflow_name = document.getElementById(
+        "workflowname",
+      ) as HTMLInputElement;
+      const description = document.getElementById(
+        "description",
+      ) as HTMLTextAreaElement;
       const reader = new FileReader();
       reader.onload = function (e) {
-        const yamlContent = e.target.result;
+        const target = e.target as FileReader;
+        const yamlContent = target.result as string;
         try {
-          const yamlData = jsyaml.load(yamlContent);
+          const yamlData = paresYamlToJSON(yamlContent);
           workflow_name.value = yamlData.app.name;
           description.value = yamlData.app.description;
           const { nodes, edges } = parseYamlToReactFlow(yamlContent);
 
           // Update the ReactFlow component
-          if (typeof window.updateReactFlow === "function") {
-            window.updateReactFlow(nodes, edges);
+          if (typeof (window as any).updateReactFlow === "function") {
+            (window as any).updateReactFlow(nodes, edges);
           } else {
             console.error("updateReactFlow function not found");
           }
@@ -460,15 +473,15 @@ Such as:
     uploadContainer.classList.remove("bg-gray-100");
   });
 
-  uploadContainer.addEventListener("drop", (e) => {
+  uploadContainer.addEventListener("drop", (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     uploadContainer.classList.remove("bg-gray-100");
-
-    if (e.dataTransfer.files.length > 0) {
-      const file = e.dataTransfer.files[0];
+    const dragEvent = e as DragEvent;
+    if (dragEvent.dataTransfer && dragEvent.dataTransfer.files.length > 0) {
+      const file = dragEvent.dataTransfer.files[0];
       if (file.name.endsWith(".yml") || file.name.endsWith(".yaml")) {
-        handleFile({ dataTransfer: e.dataTransfer });
+        handleFile(e);
       } else {
         alert("Please upload a Dify DSL file.");
       }
@@ -477,8 +490,8 @@ Such as:
 </script>
 <script>
   // Upload Form
-  const form = document.getElementById("uploadForm");
-  async function handleSubmit(event) {
+  const form = document.getElementById("uploadForm") as HTMLFormElement;
+  async function handleSubmit(event: Event) {
     event.preventDefault();
     // Get form data
     const formData = new FormData(form);
@@ -491,14 +504,16 @@ Such as:
       alert("Please fill out all required fields.");
       return;
     }
+
     // Add the selected tags to the form data
     const selectedTags = document.querySelectorAll(".tag");
-    const tags = [];
+    const selectedTagsTree = document.getElementById("selectedTags");
+    const tags: string[] = [];
     selectedTags.forEach((tag) => {
-      tags.push(tag.textContent);
+      tags.push(tag.textContent as string);
     });
     formData.append("tags", JSON.stringify(tags));
-    console.log("FormData>>>", formData.get("tags"),formData.get("dsl-file"));
+    console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
     // Send form data to the server
     try {
       const response = await fetch("/api/workflow/upload", {
@@ -506,12 +521,12 @@ Such as:
         body: formData,
       });
       if (response.ok) {
-        console.log("Response>>>",response.json())
+        console.log("Response>>>", response.json());
         alert("Upload successful!");
         // Clear the form
         form.reset();
         // Clear the selected tags
-        selectedTagsDiv.innerHTML = "";
+        selectedTagsTree!.innerHTML = "";
       } else {
         alert("Upload failed. Please try again.");
       }

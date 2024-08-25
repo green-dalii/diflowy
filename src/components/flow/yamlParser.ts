@@ -1,3 +1,5 @@
+import jsyaml from 'js-yaml';
+
 export interface YamlData {
     app: {
       name: string;
@@ -50,4 +52,8 @@ export interface YamlData {
     }));
   
     return { nodes, edges };
+  }
+
+  export function paresYamlToJSON(yamlContent: string): any {
+    return jsyaml.load(yamlContent);
   }
