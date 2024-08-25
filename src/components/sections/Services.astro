@@ -27,28 +27,63 @@ const cards = [
   },
   {
     index: 3,
-    titleTop: "Social Media",
+    titleTop: "Creative",
     img: c3,
     alt: "SEO",
     link: "https://google.com",
   },
   {
     index: 1,
+    titleTop: "Social Media",
+    img: c3,
+    alt: "SEO",
+    link: "https://google.com",
+  },
+  {
+    index: 2,
     titleTop: "Marketing Operation",
     img: c4,
     alt: "SEO",
     link: "https://google.com",
   },
   {
-    index: 2,
+    index: 3,
     titleTop: "Life/Enterntment",
     img: c5,
     alt: "SEO",
     link: "https://google.com",
   },
   {
-    index: 3,
+    index: 1,
     titleTop: "Writing",
+    img: c6,
+    alt: "SEO",
+    link: "https://google.com",
+  },
+  {
+    index: 2,
+    titleTop: "Education",
+    img: c6,
+    alt: "SEO",
+    link: "https://google.com",
+  },
+  {
+    index: 3,
+    titleTop: "Health & Medical",
+    img: c6,
+    alt: "SEO",
+    link: "https://google.com",
+  },
+  {
+    index: 1,
+    titleTop: "Finance",
+    img: c6,
+    alt: "SEO",
+    link: "https://google.com",
+  },
+  {
+    index: 2,
+    titleTop: "Others",
     img: c6,
     alt: "SEO",
     link: "https://google.com",
@@ -62,7 +97,7 @@ const description =
 <Section>
   <div class="mt-[140px] mb-5">
     <SectionTitle sectionTitle="Discover" description={description} />
-    <div class="grid justify-center md:grid-cols-2 md:grid-rows-3 gap-5 sm:gap-8">
+    <div class="grid justify-center sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8">
       {
         cards.map((card) => (
           <ServiceCard

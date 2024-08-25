@@ -1,9 +1,9 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-// import ProtectedPage from "../components/contexts/ProtectedPage.tsx.bk.tsx.bk";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
 import Form from "../components/ui/Form.astro";
+import ReactFlowPreview from "../components/flow/ReactFlowPreview";
 import "../styles/globals.css";
 
 const description = "Upload your workflows to Diflowy";
@@ -16,35 +16,37 @@ const description = "Upload your workflows to Diflowy";
         sectionTitle="Share Your Workflows"
         description={description}
       />
-      <div class="sm:grid sm:grid-cols-5">
-        <div id="not-login" class="sm:col-start-2 sm:col-span-3">
-          <p>
-            If you want to upload and see the workflow results right away, please
-            log in first.
+      <div class="sm:grid sm:grid-cols-6 mt-40">
+        <div id="not-login" class="sm:col-start-3 sm:col-span-2 text-center">
+          <p class="text-xl mb-5">
+            If you want to upload and see the workflow results right away,
+            please log in first.
           </p>
           <a id="login-link" href="/login"
-            ><button class="btn-secondary w-full xl:w-auto py-2" id="login"
+            ><button class="btn-tertiary w-full xl:w-auto py-2" id="login"
               >Login</button
             >
           </a>
-          <p>
-            Alternatively, you can fill out the form and have it manually reviewed
-            and uploaded to the site by an administrator.
+          <p class="mt-10 text-xl mb-5">
+            Alternatively, you can fill out the form and have it manually
+            reviewed and uploaded to the site by an administrator.
           </p>
           <a id="login-link" href="/login">
-            <button class="btn-secondary w-full xl:w-auto py-2" id="login"
+            <button class="btn-tertiary w-full xl:w-auto py-2" id="login"
               >Fill the Form but slowly upload</button
             >
           </a>
         </div>
       </div>
-      <div id="protected-content" style="display: none;">
-        <Form />
+      <div class="mt-20" id="protected-content" style="display: none;">
+        <div class="">
+          <!-- Add Form -->
+          <Form />
+        </div>
       </div>
     </Section>
   </div>
 </MainLayout>
-
 
 <script>
   const username = sessionStorage.getItem("username");

@@ -1,460 +1,347 @@
 ---
-import { Image } from "astro:assets";
-import decorForm from "../../assets/pics/contact-pic.png";
+import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 ---
 
-<!-- <style>
-  .dropdown:focus-within .dropdown-menu {
-    opacity: 1;
-    transform: translate(0) scale(1);
-    visibility: visible;
-  }
-</style> -->
-<form class="sm:grid sm:grid-cols-5">
-  <div class="space-y-12 sm:col-start-2 sm:col-span-3">
-    <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base font-semibold leading-7 text-gray-900">
-        Workflow Information
-      </h2>
-      <p class="mt-1 text-sm leading-6 text-gray-600">
-        This information will be displayed publicly so be careful what you
-        share.
-      </p>
-      <!-- Name -->
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-4">
-          <label
-            for="username"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Workflow Name</label
-          >
-          <div class="mt-2">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+<form id="uploadForm">
+  <div class="sm:grid sm:grid-cols-6 sm:gap-4">
+    <div class="sm:col-span-2 sm:col-start-1">
+      <!-- Basic Info`` -->
+      <div class="border-b border-gray-900/10 pb-24">
+        <h2 class="text-xl font-semibold leading-7 text-gray-900">
+          Workflow Information
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          This information will be displayed publicly so be careful what you
+          share.
+        </p>
+        <!-- Basic info -->
+        <div class="mt-10 grid grid-cols-1 space-y-5">
+          <!-- WorkFlow File -->
+          <div class="sm:col-span-full">
+            <label
+              for="dsl-file"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Upload your Dify DSL file</label
             >
+            <div
+              id="upload-container"
+              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+            >
+              <div id="upload-prompt" class="text-center">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-300"
+                  width="13"
+                  height="12"
+                  viewBox="0 0 13 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-6 h-6 text-[#f79009]"
+                  data-icon="Route"
+                  aria-hidden="true"
+                  ><g id="route-sep"
+                    ><path
+                      id="Icon"
+                      d="M6.08303 2.5H6.30023C7.82386 2.5 8.58567 2.5 8.87485 2.77364C9.12483 3.01018 9.23561 3.35864 9.16812 3.69611C9.09004 4.08651 8.46809 4.52643 7.22418 5.40627L5.19189 6.84373C3.94799 7.72357 3.32603 8.16349 3.24795 8.55389C3.18046 8.89136 3.29124 9.23982 3.54122 9.47636C3.8304 9.75 4.59221 9.75 6.11584 9.75H6.58303"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path><path
+                      id="Icon_2"
+                      d="M2.83301 4C3.66143 4 4.33301 3.32843 4.33301 2.5C4.33301 1.67157 3.66143 1 2.83301 1C2.00458 1 1.33301 1.67157 1.33301 2.5C1.33301 3.32843 2.00458 4 2.83301 4Z"
+                      fill="currentColor"></path><path
+                      id="Icon_3"
+                      d="M9.83301 11C10.6614 11 11.333 10.3284 11.333 9.5C11.333 8.67157 10.6614 8 9.83301 8C9.00458 8 8.33301 8.67157 8.33301 9.5C8.33301 10.3284 9.00458 11 9.83301 11Z"
+                      fill="currentColor"></path></g
+                  ></svg
+                >
+                <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label
+                    for="dsl-file"
+                    class="relative cursor-pointer rounded-md bg-white font-semibold text-[--dark] focus-within:outline-none focus-within:ring-2 focus-within:[--dark] focus-within:ring-offset-2 hover:text-[--color-blue]"
+                  >
+                    <span>Click here to Upload</span>
+                    <input
+                      id="dsl-file"
+                      name="dsl-file"
+                      type="file"
+                      class="sr-only"
+                      accept=".yml,.yaml,application/yaml"
+                    />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs leading-5 text-gray-600">
+                  Requirement: Dify DSL Yaml File
+                </p>
+              </div>
+              <!-- <div id="reactflow-preview" class="absolute inset-0 hidden">
+              <ReactFlowPreview client:load/>
+            </div> -->
+            </div>
+          </div>
+          <!-- Name -->
+          <div class="sm:col-span-full">
+            <label
+              for="workflowname"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Workflow Name</label
+            >
+            <div class="mt-2">
+              <div
+                class="flex rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
+              >
+                <input
+                  type="text"
+                  name="workflowname"
+                  id="workflowname"
+                  autocomplete="workflowname"
+                  class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  placeholder="Fill Your Workflow Name"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Description -->
+          <div class="sm:col-span-full">
+            <label
+              for="description"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Description</label
+            >
+            <div class="mt-2">
+              <textarea
+                id="description"
+                name="description"
+                rows="10"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                placeholder="Write a few sentences about your Workflow.
+Such as:
+    - Introduction
+    - Ability
+    - Usage
+    - Restrictions
+    - Dify Version Requirement
+    - Copyright 
+    - etc."
+              ></textarea>
+            </div>
+          </div>
+          <!-- Dropdown Tags -->
+          <div class="relative block text-left sm:col-span-full">
+            <div>
+              <button
+                id="dropdownButton"
+                class="btn-secondary w-full px-4 py-2"
+                type="button"
+              >
+                Select Tags
+              </button>
+              <div
+                id="dropdownTags"
+                class="dropdown-menu hidden absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Productivity" /> Productivity
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Assisent Tools" /> Assisent
+                  Tools
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Creative" /> Creative
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Social Media" /> Social
+                  Media
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input
+                    type="checkbox"
+                    class="mr-2"
+                    value="Marketing Operation"
+                  /> Marketing Operation
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input
+                    type="checkbox"
+                    class="mr-2"
+                    value="Life & Enternment"
+                  />
+                  Life & Enternment
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Writing" />
+                  Writing
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Education" />
+                  Education
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input
+                    type="checkbox"
+                    class="mr-2"
+                    value="Health & Medical"
+                  />
+                  Health & Medical
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Finance" />
+                  Finance
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Others" />
+                  Others
+                </label>
+              </div>
+            </div>
+            <div id="selectedTags" class="selected-tags"></div>
+          </div>
+          <!-- Cover Photo -->
+          <div class="sm:col-span-full">
+            <label
+              for="cover-photo"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Cover Image</label
+            >
+            <div
+              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+            >
+              <div class="text-center">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-300"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label
+                    for="file-upload"
+                    class="relative cursor-pointer rounded-md bg-white font-semibold text-[--dark] focus-within:outline-none focus-within:ring-2 focus-within:[--dark] focus-within:ring-offset-2 hover:text-[--color-blue]"
+                  >
+                    <span>Click here to Upload</span>
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      class="sr-only"
+                      accept="image/*"
+                    />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs leading-5 text-gray-600">
+                  PNG, JPG, GIF up to 5MB
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Author Info -->
+      <div class="border-b border-gray-900/10 pb-24">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          Author Information
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          You can fill your information so users can contact with you.
+        </p>
+
+        <div class="mt-10 grid grid-cols-1">
+          <div class="sm:col-span-full">
+            <label
+              for="author-name"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Author name</label
+            >
+            <div class="mt-2">
               <input
                 type="text"
-                name="username"
-                id="username"
-                autocomplete="username"
-                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="Fill Your Workflow Name"
+                name="author-name"
+                id="author-name"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
-        </div>
-        <!-- Description -->
-        <div class="col-span-full">
-          <label
-            for="about"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Description</label
-          >
-          <div class="mt-2">
-            <textarea
-              id="about"
-              name="about"
-              rows="3"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            ></textarea>
-          </div>
-          <p class="mt-3 text-sm leading-6 text-gray-600">
-            Write a few sentences about your Workflow.
-          </p>
-          <p class="mt-3 text-sm leading-6 text-gray-600">
-            Such as Introduction, Ability, Usage, Restrictions, Copyright etc.
-          </p>
-        </div>
-        <!-- Tags -->
-        <div class="sm:col-span-3">
-          <label
-            for="tags"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Tags</label
-          >
-          <div class="mt-2">
-            <select
-              id="tags"
-              name="tags"
-              autocomplete="tags-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+
+          <div class="sm:col-span-full">
+            <label
+              for="social-link"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Social Media / Contact Link</label
             >
-              <option>Productivity Tools</option>
-              <option>Office Tools</option>
-              <option>Mexico</option>
-            </select>
-          </div>
-        </div>
-        <!-- Dropdown Tags -->
-        <div class="relative inline-block text-left">
-          <div class="dropdown">
-            <button
-              id="dropdownButton"
-              class="bg-blue-500 text-white px-4 py-2 rounded"
-              type="button"
-            >
-              Select Options
-            </button>
-            <div
-              id="dropdownTags"
-              class="dropdown-menu hidden absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-            >
-              <label
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <input type="checkbox" class="mr-2" value="Option 1" /> Option 1
-              </label>
-              <label
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <input type="checkbox" class="mr-2" value="Option 2" /> Option 2
-              </label>
-              <label
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <input type="checkbox" class="mr-2" value="Option 3" /> Option 3
-              </label>
-              <label
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <input type="checkbox" class="mr-2" value="Option 4" /> Option 4
-              </label>
-              <label
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <input type="checkbox" class="mr-2" value="Option 4" /> Option 5
-              </label>
+            <div class="mt-2">
+              <input
+                id="social-link"
+                name="social-link"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
             </div>
-          </div>
-        </div>
-        <div class="col-span-full">
-          <label
-            for="cover-photo"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Cover photo</label
-          >
-          <div
-            class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-          >
-            <div class="text-center">
-              <svg
-                class="mx-auto h-12 w-12 text-gray-300"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                  clip-rule="evenodd"></path>
-              </svg>
-              <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                <label
-                  for="file-upload"
-                  class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                >
-                  <span>Upload a file</span>
-                  <input
-                    id="file-upload"
-                    name="file-upload"
-                    type="file"
-                    class="sr-only"
-                  />
-                </label>
-                <p class="pl-1">or drag and drop</p>
-              </div>
-              <p class="text-xs leading-5 text-gray-600">
-                PNG, JPG, GIF up to 10MB
-              </p>
-            </div>
+            <p class="mt-1 text-sm leading-6 text-gray-600">
+              Such as Email, Twitter, Discord, Telegram, Website etc.
+            </p>
           </div>
         </div>
       </div>
+      <!-- Notifications -->
+      <div class="border-b border-gray-900/10 pb-24">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          Notifications
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          Please complete the above information in as much detail as possible.
+        </p>
+      </div>
+      <!-- Button -->
+      <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button
+          type="button"
+          class="text-sm font-semibold leading-6 text-gray-900">Cancel</button
+        >
+        <button
+          type="submit"
+          class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          >Upload</button
+        >
+      </div>
     </div>
-
-    <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base font-semibold leading-7 text-gray-900">
-        Personal Information
+    <div id="reactflow-preview" class="sm:col-span-4 sm:col-start-3">
+      <h2 class="text-xl font-semibold leading-7 text-gray-900">
+        Simplified Structure Preview
       </h2>
       <p class="mt-1 text-sm leading-6 text-gray-600">
-        Use a permanent address where you can receive mail.
+        When you upload the Dify DSL file, the workflow simplified structure
+        will be shown below.
       </p>
-
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-3">
-          <label
-            for="first-name"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >First name</label
-          >
-          <div class="mt-2">
-            <input
-              type="text"
-              name="first-name"
-              id="first-name"
-              autocomplete="given-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label
-            for="last-name"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Last name</label
-          >
-          <div class="mt-2">
-            <input
-              type="text"
-              name="last-name"
-              id="last-name"
-              autocomplete="family-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div class="sm:col-span-4">
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Email address</label
-          >
-          <div class="mt-2">
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label
-            for="country"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Country</label
-          >
-          <div class="mt-2">
-            <select
-              id="country"
-              name="country"
-              autocomplete="country-name"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-            >
-              <option>United States</option>
-              <option>Canada</option>
-              <option>Mexico</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-span-full">
-          <label
-            for="street-address"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Street address</label
-          >
-          <div class="mt-2">
-            <input
-              type="text"
-              name="street-address"
-              id="street-address"
-              autocomplete="street-address"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div class="sm:col-span-2 sm:col-start-1">
-          <label
-            for="city"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >City</label
-          >
-          <div class="mt-2">
-            <input
-              type="text"
-              name="city"
-              id="city"
-              autocomplete="address-level2"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label
-            for="region"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >State / Province</label
-          >
-          <div class="mt-2">
-            <input
-              type="text"
-              name="region"
-              id="region"
-              autocomplete="address-level1"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label
-            for="postal-code"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >ZIP / Postal code</label
-          >
-          <div class="mt-2">
-            <input
-              type="text"
-              name="postal-code"
-              id="postal-code"
-              autocomplete="postal-code"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
+      <div class="w-full h-[500px]">
+        <ReactFlowPreview client:load />
       </div>
-    </div>
-
-    <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base font-semibold leading-7 text-gray-900">
-        Notifications
-      </h2>
-      <p class="mt-1 text-sm leading-6 text-gray-600">
-        We'll always let you know about important changes, but you pick what
-        else you want to hear about.
-      </p>
-
-      <div class="mt-10 space-y-10">
-        <fieldset>
-          <legend class="text-sm font-semibold leading-6 text-gray-900"
-            >By Email</legend
-          >
-          <div class="mt-6 space-y-6">
-            <div class="relative flex gap-x-3">
-              <div class="flex h-6 items-center">
-                <input
-                  id="comments"
-                  name="comments"
-                  type="checkbox"
-                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                />
-              </div>
-              <div class="text-sm leading-6">
-                <label for="comments" class="font-medium text-gray-900"
-                  >Comments</label
-                >
-                <p class="text-gray-500">
-                  Get notified when someones posts a comment on a posting.
-                </p>
-              </div>
-            </div>
-            <div class="relative flex gap-x-3">
-              <div class="flex h-6 items-center">
-                <input
-                  id="candidates"
-                  name="candidates"
-                  type="checkbox"
-                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                />
-              </div>
-              <div class="text-sm leading-6">
-                <label for="candidates" class="font-medium text-gray-900"
-                  >Candidates</label
-                >
-                <p class="text-gray-500">
-                  Get notified when a candidate applies for a job.
-                </p>
-              </div>
-            </div>
-            <div class="relative flex gap-x-3">
-              <div class="flex h-6 items-center">
-                <input
-                  id="offers"
-                  name="offers"
-                  type="checkbox"
-                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                />
-              </div>
-              <div class="text-sm leading-6">
-                <label for="offers" class="font-medium text-gray-900"
-                  >Offers</label
-                >
-                <p class="text-gray-500">
-                  Get notified when a candidate accepts or rejects an offer.
-                </p>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend class="text-sm font-semibold leading-6 text-gray-900"
-            >Push Notifications</legend
-          >
-          <p class="mt-1 text-sm leading-6 text-gray-600">
-            These are delivered via SMS to your mobile phone.
-          </p>
-          <div class="mt-6 space-y-6">
-            <div class="flex items-center gap-x-3">
-              <input
-                id="push-everything"
-                name="push-notifications"
-                type="radio"
-                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-              />
-              <label
-                for="push-everything"
-                class="block text-sm font-medium leading-6 text-gray-900"
-                >Everything</label
-              >
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input
-                id="push-email"
-                name="push-notifications"
-                type="radio"
-                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-              />
-              <label
-                for="push-email"
-                class="block text-sm font-medium leading-6 text-gray-900"
-                >Same as email</label
-              >
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input
-                id="push-nothing"
-                name="push-notifications"
-                type="radio"
-                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-              />
-              <label
-                for="push-nothing"
-                class="block text-sm font-medium leading-6 text-gray-900"
-                >No push notifications</label
-              >
-            </div>
-          </div>
-        </fieldset>
-      </div>
-    </div>
-
-    <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button
-        type="button"
-        class="text-sm font-semibold leading-6 text-gray-900">Cancel</button
-      >
-      <button
-        type="submit"
-        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >Save</button
-      >
     </div>
   </div>
 </form>
@@ -462,10 +349,10 @@ import decorForm from "../../assets/pics/contact-pic.png";
 <script>
   const dropdownButton = document.getElementById("dropdownButton");
   const dropdownTags = document.getElementById("dropdownTags");
-  console.log(dropdownButton, dropdownTags);
+  const selectedTagsDiv = document.getElementById("selectedTags");
+
   if (dropdownButton && dropdownTags) {
     dropdownButton.addEventListener("click", function (event) {
-      console.log("Dropdown button clicked");
       event.stopPropagation();
       dropdownTags.classList.toggle("hidden");
     });
@@ -476,9 +363,163 @@ import decorForm from "../../assets/pics/contact-pic.png";
         dropdownTags.classList.add("hidden");
       }
     });
+
+    dropdownTags.addEventListener("change", function (event) {
+      if (event.target.type === "checkbox") {
+        updateSelectedTags();
+      }
+    });
+
+    function updateSelectedTags() {
+      if (selectedTagsDiv && dropdownTags) {
+        selectedTagsDiv.innerHTML = "";
+        const checkboxes = dropdownTags.querySelectorAll(
+          "input[type='checkbox']:checked",
+        );
+        checkboxes.forEach((checkbox) => {
+          const tagValue = checkbox.value;
+          const tagElement = document.createElement("span");
+          tagElement.classList.add("tag");
+          tagElement.classList.add("text-sm");
+          tagElement.textContent = tagValue;
+          selectedTagsDiv.appendChild(tagElement);
+        });
+      }
+    }
   } else {
     console.error(
       "Element with id 'dropdownButton' or 'dropdownMenu' not found.",
     );
   }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"
+></script>
+<script>
+  // Process YAML ReactFlow Data
+  import { parseYamlToReactFlow } from "../flow/yamlParser.ts";
+  const dslfile = document.getElementById("dsl-file");
+  const uploadContainer = document.getElementById("upload-container");
+
+  // Function to handle file upload
+  function handleFile(event) {
+    // const file = event.target.files[0];
+    const file = event.target
+      ? event.target.files[0]
+      : event.dataTransfer.files[0];
+    if (file) {
+      const workflow_name = document.getElementById("workflowname");
+      const description = document.getElementById("description");
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const yamlContent = e.target.result;
+        try {
+          const yamlData = jsyaml.load(yamlContent);
+          workflow_name.value = yamlData.app.name;
+          description.value = yamlData.app.description;
+          const { nodes, edges } = parseYamlToReactFlow(yamlContent);
+
+          // Update the ReactFlow component
+          if (typeof window.updateReactFlow === "function") {
+            window.updateReactFlow(nodes, edges);
+          } else {
+            console.error("updateReactFlow function not found");
+          }
+        } catch (error) {
+          console.error("Error parsing YAML file:", error);
+          alert(
+            "Unsupported file format. Please upload a valid Dify DSL file.",
+          );
+          dslfile.value = ""; // Clear the file input field
+          workflow_name.value = "";
+          description.value = "";
+        }
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  // Event listener for file input
+  if (dslfile) {
+    dslfile.addEventListener("change", function (event) {
+      if (event.target) {
+        handleFile(event);
+      }
+    });
+  }
+
+  // Add drag and drop event listeners
+  uploadContainer.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.add("bg-gray-100");
+  });
+
+  uploadContainer.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.remove("bg-gray-100");
+  });
+
+  uploadContainer.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.remove("bg-gray-100");
+
+    if (e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      if (file.name.endsWith(".yml") || file.name.endsWith(".yaml")) {
+        handleFile({ dataTransfer: e.dataTransfer });
+      } else {
+        alert("Please upload a Dify DSL file.");
+      }
+    }
+  });
+</script>
+<script>
+  // Upload Form
+  const form = document.getElementById("uploadForm");
+  async function handleSubmit(event) {
+    event.preventDefault();
+    // Get form data
+    const formData = new FormData(form);
+    // Check if all required fields are filled
+    if (
+      !formData.get("workflowname") ||
+      !formData.get("description") ||
+      !formData.get("dsl-file")
+    ) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+    // Add the selected tags to the form data
+    const selectedTags = document.querySelectorAll(".tag");
+    const tags = [];
+    selectedTags.forEach((tag) => {
+      tags.push(tag.textContent);
+    });
+    formData.append("tags", JSON.stringify(tags));
+    console.log("FormData>>>", formData.get("tags"),formData.get("dsl-file"));
+    // Send form data to the server
+    try {
+      const response = await fetch("/api/workflow/upload", {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        console.log("Response>>>",response.json())
+        alert("Upload successful!");
+        // Clear the form
+        form.reset();
+        // Clear the selected tags
+        selectedTagsDiv.innerHTML = "";
+      } else {
+        alert("Upload failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("An error occurred while uploading the file.");
+    }
+  }
+  // Add event listener to the form
+  form.addEventListener("submit", handleSubmit);
 </script>

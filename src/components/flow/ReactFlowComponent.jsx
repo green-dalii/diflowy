@@ -11,6 +11,8 @@ const initialNodes = [
         position: { x: 130, y: 120 },
         justify: 'center',
         align: 'center',
+        sourcePosition: 'right',
+        targetPosition: 'left',
     },
 
     {
@@ -19,12 +21,16 @@ const initialNodes = [
         // you can also pass a React component as a label
         data: { label: <div>WorkFlow</div> },
         position: { x: 270, y: 190 },
+        sourcePosition: 'right',
+        targetPosition: 'left',
     },
     {
         id: '3',
         type: 'output',
         data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="brand.svg" style={{maxHeight: "2em"}}/></div> },
         position: { x: 200, y: 300 },
+        sourcePosition: 'right',
+        targetPosition: 'left',
     },
 ];
 

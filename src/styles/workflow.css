@@ -173,7 +173,7 @@
     height: 6px;
     background: #1a192b;
     border: 1px solid #fff;
-    border-radius: 100%
+    border-radius: 30px
 }
 
 .react-flow__handle.connectionindicator {

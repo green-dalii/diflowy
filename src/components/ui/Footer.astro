@@ -1,36 +1,35 @@
 ---
 import { Image } from "astro:assets";
-import Facebook from "../../assets/facebook.svg";
-import Linkedin from "../../assets/linkedin.svg";
+// import Facebook from "../../assets/facebook.svg";
+// import Linkedin from "../../assets/linkedin.svg";
 import Logo from "../../assets/logo-alt.svg";
-import Twitter from "../../assets/twitter.svg";
+// import Twitter from "../../assets/twitter.svg";
 import ShortForm from "../ui/ShortForm.astro";
+import { Icon } from 'astro-icon/components';
 
 const logos = [
-  { name: "Facebook", src: Facebook, link: "https://facebook.com" },
-  { name: "Linkedin", src: Linkedin, link: "https://linkedin.com" },
-  { name: "Twitter", src: Twitter, link: "https://twitter.com" },
+  { name: "github", link: "https://github.com/green-dalii/diflowy" },
 ];
 
 const links = [
   { name: "Discover", href: "/discover" },
   { name: "Share", href: "/upload" },
-  { name: "Blog", href: "#Testimonials" },
-  { name: "Contect", href: "#Home" },
+  { name: "Blog", href: "/blog" },
+  { name: "About", href: "/about" },
 ];
 ---
 
 <section class="sm:px-5 pt-60">
   <div class="w-full max-w-[1240px] mx-auto">
     <div
-      class="px-[15px] bg-dark text-white py-[55px] lg:px-[60px] md:rounded-t-[45px] md:shadow-[0_-15px_15px_-15px_rgba(0,0,0,0.1)] md:hover:shadow-[0_-30px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-300 transform md:hover:scale-[1.02]"
+      class="px-[15px] bg-dark text-white py-[55px] lg:px-[60px] sm:rounded-t-[45px] md:shadow-[0_-15px_15px_-15px_rgba(0,0,0,0.1)]"
     >
       <div>
         <div
           class="flex flex-col lg:flex-row gap-7 items-center justify-between"
         >
           <picture>
-            <a href="#home">
+            <a href="/">
               <Image src={Logo} class="w-36 sm:w-[200px]" alt="Logo for Diflowy" />
             </a>
           </picture>
@@ -54,7 +53,7 @@ const links = [
                   <li>
                     <a href={logo.link} target="_blank">
                       <picture>
-                        <Image src={logo.src} alt={logo.name} />
+                        <Icon name={logo.name} class="text-4xl"/>
                       </picture>
                     </a>
                   </li>
@@ -70,7 +69,7 @@ const links = [
           >
             <h3 class="mb-5">Contact us:</h3>
             <div class="flex flex-col justify-between gap-4">
-              <span> Email: greenerdalii.studio@outlook.com </span>
+              <span> Email: diflowy@greenerai.top </span>
             </div>
           </div>
         </div>
