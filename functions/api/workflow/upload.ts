@@ -41,7 +41,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string })
         // Read the file content as binary data
         const dslFileBuffer = await dslFile.arrayBuffer();
-        const dslFileContent = Buffer.from(dslFileBuffer);
+        const dslFileContent = new Uint8Array(dslFileBuffer);
         // generate file id
         const fileId = generateIdFromEntropySize(10);
         // Insert data into Cloudflare D1
