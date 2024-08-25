@@ -45,8 +45,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // generate file id
         const fileId = generateIdFromEntropySize(10);
         // Insert data into Cloudflare D1
+        console.log("Inserting data into Cloudflare D1")
         const insertQuery = await context.env.D1.prepare(
-            "INSERT INTO workflows (id, user_id, filename, description, file_content, tags, author_data) VALUES (?, ?, ?, ?)"
+            "INSERT INTO yaml_files (id, user_id, filename, description, file_content, tags, author_data) VALUES (?, ?, ?, ?, ?, ?, ?)"
         ).bind(fileId, payload.id, workflowName, description, dslFileContent, tags, author).run();
         console.log("Insert Query Result>>>", insertQuery);
         return new Response(JSON.stringify({ res: 'Upload successful' }), {
@@ -54,6 +55,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             status: 200,
         });
     } catch (error) {
+        console.error("Error verifying JWT:", error);
         return new Response(JSON.stringify({ res: 'Bad Request' }), {
             headers: { 'Content-Type': 'application/json' },
             status: 400,
