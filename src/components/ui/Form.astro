@@ -87,14 +87,17 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
             >
             <div class="mt-2">
               <div
-                class="flex rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
+                class="flex items-center"
               >
+                <div class="flex-none px-2" id="workflowIcon">
+                  🫣
+                </div>
                 <input
                   type="text"
                   name="workflowname"
                   id="workflowname"
                   autocomplete="workflowname"
-                  class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  class="block flex-1 border-0 bg-transparent py-1.5 pl-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
                   placeholder="Fill Your Workflow Name"
                 />
               </div>
@@ -147,8 +150,7 @@ Such as:
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input type="checkbox" class="mr-2" value="Assisent Tools" /> Assisent
-                  Tools
+                  <input type="checkbox" class="mr-2" value="Assisent" /> Assisent
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -158,8 +160,7 @@ Such as:
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input type="checkbox" class="mr-2" value="Social Media" /> Social
-                  Media
+                  <input type="checkbox" class="mr-2" value="Social" /> Social
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -167,8 +168,8 @@ Such as:
                   <input
                     type="checkbox"
                     class="mr-2"
-                    value="Marketing Operation"
-                  /> Marketing Operation
+                    value="Business"
+                  /> Business
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -176,15 +177,15 @@ Such as:
                   <input
                     type="checkbox"
                     class="mr-2"
-                    value="Life & Enternment"
+                    value="Lifestyle"
                   />
-                  Life & Enternment
+                  Lifestyle
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input type="checkbox" class="mr-2" value="Writing" />
-                  Writing
+                  <input type="checkbox" class="mr-2" value="NLP" />
+                  NLP
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -207,6 +208,12 @@ Such as:
                 >
                   <input type="checkbox" class="mr-2" value="Finance" />
                   Finance
+                </label>
+                <label
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <input type="checkbox" class="mr-2" value="Entertainment" />
+                  Entertainment
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -397,6 +404,7 @@ Such as:
   /// <reference path="../../env.d.ts" />
   // Process YAML ReactFlow Data
   import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
+  import * as emoji from 'node-emoji'
   const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
   const uploadContainer = document.getElementById(
     "upload-container",
@@ -421,6 +429,7 @@ Such as:
       const description = document.getElementById(
         "description",
       ) as HTMLTextAreaElement;
+      const workflow_icon = document.getElementById("workflowIcon") as HTMLInputElement;
       const reader = new FileReader();
       reader.onload = function (e) {
         const target = e.target as FileReader;
@@ -429,8 +438,9 @@ Such as:
           const yamlData = paresYamlToJSON(yamlContent);
           workflow_name.value = yamlData.app.name;
           description.value = yamlData.app.description;
+          workflow_icon.innerText = emoji.get(yamlData.app.icon) as string || "😃";
+          console.log("yamlData loaded");
           const { nodes, edges } = parseYamlToReactFlow(yamlContent);
-
           // Update the ReactFlow component
           if (typeof (window as any).updateReactFlow === "function") {
             (window as any).updateReactFlow(nodes, edges);

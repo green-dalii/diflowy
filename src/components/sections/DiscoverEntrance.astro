@@ -1,6 +1,6 @@
 ---
 import SectionTitle from "../ui/SectionTitle.astro";
-import ServiceCard from "../ui/ServiceCard.astro";
+import DiscoverCard from "../ui/DiscoverCard.astro";
 import Section from "./Section.astro";
 
 import c1 from "../../assets/pics/card-pic1.svg";
@@ -15,78 +15,85 @@ const cards = [
     index: 1,
     titleTop: "Productivity",
     img: c1,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Productivity",
+    link: "/discover?tag=Productivity",
   },
   {
     index: 2,
-    titleTop: "Assisent Tools",
+    titleTop: "Assisent",
     img: c2,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Assisent",
+    link: "/discover?tag=Assisent",
   },
   {
     index: 3,
     titleTop: "Creative",
     img: c3,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Creative",
+    link: "/discover?tag=Creative",
   },
   {
     index: 1,
-    titleTop: "Social Media",
+    titleTop: "Social",
     img: c3,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Social",
+    link: "/discover?tag=Social",
   },
   {
     index: 2,
-    titleTop: "Marketing Operation",
+    titleTop: "Business",
     img: c4,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Business",
+    link: "/discover?tag=Business",
   },
   {
     index: 3,
-    titleTop: "Life/Enterntment",
+    titleTop: "Lifestyle",
     img: c5,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Lifestyle",
+    link: "/discover?tag=Lifestyle",
   },
   {
     index: 1,
-    titleTop: "Writing",
+    titleTop: "NLP",
     img: c6,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "NLP",
+    link: "/discover?tag=NLP",
   },
   {
     index: 2,
     titleTop: "Education",
     img: c6,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Education",
+    link: "/discover?tag=Education",
   },
   {
     index: 3,
     titleTop: "Health & Medical",
     img: c6,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Health & Medical",
+    link: "/discover?tag=Health & Medical",
   },
   {
     index: 1,
     titleTop: "Finance",
     img: c6,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Finance",
+    link: "/discover?tag=Finance",
   },
   {
     index: 2,
+    titleTop: "Entertainment",
+    img: c6,
+    alt: "Entertainment",
+    link: "/discover?tag=Entertainment",
+  },
+  {
+    index: 3,
     titleTop: "Others",
     img: c6,
-    alt: "SEO",
-    link: "https://google.com",
+    alt: "Others",
+    link: "/discover?tag=Others",
   },
 ];
 
@@ -97,10 +104,10 @@ const description =
 <Section>
   <div class="mt-[140px] mb-5">
     <SectionTitle sectionTitle="Discover" description={description} />
-    <div class="grid justify-center sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8">
+    <div class="grid justify-center sm:grid-cols-2 md:grid-cols-3 gap-5">
       {
         cards.map((card) => (
-          <ServiceCard
+          <DiscoverCard
             index={card.index}
             titleTop={card.titleTop}
             img={card.img}

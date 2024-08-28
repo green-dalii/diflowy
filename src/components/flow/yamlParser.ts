@@ -4,6 +4,7 @@ export interface YamlData {
     app: {
       name: string;
       description: string;
+      icon: string;
     };
     workflow: {
       graph: {
@@ -43,14 +44,12 @@ export interface YamlData {
       sourcePosition: node.sourcePosition,
       targetPosition: node.targetPosition,
     }));
-  
     const edges = yamlData.workflow.graph.edges.map((edge) => ({
       id: edge.id,
       source: edge.source,
       target: edge.target,
       type: "default",
     }));
-  
     return { nodes, edges };
   }
 

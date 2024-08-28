@@ -1,0 +1,74 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import Section from "../../components/sections/Section.astro";
+import Skeleton from "../../components/ui/Skeleton.astro";
+import "../../styles/globals.css";
+const description = "Find your workflows in Diflowy";
+const count = 12;
+---
+
+<MainLayout title="Diflowy" description="Where Dify workflows are stored">
+  <div class="mt-48">
+    <Section>
+      <SectionTitle
+        sectionTitle="Discover your workflows"
+        description={description}
+      />
+      <div id="workflow-grid" class="grid grid-cols-1 justify-center sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {new Array(count).fill(null).map((_) => (
+          <Skeleton />
+        ))}
+      </div>
+    </Section>
+  </div>
+</MainLayout>
+
+<script>
+  interface Workflow {
+    id: string;
+    name: string;
+    icon: string;
+    description: string;
+    tags: string[];
+  }
+
+  interface GetWorkflowsResponse {
+    workflows: Workflow[];
+    total: number;
+    page: number;
+    pageSize: number;
+  }
+
+  async function fetchWorkflows(
+    page: number = 1,
+    pageSize: number = 10,
+  ): Promise<GetWorkflowsResponse> {
+    const url = new URL("/api/workflow/get", window.location.origin);
+    url.searchParams.append("page", page.toString());
+    url.searchParams.append("pageSize", pageSize.toString());
+    url.searchParams.append("tags", "");
+    console.log("Fetching workflows from:", url.toString());
+    const response = await fetch(url.toString());
+
+    if (!response.ok) {
+      console.error("Failed to fetch workflows");
+      throw new Error("Failed to fetch workflows");
+    }
+
+    return (await response.json()) as GetWorkflowsResponse;
+  }
+
+  // 使用示例
+  try {
+    const result = await fetchWorkflows(1, 10);
+    console.log("Workflows:", result.workflows);
+    console.log("Total:", result.total);
+    console.log("Page:", result.page);
+    console.log("Page Size:", result.pageSize);
+    const workflowGrid = document.getElementById("workflow-grid") as HTMLDivElement;
+    workflowGrid.innerHTML = "";
+  } catch (error) {
+    console.error("Error fetching workflows:", error);
+  }
+</script>
