@@ -38,6 +38,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         const description = formData.get('description') as string;
         const dslFile = formData.get('dsl-file') as File;
         const tags = formData.get('tags') as string;
+        const icon = formData.get('icon') as string;
         const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string })
         // Read the file content as binary data
         const dslFileBuffer = await dslFile.arrayBuffer();
@@ -47,18 +48,18 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // Insert data into Cloudflare D1
         console.log("Inserting data into Cloudflare D1")
         const insertQuery = await context.env.D1.prepare(
-            "INSERT INTO yaml_files (id, user_id, filename, description, file_content, tags, author_data) VALUES (?, ?, ?, ?, ?, ?, ?)"
-        ).bind(fileId, payload.id, workflowName, description, dslFileContent, tags, author).run();
+            "INSERT INTO yaml_files (id, user_id, filename, description, file_content, tags, author_data, icon) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        ).bind(fileId, payload.id, workflowName, description, dslFileContent, tags, author, icon).run();
         console.log("Insert Query Result>>>", insertQuery);
         return new Response(JSON.stringify({ res: 'Upload successful' }), {
             headers: { 'Content-Type': 'application/json' },
-            status: 200,
+            status: 201,
         });
     } catch (error) {
         console.error("Error verifying JWT:", error);
-        return new Response(JSON.stringify({ res: 'Bad Request' }), {
+        return new Response(JSON.stringify({ res: 'Internal Server Error' }), {
             headers: { 'Content-Type': 'application/json' },
-            status: 400,
+            status: 500,
         });
     }
 }

@@ -30,13 +30,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
         // 查询分页数据
         const workflowsResult = await env.D1.prepare(
-            'SELECT * FROM yaml_file LIMIT ? OFFSET ?'
+            'SELECT * FROM yaml_files LIMIT ? OFFSET ?'
         ).bind(pageSize, offset).all();
         console.log("workflowsResult>>>", workflowsResult)
 
         // 查询总数
         const totalResult = await env.D1.prepare(
-            'SELECT COUNT(*) as count FROM yaml_file'
+            'SELECT COUNT(*) as count FROM yaml_files'
         ).first();
         console.log("totalResult>>>", totalResult)
 

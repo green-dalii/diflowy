@@ -470,7 +470,9 @@ Such as:
       alert("Please fill out all required fields.");
       return;
     }
-
+    // Add Icon to form data
+    const workflow_icon = document.getElementById("workflowIcon") as HTMLInputElement;
+    formData.append("icon", workflow_icon.innerText);
     // Add the selected tags to the form data
     const selectedTags = document.querySelectorAll(".tag");
     const selectedTagsTree = document.getElementById("selectedTags");
@@ -493,12 +495,14 @@ Such as:
         form.reset();
         // Clear the selected tags
         selectedTagsTree!.innerHTML = "";
+      } else if (response.status === 401) { 
+        alert("Before you upload, please login first.");
       } else {
-        alert("Upload failed. Please try again.");
+        alert("An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("An error occurred while uploading the file.");
+      alert("Your network is unreachable. Please check your internet connection and try again.");
     }
   }
   // Add event listener to the form
