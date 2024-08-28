@@ -16,13 +16,14 @@ interface GetWorkflowsResponse {
 }
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
+    console.log("Get Request....")
     const { request, env } = context;
     const url = new URL(request.url);
-
+    console.log("url>>>", url)
     // Get Paganition Parameter
     const page = parseInt(url.searchParams.get('page') || '1', 10);
     const pageSize = parseInt(url.searchParams.get('pageSize') || '10', 10);
-
+    console.log("page>>>",page,"pagesize",pageSize)
     try {
         // 计算偏移量
         const offset = (page - 1) * pageSize;
@@ -61,6 +62,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
+        console.log("Error>>>>",error)
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
