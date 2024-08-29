@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 @layer base {
-  @font-face {
+  /* @font-face {
     font-family: "Grotesk";
     src: url("/fonts/grotesk/SpaceGrotesk-Regular.woff"), format("woff");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
-  }
-
+  } */
+/* 
   @font-face {
     font-family: "Grotesk";
     src: url("/fonts/grotesk/SpaceGrotesk-Medium.woff"), format("woff");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
-  }
+  } */
 
   :root {
     --blue: #cae9f8;
@@ -29,7 +29,7 @@
   @layer base {
     * {
       box-sizing: border-box;
-      font-family: "Grotesk", sans-serif;
+      font-family: 'Open Sans', roboto, sans-serif;
       scroll-behavior: smooth;
     }
 
@@ -116,7 +116,7 @@
     }
 
     .btn-primary:hover {
-      @apply bg-blue text-black transform scale-105;
+      @apply bg-gradient-radial-at-bottom-center from-[#eefaff] via-[#83d4fc] to-[#58ACD6] shadow-[0_10px_25px_0px_rgba(131,212,252,0.6)] text-black transform scale-105;
     }
 
     .btn-secondary {

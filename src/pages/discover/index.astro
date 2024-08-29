@@ -15,10 +15,11 @@ const count = 12;
         sectionTitle="Discover your workflows"
         description={description}
       />
-      <div id="workflow-grid" class="grid grid-cols-1 justify-center sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {new Array(count).fill(null).map((_) => (
-          <Skeleton />
-        ))}
+      <div
+        id="workflow-grid"
+        class="grid grid-cols-1 justify-center sm:grid-cols-2 md:grid-cols-4 gap-4"
+      >
+        {new Array(count).fill(null).map((_) => <Skeleton />)}
       </div>
     </Section>
   </div>
@@ -66,8 +67,29 @@ const count = 12;
     console.log("Total:", result.total);
     console.log("Page:", result.page);
     console.log("Page Size:", result.pageSize);
-    const workflowGrid = document.getElementById("workflow-grid") as HTMLDivElement;
+    const workflowGrid = document.getElementById(
+      "workflow-grid",
+    ) as HTMLDivElement;
     workflowGrid.innerHTML = "";
+    result.workflows.forEach((workflow) => {
+      const workflowElement = document.createElement("div");
+      workflowElement.className =
+        "border border-blue-300 shadow rounded-xl p-4 w-full mx-auto";
+      workflowElement.innerHTML = `
+      <div class="border border-blue-300 shadow rounded-xl p-4 w-full mx-auto">
+    <div class="animate-pulse flex space-x-4">
+      <div class="rounded-full bg-slate-200 h-10 w-10">${workflow.icon}</div>
+      <div class="flex-1 space-y-6 py-1">
+        <div class="h-2 bg-slate-200 rounded">${workflow.name}</div>
+        <div class="space-y-3">
+          <div class="h-2 bg-slate-200 rounded">${workflow.description}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+          `;
+      workflowGrid.appendChild(workflowElement);
+    });
   } catch (error) {
     console.error("Error fetching workflows:", error);
   }

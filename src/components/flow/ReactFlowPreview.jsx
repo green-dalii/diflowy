@@ -1,6 +1,5 @@
 import { useCallback, useState, useEffect } from 'react';
 import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background, MiniMap, Controls, useReactFlow, ReactFlowProvider } from '@xyflow/react';
-// import '@xyflow/react/dist/base.css';
 import '@xyflow/react/dist/style.css';
 import '../../styles/workflow.css';
 import CustomNode from './CustomNode';
@@ -16,8 +15,9 @@ const initialNodes = [
         targetPosition: 'left',
         type: 'custom',
         data: { 
-            label: '📤 Upload',
-            description: 'Upload a DSL file to start your workflow'
+            label: 'Upload',
+            description: 'Upload a DSL file to start your workflow',
+            nodeType: 'start',
         },
         position: { x: 100, y: 100 },
         justify: 'center',
@@ -29,8 +29,9 @@ const initialNodes = [
         targetPosition: 'left',
         type: 'custom',
         data: { 
-            label: '🔄 Parsing',
-            description: 'The workflow will be parsed quickly and safely in your browser' 
+            label: 'Parsing',
+            description: 'The workflow will be parsed quickly and safely in your browser',
+            nodeType: 'code', 
         },
         position: { x: 300, y: 250 },
     },
@@ -40,8 +41,9 @@ const initialNodes = [
         targetPosition: 'left',
         type: 'custom',
         data: { 
-            label: '👁️ Preview', 
-            description: 'Finally you will see the simplified structure preview of your worflow here'
+            label: 'Preview', 
+            description: 'Finally you will see the simplified structure preview of your worflow here',
+            nodeType: 'answer',
         },
         position: { x: 500, y: 400 },
     },

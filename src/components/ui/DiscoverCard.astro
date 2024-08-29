@@ -11,7 +11,7 @@ const { index, titleTop, img, alt, link } = Astro.props;
 <div class="rounded-[45px] px-5 sm:px-0">
   <a href={link}>
     <div
-      class=`group h-[320px] w-full sm:h-full lg:gap-[30px] grid custom-grid lg:grid-cols-2 lg:grid-rows-1 p-8 rounded-[45px] transition-all duration-300 sm:hover:scale-105 transform sm:hover:shadow-lg ${index === 1 ? 'bg-white' : index === 2 ? 'bg-blue' : 'bg-dark text-white'}`
+      class=`group h-[320px] w-full sm:h-full lg:gap-[30px] grid custom-grid lg:grid-cols-2 lg:grid-rows-1 p-8 rounded-[45px] transition-all duration-300 ${index === 1 ? 'bg-white' : index === 2 ? 'bg-blue' : 'bg-dark text-white'} sm:hover:scale-105 transform sm:hover:shadow-lg ${index === 1 ? 'hover:bg-zinc-50' : index === 2 ? 'hover:bg-sky-100' : 'hover:bg-sky-600 text-white'}`
     >
       <h3 class=`flex flex-col col-span-2 lg:col-span-1`>
         <span
@@ -25,7 +25,7 @@ const { index, titleTop, img, alt, link } = Astro.props;
         <Image
           src={img}
           alt={alt}
-          class="h-auto w-full sm:h-auto sm:w-full md:group-hover:scale-[1.2] transition-all duration-300 object-cover"
+          class="h-auto w-full sm:h-auto sm:w-full group-hover:scale-[1.2] transition-all duration-300 object-cover"
         />
       </picture>
       <div class="flex items-end">

@@ -14,6 +14,7 @@ export interface YamlData {
           data: { 
             title: string;
             desc: string;
+            type: string;
             model?: {
               name: string;
             }
@@ -38,6 +39,7 @@ export interface YamlData {
       data: { 
         label: node.data.title,
         description: node.data.desc,
+        nodeType: node.data.type,
         model: node.data.model ? node.data.model.name : undefined,
       },
       type: "custom",

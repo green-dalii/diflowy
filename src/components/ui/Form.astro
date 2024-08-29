@@ -97,7 +97,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
                   name="workflowname"
                   id="workflowname"
                   autocomplete="workflowname"
-                  class="block flex-1 border-0 bg-transparent py-1.5 pl-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
+                  class="block flex-1 border-0 bg-transparent py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
                   placeholder="Fill Your Workflow Name"
                 />
               </div>
@@ -123,7 +123,7 @@ Such as:
     - Usage
     - Restrictions
     - Dify Version Requirement
-    - Copyright 
+    - Sponsor 
     - etc."
               ></textarea>
             </div>
@@ -395,7 +395,7 @@ Such as:
           workflow_name.value = yamlData.app.name;
           description.value = yamlData.app.description;
           workflow_icon.innerText = emoji.get(yamlData.app.icon) as string || "😃";
-          console.log("yamlData loaded");
+          // console.log("yamlData loaded");
           const { nodes, edges } = parseYamlToReactFlow(yamlContent);
           // Update the ReactFlow component
           if (typeof (window as any).updateReactFlow === "function") {
