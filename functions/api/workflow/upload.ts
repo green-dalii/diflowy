@@ -48,7 +48,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // Insert data into Cloudflare D1
         console.log("Inserting data into Cloudflare D1")
         const insertQuery = await context.env.D1.prepare(
-            "INSERT INTO yaml_files (id, user_id, filename, description, file_content, tags, author_data, icon) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            "INSERT INTO yaml_files (id, user_id, filename, description, file_content, tags, author_data, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
         ).bind(fileId, payload.id, workflowName, description, dslFileContent, tags, author, icon).run();
         console.log("Insert Query Result>>>", insertQuery);
         return new Response(JSON.stringify({ res: 'Upload successful' }), {

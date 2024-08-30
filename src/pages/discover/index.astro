@@ -17,7 +17,7 @@ const count = 12;
       />
       <div
         id="workflow-grid"
-        class="grid grid-cols-1 justify-center sm:grid-cols-2 md:grid-cols-4 gap-4"
+        class="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-4"
       >
         {new Array(count).fill(null).map((_) => <Skeleton />)}
       </div>
@@ -74,19 +74,18 @@ const count = 12;
     result.workflows.forEach((workflow) => {
       const workflowElement = document.createElement("div");
       workflowElement.className =
-        "border border-blue-300 shadow rounded-xl p-4 w-full mx-auto";
+        "border shadow rounded-3xl p-4 w-full mx-auto h-48";
       workflowElement.innerHTML = `
-      <div class="border border-blue-300 shadow rounded-xl p-4 w-full mx-auto">
-    <div class="animate-pulse flex space-x-4">
-      <div class="rounded-full bg-slate-200 h-10 w-10">${workflow.icon}</div>
-      <div class="flex-1 space-y-6 py-1">
-        <div class="h-2 bg-slate-200 rounded">${workflow.name}</div>
+    <div class="flex space-x-4 h-full">
+      <div class="text-lg">${workflow.icon}</div>
+      <div class="fflex-1 grid content-between space-y-4 py-1">
+        <div class="text-lg font-bold">${workflow.name}</div>
         <div class="space-y-3">
-          <div class="h-2 bg-slate-200 rounded">${workflow.description}</div>
+          <div class="text-sm">${workflow.description}</div>
+          <div class="text-sm">${workflow.tags}</div>
         </div>
       </div>
     </div>
-  </div>
           `;
       workflowGrid.appendChild(workflowElement);
     });
