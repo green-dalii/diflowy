@@ -1,12 +1,7 @@
 import { useCallback, useState } from 'react';
-import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background, ReactFlowProvider } from '@xyflow/react';
+import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '../../styles/workflow.css'
-import CustomNode from './CustomNode';
-
-const nodeTypes = {
-  custom: CustomNode,
-};
 
 const initialNodes = [
     {
@@ -87,7 +82,7 @@ const ReactFlowComponent = () => {
         [setEdges],
     );
     return (
-        <div style={{ height: 500 }}>
+        <div className='h-56 sm:h-96'>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -95,7 +90,6 @@ const ReactFlowComponent = () => {
                 onEdgesChange={onEdgesChange}
                 zoomOnScroll={false}
                 panOnDrag={false}
-                nodeTypes={nodeTypes}
                 fitView >
                 <Background />
             </ReactFlow>

@@ -17,7 +17,7 @@ const count = 12;
       />
       <div
         id="workflow-grid"
-        class="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        class="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-5"
       >
         {new Array(count).fill(null).map((_) => <Skeleton />)}
       </div>
@@ -73,18 +73,25 @@ const count = 12;
     workflowGrid.innerHTML = "";
     result.workflows.forEach((workflow) => {
       const workflowElement = document.createElement("div");
+      const tagsHTML = workflow.tags.map(tag => 
+    `<span class="tag text-sm">${tag}</span>`
+  ).join('');
+
       workflowElement.className =
-        "border shadow rounded-3xl p-4 w-full mx-auto h-48";
+        "border shadow hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-48";
       workflowElement.innerHTML = `
-    <div class="flex space-x-4 h-full">
-      <div class="text-lg">${workflow.icon}</div>
-      <div class="fflex-1 grid content-between space-y-4 py-1">
-        <div class="text-lg font-bold">${workflow.name}</div>
-        <div class="space-y-3">
-          <div class="text-sm">${workflow.description}</div>
-          <div class="text-sm">${workflow.tags}</div>
+      <div class="animate-pulse grid grid-cols-1 content-between h-full">
+        <div class="flex flex-row space-x-4 items-center">
+            <div class="flex-none rounded-full bg-slate-200 h-12 w-12 text-2xl">${workflow.icon}</div>
+            <div class="flex-grow text-xl text-dark font-bold">${workflow.name}</div>
         </div>
-      </div>
+        <div class="flex-1 space-y-4 py-1">
+            <div class="ml-16 space-y-3">
+                <div class="text-sm text-gray-500 line-clamp-3">${workflow.description}</div>
+                <div class="selected-tags">${tagsHTML}</div>
+            </div>
+        </div>
+    </div>
     </div>
           `;
       workflowGrid.appendChild(workflowElement);
