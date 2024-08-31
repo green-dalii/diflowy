@@ -31,7 +31,7 @@ const count = 12;
     name: string;
     icon: string;
     description: string;
-    tags: string[];
+    tags: string;
   }
 
   interface GetWorkflowsResponse {
@@ -73,9 +73,16 @@ const count = 12;
     workflowGrid.innerHTML = "";
     result.workflows.forEach((workflow) => {
       const workflowElement = document.createElement("div");
-      const tagsHTML = workflow.tags.map(tag => 
-    `<span class="tag text-sm">${tag}</span>`
-  ).join('');
+      let tags;
+      try {
+        tags = JSON.parse(workflow.tags);
+      } catch (error) {
+        console.error("Error parsing tags for workflow:", workflow.name, error);
+        tags = [];
+      }
+      const tagsHTML = tags
+        .map((tag: string) => `<span class="tag text-sm">${tag}</span>`)
+        .join("");
 
       workflowElement.className =
         "border shadow hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-48";
