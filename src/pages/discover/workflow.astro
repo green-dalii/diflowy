@@ -73,7 +73,7 @@ const description = "Coming soon";
     return (await response.json()) as WorkflowContentResponse;
   }
 
-  document.addEventListener("DOMContentLoaded", (_) => {
+  document.addEventListener("DOMContentLoaded", async (_) => {
   // Get workflow from API
   try {
     const workflowName = document.getElementById(
