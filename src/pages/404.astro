@@ -1,0 +1,30 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import SectionTitle from "../components/ui/SectionTitle.astro";
+import Section from "../components/sections/Section.astro";
+import "../styles/globals.css";
+const description = "Something went wrong";
+---
+
+<MainLayout
+  title="Diflowy"
+  description="Where Dify workflows are stored"
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle
+        sectionTitle="Oooops!"
+        description={description}
+      />
+      <div class="flex flex-col items-center justify-center mt-32">
+        <a href="/">
+            <button
+                class="btn-primary w-full md:w-auto inline-flex items-center gap-2"
+            >
+                <span>Back to Home</span>
+            </button>
+        </a>
+    </div>
+    </Section>
+  </div>
+</MainLayout>

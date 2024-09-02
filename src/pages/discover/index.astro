@@ -41,28 +41,35 @@ const count = 12;
     pageSize: number;
   }
 
+  function getTagsFromURL(): string[] {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tags: string[] = urlParams.getAll("tags");
+    return tags;
+  }
+
   async function fetchWorkflows(
     page: number = 1,
     pageSize: number = 10,
+    tags: string[] = []
   ): Promise<GetWorkflowsResponse> {
     const url = new URL("/api/workflow/get", window.location.origin);
     url.searchParams.append("page", page.toString());
     url.searchParams.append("pageSize", pageSize.toString());
-    url.searchParams.append("tags", "");
+    tags.forEach((tag) => url.searchParams.append("tags", tag));
     console.log("Fetching workflows from:", url.toString());
     const response = await fetch(url.toString());
 
     if (!response.ok) {
       console.error("Failed to fetch workflows");
-      throw new Error("Failed to fetch workflows");
+      alert("Failed to fetch workflows");
     }
 
     return (await response.json()) as GetWorkflowsResponse;
   }
 
-  // 使用示例
+  // Query the API and populate the grid
   try {
-    const result = await fetchWorkflows(1, 10);
+    const result = await fetchWorkflows(1, 10, getTagsFromURL());
     console.log("Workflows:", result.workflows);
     console.log("Total:", result.total);
     console.log("Page:", result.page);
@@ -87,7 +94,7 @@ const count = 12;
         .join("");
 
       workflowElement.className =
-        "border shadow rounded-3xl p-4 w-full mx-auto h-56";
+        "border shadow rounded-3xl p-4 w-full mx-auto h-52";
       workflowElement.innerHTML = `
       <div class="grid grid-cols-1 content-between h-full">
         <div class="flex flex-row space-x-4 items-center">

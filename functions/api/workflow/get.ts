@@ -23,22 +23,46 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     // Get Paganition Parameter
     const page = parseInt(url.searchParams.get('page') || '1', 10);
     const pageSize = parseInt(url.searchParams.get('pageSize') || '10', 10);
-    console.log("page>>>",page,"pagesize",pageSize)
+    const tags = url.searchParams.getAll('tags');
+    console.log("page>>>", page, "pagesize>>>", pageSize, "tags>>>", tags)
     try {
         // 计算偏移量
         const offset = (page - 1) * pageSize;
 
+        // // 查询分页数据
+        // const workflowsResult = await env.D1.prepare(
+        //     'SELECT * FROM yaml_files LIMIT ? OFFSET ?'
+        // ).bind(pageSize, offset).all();
+        // console.log("workflowsResult>>>", workflowsResult)
+
+        // // 查询总数
+        // const totalResult = await env.D1.prepare(
+        //     'SELECT COUNT(*) as count FROM yaml_files'
+        // ).first();
+        // console.log("totalResult>>>", totalResult)
+
+        // 构建筛选条件
+        let whereClause = '';
+        const bindings: any[] = [pageSize, offset]; // 为查询绑定参数初始化数组
+
+        if (tags.length > 0) {
+            // 使用 LIKE 创建筛选条件
+            const likeClauses = tags.map(tag => `tags LIKE ?`).join(' OR ');
+            whereClause = `WHERE ${likeClauses}`;
+
+            // 为每个标签添加匹配绑定
+            tags.forEach(tag => bindings.unshift(`%${tag}%`));
+        }
+
         // 查询分页数据
-        const workflowsResult = await env.D1.prepare(
-            'SELECT * FROM yaml_files LIMIT ? OFFSET ?'
-        ).bind(pageSize, offset).all();
-        console.log("workflowsResult>>>", workflowsResult)
+        const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;
+        const workflowsResult = await env.D1.prepare(workflowsQuery).bind(...bindings).all();
+        console.log("workflowsResult>>>", workflowsResult);
 
         // 查询总数
-        const totalResult = await env.D1.prepare(
-            'SELECT COUNT(*) as count FROM yaml_files'
-        ).first();
-        console.log("totalResult>>>", totalResult)
+        const countQuery = `SELECT COUNT(*) as count FROM yaml_files ${whereClause}`;
+        const totalResult = await env.D1.prepare(countQuery).bind(...bindings.slice(0, -2)).first();
+        console.log("totalResult>>>", totalResult);
 
         const workflows: Workflow[] = (workflowsResult.results as any[]).map(row => ({
             id: row.id,
@@ -46,23 +70,23 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             description: row.description,
             tags: row.tags,
             icon: row.icon
-          }));
-      
-          // 处理 totalResult 可能为 null 的情况
-          const total = totalResult && typeof totalResult.count === 'number' ? totalResult.count : 0;
-      
-          const response: GetWorkflowsResponse = {
+        }));
+
+        // 处理 totalResult 可能为 null 的情况
+        const total = totalResult && typeof totalResult.count === 'number' ? totalResult.count : 0;
+
+        const response: GetWorkflowsResponse = {
             workflows,
             total,
             page,
             pageSize
-          };
+        };
 
         return new Response(JSON.stringify(response), {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
-        console.log("Error>>>>",error)
+        console.log("Error>>>>", error)
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
