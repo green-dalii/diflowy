@@ -1,7 +1,7 @@
 import type { Env } from '../auth';
 
 interface Workflow {
-    id: number;
+    id: string;
     name: string;
     description: string;
     tags: string[];
@@ -28,18 +28,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     try {
         // 计算偏移量
         const offset = (page - 1) * pageSize;
-
-        // // 查询分页数据
-        // const workflowsResult = await env.D1.prepare(
-        //     'SELECT * FROM yaml_files LIMIT ? OFFSET ?'
-        // ).bind(pageSize, offset).all();
-        // console.log("workflowsResult>>>", workflowsResult)
-
-        // // 查询总数
-        // const totalResult = await env.D1.prepare(
-        //     'SELECT COUNT(*) as count FROM yaml_files'
-        // ).first();
-        // console.log("totalResult>>>", totalResult)
 
         // 构建筛选条件
         let whereClause = '';

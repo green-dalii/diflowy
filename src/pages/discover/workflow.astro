@@ -1,0 +1,95 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import Section from "../../components/sections/Section.astro";
+import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
+import "../../styles/globals.css";
+const description = "Coming soon";
+---
+
+<MainLayout title="Diflowy" description="Where Dify workflows are stored">
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="Loading..." description={description} />
+      <div id="workflow" class="flex flex-col space-y-4">
+        <div class="w-full">
+          <h3>Workflow Preview</h3>
+          <div class="h-96 sm:h-[600px]">
+            <ReactFlowPreview client:load />
+          </div>
+        </div>
+        <div class="space-y-4">
+          <h4 id="workflowname" class="w-full sm:w-1/2">Description</h4>
+          <div id="author"></div>
+          <p id="description" class="text-sm text-gray-500 w-full sm:w-1/2">
+            Description
+          </p>
+          <div id="tagsarea" class="w-full sm:w-1/2"></div>
+          <div id="authorinfo" class="w-full sm:w-1/2"></div>
+          <!-- Button -->
+          <div
+            class="mt-6 w-full sm:w-1/2 flex items-center justify-end gap-x-6"
+          >
+            <button
+              type="button"
+              class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
+              >Copy DSL URL</button
+            >
+            <button
+              class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              >Download</button
+            >
+          </div>
+        </div>
+      </div>
+    </Section>
+  </div>
+</MainLayout>
+
+<script>
+  interface WorkflowContentResponse {
+    id: string;
+    name: string;
+    description: string;
+    tags: string[];
+    icon: string;
+    file_content?: string;
+  }
+
+  async function loadWorkflow(): Promise<WorkflowContentResponse> {
+    const urlParams = new URLSearchParams(window.location.search);
+    const workflowId = urlParams.get("workflowId") || ("" as string);
+    const url = new URL("/api/workflow", window.location.origin);
+    console.log("Getting workflow from URL>>>", url);
+    url.searchParams.append("workflowId", workflowId);
+
+    console.log("Getting workflow from:", url.toString());
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      console.error("Failed to fetch workflows");
+      alert("Failed to fetch workflows");
+    }
+    return (await response.json()) as WorkflowContentResponse;
+  }
+
+  // Get workflow from API
+  try {
+    const workflowName = document.getElementById(
+    "workflowname",
+  ) as HTMLHeadingElement;
+  const workflowDescription = document.getElementById(
+    "description",
+  ) as HTMLParagraphElement;
+  const workflowTags = document.getElementById("tagsarea") as HTMLDivElement;
+  const workflowAuthor = document.getElementById("author") as HTMLDivElement;
+  const workflowAuthorInfo = document.getElementById(
+    "authorinfo",
+  ) as HTMLDivElement;
+
+  const workflow = await loadWorkflow();
+  console.log("Workflow Got>>>>",workflow);
+  } catch (error) {
+    console.error("Error loading workflow:", error);
+    alert("Error loading workflow");
+  }
+</script>

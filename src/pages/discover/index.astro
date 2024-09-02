@@ -52,7 +52,7 @@ const count = 12;
     pageSize: number = 10,
     tags: string[] = []
   ): Promise<GetWorkflowsResponse> {
-    const url = new URL("/api/workflow/get", window.location.origin);
+    const url = new URL("/api/workflow/filter", window.location.origin);
     url.searchParams.append("page", page.toString());
     url.searchParams.append("pageSize", pageSize.toString());
     tags.forEach((tag) => url.searchParams.append("tags", tag));
@@ -74,13 +74,14 @@ const count = 12;
     console.log("Total:", result.total);
     console.log("Page:", result.page);
     console.log("Page Size:", result.pageSize);
+    console.log("Tags:", getTagsFromURL());
     const workflowGrid = document.getElementById(
       "workflow-grid",
     ) as HTMLDivElement;
     workflowGrid.innerHTML = "";
     result.workflows.forEach((workflow) => {
       const workflowLink = document.createElement("a")
-      workflowLink.setAttribute('href',`/workflow/get/${workflow.id}`)
+      workflowLink.setAttribute('href',`/workflow?workflowId=${workflow.id}`)
       const workflowElement = document.createElement("div");
       let tags;
       try {
