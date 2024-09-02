@@ -57,8 +57,9 @@ const description = "Coming soon";
   }
 
   async function loadWorkflow(): Promise<WorkflowContentResponse> {
+    console.log("Executing loadWorkflow...")
     const urlParams = new URLSearchParams(window.location.search);
-    const workflowId = urlParams.get("workflowId") || ("" as string);
+    const workflowId = urlParams.get("workflowId") as string || "" ;
     const url = new URL("/api/workflow", window.location.origin);
     console.log("Getting workflow from URL>>>", url);
     url.searchParams.append("workflowId", workflowId);
@@ -72,6 +73,7 @@ const description = "Coming soon";
     return (await response.json()) as WorkflowContentResponse;
   }
 
+  document.addEventListener("DOMContentLoaded", (_) => {
   // Get workflow from API
   try {
     const workflowName = document.getElementById(
@@ -85,11 +87,12 @@ const description = "Coming soon";
   const workflowAuthorInfo = document.getElementById(
     "authorinfo",
   ) as HTMLDivElement;
-
+  console.log("Call loadWorkflow...")
   const workflow = await loadWorkflow();
   console.log("Workflow Got>>>>",workflow);
   } catch (error) {
     console.error("Error loading workflow:", error);
     alert("Error loading workflow");
   }
+});
 </script>
