@@ -81,7 +81,7 @@ const count = 12;
     workflowGrid.innerHTML = "";
     result.workflows.forEach((workflow) => {
       const workflowLink = document.createElement("a")
-      workflowLink.setAttribute('href',`/workflow?workflowId=${workflow.id}`)
+      workflowLink.setAttribute('href',`/discover/workflow?id=${workflow.id}`)
       const workflowElement = document.createElement("div");
       let tags;
       try {
