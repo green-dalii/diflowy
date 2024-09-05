@@ -6,6 +6,7 @@ interface Workflow {
     description: string;
     tags: string[];
     icon: string;
+    authorData: object;
     file_content?: string;
 }
 
@@ -47,6 +48,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             description: workflowResult.description as string,
             tags: JSON.parse(workflowResult.tags as string),
             icon: workflowResult.icon as string,
+            authorData:JSON.parse(workflowResult.author_data as string),
             file_content: fileContentString
         };
 

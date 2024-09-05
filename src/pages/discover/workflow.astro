@@ -4,13 +4,14 @@ import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import "../../styles/globals.css";
-const description = "Coming soon";
+const description =
+  "You can use Dify to create workflows and share them with others.";
 ---
 
 <MainLayout title="Diflowy" description="Where Dify workflows are stored">
   <div class="mt-48">
     <Section>
-      <SectionTitle sectionTitle="Loading..." description={description} />
+      <SectionTitle sectionTitle="Workflow" description={description} />
       <div id="workflow" class="flex flex-col space-y-4">
         <div class="w-full">
           <h3>Workflow Preview</h3>
@@ -19,13 +20,21 @@ const description = "Coming soon";
           </div>
         </div>
         <div class="space-y-4">
+          <div class="flex flex-row space-x-4 items-center">
+            <div
+              id="workflowicon"
+              class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center"
+            >
+            </div>
+            <h3 id="workflowname" class="w-full sm:w-1/2">Workflow Name</h3>
+          </div>
+          <div id="author" class="text-sm">Author</div>
+          <div id="authorInfo" class="text-sm">AuthorInfo</div>
           <h4 id="workflowname" class="w-full sm:w-1/2">Description</h4>
-          <div id="author"></div>
           <p id="description" class="text-sm text-gray-500 w-full sm:w-1/2">
-            Description
+            Loading...
           </p>
           <div id="tagsarea" class="w-full sm:w-1/2"></div>
-          <div id="authorinfo" class="w-full sm:w-1/2"></div>
           <!-- Button -->
           <div
             class="mt-6 w-full sm:w-1/2 flex items-center justify-end gap-x-6"
@@ -47,13 +56,20 @@ const description = "Coming soon";
 </MainLayout>
 
 <script>
+  import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
   interface WorkflowContentResponse {
     id: string;
     name: string;
     description: string;
     tags: string[];
     icon: string;
+    authorData: WorkflowAuthor;
     file_content?: string;
+  }
+
+  interface WorkflowAuthor {
+    authorName: string;
+    socialLink?: string;
   }
 
   async function loadWorkflow(): Promise<WorkflowContentResponse> {
@@ -78,6 +94,9 @@ const description = "Coming soon";
       const workflowName = document.getElementById(
         "workflowname",
       ) as HTMLHeadingElement;
+      const workflowIcon = document.getElementById(
+        "workflowicon",
+      ) as HTMLImageElement;
       const workflowDescription = document.getElementById(
         "description",
       ) as HTMLParagraphElement;
@@ -88,11 +107,33 @@ const description = "Coming soon";
         "author",
       ) as HTMLDivElement;
       const workflowAuthorInfo = document.getElementById(
-        "authorinfo",
+        "authorInfo",
       ) as HTMLDivElement;
       console.log("Call loadWorkflow...");
       const workflow = await loadWorkflow();
-      console.log("Workflow Got>>>>", workflow);
+      console.log("Workflow Got>>>>");
+      const { nodes, edges } = parseYamlToReactFlow(
+        workflow.file_content as string,
+      );
+      // Update the ReactFlow component
+      if (typeof (window as any).updateReactFlow === "function") {
+        (window as any).updateReactFlow(nodes, edges);
+      } else {
+        console.error("updateReactFlow function not found");
+      }
+      // Update the workflow info
+      workflowIcon.innerText = workflow.icon;
+      workflowName.innerText = workflow.name;
+      workflowDescription.innerText = workflow.description;
+      workflowAuthor.innerText = workflow.authorData.authorName;
+      workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
+
+      const tagsHTML = workflow.tags
+        .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
+        .join("");
+
+      workflowTags.innerHTML = tagsHTML;
+      console.log("Workflow info updated.");
     } catch (error) {
       console.error("Error loading workflow:", error);
       alert("Error loading workflow");
