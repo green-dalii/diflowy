@@ -28,8 +28,10 @@ const description =
             </div>
             <h3 id="workflowname" class="w-full sm:w-1/2">Workflow Name</h3>
           </div>
-          <div id="author" class="text-sm">Author</div>
-          <div id="authorInfo" class="text-sm">AuthorInfo</div>
+          <div class="flex flex-row space-x-4 items-center">
+            <div id="author" class="text-sm">Author</div>
+            <div id="authorInfo" class="text-sm">AuthorInfo</div>
+          </div>
           <h4 id="workflowname" class="w-full sm:w-1/2">Description</h4>
           <p id="description" class="text-sm text-gray-500 w-full sm:w-1/2">
             Loading...
@@ -37,7 +39,7 @@ const description =
           <div id="tagsarea" class="w-full sm:w-1/2"></div>
           <!-- Button -->
           <div
-            class="mt-6 w-full sm:w-1/2 flex items-center justify-end gap-x-6"
+            class="mt-16 w-full sm:w-1/2 flex items-center justify-end gap-x-6"
           >
             <button
               type="button"
@@ -116,11 +118,13 @@ const description =
         workflow.file_content as string,
       );
       // Update the ReactFlow component
-      if (typeof (window as any).updateReactFlow === "function") {
-        (window as any).updateReactFlow(nodes, edges);
-      } else {
-        console.error("updateReactFlow function not found");
-      }
+      window.addEventListener("updateReactFlowReady", () => {
+        if (typeof (window as any).updateReactFlow === "function") {
+          (window as any).updateReactFlow(nodes, edges);
+        } else {
+          console.error("updateReactFlow function not found");
+        }
+      });
       // Update the workflow info
       workflowIcon.innerText = workflow.icon;
       workflowName.innerText = workflow.name;
@@ -129,7 +133,7 @@ const description =
       workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
 
       const tagsHTML = workflow.tags
-        .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
+        .map((tag: string) => `<span class="tag text-xs">${tag}</span>`)
         .join("");
 
       workflowTags.innerHTML = tagsHTML;

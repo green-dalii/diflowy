@@ -1,11 +1,11 @@
 import { useCallback, useState, useEffect } from 'react';
 import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background, MiniMap, Controls, useReactFlow, ReactFlowProvider } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import '../../styles/workflow.css';
+// import '../../styles/workflow.css';
 import CustomNode from './CustomNode';
 
 const nodeTypes = {
-  custom: CustomNode,
+    custom: CustomNode,
 };
 
 const initialNodes = [
@@ -14,7 +14,7 @@ const initialNodes = [
         sourcePosition: 'right',
         targetPosition: 'left',
         type: 'custom',
-        data: { 
+        data: {
             label: 'Upload',
             description: 'Upload a DSL file to start your workflow',
             nodeType: 'start',
@@ -28,10 +28,10 @@ const initialNodes = [
         sourcePosition: 'right',
         targetPosition: 'left',
         type: 'custom',
-        data: { 
+        data: {
             label: 'Parsing',
             description: 'The workflow will be parsed quickly and safely in your browser',
-            nodeType: 'code', 
+            nodeType: 'code',
         },
         position: { x: 300, y: 250 },
     },
@@ -40,8 +40,8 @@ const initialNodes = [
         sourcePosition: 'right',
         targetPosition: 'left',
         type: 'custom',
-        data: { 
-            label: 'Preview', 
+        data: {
+            label: 'Preview',
             description: 'Finally you will see the simplified structure preview of your worflow here',
             nodeType: 'answer',
         },
@@ -77,6 +77,9 @@ const ReactFlowPreview = () => {
             reactFlowInstance.fitView(true);
         };
 
+        // Trigger an event when the function is ready
+        window.dispatchEvent(new Event('updateReactFlowReady'));
+
         // Cleanup function
         return () => {
             delete window.updateReactFlow;
@@ -106,10 +109,10 @@ const ReactFlowPreview = () => {
 // wrapping with ReactFlowProvider is done outside of the component
 function FlowWithProvider(props) {
     return (
-      <ReactFlowProvider>
-        <ReactFlowPreview {...props} />
-      </ReactFlowProvider>
+        <ReactFlowProvider>
+            <ReactFlowPreview {...props} />
+        </ReactFlowProvider>
     );
-  }
-   
+}
+
 export default FlowWithProvider;
