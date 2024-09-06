@@ -19,27 +19,27 @@ const description =
             <ReactFlowPreview client:load />
           </div>
         </div>
-        <div class="space-y-4">
-          <div class="flex flex-row space-x-4 items-center">
+        <div class="w-full sm:w-1/2">
+          <div class="flex flex-row space-x-4 items-center mt-10">
             <div
               id="workflowicon"
               class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center"
             >
             </div>
-            <h3 id="workflowname" class="w-full sm:w-1/2">Workflow Name</h3>
+            <h3 id="workflowname" class="">Workflow Name</h3>
           </div>
-          <div class="flex flex-row space-x-4 items-center">
+          <div class="flex flex-row space-x-4 items-center mt-5">
             <div id="author" class="text-sm">Author</div>
             <div id="authorInfo" class="text-sm">AuthorInfo</div>
           </div>
-          <h4 id="workflowname" class="w-full sm:w-1/2">Description</h4>
-          <p id="description" class="text-sm text-gray-500 w-full sm:w-1/2">
+          <h4 id="workflowname" class="mt-10">Description</h4>
+          <p id="description" class="text-sm text-gray-500">
             Loading...
           </p>
-          <div id="tagsarea" class="w-full sm:w-1/2"></div>
+          <div id="tagsarea" class="mt-10"></div>
           <!-- Button -->
           <div
-            class="mt-16 w-full sm:w-1/2 flex items-center justify-end gap-x-6"
+            class="flex items-center justify-end gap-x-4 mt-32"
           >
             <button
               id="copyButton"
@@ -149,7 +149,7 @@ const description =
         });
         const url = URL.createObjectURL(blob);
         a.href = url;
-        a.download = `${workflow.name}.yaml`;
+        a.download = `${workflow.name}.yml`;
         document.body.appendChild(a);
         a.click();
         URL.revokeObjectURL(url);
@@ -161,8 +161,16 @@ const description =
           type: "text/yaml",
         });
         const url = URL.createObjectURL(blob);
-        navigator.clipboard.writeText(url.toString());
-        alert("Copied to clipboard!");
+        const a = document.createElement("a") as HTMLAnchorElement;
+        a.href = url;
+        a.download = `${workflow.name}.yml`;
+        document.body.appendChild(a);
+        navigator.clipboard.writeText(a.href).then(() => {
+          alert("Download URL copied to clipboard! Please paste it to your browser to Dify import window and then click 'Confirm' Button below.");
+          console.log("Download URL>>>", a.href);
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
       }
       // Add event listeners to buttons
       const downloadButton = document.getElementById(
