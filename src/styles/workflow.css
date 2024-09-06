@@ -18,7 +18,8 @@
 }
 
 .react-flow {
-    direction: ltr
+    direction: ltr;
+    background: #f3f4f6 !important;
 }
 
 .react-flow__container {
@@ -69,7 +70,7 @@
 .react-flow__connection-path,
 .react-flow__edge-path {
     stroke: #b1b1b7;
-    stroke-width: 2;
+    stroke-width: 3;
     fill: none
 }
 
@@ -172,7 +173,7 @@
     width: 6px;
     height: 6px;
     background: #1a192b;
-    border: 1px solid #fff;
+    border: 0px solid #fff;
     border-radius: 30px
 }
 

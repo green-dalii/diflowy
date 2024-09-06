@@ -37,12 +37,12 @@ function CustomNode({ data }) {
       <Handle
         type="target"
         position={Position.Left}
-        className="h-3 !bg-sky-500"
+        className="!h-5 !bg-sky-500"
       />
       <Handle
         type="source"
         position={Position.Right}
-        className="h-3 !bg-sky-500"
+        className="!h-5 !bg-sky-500"
       />
     </div>
   );

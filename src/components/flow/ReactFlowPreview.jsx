@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background, MiniMap, Controls, useReactFlow, ReactFlowProvider } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-// import '../../styles/workflow.css';
+import '../../styles/workflow.css';
 import CustomNode from './CustomNode';
 
 const nodeTypes = {

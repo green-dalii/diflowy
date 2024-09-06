@@ -42,11 +42,12 @@ const description =
             class="mt-16 w-full sm:w-1/2 flex items-center justify-end gap-x-6"
           >
             <button
-              type="button"
+              id="copyButton"
               class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
               >Copy DSL URL</button
             >
             <button
+              id="downloadButton"
               class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
               >Download</button
             >
@@ -113,14 +114,16 @@ const description =
       ) as HTMLDivElement;
       console.log("Call loadWorkflow...");
       const workflow = await loadWorkflow();
-      console.log("Workflow Got>>>>");
+      console.log("Workflow Got, Preparing Flow Data...");
       const { nodes, edges } = parseYamlToReactFlow(
         workflow.file_content as string,
       );
+      console.log("Flow Data Prepared, Updating ReactFlow...");
       // Update the ReactFlow component
       window.addEventListener("updateReactFlowReady", () => {
         if (typeof (window as any).updateReactFlow === "function") {
           (window as any).updateReactFlow(nodes, edges);
+          console.log("ReactFlow updated.");
         } else {
           console.error("updateReactFlow function not found");
         }
@@ -138,6 +141,38 @@ const description =
 
       workflowTags.innerHTML = tagsHTML;
       console.log("Workflow info updated.");
+      // Download workflow function
+      async function downloadWorkflow() {
+        const a = document.createElement("a") as HTMLAnchorElement;
+        const blob = new Blob([workflow.file_content as string], {
+          type: "text/yaml",
+        });
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `${workflow.name}.yaml`;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+      // copy download url function
+      function copyDownloadUrl() {
+        const blob = new Blob([workflow.file_content as string], {
+          type: "text/yaml",
+        });
+        const url = URL.createObjectURL(blob);
+        navigator.clipboard.writeText(url.toString());
+        alert("Copied to clipboard!");
+      }
+      // Add event listeners to buttons
+      const downloadButton = document.getElementById(
+        "downloadButton",
+      ) as HTMLButtonElement;
+      const copyButton = document.getElementById(
+        "copyButton",
+      ) as HTMLButtonElement;
+      downloadButton.addEventListener("click", downloadWorkflow);
+      copyButton.addEventListener("click", copyDownloadUrl);
     } catch (error) {
       console.error("Error loading workflow:", error);
       alert("Error loading workflow");
