@@ -36,10 +36,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         // const fileContentArrayBuffer = workflowResult.file_content;
         const fileContentArrayBuffer = workflowResult.file_content as ArrayBuffer;
         const fileContentUint8Array = new Uint8Array(fileContentArrayBuffer);
-        console.log("fileContentUint8Array instanceof Uint8Array>>>",fileContentUint8Array instanceof Uint8Array); // 应该输出 "true"
         const fileContentDecoder = new TextDecoder("utf-8");
         const fileContentString = fileContentDecoder.decode(fileContentUint8Array);
-        console.log("fileContent converted to string>>>", fileContentString)
 
         // 将查询结果映射到 Workflow 类型
         const workflow: Workflow = {

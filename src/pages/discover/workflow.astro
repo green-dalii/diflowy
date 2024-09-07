@@ -33,14 +33,10 @@ const description =
             <div id="authorInfo" class="text-sm">AuthorInfo</div>
           </div>
           <h4 id="workflowname" class="mt-10">Description</h4>
-          <p id="description" class="text-sm text-gray-500">
-            Loading...
-          </p>
+          <p id="description" class="text-sm text-gray-500">Loading...</p>
           <div id="tagsarea" class="mt-10"></div>
           <!-- Button -->
-          <div
-            class="flex items-center justify-end gap-x-4 mt-32"
-          >
+          <div class="flex items-center justify-end gap-x-4 mt-32">
             <button
               id="copyButton"
               class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
@@ -157,19 +153,12 @@ const description =
       }
       // copy download url function
       function copyDownloadUrl() {
-        const blob = new Blob([workflow.file_content as string], {
-          type: "text/yaml",
-        });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a") as HTMLAnchorElement;
-        a.href = url;
-        a.download = `${workflow.name}.yml`;
-        document.body.appendChild(a);
-        navigator.clipboard.writeText(a.href).then(() => {
-          alert("Download URL copied to clipboard! Please paste it to your browser to Dify import window and then click 'Confirm' Button below.");
-          console.log("Download URL>>>", a.href);
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
+        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflow.id}`;
+        navigator.clipboard.writeText(downloadUrl).then(() => {
+          alert(
+            "Download URL copied to clipboard! Please paste it to your browser to Dify import window and then click 'Confirm' Button below.",
+          );
+          console.log("Download URL>>>", downloadUrl);
         });
       }
       // Add event listeners to buttons
