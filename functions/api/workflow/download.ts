@@ -2,11 +2,10 @@ import type { Env } from '../auth';
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
     const { request, env, params } = context;
-    const workflowId = params.workflow_id; // 假设你用URL参数传入ID
+    const workflowId = params.workflow_id;
     console.log("Download ID>>>", workflowId)
 
     try {
-        // 从数据库获取工作流内容
         const workflowResult = await env.D1.prepare(
             'SELECT file_content FROM yaml_files WHERE id = ?'
         ).bind(workflowId).first();
@@ -18,7 +17,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const fileContentUint8Array = new Uint8Array(fileContentArrayBuffer);
         const fileContentDecoder = new TextDecoder("utf-8");
         const fileContentString = fileContentDecoder.decode(fileContentUint8Array);
-        // 将内容作为YAML文件返回
         return new Response(fileContentString, {
             headers: {
                 'Content-Type': 'text/yaml',

@@ -23,7 +23,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         // 查询特定的 workflow
         const workflowQuery = `SELECT * FROM yaml_files WHERE id = ?`;
         const workflowResult = await env.D1.prepare(workflowQuery).bind(workflowId).first();
-        console.log("workflowResult>>>", workflowResult);
         if (!workflowResult) {
             return new Response(JSON.stringify({ error: 'Workflow not found' }), {
                 status: 404,
