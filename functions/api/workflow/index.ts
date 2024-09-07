@@ -31,8 +31,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         }
         console.log("Workflow Found...")
         // 将file_content从数据库读取 BLOB 数据并转换为 Uint8Array，然后使用 TextDecoder 将其转换为字符串
-        // const fileContentBlob = workflowResult.file_content;
-        // const fileContentArrayBuffer = workflowResult.file_content;
         const fileContentArrayBuffer = workflowResult.file_content as ArrayBuffer;
         const fileContentUint8Array = new Uint8Array(fileContentArrayBuffer);
         const fileContentDecoder = new TextDecoder("utf-8");
