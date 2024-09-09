@@ -10,20 +10,6 @@ const nodeTypes = {
 
 const initialNodes = [
     {
-        id: '1',
-        sourcePosition: 'right',
-        targetPosition: 'left',
-        type: 'custom',
-        data: {
-            label: 'Upload',
-            description: 'Upload a DSL file to start your workflow',
-            nodeType: 'start',
-        },
-        position: { x: 100, y: 100 },
-        justify: 'center',
-        align: 'center',
-    },
-    {
         id: '2',
         sourcePosition: 'right',
         targetPosition: 'left',
@@ -50,7 +36,6 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-    { id: 'e1-2', source: '1', target: '2', animated: true },
     { id: 'e2-3', source: '2', target: '3', animated: true },
 ];
 
