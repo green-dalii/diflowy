@@ -97,6 +97,7 @@ const ReactFlowPreview = () => {
             className="bg-gray-100"
             nodeTypes={nodeTypes}
             minZoom={0.1}
+            colorMode='system'
             fitView >
             <Background />
             <MiniMap pannable position='bottom-left' maskColor='rgb(240, 240, 250, 0.6)' />

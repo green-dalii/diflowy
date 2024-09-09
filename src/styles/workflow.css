@@ -22,6 +22,10 @@
     background: #f3f4f6 !important;
 }
 
+.react-flow.dark {
+    --xy-background-color-default: #313f4e !important;
+}
+
 .react-flow__container {
     position: absolute;
     width: 100%;
@@ -241,7 +245,7 @@
 
 .react-flow__attribution {
     font-size: 10px;
-    background: hsla(0, 0%, 100%, .5);
+    background: transparent;
     padding: 2px 3px;
     margin: 0
 }

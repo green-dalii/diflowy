@@ -1,6 +1,5 @@
 ---
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
-import Modal from "./modal.astro";
 ---
 
 <form id="uploadForm">
@@ -8,7 +7,7 @@ import Modal from "./modal.astro";
     <div class="sm:col-span-2 sm:col-start-1">
       <!-- Basic Info`` -->
       <div class="border-b border-gray-900/10 pb-24">
-        <h2 class="text-xl font-semibold leading-7 text-gray-900">
+        <h2 class="text-xl font-semibold leading-7">
           Workflow Information
         </h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -21,12 +20,12 @@ import Modal from "./modal.astro";
           <div class="sm:col-span-full">
             <label
               for="dsl-file"
-              class="block text-sm font-medium leading-6 text-gray-900"
+              class="block text-sm font-medium leading-6"
               >Upload your Dify DSL file</label
             >
             <div
               id="upload-container"
-              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 dark:border-[--darkbgoffset] px-6 py-10"
             >
               <div id="upload-prompt" class="text-center">
                 <svg
@@ -57,7 +56,7 @@ import Modal from "./modal.astro";
                 <div class="mt-4 flex text-sm leading-6 text-gray-600">
                   <label
                     for="dsl-file"
-                    class="relative cursor-pointer rounded-md bg-white font-semibold text-[--dark] focus-within:outline-none focus-within:ring-2 focus-within:[--dark] focus-within:ring-offset-2 hover:text-[--color-blue]"
+                    class="relative cursor-pointer rounded-md bg-white dark:bg-[--darkbgoffset] font-semibold text-[--dark] focus-within:outline-none focus-within:ring-2 focus-within:[--dark] focus-within:ring-offset-2 hover:text-[--color-blue]"
                   >
                     <span>Click here to Upload</span>
                     <input
@@ -83,7 +82,7 @@ import Modal from "./modal.astro";
           <div class="sm:col-span-full">
             <label
               for="workflowname"
-              class="block text-sm font-medium leading-6 text-gray-900"
+              class="block text-sm font-medium leading-6"
               >Workflow Name</label
             >
             <div class="mt-2">
@@ -94,7 +93,7 @@ import Modal from "./modal.astro";
                   name="workflowname"
                   id="workflowname"
                   autocomplete="workflowname"
-                  class="block flex-1 border-0 bg-transparent py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
+                  class="block flex-1 border-0 bg-transparent py-1.5 px-2 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
                   placeholder="Fill Your Workflow Name"
                 />
               </div>
@@ -104,7 +103,7 @@ import Modal from "./modal.astro";
           <div class="sm:col-span-full">
             <label
               for="description"
-              class="block text-sm font-medium leading-6 text-gray-900"
+              class="block text-sm font-medium leading-6"
               >Description</label
             >
             <div class="mt-2">
@@ -112,7 +111,7 @@ import Modal from "./modal.astro";
                 id="description"
                 name="description"
                 rows="10"
-                class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 placeholder="Describe your workflow with a few key points:
 Such as:
     - Introduction
@@ -218,7 +217,7 @@ Such as:
       </div>
       <!-- Author Info -->
       <div class="border-b border-gray-900/10 pb-24">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">
+        <h2 class="text-base font-semibold leading-7">
           Author Information
         </h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -229,7 +228,7 @@ Such as:
           <div class="sm:col-span-full">
             <label
               for="author-name"
-              class="block text-sm font-medium leading-6 text-gray-900"
+              class="block text-sm font-medium leading-6"
               >Author name</label
             >
             <div class="mt-2">
@@ -237,7 +236,7 @@ Such as:
                 type="text"
                 name="author-name"
                 id="author-name"
-                class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -245,14 +244,14 @@ Such as:
           <div class="sm:col-span-full">
             <label
               for="social-link"
-              class="block text-sm font-medium leading-6 text-gray-900"
+              class="block text-sm font-medium leading-6"
               >Social Media / Contact Link</label
             >
             <div class="mt-2">
               <input
                 id="social-link"
                 name="social-link"
-                class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -263,7 +262,7 @@ Such as:
       </div>
       <!-- Notifications -->
       <div class="border-b border-gray-900/10 pb-24">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">
+        <h2 class="text-base font-semibold leading-7">
           Notifications
         </h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -274,7 +273,7 @@ Such as:
       <div class="mt-6 flex items-center justify-end gap-x-6">
         <button
           type="button"
-          class="text-sm font-semibold leading-6 text-gray-900">Cancel</button
+          class="text-sm font-semibold leading-6">Cancel</button
         >
         <button
           type="submit"
@@ -284,7 +283,7 @@ Such as:
       </div>
     </div>
     <div id="reactflow-preview" class="sm:col-span-4 sm:col-start-3">
-      <h2 class="text-xl font-semibold leading-7 text-gray-900">
+      <h2 class="text-xl font-semibold leading-7">
         Workflow Preview
       </h2>
       <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -297,7 +296,6 @@ Such as:
     </div>
   </div>
 </form>
-<Modal />
 
 <script>
   const dropdownButton = document.getElementById("dropdownButton");

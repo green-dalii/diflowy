@@ -126,7 +126,7 @@
     }
 
     .btn-secondary:hover {
-      @apply bg-dark text-white border-blue transform;
+      @apply bg-dark text-white border-dark transform;
     }
 
     .btn-tertiary {

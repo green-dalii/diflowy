@@ -3,7 +3,6 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import Skeleton from "../../components/ui/Skeleton.astro";
-import Modal from "../../components/ui/modal.astro";
 import "../../styles/globals.css";
 const description = "Find and import workflows to Dify immediately in Diflow.";
 const skeletonCount = 12;
@@ -22,7 +21,6 @@ const skeletonCount = 12;
       >
         {new Array(skeletonCount).fill(null).map((_) => <Skeleton />)}
       </div>
-      <Modal />
     </Section>
   </div>
 </MainLayout>

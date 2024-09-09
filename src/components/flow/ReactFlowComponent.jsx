@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-// import '../../styles/workflow.css'
+// import "../../styles/reactflow.css"
 
 const initialNodes = [
     {
@@ -45,7 +45,7 @@ const initialNodes = [
         id: '5',
         type: 'input',
         data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="dify.png" style={{maxHeight: "2em"}}/></div> },
-        position: { x: 300, y: 150 },
+        position: { x: 100, y: 150 },
         justify: 'center',
         align: 'center',
         sourcePosition: 'right',
