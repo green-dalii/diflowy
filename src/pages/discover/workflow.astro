@@ -41,12 +41,12 @@ const description =
             <button
               id="copyButton"
               class="flex items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
-              ><Icon name="import" class="text-3xl mr-1" />Import to Dify</button
+              ><Icon name="import" class="text-2xl mr-1" />Import to Dify</button
             >
             <button
               id="downloadButton"
               class="flex items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-              ><Icon name="download" class="text-3xl mr-1" />Download</button
+              ><Icon name="download" class="text-2xl mr-1" />Download</button
             >
           </div>
         </div>
@@ -175,9 +175,9 @@ const description =
           // );
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerText =
-            "Workflow URL copied to clipboard! You can paste it to your Dify";
-          const content = document.getElementById("modalContent") as HTMLDivElement;
-          content.innerHTML += `<img src="${window.location.origin}/importStep.png" w-full object-cover rounded-lg" />`
+            "Workflow URL copied to clipboard! You can paste it to your Dify directly.";
+          modalContent.innerHTML += `<span class="text-sm bg-gray-100 text-gray-500 px-2 py-1 rounded-md my-4">${downloadUrl}</span>`
+          modalContent.innerHTML += `<img src="${window.location.origin}/importStep.png" class="w-full object-cover rounded-lg my-8" />`
           modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });
