@@ -3,6 +3,7 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
+import { Icon } from "astro-icon/components";
 import "../../styles/globals.css";
 const description =
   "You can use Dify to create workflows and share them with others.";
@@ -40,12 +41,12 @@ const description =
             <button
               id="copyButton"
               class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
-              >Copy DSL URL</button
+              ><Icon name="import" />Import to Dify</button
             >
             <button
               id="downloadButton"
               class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-              >Download</button
+              ><Icon name="download" />Download</button
             >
           </div>
         </div>
@@ -175,6 +176,8 @@ const description =
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerText =
             "Workflow URL copied to clipboard! You can paste it to your Dify";
+          const content = document.getElementById("modalContent") as HTMLDivElement;
+          content.innerHTML += `<img src="importStep.png" w-full object-cover rounded-lg" />`
           modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });

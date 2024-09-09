@@ -71,8 +71,10 @@ const ReactFlowPreview = () => {
     useEffect(() => {
         // Expose the update function to the global scope
         window.updateReactFlow = (newNodes, newEdges) => {
+            console.log('updateReactFlow called');
             setNodes(newNodes);
             setEdges(newEdges);
+            console.log("Workflow Data Updated");
             // Fit the view to the graph
             reactFlowInstance.fitView(true);
         };
