@@ -9,7 +9,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const workflowResult = await env.D1.prepare(
             'SELECT file_content FROM yaml_files WHERE id = ?'
         ).bind(workflowId).first();
-
+        
         if (!workflowResult) {
             return new Response("Workflow not found", { status: 404 });
         }
@@ -20,7 +20,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         return new Response(fileContentString, {
             headers: {
                 'Content-Type': 'text/yaml',
-                'Content-Disposition': `attachment; filename="${workflowResult.file_name}.yml"`,
+                'Content-Disposition': `attachment; filename="${workflowResult.filename}.yml"`,
             }
         });
     } catch (error) {

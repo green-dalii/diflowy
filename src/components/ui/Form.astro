@@ -1,5 +1,6 @@
 ---
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
+import Modal from "./modal.astro";
 ---
 
 <form id="uploadForm">
@@ -86,12 +87,8 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
               >Workflow Name</label
             >
             <div class="mt-2">
-              <div
-                class="flex items-center"
-              >
-                <div class="flex-none px-2" id="workflowIcon">
-                  🫣
-                </div>
+              <div class="flex items-center">
+                <div class="flex-none px-2" id="workflowIcon">🫣</div>
                 <input
                   type="text"
                   name="workflowname"
@@ -165,20 +162,12 @@ Such as:
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input
-                    type="checkbox"
-                    class="mr-2"
-                    value="Business"
-                  /> Business
+                  <input type="checkbox" class="mr-2" value="Business" /> Business
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input
-                    type="checkbox"
-                    class="mr-2"
-                    value="Lifestyle"
-                  />
+                  <input type="checkbox" class="mr-2" value="Lifestyle" />
                   Lifestyle
                 </label>
                 <label
@@ -308,6 +297,7 @@ Such as:
     </div>
   </div>
 </form>
+<Modal />
 
 <script>
   const dropdownButton = document.getElementById("dropdownButton");
@@ -360,11 +350,20 @@ Such as:
   /// <reference path="../../env.d.ts" />
   // Process YAML ReactFlow Data
   import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
-  import * as emoji from 'node-emoji'
+  import * as emoji from "node-emoji";
   const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
   const uploadContainer = document.getElementById(
     "upload-container",
   ) as HTMLElement;
+
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
 
   // Function to handle file upload
   function handleFile(event: Event | DragEvent) {
@@ -385,7 +384,9 @@ Such as:
       const description = document.getElementById(
         "description",
       ) as HTMLTextAreaElement;
-      const workflow_icon = document.getElementById("workflowIcon") as HTMLInputElement;
+      const workflow_icon = document.getElementById(
+        "workflowIcon",
+      ) as HTMLInputElement;
       const reader = new FileReader();
       reader.onload = function (e) {
         const target = e.target as FileReader;
@@ -394,7 +395,8 @@ Such as:
           const yamlData = paresYamlToJSON(yamlContent);
           workflow_name.value = yamlData.app.name;
           description.value = yamlData.app.description;
-          workflow_icon.innerText = emoji.get(yamlData.app.icon) as string || "😃";
+          workflow_icon.innerText =
+            (emoji.get(yamlData.app.icon) as string) || "😃";
           // console.log("yamlData loaded");
           const { nodes, edges } = parseYamlToReactFlow(yamlContent);
           // Update the ReactFlow component
@@ -405,9 +407,13 @@ Such as:
           }
         } catch (error) {
           console.error("Error parsing YAML file:", error);
-          alert(
-            "Unsupported file format. Please upload a valid Dify DSL file.",
-          );
+          // alert(
+          //   "Unsupported file format. Please upload a valid Dify DSL file.",
+          // );
+          modalTitle.innerText = "⚠️ Error";
+          modalContent.innerText =
+            "Unsupported file format. Please upload a valid Dify DSL file.";
+          modal.showModal();
           dslfile.value = ""; // Clear the file input field
           workflow_name.value = "";
           description.value = "";
@@ -449,12 +455,24 @@ Such as:
       if (file.name.endsWith(".yml") || file.name.endsWith(".yaml")) {
         handleFile(e);
       } else {
-        alert("Please upload a Dify DSL file.");
+        // alert("Please upload a Dify DSL file.");
+        modalTitle.innerText = "⚠️ Error";
+        modalContent.innerText =
+          "Unsupported file format. Please upload a valid Dify DSL file.";
+        modal.showModal();
       }
     }
   });
 </script>
 <script>
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
   // Upload Form
   const form = document.getElementById("uploadForm") as HTMLFormElement;
   async function handleSubmit(event: Event) {
@@ -467,11 +485,16 @@ Such as:
       !formData.get("description") ||
       !formData.get("dsl-file")
     ) {
-      alert("Please fill out all required fields.");
+      // alert("Please fill out all required fields.");
+      modalTitle.innerText = "😮 Opps";
+      modalContent.innerText = "Please fill out all required fields.";
+      modal.showModal();
       return;
     }
     // Add Icon to form data
-    const workflow_icon = document.getElementById("workflowIcon") as HTMLInputElement;
+    const workflow_icon = document.getElementById(
+      "workflowIcon",
+    ) as HTMLInputElement;
     formData.append("icon", workflow_icon.innerText);
     // Add the selected tags to the form data
     const selectedTags = document.querySelectorAll(".tag");
@@ -490,19 +513,35 @@ Such as:
       });
       if (response.ok) {
         console.log("Response>>>", response.json());
-        alert("Upload successful!");
+        // alert("Upload successful!");
+        modalTitle.innerText = "🎉 Tada!";
+        modalContent.innerText = "Upload successful!";
+        modal.showModal();
         // Clear the form
         form.reset();
         // Clear the selected tags
         selectedTagsTree!.innerHTML = "";
-      } else if (response.status === 401) { 
-        alert("Before you upload, please login first.");
+      } else if (response.status === 401) {
+        // alert("Before you upload, please login first.");
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "Before you upload, please login first.";
+        modal.showModal();
       } else {
-        alert("An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top");
+        // alert(
+        //   "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top",
+        // );
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
+        modal.showModal();
       }
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Your network is unreachable. Please check your internet connection and try again.");
+      // alert(
+      //   "Your network is unreachable. Please check your internet connection and try again.",
+      // );
+      modalTitle.innerText = "😮 Opps...";
+      modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
+      modal.showModal();
     }
   }
   // Add event listener to the form

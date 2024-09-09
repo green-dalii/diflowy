@@ -2,9 +2,6 @@
 import { Image } from "astro:assets";
 import bars from "../../assets/bars.svg";
 import brand from "../../assets/brand.svg";
-// import { AuthProvider } from "../contexts/AuthContext";
-// import { getUserFromToken } from '../../utils/auth';
-// const user = getUserFromToken();
 
 const navLinks = [
   {
@@ -27,7 +24,7 @@ const navLinks = [
 ---
 
 <div
-  class="fixed w-full top-0 z-10 py-3 px-5 h-auto flex items-center justify-center header"
+  class="fixed w-full top-0 z-10 py-3 px-5 h-auto flex items-center justify-center header lg:dark:bg-[#1c232aa7] dark:bg-[#1c232a] dark:border-[#3950668a]"
 >
   <nav
     aria-label="Main Navigation"
@@ -61,7 +58,7 @@ const navLinks = [
   <!-- Nav Menu -->
   <div
     id="navmenu"
-    class="w-full px-5 lg:px-0 absolute top-full z-10 lg:static lg:flex lg:flex-grow lg:items-center lg:justify-center overflow-hidden duration-500 h-0 lg:h-full dropdown"
+    class="w-full px-5 lg:px-0 absolute top-full z-10 lg:static lg:flex lg:flex-grow lg:items-center lg:justify-center overflow-hidden duration-500 h-0 lg:h-full dropdowns dark:bg-[#1c232a] md:dark:bg-transparent dark:border-[#3950668a]"
   >
     <!-- Nav Links -->
     <ul
@@ -71,7 +68,11 @@ const navLinks = [
         navLinks.map((link) => {
           return (
             <li class="p-2 px-0">
-              <a id={link.name} href={link.href} class="block text-base hover:text-dark">
+              <a
+                id={link.name}
+                href={link.href}
+                class="block text-base dark:text-white hover:text-dark dark:hover:text-blue"
+              >
                 {link.name}
               </a>
             </li>
@@ -88,22 +89,18 @@ const navLinks = [
             >Login</button
           >
         </a>
-      </div>
-      <div
-        id="dropdownMenu"
-        class="hidden absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg"
-      >
-        <a
-          href="/user-center"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >用户中心</a
-        >
-        <a
-          href="#"
-          id="logoutButton"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >注销</a
-        >
+        <div class="hidden dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost rounded-btn">
+            User Name
+          </div>
+          <ul
+            tabindex="0"
+            class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-52 p-2 shadow"
+          >
+            <li><a>User Profile</a></li>
+            <li><a>Logout</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

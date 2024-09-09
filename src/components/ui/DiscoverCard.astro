@@ -35,7 +35,7 @@ const { index, titleTop, img, alt, link } = Astro.props;
             alt={alt}
             class="group-hover:rotate-45 transition-all duration-300"
           />
-          <span class="hidden sm:block">Click Here</span>
+          <span class=`hidden sm:block ${index === 1 ? 'greenhead' : index === 2 ? 'blackhead' : 'whitehead'}`>Click Here</span>
         </div>
       </div>
     </div>

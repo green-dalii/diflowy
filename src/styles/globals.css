@@ -24,6 +24,8 @@
     --black: rgb(15, 27, 49);
     --dark: #086aa9;
     --white: #f3f3f3;
+    --darkbg: #1c232a;
+    --darkbgoffset:#313f4e;
   }
 
   @layer base {
@@ -66,7 +68,7 @@
       .header {
         backdrop-filter: saturate(180%) blur(20px);
         background-color: rgba(255, 255, 255, 0.7);
-        border-color: rgba(215, 215, 215, 0.7);
+        /* border-color: rgba(215, 215, 215, 0.7); */
         border-bottom-width: thin;
       }
     }
@@ -75,9 +77,9 @@
       .header {
         background-color: rgba(255, 255, 255);
       }
-      .dropdown {
+      .dropdowns {
         background-color: rgba(255, 255, 255);
-        border-color: rgba(215, 215, 215, 0.7);
+        /* border-color: rgba(215, 215, 215, 0.7); */
         border-bottom-width: thin;
         padding-bottom: 0em;
       }
@@ -120,11 +122,11 @@
     }
 
     .btn-secondary {
-      @apply bg-transparent text-base text-black px-6 py-4 rounded-lg border border-solid border-black transition-all duration-200;
+      @apply bg-transparent text-base text-black dark:text-white px-6 py-4 rounded-lg border border-solid border-black dark:border-white transition-all duration-200;
     }
 
     .btn-secondary:hover {
-      @apply bg-dark text-white border-blue transform scale-105;
+      @apply bg-dark text-white border-blue transform;
     }
 
     .btn-tertiary {

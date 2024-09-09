@@ -82,7 +82,7 @@ const ReactFlowComponent = () => {
         [setEdges],
     );
     return (
-        <div className='h-56 sm:h-96'>
+        <div className='h-56 sm:h-[30rem]'>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}

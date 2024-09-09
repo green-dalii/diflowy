@@ -7,25 +7,24 @@ import Section from "../../components/sections/Section.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import "../../styles/globals.css";
 
-const description = "You can sign in with your GitHub account. If you don't sign in, you can only discover and download others' workflows but can not upload your own.";
+const description =
+  "You can login with your GitHub account. If you don't sign in, you can only discover and download others' workflows but can not upload your own.";
 ---
 
 <MainLayout title="Diflowy" description="Where Dify workflows are stored">
-    <div class="mt-48">
-        <Section>
-            <SectionTitle
-                sectionTitle="Signin to Diflowy"
-                description={description} />
-            <div class="flex flex-col items-center justify-center mt-32">
-                <a href="/api/login/github">
-                    <button
-                        class="btn-primary w-full md:w-auto inline-flex items-center gap-2"
-                    >
-                        <Icon name="github" class="text-4xl" />
-                        <span>Sign in with GitHub</span>
-                    </button>
-                </a>
-            </div>
-        </Section>
-    </div>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="Login" description={description} />
+      <div class="flex flex-col items-center justify-center my-32">
+        <a href="/api/login/github">
+          <button
+            class="btn-primary w-full md:w-auto inline-flex items-center gap-2"
+          >
+            <Icon name="github" class="text-4xl" />
+            <span>Continue with GitHub</span>
+          </button>
+        </a>
+      </div>
+    </Section>
+  </div>
 </MainLayout>

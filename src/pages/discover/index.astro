@@ -3,24 +3,26 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import Skeleton from "../../components/ui/Skeleton.astro";
+import Modal from "../../components/ui/modal.astro";
 import "../../styles/globals.css";
-const description = "Find your workflows in Diflowy";
-const count = 12;
+const description = "Find and import workflows to Dify immediately in Diflow.";
+const skeletonCount = 12;
 ---
 
 <MainLayout title="Diflowy" description="Where Dify workflows are stored">
   <div class="mt-48">
     <Section>
       <SectionTitle
-        sectionTitle="Discover your workflows"
+        sectionTitle="Discover workflows"
         description={description}
       />
       <div
         id="workflow-grid"
         class="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-5"
       >
-        {new Array(count).fill(null).map((_) => <Skeleton />)}
+        {new Array(skeletonCount).fill(null).map((_) => <Skeleton />)}
       </div>
+      <Modal />
     </Section>
   </div>
 </MainLayout>
@@ -41,6 +43,15 @@ const count = 12;
     pageSize: number;
   }
 
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+
   function getTagsFromURL(): string[] {
     const urlParams = new URLSearchParams(window.location.search);
     const tags: string[] = urlParams.getAll("tags");
@@ -50,7 +61,7 @@ const count = 12;
   async function fetchWorkflows(
     page: number = 1,
     pageSize: number = 10,
-    tags: string[] = []
+    tags: string[] = [],
   ): Promise<GetWorkflowsResponse> {
     const url = new URL("/api/workflow/filter", window.location.origin);
     url.searchParams.append("page", page.toString());
@@ -61,9 +72,11 @@ const count = 12;
 
     if (!response.ok) {
       console.error("Failed to fetch workflows");
-      alert("Failed to fetch workflows");
+      modalTitle.innerText = "⚠️ Error";
+      modalContent.innerText =
+        "Failed to fetch workflows. Please check your connection and try again.";
+      modal.showModal();
     }
-
     return (await response.json()) as GetWorkflowsResponse;
   }
 
@@ -80,8 +93,8 @@ const count = 12;
     ) as HTMLDivElement;
     workflowGrid.innerHTML = "";
     result.workflows.forEach((workflow) => {
-      const workflowLink = document.createElement("a")
-      workflowLink.setAttribute('href',`/discover/workflow?id=${workflow.id}`)
+      const workflowLink = document.createElement("a");
+      workflowLink.setAttribute("href", `/discover/workflow?id=${workflow.id}`);
       const workflowElement = document.createElement("div");
       let tags;
       try {

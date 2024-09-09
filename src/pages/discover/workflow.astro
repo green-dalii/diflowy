@@ -3,6 +3,7 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
+import Modal from "../../components/ui/modal.astro";
 import "../../styles/globals.css";
 const description =
   "You can use Dify to create workflows and share them with others.";
@@ -50,6 +51,7 @@ const description =
           </div>
         </div>
       </div>
+      <Modal />
     </Section>
   </div>
 </MainLayout>
@@ -71,6 +73,15 @@ const description =
     socialLink?: string;
   }
 
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+
   async function loadWorkflow(): Promise<WorkflowContentResponse> {
     console.log("Executing loadWorkflow...");
     const urlParams = new URLSearchParams(window.location.search);
@@ -81,7 +92,12 @@ const description =
     const response = await fetch(url.toString());
     if (!response.ok) {
       console.error("Failed to fetch workflows");
-      alert("Failed to fetch workflows");
+      // alert("Failed to fetch workflows");
+      console.error("Failed to fetch workflows");
+      modalTitle.innerText = "⚠️ Error";
+      modalContent.innerText =
+        "Failed to fetch workflows. Please check your connection and try again.";
+      modal.showModal();
     }
     return (await response.json()) as WorkflowContentResponse;
   }
@@ -155,9 +171,13 @@ const description =
       function copyDownloadUrl() {
         const downloadUrl = `${window.location.origin}/api/workflow/download/${workflow.id}`;
         navigator.clipboard.writeText(downloadUrl).then(() => {
-          alert(
-            "Download URL copied to clipboard! Please paste it to your browser to Dify import window and then click 'Confirm' Button below.",
-          );
+          // alert(
+          //   "Download URL copied to clipboard! Please paste it to your browser to Dify import window and then click 'Confirm' Button below.",
+          // );
+          modalTitle.innerText = "🎉 Tada!";
+          modalContent.innerText =
+            "Workflow URL copied to clipboard! You can paste it to your Dify";
+          modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });
       }
@@ -172,7 +192,7 @@ const description =
       copyButton.addEventListener("click", copyDownloadUrl);
     } catch (error) {
       console.error("Error loading workflow:", error);
-      alert("Error loading workflow");
+      // alert("Error loading workflow");
     }
   });
 </script>
