@@ -9,7 +9,10 @@ const description =
   "You can use Dify to create workflows and share them with others.";
 ---
 
-<MainLayout title="Diflowy" description="Where Dify workflows are stored">
+<MainLayout
+  title="Workflow | Diflowy"
+  description="Where Dify workflows are stored"
+>
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="Workflow" description={description} />
@@ -36,6 +39,22 @@ const description =
           <h4 id="workflowname" class="mt-10">Description</h4>
           <p id="description" class="text-sm text-gray-500">Loading...</p>
           <div id="tagsarea" class="mt-10"></div>
+          <div class="mt-10">
+            <h4>👁️ Before You Use</h4>
+            <ul class="list-disc list-outside mt-2 text-xs text-gray-500 pl-4 space-y-2">
+              <li>
+                Please check the workflow's security before
+                using it.
+              </li>
+              <li>
+                Maybe You should setup your own LLM and API keys before using it.
+              </li>
+              <li>
+                Maybe you should modify the workflow content according to your
+                requirements.
+              </li>
+            </ul>
+          </div>
           <!-- Button -->
           <div class="flex items-center justify-end gap-x-4 mt-32">
             <button
@@ -129,7 +148,11 @@ const description =
       const { nodes, edges } = parseYamlToReactFlow(
         workflow.file_content as string,
       );
-      console.log("Flow Data Prepared, Updating ReactFlow...");
+      console.log(
+        "Flow Data Prepared, Updating ReactFlow...NODE/EDGE>>>",
+        nodes,
+        edges,
+      );
       // Update the ReactFlow component
       window.addEventListener("updateReactFlowReady", () => {
         if (typeof (window as any).updateReactFlow === "function") {
@@ -175,9 +198,9 @@ const description =
           // );
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerText =
-            "Workflow URL copied to clipboard! You can paste it to your Dify directly.";
-          modalContent.innerHTML += `<span class="text-sm bg-gray-100 text-gray-500 px-2 py-1 rounded-md my-4">${downloadUrl}</span>`
-          modalContent.innerHTML += `<img src="${window.location.origin}/importStep.png" class="w-full object-cover rounded-lg my-8" />`
+            "The Workflow's URL has copied to clipboard! <br>You can paste and import it to your Dify directly.";
+          modalContent.innerHTML += `<br><div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
+          modalContent.innerHTML += `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-8" />`;
           modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });
