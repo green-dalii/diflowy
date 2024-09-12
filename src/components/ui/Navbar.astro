@@ -176,6 +176,7 @@ const navLinks = [
     modalContent.innerText = "Would you like to logout from Diflowy?";
     const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
     confirmBtn.textContent = "Logout";
+    confirmBtn.classList.add("btn-error");
     confirmBtn.classList.remove("hidden");
     confirmBtn.addEventListener("click", handleLogout);
     modal.showModal();

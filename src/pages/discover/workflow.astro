@@ -6,7 +6,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import { Icon } from "astro-icon/components";
 import "../../styles/globals.css";
 const description =
-  "You can use Dify to create workflows and share them with others.";
+  "You can view, import or download workflow you like to your Dify directly.";
 ---
 
 <MainLayout
@@ -20,7 +20,7 @@ const description =
         <div class="w-full">
           <h3>Workflow Preview</h3>
           <div class="h-96 sm:h-[600px]">
-            <ReactFlowPreview client:load />
+            <ReactFlowPreview client:only="react" />
           </div>
         </div>
         <div class="w-full sm:w-1/2">
@@ -56,15 +56,15 @@ const description =
             </ul>
           </div>
           <!-- Button -->
-          <div class="flex items-center justify-end gap-x-4 mt-32">
+          <div class="flex flex-col sm:flex-row items-center justify-end gap-4 mt-32">
             <button
               id="copyButton"
-              class="flex items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
-              ><Icon name="import" class="text-2xl mr-1" />Import to Dify</button
-            >
+              class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2">
+              <Icon name="import" class="text-2xl mr-1" />Import to Dify
+            </button>
             <button
               id="downloadButton"
-              class="flex items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
               ><Icon name="download" class="text-2xl mr-1" />Download</button
             >
           </div>
@@ -170,7 +170,7 @@ const description =
       workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
 
       const tagsHTML = workflow.tags
-        .map((tag: string) => `<span class="tag text-xs">${tag}</span>`)
+        .map((tag: string) => `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`)
         .join("");
 
       workflowTags.innerHTML = tagsHTML;
@@ -198,7 +198,7 @@ const description =
           // );
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerText =
-            "The Workflow's URL has copied to clipboard! <br>You can paste and import it to your Dify directly.";
+            "The Workflow's URL has copied to your clipboard! You can paste and import it to your Dify directly.";
           modalContent.innerHTML += `<br><div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
           modalContent.innerHTML += `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-8" />`;
           modal.showModal();
