@@ -41,13 +41,13 @@ const description =
           <div id="tagsarea" class="mt-10"></div>
           <div class="mt-10">
             <h4>👁️ Before You Use</h4>
-            <ul class="list-disc list-outside mt-2 text-xs text-gray-500 pl-4 space-y-2">
+            <ul
+              class="list-disc list-outside mt-2 text-xs text-gray-500 pl-4 space-y-2"
+            >
+              <li>Please check the workflow's security before using it.</li>
               <li>
-                Please check the workflow's security before
-                using it.
-              </li>
-              <li>
-                Maybe You should setup your own LLM and API keys before using it.
+                Maybe You should setup your own LLM and API keys before using
+                it.
               </li>
               <li>
                 Maybe you should modify the workflow content according to your
@@ -56,10 +56,13 @@ const description =
             </ul>
           </div>
           <!-- Button -->
-          <div class="flex flex-col sm:flex-row items-center justify-end gap-4 mt-32">
+          <div
+            class="flex flex-col sm:flex-row items-center justify-end gap-4 mt-32"
+          >
             <button
               id="copyButton"
-              class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2">
+              class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
+            >
               <Icon name="import" class="text-2xl mr-1" />Import to Dify
             </button>
             <button
@@ -76,6 +79,8 @@ const description =
 
 <script>
   import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
+
+  const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-8" />`
   interface WorkflowContentResponse {
     id: string;
     name: string;
@@ -170,7 +175,10 @@ const description =
       workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
 
       const tagsHTML = workflow.tags
-        .map((tag: string) => `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`)
+        .map(
+          (tag: string) =>
+            `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
+    )
         .join("");
 
       workflowTags.innerHTML = tagsHTML;
@@ -200,7 +208,7 @@ const description =
           modalContent.innerText =
             "The Workflow's URL has copied to your clipboard! You can paste and import it to your Dify directly.";
           modalContent.innerHTML += `<br><div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
-          modalContent.innerHTML += `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-8" />`;
+          modalContent.innerHTML += importStepImg;
           modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });

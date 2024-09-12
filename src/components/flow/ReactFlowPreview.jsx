@@ -65,7 +65,9 @@ const ReactFlowPreview = () => {
         };
 
         // Trigger an event when the function is ready
-        window.dispatchEvent(new Event('updateReactFlowReady'));
+        setTimeout(() => {
+            window.dispatchEvent(new Event('updateReactFlowReady'));
+        }, 100); // 100ms delay to ensure component is fully loaded
 
         // Cleanup function
         return () => {
