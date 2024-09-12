@@ -80,7 +80,7 @@ const description =
 <script>
   import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
 
-  const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-8" />`
+  const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-8" />`;
   interface WorkflowContentResponse {
     id: string;
     name: string;
@@ -159,14 +159,18 @@ const description =
         edges,
       );
       // Update the ReactFlow component
-      window.addEventListener("updateReactFlowReady", () => {
+      const checkAndUpdateReactFlow = () => {
         if (typeof (window as any).updateReactFlow === "function") {
           (window as any).updateReactFlow(nodes, edges);
           console.log("ReactFlow updated.");
         } else {
-          console.error("updateReactFlow function not found");
+          console.log("updateReactFlow not ready, retrying...");
+          setTimeout(checkAndUpdateReactFlow, 100); // 每100ms检查一次
         }
-      });
+      };
+
+      checkAndUpdateReactFlow();
+
       // Update the workflow info
       workflowIcon.innerText = workflow.icon;
       workflowName.innerText = workflow.name;
@@ -178,7 +182,7 @@ const description =
         .map(
           (tag: string) =>
             `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
-    )
+        )
         .join("");
 
       workflowTags.innerHTML = tagsHTML;

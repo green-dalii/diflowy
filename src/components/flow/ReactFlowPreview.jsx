@@ -55,23 +55,35 @@ const ReactFlowPreview = () => {
 
     useEffect(() => {
         // Expose the update function to the global scope
-        window.updateReactFlow = (newNodes, newEdges) => {
+        // window.updateReactFlow = (newNodes, newEdges) => {
+        //     console.log('updateReactFlow called');
+        //     setNodes(newNodes);
+        //     setEdges(newEdges);
+        //     console.log("Workflow Data Updated");
+        //     // Fit the view to the graph
+        //     reactFlowInstance.fitView(true);
+        // };
+        const updateFlowData = (newNodes, newEdges) => {
             console.log('updateReactFlow called');
             setNodes(newNodes);
             setEdges(newEdges);
             console.log("Workflow Data Updated");
-            // Fit the view to the graph
-            reactFlowInstance.fitView(true);
+            reactFlowInstance.fitView();
         };
 
-        // Trigger an event when the function is ready
-        setTimeout(() => {
-            window.dispatchEvent(new Event('updateReactFlowReady'));
-        }, 100); // 100ms delay to ensure component is fully loaded
+        window.updateReactFlow = updateFlowData;
+
+        const handleCustomEvent = (event) => {
+            const { nodes, edges } = event.detail;
+            updateFlowData(nodes, edges);
+        };
+
+        window.addEventListener('updateReactFlowData', handleCustomEvent);
 
         // Cleanup function
         return () => {
             delete window.updateReactFlow;
+            window.removeEventListener('updateReactFlowData', handleCustomEvent);
         };
     }, []);
 

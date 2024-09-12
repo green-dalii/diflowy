@@ -9,6 +9,8 @@ declare namespace App {
 
 declare module globalThis {
 	interface Window {
-	  updateReactFlow?: (newNodes: Node[], newEdges: Edge[]) => void;
+		updateReactFlow?: (nodes: any[], edges: any[]) => void;
 	}
-  }
+}
+
+export {};
