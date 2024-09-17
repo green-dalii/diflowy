@@ -16,61 +16,63 @@ const description =
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="Workflow" description={description} />
-      <div id="workflow" class="flex flex-col space-y-4">
+      <div id="workflow" class="flex flex-col">
         <div class="w-full">
-          <h3>Workflow Preview</h3>
           <div class="h-96 sm:h-[600px]">
             <ReactFlowPreview client:only="react" />
           </div>
         </div>
-        <div class="w-full sm:w-1/2">
-          <div class="flex flex-row space-x-4 items-center mt-10">
-            <div
-              id="workflowicon"
-              class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center"
-            >
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="w-full">
+            <div class="flex flex-row space-x-4 items-center mt-10">
+              <div
+                id="workflowicon"
+                class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center"
+              >
+              </div>
+              <h3 id="workflowname" class="">Workflow Name</h3>
             </div>
-            <h3 id="workflowname" class="">Workflow Name</h3>
+            <div class="flex flex-row space-x-4 items-center mt-5">
+              <div id="author" class="text-sm">@Author</div>
+            </div>
+            <div id="tagsarea" class="mt-10"></div>
+            <div class="mt-20">
+              <h4>👁️ Before You Use</h4>
+              <ul
+                class="list-disc list-outside mt-2 text-xs text-gray-500 pl-4 space-y-2"
+              >
+                <li>Please check the workflow's security before using it.</li>
+                <li>
+                  Maybe You should setup your own LLM and API keys before using
+                  it.
+                </li>
+                <li>
+                  Maybe you should modify the workflow content according to your
+                  requirements.
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="flex flex-row space-x-4 items-center mt-5">
-            <div id="author" class="text-sm">Author</div>
-            <div id="authorInfo" class="text-sm">AuthorInfo</div>
+          <div>
+            <h4 id="workflowname" class="mt-10">Description</h4>
+            <p id="description" class="text-sm text-gray-500 leading-relaxed mt-5">Loading...</p>
           </div>
-          <h4 id="workflowname" class="mt-10">Description</h4>
-          <p id="description" class="text-sm text-gray-500">Loading...</p>
-          <div id="tagsarea" class="mt-10"></div>
-          <div class="mt-10">
-            <h4>👁️ Before You Use</h4>
-            <ul
-              class="list-disc list-outside mt-2 text-xs text-gray-500 pl-4 space-y-2"
-            >
-              <li>Please check the workflow's security before using it.</li>
-              <li>
-                Maybe You should setup your own LLM and API keys before using
-                it.
-              </li>
-              <li>
-                Maybe you should modify the workflow content according to your
-                requirements.
-              </li>
-            </ul>
-          </div>
-          <!-- Button -->
-          <div
-            class="flex flex-col sm:flex-row items-center justify-end gap-4 mt-32"
+        </div>
+        <!-- Button -->
+        <div
+          class="w-full sm:w-1/2 flex flex-col sm:flex-row items-center justify-end gap-4 mt-32"
+        >
+          <button
+            id="copyButton"
+            class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
           >
-            <button
-              id="copyButton"
-              class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
-            >
-              <Icon name="import" class="text-2xl mr-1" />Import to Dify
-            </button>
-            <button
-              id="downloadButton"
-              class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-              ><Icon name="download" class="text-2xl mr-1" />Download</button
-            >
-          </div>
+            <Icon name="import" class="text-2xl mr-1" />Import to Dify
+          </button>
+          <button
+            id="downloadButton"
+            class="flex w-full justify-center sm:justify-start items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            ><Icon name="download" class="text-2xl mr-1" />Download</button
+          >
         </div>
       </div>
     </Section>
@@ -168,15 +170,13 @@ const description =
           setTimeout(checkAndUpdateReactFlow, 100); // 每100ms检查一次
         }
       };
-
       checkAndUpdateReactFlow();
 
       // Update the workflow info
       workflowIcon.innerText = workflow.icon;
       workflowName.innerText = workflow.name;
       workflowDescription.innerText = workflow.description;
-      workflowAuthor.innerText = workflow.authorData.authorName;
-      workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
+      workflowAuthor.innerHTML = `<a href="${workflow.authorData.socialLink || ""}">@${workflow.authorData.authorName}</a>`;
 
       const tagsHTML = workflow.tags
         .map(

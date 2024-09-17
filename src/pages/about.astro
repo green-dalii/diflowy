@@ -2,8 +2,9 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
+import { Icon } from "astro-icon/components";
 import "../styles/globals.css";
-const description = "Diflowy is a vibrant community platform dedicated to sharing and discovering Dify workflows.";
+const description = "All Infomation about Diflowy";
 ---
 
 <MainLayout
@@ -12,10 +13,96 @@ const description = "Diflowy is a vibrant community platform dedicated to sharin
 >
   <div class="mt-48">
     <Section>
-      <SectionTitle
-        sectionTitle="About Us"
-        description={description}
-      />
+      <SectionTitle sectionTitle="About Us" description={description} />
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="col-span-3 sm:col-span-1 text-3xl">Why Called Diflowy?</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-relaxed">
+          Difllowy means Dify + Workflow.
+          <br />We are a vibrant and open-source community platform dedicated to
+          sharing and discovering Dify workflows. Diflowy aims to be the central
+          hub where creativity meets innovation in the Dify ecosystem.
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-3xl">How to Cantact Us?</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-relaxed">
+          <ul class="list-disc space-y-4 list-inside">
+            <li>
+              You can contact us directly by email at 👉 <span
+                class="italic underline font-semibold"
+                >diflowy@greenerai.top</span
+              >.
+            </li>
+            <li class="inline-flex">
+              All of our platform's code is open source on Github<span
+                class="italic pl-1"
+                ><a
+                  href="https://github.com/green-dalii/diflowy"
+                  class="flex flex-row items-center font-semibold underline"
+                  ><Icon
+                    name="github"
+                    class="text-lg"
+                  />&nbsp;green-dalii/diflow</a
+                ></span
+              >
+            </li>
+            <li>
+              If you have any questions or feedback, join our Github Discussion. <span
+                class="font-semibold underline pl-1"
+                ><a href="https://github.com/green-dalii/diflowy/discussions"
+                  >💬 Discussions</a
+                ></span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-3xl">Future Work</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-relaxed">
+          <ul class="space-y-4 list-inside">
+            <li class="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                disabled
+                checked="checked"
+              />
+              <span
+                >Launch Diflowy</span
+              >
+            </li>
+            <li class="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                disabled
+              />
+              <span
+                >Add Search Function</span
+              >
+            </li>
+            <li class="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                disabled
+              />
+              <span
+                >Apply Official Dify Workflow Style</span
+              >
+            </li>
+            <li class="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                disabled
+              />
+              <span
+                >Other Suggestions you can post in <a class="link" href="https://github.com/green-dalii/diflowy/discussions">Github Discussion</a></span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
     </Section>
   </div>
 </MainLayout>

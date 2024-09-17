@@ -101,7 +101,7 @@ const ReactFlowPreview = () => {
             colorMode='system'
             fitView >
             <Background />
-            <MiniMap pannable position='bottom-left' maskColor='rgb(240, 240, 250, 0.6)' />
+            <MiniMap pannable position='bottom-left' className='hidden sm:block'/>
             <Controls />
         </ReactFlow>
     );
