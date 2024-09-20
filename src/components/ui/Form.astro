@@ -156,46 +156,24 @@ Such as:
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input type="checkbox" class="mr-2" value="Social" /> Social
+                  <input type="checkbox" class="mr-2" value="Social Media" /> Social Media
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input type="checkbox" class="mr-2" value="Business" /> Business
+                  <input type="checkbox" class="mr-2" value="Finance & Business" /> Finance & Business
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input type="checkbox" class="mr-2" value="Lifestyle" />
-                  Lifestyle
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="NLP" />
-                  NLP
+                  <input type="checkbox" class="mr-2" value="Lifestyle & Health" />
+                  Lifestyle & Health
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   <input type="checkbox" class="mr-2" value="Education" />
                   Education
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input
-                    type="checkbox"
-                    class="mr-2"
-                    value="Health & Medical"
-                  />
-                  Health & Medical
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Finance" />
-                  Finance
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -263,21 +241,22 @@ Such as:
       <!-- Notifications -->
       <div class="border-b border-gray-900/10 pb-24">
         <h2 class="text-base font-semibold leading-7">
-          Notifications
+          ⚠️ Notifications
         </h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">
-          Please complete the above information in as much detail as possible.
-        </p>
+        <ul class="list-disc list-inside">
+          <li class="mt-1 text-sm leading-6 text-gray-600">
+            Please complete the above information in as much detail as possible.
+          </li>
+          <li class="mt-1 text-sm leading-6 text-gray-600">
+            Before you upload, make sure your private information (such as API keys) is not recorded.
+          </li>
+        </ul>
       </div>
       <!-- Button -->
       <div class="mt-6 flex items-center justify-end gap-x-6">
         <button
-          type="button"
-          class="text-sm font-semibold leading-6">Cancel</button
-        >
-        <button
           type="submit"
-          class="btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="btn-tertiary w-full px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >Upload</button
         >
       </div>
@@ -291,7 +270,7 @@ Such as:
         will be shown below.
       </p>
       <div class="w-full h-[500px]">
-        <ReactFlowPreview client:load />
+        <ReactFlowPreview client:only="react" />
       </div>
     </div>
   </div>
@@ -522,7 +501,7 @@ Such as:
       } else if (response.status === 401) {
         // alert("Before you upload, please login first.");
         modalTitle.innerText = "😮 Opps...";
-        modalContent.innerText = "Before you upload, please login first.";
+        modalContent.innerText = "Your login has expired, please login again!";
         modal.showModal();
       } else {
         // alert(

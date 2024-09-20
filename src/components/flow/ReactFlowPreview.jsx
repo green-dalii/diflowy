@@ -54,21 +54,14 @@ const ReactFlowPreview = () => {
     const reactFlowInstance = useReactFlow();
 
     useEffect(() => {
-        // Expose the update function to the global scope
-        // window.updateReactFlow = (newNodes, newEdges) => {
-        //     console.log('updateReactFlow called');
-        //     setNodes(newNodes);
-        //     setEdges(newEdges);
-        //     console.log("Workflow Data Updated");
-        //     // Fit the view to the graph
-        //     reactFlowInstance.fitView(true);
-        // };
         const updateFlowData = (newNodes, newEdges) => {
             console.log('updateReactFlow called');
             setNodes(newNodes);
             setEdges(newEdges);
             console.log("Workflow Data Updated");
-            reactFlowInstance.fitView();
+            setTimeout(() => {
+                reactFlowInstance.fitView({ padding: 0.1, duration: 200 });
+            }, 100);
         };
 
         window.updateReactFlow = updateFlowData;
@@ -95,7 +88,6 @@ const ReactFlowPreview = () => {
             onEdgesChange={onEdgesChange}
             zoomOnScroll={false}
             panOnDrag={true}
-            className="bg-gray-100"
             nodeTypes={nodeTypes}
             minZoom={0.1}
             colorMode='system'
