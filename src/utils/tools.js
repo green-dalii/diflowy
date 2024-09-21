@@ -1,0 +1,22 @@
+export function skeleton() {
+    return `
+    <div class="border dark:border-[--darkbgoffset] shadow rounded-3xl p-4 w-full mx-auto h-52">
+    <div class="animate-pulse grid grid-cols-1 content-between h-full">
+        <div class="flex flex-row space-x-4 items-center">
+            <div class="flex-none rounded-full bg-slate-200 dark:bg-[--darkbgoffset] h-12 w-12"></div>
+            <div class="flex-grow h-8 bg-slate-200 dark:bg-[--darkbgoffset] rounded-full"></div>
+        </div>
+        <div class="flex-1 space-y-4 py-1">
+            <div class="ml-16 space-y-3">
+                <div class="h-2 bg-slate-200 dark:bg-[--darkbgoffset] rounded"></div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="h-2 bg-slate-200 dark:bg-[--darkbgoffset] rounded col-span-2"></div>
+                    <div class="h-2 bg-slate-200 dark:bg-[--darkbgoffset] rounded col-span-1"></div>
+                </div>
+                <div class="h-2 bg-slate-200 dark:bg-[--darkbgoffset] rounded"></div>
+            </div>
+        </div>
+    </div>
+</div>
+    `
+}

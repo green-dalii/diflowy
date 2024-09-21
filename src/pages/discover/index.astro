@@ -8,7 +8,10 @@ const description = "Find and import workflows to Dify immediately in Diflow.";
 const skeletonCount = 12;
 ---
 
-<MainLayout title="Discover | Diflowy" description="Where Dify workflows are stored">
+<MainLayout
+  title="Discover | Diflowy"
+  description="Where Dify workflows are stored"
+>
   <div class="mt-48">
     <Section>
       <SectionTitle
@@ -21,11 +24,15 @@ const skeletonCount = 12;
       >
         {new Array(skeletonCount).fill(null).map((_) => <Skeleton />)}
       </div>
+      <div class="mt-14 text-center">
+        <div class="join" id="pagination"></div>
+      </div>
     </Section>
   </div>
 </MainLayout>
 
 <script>
+  import { skeleton } from "../../utils/tools";
   interface Workflow {
     id: string;
     name: string;
@@ -50,12 +57,13 @@ const skeletonCount = 12;
     "modalContent",
   ) as HTMLDivElement;
 
+  // Get tags[] from url
   function getTagsFromURL(): string[] {
     const urlParams = new URLSearchParams(window.location.search);
     const tags: string[] = urlParams.getAll("tags");
     return tags;
   }
-
+  // Get workflows from API
   async function fetchWorkflows(
     page: number = 1,
     pageSize: number = 12,
@@ -78,19 +86,13 @@ const skeletonCount = 12;
     return (await response.json()) as GetWorkflowsResponse;
   }
 
-  // Query the API and populate the grid
-  try {
-    const result = await fetchWorkflows(1, 12, getTagsFromURL());
-    console.log("Workflows:", result.workflows);
-    console.log("Total:", result.total);
-    console.log("Page:", result.page);
-    console.log("Page Size:", result.pageSize);
-    console.log("Tags:", getTagsFromURL());
+  // update workflow
+  function updateWorkflowGrid(workflows: Workflow[]) {
     const workflowGrid = document.getElementById(
       "workflow-grid",
     ) as HTMLDivElement;
     workflowGrid.innerHTML = "";
-    result.workflows.forEach((workflow) => {
+    workflows.forEach((workflow) => {
       const workflowLink = document.createElement("a");
       workflowLink.setAttribute("href", `/discover/workflow?id=${workflow.id}`);
       const workflowElement = document.createElement("div");
@@ -125,7 +127,150 @@ const skeletonCount = 12;
       workflowLink.appendChild(workflowElement);
       workflowGrid.appendChild(workflowLink);
     });
-  } catch (error) {
-    console.error("Error fetching workflows:", error);
   }
+
+  // update pagination component
+  function updatePagination(
+    total: number,
+    currentPage: number,
+    pageSize: number,
+  ) {
+    const totalPages = Math.ceil(total / pageSize); // 计算总页数
+    const paginationDiv = document.getElementById(
+      "pagination",
+    ) as HTMLDivElement;
+    paginationDiv.innerHTML = ""; // 清空之前的内容
+
+    // 创建分页按钮
+    function createPageButton(page: number, isDisabled = false) {
+      const button = document.createElement("button");
+      button.className = `join-item btn ${isDisabled ? "btn-disabled" : ""}`;
+      button.textContent = page.toString();
+      button.disabled = isDisabled;
+      if (!isDisabled) {
+        button.addEventListener("click", () => {
+          loadPageData(page); // 点击按钮加载对应页数据
+        });
+      }
+      return button;
+    }
+
+    // add page 1 button
+    paginationDiv.appendChild(createPageButton(1, currentPage === 1));
+
+    // add ... button
+    if (currentPage > 3) {
+      const ellipsis = document.createElement("button");
+      ellipsis.className = "join-item btn btn-disabled";
+      ellipsis.textContent = "...";
+      paginationDiv.appendChild(ellipsis);
+    }
+
+    // add nearby button
+    for (
+      let i = Math.max(2, currentPage - 1);
+      i <= Math.min(totalPages - 1, currentPage + 1);
+      i++
+    ) {
+      paginationDiv.appendChild(createPageButton(i, currentPage === i));
+    }
+
+    // add ... button
+    if (currentPage < totalPages - 2) {
+      const ellipsis = document.createElement("button");
+      ellipsis.className = "join-item btn btn-disabled";
+      ellipsis.textContent = "...";
+      paginationDiv.appendChild(ellipsis);
+    }
+
+    // add last page button
+    if (totalPages > 1) {
+      paginationDiv.appendChild(
+        createPageButton(totalPages, currentPage === totalPages),
+      );
+    }
+  }
+
+  // 加载指定页码的数据
+  async function loadPageData(page: number = 1) {
+    try {
+      // display skeleton
+      const workflowGrid = document.getElementById(
+        "workflow-grid",
+      ) as HTMLDivElement;
+      workflowGrid.innerHTML = "";
+      new Array(12).fill(null).map((_) => {
+        workflowGrid.innerHTML += skeleton()
+      })
+      const result = await fetchWorkflows(page, 12, getTagsFromURL()); // 默认每页12个
+      console.log("Workflows:", result.workflows);
+      console.log("Total:", result.total);
+      console.log("Page:", result.page);
+      console.log("Page Size:", result.pageSize);
+      console.log("Tags:", getTagsFromURL());
+
+      // 更新工作流网格
+      updateWorkflowGrid(result.workflows);
+
+      // 更新分页按钮
+      updatePagination(result.total, result.page, result.pageSize);
+    } catch (error) {
+      console.error("Error loading page data:", error);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPageData(1);
+  });
+
+  // Query the API and populate the grid
+  // try {
+  //   const result = await fetchWorkflows(1, 12, getTagsFromURL());
+  //   console.log("Workflows:", result.workflows);
+  //   console.log("Total:", result.total);
+  //   console.log("Page:", result.page);
+  //   console.log("Page Size:", result.pageSize);
+  //   console.log("Tags:", getTagsFromURL());
+  //   const workflowGrid = document.getElementById(
+  //     "workflow-grid",
+  //   ) as HTMLDivElement;
+  //   workflowGrid.innerHTML = "";
+  //   result.workflows.forEach((workflow) => {
+  //     const workflowLink = document.createElement("a");
+  //     workflowLink.setAttribute("href", `/discover/workflow?id=${workflow.id}`);
+  //     const workflowElement = document.createElement("div");
+  //     let tags;
+  //     try {
+  //       tags = JSON.parse(workflow.tags);
+  //     } catch (error) {
+  //       console.error("Error parsing tags for workflow:", workflow.name, error);
+  //       tags = [];
+  //     }
+  //     const tagsHTML = tags
+  //       .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
+  //       .join("");
+
+  //     workflowElement.className =
+  //       "border dark:bg-[--darkbgoffset] dark:border-gray-500 shadow rounded-3xl p-4 w-full mx-auto h-52";
+  //     workflowElement.innerHTML = `
+  //     <div class="grid grid-cols-1 content-between h-full">
+  //       <div class="flex flex-row space-x-4 items-center">
+  //           <div class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center">${workflow.icon}</div>
+  //           <div class="flex-grow text-xl text-dark font-bold">${workflow.name}</div>
+  //       </div>
+  //       <div class="flex-1 space-y-4 py-1">
+  //           <div class="ml-16 space-y-3">
+  //               <div class="text-xs text-gray-500 line-clamp-2">${workflow.description}</div>
+  //               <div>${tagsHTML}</div>
+  //           </div>
+  //       </div>
+  //   </div>
+  //   </div>
+  //         `;
+  //     workflowLink.appendChild(workflowElement);
+  //     workflowGrid.appendChild(workflowLink);
+  //   });
+  // } catch (error) {
+  //   console.error("Error fetching workflows:", error);
+  // }
 </script>
