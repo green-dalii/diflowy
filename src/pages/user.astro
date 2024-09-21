@@ -1,0 +1,19 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import SectionTitle from "../components/ui/SectionTitle.astro";
+import Section from "../components/sections/Section.astro";
+import "../styles/globals.css";
+const description = "Welcome ! In User Center you can manage your Dify workflows.";
+---
+
+<MainLayout
+  title="Blog | Diflowy"
+  description="Where Dify workflows are stored"
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="User Center" description={description} />
+      <div class="flex flex-col items-center justify-center mt-32">Coming Soon...</div>
+    </Section>
+  </div>
+</MainLayout>

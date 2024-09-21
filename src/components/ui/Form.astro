@@ -6,16 +6,12 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
   <div class="sm:grid sm:grid-cols-6 sm:gap-4">
     <div class="sm:col-span-2 sm:col-start-1">
       <!-- Basic Info`` -->
-      <div class="border-b border-gray-900/10 pb-24">
+      <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-xl font-semibold leading-7">
           Workflow Information
         </h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">
-          This information will be displayed publicly so be careful what you
-          share.
-        </p>
         <!-- Basic info -->
-        <div class="mt-10 grid grid-cols-1 space-y-5">
+        <div class="grid grid-cols-1 space-y-5">
           <!-- WorkFlow File -->
           <div class="sm:col-span-full">
             <label
@@ -70,7 +66,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
                   <p class="pl-1">or drag and drop</p>
                 </div>
                 <p class="text-xs leading-5 text-gray-600">
-                  Requirement: Dify DSL Yaml File
+                  Requirement: Dify DSL YAML File
                 </p>
               </div>
               <!-- <div id="reactflow-preview" class="absolute inset-0 hidden">
@@ -194,15 +190,8 @@ Such as:
         </div>
       </div>
       <!-- Author Info -->
-      <div class="border-b border-gray-900/10 pb-24">
-        <h2 class="text-base font-semibold leading-7">
-          Author Information
-        </h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">
-          You can fill your information so users can contact with you.
-        </p>
-
-        <div class="mt-10 grid grid-cols-1">
+      <div class="border-b border-gray-900/10 pb-12">
+        <div class="mt-5 grid grid-cols-1">
           <div class="sm:col-span-full">
             <label
               for="author-name"
@@ -233,13 +222,13 @@ Such as:
               />
             </div>
             <p class="mt-1 text-sm leading-6 text-gray-600">
-              Such as Email, Twitter, Discord, Telegram, Website etc.
+              Such as Email, Twitter, Discord, Telegram, Website etc. So others can contact with you..
             </p>
           </div>
         </div>
       </div>
       <!-- Notifications -->
-      <div class="border-b border-gray-900/10 pb-24">
+      <div class="border-b border-gray-900/10 pb-4">
         <h2 class="text-base font-semibold leading-7">
           ⚠️ Notifications
         </h2>
@@ -265,10 +254,6 @@ Such as:
       <h2 class="text-xl font-semibold leading-7">
         Workflow Preview
       </h2>
-      <p class="mt-1 text-sm leading-6 text-gray-600">
-        When you upload the Dify DSL file, the workflow simplified structure
-        will be shown below.
-      </p>
       <div class="w-full h-[500px]">
         <ReactFlowPreview client:only="react" />
       </div>

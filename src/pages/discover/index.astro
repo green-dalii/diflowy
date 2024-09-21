@@ -58,7 +58,7 @@ const skeletonCount = 12;
 
   async function fetchWorkflows(
     page: number = 1,
-    pageSize: number = 10,
+    pageSize: number = 12,
     tags: string[] = [],
   ): Promise<GetWorkflowsResponse> {
     const url = new URL("/api/workflow/filter", window.location.origin);
@@ -80,7 +80,7 @@ const skeletonCount = 12;
 
   // Query the API and populate the grid
   try {
-    const result = await fetchWorkflows(1, 10, getTagsFromURL());
+    const result = await fetchWorkflows(1, 12, getTagsFromURL());
     console.log("Workflows:", result.workflows);
     console.log("Total:", result.total);
     console.log("Page:", result.page);
