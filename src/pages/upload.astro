@@ -18,16 +18,16 @@ const description = "Upload your workflows to Diflowy";
       />
       <div class="sm:grid sm:grid-cols-6 mt-40">
         <div id="not-login" class="sm:col-start-3 sm:col-span-2 text-center">
-          <p class="text-base mb-5">
-            To ensure security, you need to Login with your Github account before uploading.
+          <p class="text-sm mb-5">
+            To ensure security, you need to Login before uploading.
           </p>
           <a id="login-link" href="/login"
             ><button class="btn-tertiary w-full xl:w-auto py-2" id="login"
-              >🔐 Login and Upload</button
+              >🔐 Login and Upload<br><small>(Recommended)</small></button
             >
           </a>
-          <p class="mt-16 text-base mb-5">
-            If you don't have a Github account, you can fill out the form and the workflow information will be reviewed and then uploaded.
+          <p class="mt-16 text-sm mb-5">
+            Alternatively, you can also fill out the form below, then it will be audited and uploaded later by administrator.
           </p>
           <a id="form-link" href="https://nvrpmz0g7oy.feishu.cn/share/base/form/shrcnvn7YIMGM0TCs1gMJQgoGvc">
             <button class="btn-tertiary w-full xl:w-auto py-2"
@@ -36,7 +36,7 @@ const description = "Upload your workflows to Diflowy";
           </a>
         </div>
       </div>
-      <div class="mt-20" id="protected-content" style="display: none;">
+      <div id="protected-content" style="display: none;">
         <div class="">
           <!-- Add Form -->
           <Form />

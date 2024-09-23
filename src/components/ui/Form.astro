@@ -86,11 +86,34 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
                   name="workflowname"
                   id="workflowname"
                   autocomplete="workflowname"
-                  class="block flex-1 border-0 bg-transparent py-1.5 px-2 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 rounded-md shadow-sm ring-1 ring-inset ring-[--blue] focus-within:ring-2 focus-within:ring-inset focus-within:[--dark]"
+                  class="block flex-1 bg-transparent py-1.5 px-2 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded-md shadow-sm border border-gray-300"
                   placeholder="Fill Your Workflow Name"
                 />
               </div>
             </div>
+          </div>
+          <!-- Version -->
+          <div class="sm:col-span-full">
+            <label for="version" class="block text-sm font-medium leading-6">Version Control</label>
+            <div class="mt-2 flex rounded-md shadow-sm">
+              <span class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm">
+                V
+              </span>
+              <input
+                type="number"
+                step="0.1"
+                min="0.1"
+                name="version"
+                id="version"
+                value="1.0"
+                class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
+                placeholder="1.0"
+              >
+            </div>
+            <p class="mt-1 text-xs leading-normal text-gray-400">
+              ⚠️ Note: This page here is for the first version of your workflow file to be uploaded. We recommend that the first version be set to <span class="font-semibold">v1.0</span>.
+              <br>If there are future updates to this workflow, you can go to the <a href="/user" class="link font-medium hover:text-dark">User Center</a> to update the version of this file.
+            </p>
           </div>
           <!-- Description -->
           <div class="sm:col-span-full">
@@ -105,15 +128,14 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
                 name="description"
                 rows="10"
                 class="block w-full rounded-md border-0 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                placeholder="Describe your workflow with a few key points:
-Such as:
+                placeholder="Describe your workflow with a few key points, such as:
     - Introduction
     - Capabilities
     - Usage
     - Restrictions
     - Dify Version Requirement
     - Sponsorship 
-    - Other"
+    - Others"
               ></textarea>
             </div>
           </div>
@@ -139,7 +161,7 @@ Such as:
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  <input type="checkbox" class="mr-2" value="Assisent" /> Assisent
+                  <input type="checkbox" class="mr-2" value="Assistant" /> Assistant
                 </label>
                 <label
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -204,8 +226,7 @@ Such as:
               />
             </div>
           </div>
-
-          <div class="sm:col-span-full">
+          <div class="mt-4 sm:col-span-full">
             <label
               for="social-link"
               class="block text-sm font-medium leading-6"
@@ -218,8 +239,8 @@ Such as:
                 class="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
-            <p class="mt-1 text-sm leading-6 text-gray-600">
-              Such as Email, Twitter, Discord, Telegram, Website etc. So others can contact with you..
+            <p class="mt-1 text-xs leading-normal text-gray-400">
+              Such as Email, Website, Twitter(𝕏), Facebook, WhatsApp, WeChat, etc. So others can contact with you.
             </p>
           </div>
         </div>
@@ -227,14 +248,14 @@ Such as:
       <!-- Notifications -->
       <div class="border-b border-gray-900/10 pb-4">
         <h2 class="text-base font-semibold leading-7">
-          ⚠️ Notifications
+          🔔 Notifications
         </h2>
-        <ul class="list-disc list-inside">
-          <li class="mt-1 text-sm leading-6 text-gray-600">
-            Please complete the above information in as much detail as possible.
+        <ul class="list-disc list-inside text-xs">
+          <li class="leading-6 text-gray-600">
+            Please fill out the above in detail for the convenience of others.
           </li>
-          <li class="mt-1 text-sm leading-6 text-gray-600">
-            Before you upload, make sure your private information (such as API keys) is not recorded.
+          <li class="leading-6 text-gray-600">
+            Please make sure there is no private information(API keys, Environment variables etc.) before uploading.
           </li>
         </ul>
       </div>
@@ -251,7 +272,7 @@ Such as:
       <h2 class="text-xl font-semibold leading-7">
         Workflow Preview
       </h2>
-      <div class="w-full h-[500px]">
+      <div class="w-full h-[500px] sm:h-[600px]">
         <ReactFlowPreview client:only="react" />
       </div>
     </div>

@@ -17,10 +17,10 @@ const description = "All Infomation about Diflowy";
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="col-span-3 sm:col-span-1 text-3xl">Why Called Diflowy?</div>
         <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
-          Difllowy means Dify + Workflow.
-          <br />We are a vibrant and open-source community platform dedicated to
-          sharing and discovering Dify workflows. Diflowy aims to be the central
-          hub where creativity meets innovation in the Dify ecosystem.
+          Difllowy means <span class="italic">Dify + Workflow</span>.
+          <br />We are a vibrant and Open-Source community dedicated to sharing
+          and discovering Dify workflows.
+          <br />We welcome all participation and contributions 👋
         </div>
         <div class="divider col-span-3"></div>
         <div class="col-span-3 sm:col-span-1 text-3xl">How to Cantact Us?</div>
@@ -28,14 +28,13 @@ const description = "All Infomation about Diflowy";
           <ul class="list-disc space-y-2 list-inside font-light">
             <li>
               We welcome you to contact us by Email 👉 <span
-                class="italic underline font-medium"
-                >diflowy@greenerai.top</span
+                class="italic underline font-medium">diflowy@greenerai.top</span
               >
             </li>
             <li>
               <div class="contents sm:inline-flex">
-                <span>All of Diflowy's code is open source on Github</span>
-                <span class="italic pl-1"
+                <span>All Diflowy's code is Open-Source on Github</span>
+                <span class="italic px-1"
                   ><a
                     href="https://github.com/green-dalii/diflowy"
                     class="flex flex-row items-center font-medium link hover:text-dark"
@@ -45,7 +44,7 @@ const description = "All Infomation about Diflowy";
                     />green-dalii/diflow</a
                   ></span
                 >
-              </div>  
+              </div>
             </li>
             <li>
               If you have any questions or feedback, join our <span
@@ -60,48 +59,65 @@ const description = "All Infomation about Diflowy";
         <div class="divider col-span-3"></div>
         <div class="col-span-3 sm:col-span-1 text-3xl">Thanks</div>
         <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
-          <div class="mb-4">Diflowy is built thanks to the following projects:</div>
-          <ul class="list-disc space-y-2 list-inside font-light">
+          <div class="mb-4">
+            Diflowy could not have been created without the support of the following projects:
+          </div>
+          <ul class="list-disc space-y-4 list-inside font-light text-xs">
             <li>
-              <span class="inline-block sm:inline-flex align-top sm:align-middle">
+              <span
+                class="inline-block sm:inline-flex align-top sm:align-middle"
+              >
                 <a
                   href="https://github.com/langgenius/dify"
                   class="flex flex-row items-center font-medium link hover:text-dark mr-1"
-                  ><Icon name="github" class="mr-1 text-lg"/>Dify</a
+                  ><Icon name="github" class="mr-1 text-lg" />Dify</a
                 >
                 The Innovation Engine for GenAI Applications.
               </span>
             </li>
             <li>
-              <span class="inline-block sm:inline-flex align-top sm:align-middle">
+              <span
+                class="inline-block sm:inline-flex align-top sm:align-middle"
+              >
                 <a
                   href="https://github.com/langgenius/dify"
                   class="flex flex-row items-center font-medium link hover:text-dark mr-1"
-                  ><Icon name="github" class="mr-1 text-lg"/>Awesome-Dify-Workflow</a
+                  ><Icon
+                    name="github"
+                    class="mr-1 text-lg"
+                  />Awesome-Dify-Workflow</a
                 >
                 Sharing some Dify workflows.
               </span>
             </li>
             <li>
-                <a
-                  href="https://dify101.com/"
-                  class="items-center font-medium link hover:text-dark mr-1 after:content-['_↗']"
-                  >Dify101</a
-                >
-                Dify tutorial: Unlock the power of Dify.ai.
+              <a
+                href="https://dify101.com/"
+                class="items-center font-medium link hover:text-dark mr-1 after:content-['_↗']"
+                >Dify101</a
+              >
+              Dify tutorial: Unlock the power of Dify.ai.
             </li>
             <li>
-              <span class="inline-block sm:inline-flex align-top sm:align-middle">
+              <span
+                class="inline-block gap-1 sm:inline-flex align-top sm:align-middle"
+              >
                 <a
-                  href="https://github.com/withastro/astro"
-                  class="flex flex-row items-center font-medium link hover:text-dark mr-1"
-                  ><Icon name="github" class="mr-1 text-lg"/>Astro</a
+                  href="https://astro.build/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >Astro</a
+                >
+                ,
+                <a
+                  href="https://tailwindcss.com/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >TailwindCSS</a
                 >
                 and
                 <a
-                  href="https://github.com/tailwindlabs/tailwindcss"
-                  class="flex flex-row items-center font-medium link hover:text-dark mr-1"
-                  ><Icon name="github" class="mx-1 text-lg"/>TailwindCSS</a
+                  href="https://reactflow.dev/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >ReactFlow</a
                 >
                 for Website Development.
               </span>
@@ -113,12 +129,13 @@ const description = "All Infomation about Diflowy";
                 >Cloudflare</a
               >
               for Website Hosting and Database Service.
-          </li>
+            </li>
+          </ul>
         </div>
         <div class="divider col-span-3"></div>
         <div class="col-span-3 sm:col-span-1 text-3xl">Future Work</div>
         <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
-          <ul class="space-y-2 list-inside">
+          <ul class="space-y-4 list-inside text-xs">
             <li class="flex items-center space-x-2">
               <input
                 type="checkbox"

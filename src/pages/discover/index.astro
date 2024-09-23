@@ -108,7 +108,7 @@ const skeletonCount = 12;
         .join("");
 
       workflowElement.className =
-        "border dark:bg-[--darkbgoffset] dark:border-gray-500 shadow rounded-3xl p-4 w-full mx-auto h-52";
+        "border dark:bg-[--darkbgoffset] dark:border-gray-500 shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52";
       workflowElement.innerHTML = `
       <div class="grid grid-cols-1 content-between h-full">
         <div class="flex flex-row space-x-4 items-center">
@@ -222,55 +222,4 @@ const skeletonCount = 12;
   document.addEventListener("DOMContentLoaded", () => {
     loadPageData(1);
   });
-
-  // Query the API and populate the grid
-  // try {
-  //   const result = await fetchWorkflows(1, 12, getTagsFromURL());
-  //   console.log("Workflows:", result.workflows);
-  //   console.log("Total:", result.total);
-  //   console.log("Page:", result.page);
-  //   console.log("Page Size:", result.pageSize);
-  //   console.log("Tags:", getTagsFromURL());
-  //   const workflowGrid = document.getElementById(
-  //     "workflow-grid",
-  //   ) as HTMLDivElement;
-  //   workflowGrid.innerHTML = "";
-  //   result.workflows.forEach((workflow) => {
-  //     const workflowLink = document.createElement("a");
-  //     workflowLink.setAttribute("href", `/discover/workflow?id=${workflow.id}`);
-  //     const workflowElement = document.createElement("div");
-  //     let tags;
-  //     try {
-  //       tags = JSON.parse(workflow.tags);
-  //     } catch (error) {
-  //       console.error("Error parsing tags for workflow:", workflow.name, error);
-  //       tags = [];
-  //     }
-  //     const tagsHTML = tags
-  //       .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
-  //       .join("");
-
-  //     workflowElement.className =
-  //       "border dark:bg-[--darkbgoffset] dark:border-gray-500 shadow rounded-3xl p-4 w-full mx-auto h-52";
-  //     workflowElement.innerHTML = `
-  //     <div class="grid grid-cols-1 content-between h-full">
-  //       <div class="flex flex-row space-x-4 items-center">
-  //           <div class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center">${workflow.icon}</div>
-  //           <div class="flex-grow text-xl text-dark font-bold">${workflow.name}</div>
-  //       </div>
-  //       <div class="flex-1 space-y-4 py-1">
-  //           <div class="ml-16 space-y-3">
-  //               <div class="text-xs text-gray-500 line-clamp-2">${workflow.description}</div>
-  //               <div>${tagsHTML}</div>
-  //           </div>
-  //       </div>
-  //   </div>
-  //   </div>
-  //         `;
-  //     workflowLink.appendChild(workflowElement);
-  //     workflowGrid.appendChild(workflowLink);
-  //   });
-  // } catch (error) {
-  //   console.error("Error fetching workflows:", error);
-  // }
 </script>

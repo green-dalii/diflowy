@@ -23,7 +23,7 @@ const navLinks = [
   },
 ];
 ---
-
+<!-- Navbar -->
 <div
   class="fixed w-full top-0 z-10 py-3 px-5 h-auto flex items-center justify-center header lg:dark:bg-[#1c232aa7] dark:bg-[#1c232a] dark:border-[#3950668a]"
 >
@@ -85,27 +85,19 @@ const navLinks = [
     <!-- Login -->
     <div class="relative inline-block text-left">
       <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
-        <a id="login-link" href="/login"
-          ><button class="btn-secondary w-full xl:w-auto py-2" id="login"
-            >Login</button
-          >
-        </a>
-        <div class="hidden dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-ghost rounded-btn">
-            User Name
-          </div>
-          <ul
-            tabindex="0"
-            class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-52 p-2 shadow"
-          >
-            <li><a>User Profile</a></li>
-            <li><a>Logout</a></li>
-          </ul>
-        </div>
+        <button class="btn-secondary w-full xl:w-auto py-2" id="user-menu-button">Login</button>
       </div>
     </div>
   </div>
 </div>
+<!-- User Dropdown menu -->
+<div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+  <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+    <a href="/user" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem"><Icon name="user" />User Center</a>
+    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem"><Icon name="logout" />Logout</a>
+  </div>
+</div>
+<!-- modal -->
 <Modal />
 
 <script>
@@ -129,14 +121,14 @@ const navLinks = [
         }
       });
 
-      navMenu.addEventListener("click", () => {
-        /* Close menu after using it */
-        if (isMenuOpen) {
-          isMenuOpen = false;
-          navMenu.style.height = "0px";
-          navMenu.classList.remove("h-auto");
-        }
-      });
+      // navMenu.addEventListener("click", () => {
+      //   /* Close menu after using it */
+      //   if (isMenuOpen) {
+      //     isMenuOpen = false;
+      //     navMenu.style.height = "0px";
+      //     navMenu.classList.remove("h-auto");
+      //   }
+      // });
 
       window.addEventListener("resize", () => {
         /* Resize cleanup screen state*/
@@ -169,8 +161,21 @@ const navLinks = [
   const modalContent = document.getElementById(
     "modalContent",
   ) as HTMLDivElement;
+  // Get dropdown menu element
+  const userDropdown = document.getElementById("user-dropdown") as HTMLDivElement;
+  const userMenuButton = document.getElementById("user-menu-button") as HTMLButtonElement;
+  const logoutLink = document.getElementById("logout-link") as HTMLAnchorElement;
 
-  function confirmLogiut(event: MouseEvent) {
+  function toggleUserDropdown() {
+    userDropdown.classList.toggle("hidden");
+    if (!userDropdown.classList.contains("hidden")) {
+      const buttonRect = userMenuButton.getBoundingClientRect();
+      userDropdown.style.top = `${buttonRect.bottom + window.scrollY}px`;
+      userDropdown.style.right = `${window.innerWidth - buttonRect.right}px`;
+    }
+  }
+
+  function confirmLogout(event: MouseEvent) {
     event.preventDefault();
     modalTitle.innerText = "🤔 Logout?";
     modalContent.innerText = "Would you like to logout from Diflowy?";
@@ -201,19 +206,25 @@ const navLinks = [
   }
 
   async function loadUserFromStorage() {
-    const username = sessionStorage.getItem("username");
-    const loginButton = document.getElementById("login") as HTMLButtonElement;
-    const loginLink = document.getElementById(
-      "login-link",
-    ) as HTMLAnchorElement;
     const protectedContent = document.getElementById(
       "protected-content",
     ) as HTMLDivElement | null;
+    
+    try{
+      const username = sessionStorage.getItem("username");
+    // const loginButton = document.getElementById("login") as HTMLButtonElement;
+    const loginLink = document.getElementById(
+      "login-link",
+    ) as HTMLAnchorElement;
+
+
     if (username) {
       console.log("Loaded username from sessionStorage:", username);
-      loginButton.textContent = username;
-      loginLink.setAttribute("href", "#");
-      loginLink.addEventListener("click", confirmLogiut);
+      userMenuButton.textContent = username;
+      userMenuButton.addEventListener("click", toggleUserDropdown);
+      // loginLink.setAttribute("href", "#");
+      logoutLink.addEventListener("click", confirmLogout);
+      // loginLink.addEventListener("click", confirmLogiut);
       if (protectedContent) {
         protectedContent.style.display = "block";
       }
@@ -222,28 +233,40 @@ const navLinks = [
       const response = await fetch("/api/user");
       const data: UserResponse = await response.json();
       console.log("fetch user data>>>", data);
+
       if (data.user) {
         console.log("User found in server response");
         sessionStorage.setItem("username", data.user.username);
-        loginButton.textContent = `${data.user.username}`;
-        loginLink.setAttribute("href", "#");
-        loginLink.addEventListener("click", confirmLogiut);
+        userMenuButton.textContent = `${data.user.username}`;
+        // loginLink.setAttribute("href", "#");
+        // loginLink.addEventListener("click", confirmLogiut);
+        userMenuButton.addEventListener("click", toggleUserDropdown);
+        logoutLink.addEventListener("click", confirmLogout);
         if (protectedContent) {
           protectedContent.style.display = "block";
         }
-      } else {
-        console.log("No user found in server response");
-        sessionStorage.removeItem("username");
-        loginButton.textContent = "Login";
-        loginLink.setAttribute("href", "/login");
-        if (protectedContent) {
-          protectedContent.style.display = "none";
-        }
+      }
+    }
+    }catch(error){
+      console.log("No user found in server response");
+      sessionStorage.removeItem("username");
+      userMenuButton.textContent = "Login";
+      // loginLink.setAttribute("href", "/login");
+      userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+      if (protectedContent) {
+        protectedContent.style.display = "none";
       }
     }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     loadUserFromStorage();
+  });
+
+  // Close dropdown when clicking outside
+  window.addEventListener("click", function(event) {
+    if (!userMenuButton.contains(event.target as Node) && !userDropdown.contains(event.target as Node)) {
+      userDropdown.classList.add("hidden");
+    }
   });
 </script>
