@@ -83,20 +83,31 @@ const navLinks = [
     </ul>
 
     <!-- Login -->
-    <div class="relative inline-block text-left">
+    <div class="inline-block text-left">
       <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
         <button class="btn-secondary w-full xl:w-auto py-2" id="user-menu-button">Login</button>
       </div>
     </div>
   </div>
-</div>
-<!-- User Dropdown menu -->
-<div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
-  <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
-    <a href="/user" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem"><Icon name="user" />User Center</a>
-    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem"><Icon name="logout" />Logout</a>
+  <!-- User Dropdown menu -->
+  <div id="user-dropdown" class="hidden fixed z-50 top-44 right-1/4 sm:right-1/2 lg:right-4 lg:top-12 mt-2 w-40 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+    <div class="py-1 w-full" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+      <a href="/user" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">
+        <div class="flex items-center">
+          <Icon name="user" />
+          <span class="ml-2">User Center</span>
+        </div>
+      </a>
+      <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">
+        <div class="flex items-center">
+          <Icon name="logout" />
+          <span class="ml-2">Logout</span>
+        </div>
+      </a>
+    </div>
   </div>
 </div>
+
 <!-- modal -->
 <Modal />
 
@@ -246,6 +257,8 @@ const navLinks = [
           protectedContent.style.display = "block";
         }
       }
+      userMenuButton.textContent = "Login";
+      userMenuButton.setAttribute("onclick", "window.location.href='/login'")
     }
     }catch(error){
       console.log("No user found in server response");
