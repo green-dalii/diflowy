@@ -3,7 +3,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
 import "../styles/globals.css";
-const description = "Welcome ! In User Center you can manage your Dify workflows.";
+const description = "In User Center you can manage your Dify workflows.";
 ---
 
 <MainLayout
@@ -13,7 +13,21 @@ const description = "Welcome ! In User Center you can manage your Dify workflows
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="User Center" description={description} />
-      <div class="flex flex-col items-center justify-center mt-32">Coming Soon...</div>
+      <div class="flex flex-col items-center justify-center mt-32">Loading...</div>
+      <div class="flex flex-col items-center justify-center">You have upload XXX workflows.</div>
+      <table class="table table-auto">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Workflow Name</th>
+            <th>Latest Version</th>
+            <th>Manage</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
     </Section>
   </div>
 </MainLayout>

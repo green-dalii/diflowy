@@ -4,9 +4,12 @@ interface Workflow {
     id: string;
     name: string;
     description: string;
+    versions: string[];
+    currunt_version: string;
     tags: string[];
     icon: string;
     authorData: object;
+    update_time: string;
     file_content?: string;
 }
 
@@ -17,6 +20,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     console.log("url>>>", url)
     // 提取 workflow_id 参数
     const workflowId = url.searchParams.get('workflowId');
+    // 提取 version 参数
+    const workflowVersion = url.searchParams.get('version')
     console.log("workflowId>>>", workflowId)
     try {
         console.log("Querying Database for Workflow...")
@@ -30,8 +35,34 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             });
         }
         console.log("Workflow Found...")
+        // 查询Workflow所有版本
+        const versionsQuery = `SELECT version FROM yaml_versions WHERE yaml_file_id =?`;
+        const versionsResult = await env.D1.prepare(versionsQuery).bind(workflowId).all();
+        // 提取所有版本号得到列表
+        let versions = versionsResult.results.map(row => row.version) as string[];
+        // 按版本号倒序排列
+        versions.sort((a, b) => {
+            const numA = parseFloat(a as string);
+            const numB = parseFloat(b as string);
+            return numB - numA;
+        });
+        // 若未指定版本默认返回最新版本的 workflow
+        let queryVersion = ""
+        if(!workflowVersion){
+            queryVersion = workflowResult.latest_version as string;
+        }else{
+            queryVersion = workflowVersion;
+        };
+        const versionQuery = `SELECT * FROM yaml_versions WHERE yaml_file_id =? AND version =?`;
+        const versionResult = await env.D1.prepare(versionQuery).bind(workflowId, queryVersion).first();
         // 将file_content从数据库读取 BLOB 数据并转换为 Uint8Array，然后使用 TextDecoder 将其转换为字符串
-        const fileContentArrayBuffer = workflowResult.file_content as ArrayBuffer;
+        if (!versionResult) {
+            return new Response(JSON.stringify({ error: 'Workflow version not found' }), {
+                status: 404,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        const fileContentArrayBuffer = versionResult.file_content as ArrayBuffer;
         const fileContentUint8Array = new Uint8Array(fileContentArrayBuffer);
         const fileContentDecoder = new TextDecoder("utf-8");
         const fileContentString = fileContentDecoder.decode(fileContentUint8Array);
@@ -41,9 +72,12 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             id: workflowResult.id as string,
             name: workflowResult.filename as string,
             description: workflowResult.description as string,
+            versions: versions,
+            currunt_version: queryVersion,
             tags: JSON.parse(workflowResult.tags as string),
             icon: workflowResult.icon as string,
-            authorData:JSON.parse(workflowResult.author_data as string),
+            authorData: JSON.parse(workflowResult.author_data as string),
+            update_time: versionResult.created_at as string,
             file_content: fileContentString
         };
 

@@ -459,11 +459,16 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
     event.preventDefault();
     // Get form data
     const formData = new FormData(form);
+    const selectedTags = document.querySelectorAll(".tag");
     // Check if all required fields are filled
     if (
       !formData.get("workflowname") ||
       !formData.get("description") ||
-      !formData.get("dsl-file")
+      !formData.get("dsl-file") ||
+      !formData.get("version") ||
+      !formData.get("author-name") ||
+      !formData.get("social-link") ||
+      selectedTags.length === 0
     ) {
       // alert("Please fill out all required fields.");
       modalTitle.innerText = "😮 Opps";
@@ -477,7 +482,6 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
     ) as HTMLInputElement;
     formData.append("icon", workflow_icon.innerText);
     // Add the selected tags to the form data
-    const selectedTags = document.querySelectorAll(".tag");
     const selectedTagsTree = document.getElementById("selectedTags");
     const tags: string[] = [];
     selectedTags.forEach((tag) => {

@@ -47,7 +47,7 @@ const description =
                   <option>v1.0</option>
                 </select>
               </div>
-              <div id="updated" class="text-xs">Last Updated: 2023-08-01</div>
+              <div id="updated_time" class="text-xs">Last Updated: 2023-08-01</div>
             </div>
             <div class="mt-20">
               <h4>👁️ Before You Use</h4>
@@ -106,9 +106,12 @@ const description =
     id: string;
     name: string;
     description: string;
+    versions: string[];
+    currentVersion: string;
     tags: string[];
     icon: string;
     authorData: WorkflowAuthor;
+    updated_time: string;
     file_content?: string;
   }
 
@@ -168,9 +171,11 @@ const description =
       const workflowAuthorInfo = document.getElementById(
         "authorInfo",
       ) as HTMLDivElement;
+      const updatedTime = document.getElementById("updated_time") as HTMLDivElement;
+      const version = document.getElementById("version") as unknown as HTMLSelectElement;
       console.log("Call loadWorkflow...");
       const workflow = await loadWorkflow();
-      console.log("Workflow Got, Preparing Flow Data...");
+      console.log("Workflow Got, Preparing Flow Data...", workflow);
       const { nodes, edges } = parseYamlToReactFlow(
         workflow.file_content as string,
       );
@@ -197,14 +202,21 @@ const description =
       workflowDescription.innerText = workflow.description;
       workflowAuthor.innerText = workflow.authorData.authorName;
       workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
-
+      updatedTime.innerText = `Last Updated: ${workflow.updated_time}`;
+      // Update the version select
+      version.innerHTML = workflow.versions
+       .map(
+          (version: string) =>
+            `<option value="${version}">${version}</option>`,
+        )
+       .join("");
+      // Update the tags
       const tagsHTML = workflow.tags
         .map(
           (tag: string) =>
             `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
         )
         .join("");
-
       workflowTags.innerHTML = tagsHTML;
       console.log("Workflow info updated.");
       // Download workflow function

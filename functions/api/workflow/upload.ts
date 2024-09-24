@@ -18,7 +18,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     try {
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
         console.log("Upload API Payload from JWT>>>", payload)
-        // Verify payload with Cloudflare D1
+        // Verify payload with Cloudflare D1 Users Table
         const { results } = await context.env.D1.prepare(
             "SELECT * FROM users WHERE id =?"
         ).bind(payload.id).all();
@@ -36,6 +36,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // Extract data from formData
         const workflowName = formData.get('workflowname') as string;
         const description = formData.get('description') as string;
+        const version = formData.get('version') as string;
         const dslFile = formData.get('dsl-file') as File;
         const tags = formData.get('tags') as string;
         const icon = formData.get('icon') as string;
@@ -43,14 +44,22 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // Read the file content as binary data
         const dslFileBuffer = await dslFile.arrayBuffer();
         const dslFileContent = new Uint8Array(dslFileBuffer);
-        // generate file id
+        // generate workflow id
         const fileId = generateIdFromEntropySize(10);
+        // generate workflow version id
+        const versionId = generateIdFromEntropySize(10);
         // Insert data into Cloudflare D1
         console.log("Inserting data into Cloudflare D1")
         const insertQuery = await context.env.D1.prepare(
-            "INSERT INTO yaml_files (id, user_id, filename, description, file_content, tags, author_data, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-        ).bind(fileId, payload.id, workflowName, description, dslFileContent, tags, author, icon).run();
-        console.log("Insert Query Result>>>", insertQuery);
+            "INSERT INTO yaml_files (id, user_id, filename, description, latest_version, tags, author_data, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        ).bind(fileId, payload.id, workflowName, description, version, tags, author, icon).run();
+        console.log("Insert Workflow Query Result>>>", insertQuery);
+        // Insert version data into Cloudflare D1
+        const insertVersionQuery = await context.env.D1.prepare(
+            "INSERT INTO yaml_versions (id, yaml_file_id, version, file_content) VALUES (?,?,?,?)"
+        ).bind(versionId, fileId, version, dslFileContent).run();
+        console.log("Insert Workflow Version Query Result>>>", insertVersionQuery);
+        // Return response
         return new Response(JSON.stringify({ res: 'Upload successful' }), {
             headers: { 'Content-Type': 'application/json' },
             status: 201,
