@@ -1,4 +1,5 @@
 import { jwtVerify } from 'jose';
+import * as jose from 'jose'
 import { generateIdFromEntropySize } from "lucia";
 import type { Env } from '../auth';
 
@@ -65,10 +66,17 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             status: 201,
         });
     } catch (error) {
-        console.error("Error verifying JWT:", error);
-        return new Response(JSON.stringify({ res: 'Internal Server Error' }), {
-            headers: { 'Content-Type': 'application/json' },
-            status: 500,
-        });
+        if (error instanceof jose.errors.JOSEError) {
+            console.error("JWT Expired", error);
+            return new Response(JSON.stringify({ res: 'JWT Broken' }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 401,
+            });
+        } else {
+            return new Response(JSON.stringify({ res: 'Internal Server Error' }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 500,
+            });
+        }
     }
 }

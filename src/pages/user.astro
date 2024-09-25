@@ -13,21 +13,52 @@ const description = "In User Center you can manage your Dify workflows.";
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="User Center" description={description} />
-      <div class="flex flex-col items-center justify-center mt-32">Loading...</div>
-      <div class="flex flex-col items-center justify-center">You have upload XXX workflows.</div>
-      <table class="table table-auto">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Workflow Name</th>
-            <th>Latest Version</th>
-            <th>Manage</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-      </table>
+      <div class="sm:grid sm:grid-cols-6 mt-40">
+        <div id="not-login" class="sm:col-start-3 sm:col-span-2 text-center">
+          <p class="text-sm mb-5">
+            Please Login before entering the User Center.
+          </p>
+          <a id="login-link" href="/login"
+            ><button class="btn-tertiary w-full xl:w-auto py-2" id="login"
+              >🔐 Login</button
+            >
+          </a>
+        </div>
+      </div>
+      <div id="protected-content" style="display: none;">
+        <table class="table table-auto">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Workflow Name</th>
+              <th>Latest Version</th>
+              <th>Manage</th>
+            </tr>
+          </thead>
+          <tbody id="workflowTable">
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mt-14 text-center">
+          <div class="join" id="pagination"></div>
+        </div>
+      </div>
     </Section>
   </div>
 </MainLayout>
+
+<script>
+  import { updatePagination } from "../utils/tools";
+  const workflowTableBody = document.getElementById("workflowTable");
+
+  async function fetchUserWorkflows(page = 1) {
+    const url = new URL("/api/workflow/filter", window.location.origin);
+    url.searchParams.append("myflow", "yes");
+    const response = await fetch(url.toString());
+    const data = await response.json();
+    console.log("User's Workflows>>>>",data);
+    return data;
+  }
+</script>
+

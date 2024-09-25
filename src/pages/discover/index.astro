@@ -32,7 +32,7 @@ const skeletonCount = 12;
 </MainLayout>
 
 <script>
-  import { skeleton } from "../../utils/tools";
+  import { skeleton, updatePagination } from "../../utils/tools";
   interface Workflow {
     id: string;
     name: string;
@@ -129,67 +129,67 @@ const skeletonCount = 12;
     });
   }
 
-  // update pagination component
-  function updatePagination(
-    total: number,
-    currentPage: number,
-    pageSize: number,
-  ) {
-    const totalPages = Math.ceil(total / pageSize); // 计算总页数
-    const paginationDiv = document.getElementById(
-      "pagination",
-    ) as HTMLDivElement;
-    paginationDiv.innerHTML = ""; // 清空之前的内容
+  // // update pagination component
+  // function updatePagination(
+  //   total: number,
+  //   currentPage: number,
+  //   pageSize: number,
+  // ) {
+  //   const totalPages = Math.ceil(total / pageSize); // 计算总页数
+  //   const paginationDiv = document.getElementById(
+  //     "pagination",
+  //   ) as HTMLDivElement;
+  //   paginationDiv.innerHTML = ""; // 清空之前的内容
 
-    // 创建分页按钮
-    function createPageButton(page: number, isDisabled = false) {
-      const button = document.createElement("button");
-      button.className = `join-item btn ${isDisabled ? "btn-disabled" : ""}`;
-      button.textContent = page.toString();
-      button.disabled = isDisabled;
-      if (!isDisabled) {
-        button.addEventListener("click", () => {
-          loadPageData(page); // 点击按钮加载对应页数据
-        });
-      }
-      return button;
-    }
+  //   // 创建分页按钮
+  //   function createPageButton(page: number, isDisabled = false) {
+  //     const button = document.createElement("button");
+  //     button.className = `join-item btn ${isDisabled ? "btn-disabled" : ""}`;
+  //     button.textContent = page.toString();
+  //     button.disabled = isDisabled;
+  //     if (!isDisabled) {
+  //       button.addEventListener("click", () => {
+  //         loadPageData(page); // 点击按钮加载对应页数据
+  //       });
+  //     }
+  //     return button;
+  //   }
 
-    // add page 1 button
-    paginationDiv.appendChild(createPageButton(1, currentPage === 1));
+  //   // add page 1 button
+  //   paginationDiv.appendChild(createPageButton(1, currentPage === 1));
 
-    // add ... button
-    if (currentPage > 3) {
-      const ellipsis = document.createElement("button");
-      ellipsis.className = "join-item btn btn-disabled";
-      ellipsis.textContent = "...";
-      paginationDiv.appendChild(ellipsis);
-    }
+  //   // add ... button
+  //   if (currentPage > 3) {
+  //     const ellipsis = document.createElement("button");
+  //     ellipsis.className = "join-item btn btn-disabled";
+  //     ellipsis.textContent = "...";
+  //     paginationDiv.appendChild(ellipsis);
+  //   }
 
-    // add nearby button
-    for (
-      let i = Math.max(2, currentPage - 1);
-      i <= Math.min(totalPages - 1, currentPage + 1);
-      i++
-    ) {
-      paginationDiv.appendChild(createPageButton(i, currentPage === i));
-    }
+  //   // add nearby button
+  //   for (
+  //     let i = Math.max(2, currentPage - 1);
+  //     i <= Math.min(totalPages - 1, currentPage + 1);
+  //     i++
+  //   ) {
+  //     paginationDiv.appendChild(createPageButton(i, currentPage === i));
+  //   }
 
-    // add ... button
-    if (currentPage < totalPages - 2) {
-      const ellipsis = document.createElement("button");
-      ellipsis.className = "join-item btn btn-disabled";
-      ellipsis.textContent = "...";
-      paginationDiv.appendChild(ellipsis);
-    }
+  //   // add ... button
+  //   if (currentPage < totalPages - 2) {
+  //     const ellipsis = document.createElement("button");
+  //     ellipsis.className = "join-item btn btn-disabled";
+  //     ellipsis.textContent = "...";
+  //     paginationDiv.appendChild(ellipsis);
+  //   }
 
-    // add last page button
-    if (totalPages > 1) {
-      paginationDiv.appendChild(
-        createPageButton(totalPages, currentPage === totalPages),
-      );
-    }
-  }
+  //   // add last page button
+  //   if (totalPages > 1) {
+  //     paginationDiv.appendChild(
+  //       createPageButton(totalPages, currentPage === totalPages),
+  //     );
+  //   }
+  // }
 
   // 加载指定页码的数据
   async function loadPageData(page: number = 1) {
@@ -213,7 +213,7 @@ const skeletonCount = 12;
       updateWorkflowGrid(result.workflows);
 
       // 更新分页按钮
-      updatePagination(result.total, result.page, result.pageSize);
+      updatePagination(result.total, result.page, result.pageSize, loadPageData);
     } catch (error) {
       console.error("Error loading page data:", error);
     }

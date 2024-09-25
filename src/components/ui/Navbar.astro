@@ -112,6 +112,7 @@ const navLinks = [
 <Modal />
 
 <script>
+  // dropdown menu
   document.addEventListener("DOMContentLoaded", (_) => {
     const menuButton = document.getElementById("menuButton");
     const navMenu = document.getElementById("navmenu");
@@ -131,15 +132,6 @@ const navLinks = [
           navMenu.style.height = "0px";
         }
       });
-
-      // navMenu.addEventListener("click", () => {
-      //   /* Close menu after using it */
-      //   if (isMenuOpen) {
-      //     isMenuOpen = false;
-      //     navMenu.style.height = "0px";
-      //     navMenu.classList.remove("h-auto");
-      //   }
-      // });
 
       window.addEventListener("resize", () => {
         /* Resize cleanup screen state*/
@@ -181,7 +173,7 @@ const navLinks = [
     userDropdown.classList.toggle("hidden");
     if (!userDropdown.classList.contains("hidden")) {
       const buttonRect = userMenuButton.getBoundingClientRect();
-      userDropdown.style.top = `${buttonRect.bottom + window.scrollY}px`;
+      userDropdown.style.top = `${buttonRect.bottom + 4}px`;
       userDropdown.style.right = `${window.innerWidth - buttonRect.right - 10}px`;
     }
   }
@@ -219,7 +211,8 @@ const navLinks = [
   async function loadUserFromStorage() {
     const protectedContent = document.getElementById(
       "protected-content",
-    ) as HTMLDivElement | null;
+    ) as HTMLDivElement || null;
+    const notLogin = document.getElementById("not-login") as HTMLDivElement || null;
     
     try{
       const username = sessionStorage.getItem("username");
@@ -237,11 +230,31 @@ const navLinks = [
       logoutLink.addEventListener("click", confirmLogout);
       // loginLink.addEventListener("click", confirmLogiut);
       if (protectedContent) {
+        notLogin.style.display = "none";
         protectedContent.style.display = "block";
       }
     } else {
       console.log("No username found in sessionStorage, Call User API...");
       const response = await fetch("/api/user");
+      if (response.status === 401) {
+        console.log("JWT is invalid");
+        sessionStorage.removeItem("username");
+        userMenuButton.textContent = "Login";
+        userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+        if(protectedContent && notLogin){
+          notLogin.style.display = "block";
+          protectedContent.style.display = "none";
+        }
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "Your login has expired, please login again!";
+        const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.add("btn-error");
+        confirmBtn.classList.remove("hidden");
+        confirmBtn.setAttribute("onclick", "window.location.href='/login'");
+        modal.showModal();
+        return;
+      }
       const data: UserResponse = await response.json();
       console.log("fetch user data>>>", data);
 
@@ -254,11 +267,16 @@ const navLinks = [
         userMenuButton.addEventListener("click", toggleUserDropdown);
         logoutLink.addEventListener("click", confirmLogout);
         if (protectedContent) {
+          notLogin.style.display = "none";
           protectedContent.style.display = "block";
         }
       }
       userMenuButton.textContent = "Login";
       userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+      if(protectedContent && notLogin){
+        notLogin.style.display = "block";
+        protectedContent.style.display = "none";
+      }
     }
     }catch(error){
       console.log("No user found in server response");
@@ -266,7 +284,8 @@ const navLinks = [
       userMenuButton.textContent = "Login";
       // loginLink.setAttribute("href", "/login");
       userMenuButton.setAttribute("onclick", "window.location.href='/login'")
-      if (protectedContent) {
+      if(protectedContent && notLogin){
+        notLogin.style.display = "block";
         protectedContent.style.display = "none";
       }
     }
