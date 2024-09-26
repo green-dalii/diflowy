@@ -29,21 +29,21 @@ const description = "In User Center you can manage your Dify workflows.";
       <div id="protected-content" style="display: none;">
         <table class="table table-fixed w-full">
           <colgroup>
-            <col class="w-1/12" />
-            <col class="w-3/12" />
-            <col class="w-2/12" />
-            <col class="w-2/12" />
-            <col class="w-2/12" />
-            <col class="w-2/12" />
+            <col class="hidden sm:block sm:w-1/12" />
+            <col class="w-1/4 sm:w-3/12" />
+            <col class="hidden sm:block sm:w-2/12" />
+            <col class="w-1/4 sm:w-2/12" />
+            <col class="w-1/4 sm:w-2/12" />
+            <col class="w-1/4 sm:w-2/12" />
           </colgroup>
           <thead>
             <tr>
-              <th class="hidden sm:block">No.</th>
-              <th>Workflow Name</th>
-              <th class="hidden sm:block">Latest Version</th>
-              <th>Metadata</th>
-              <th>Update Version</th>
-              <th>Delete</th>
+              <th class="text-wrap">No.</th>
+              <th class="text-wrap">Workflow Name</th>
+              <th class="text-wrap">Latest Version</th>
+              <th class="text-wrap">Metadata</th>
+              <th class="text-wrap">Update Version</th>
+              <th class="text-wrap">Delete</th>
             </tr>
           </thead>
           <tbody id="workflowTable"> </tbody>
@@ -96,21 +96,21 @@ const description = "In User Center you can manage your Dify workflows.";
       row.classList.add("hover");
       row.id = `${workflow.id}`;
       row.innerHTML = `
-        <td class="hidden sm:block">${index + 1 + pageSize * (page - 1)}</td>
+        <td>${index + 1 + pageSize * (page - 1)}</td>
         <td><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
-        <td class="hidden sm:block">${workflow.latestVersion}</td>
+        <td>${workflow.latestVersion}</td>
         <td>
-            <button class="btn btn-wide btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${workflow.tags}" data-workflow-description="${workflow.description}" data-workflow-author="${workflow.authorData}">
+            <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${workflow.tags}" data-workflow-description="${workflow.description}" data-workflow-author='${workflow.authorData}'>
               📝 <span class="hidden sm:block ml-1">Edit</span>
             </button>
         </td>
         <td>
-          <button class="btn btn-wide btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}" data-workflow-ver="${workflow.latestVersion}">
+          <button class="btn w-full btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}" data-workflow-ver="${workflow.latestVersion}">
               🚀 <span class="hidden sm:block ml-1">Upload New</span>
           </button>
         </td>
         <td>
-          <button class="btn btn-wide btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}">
+          <button class="btn w-full btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}">
               🗑️ <span class="hidden sm:block ml-1">Delete</span>
           </button>
         </td>
