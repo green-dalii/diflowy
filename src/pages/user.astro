@@ -27,13 +27,23 @@ const description = "In User Center you can manage your Dify workflows.";
         </div>
       </div>
       <div id="protected-content" style="display: none;">
-        <table class="table table-fixed">
+        <table class="table table-fixed w-full">
+          <colgroup>
+            <col class="w-1/12">
+            <col class="w-3/12">
+            <col class="w-2/12">
+            <col class="w-2/12">
+            <col class="w-2/12">
+            <col class="w-2/12">
+          </colgroup>
           <thead>
             <tr>
               <th>No.</th>
               <th>Workflow Name</th>
-              <th>Latest Version</th>
-              <th>Manage</th>
+              <th class="hidden sm:block">Latest Version</th>
+              <th>Metadata</th>
+              <th>Update Version</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody id="workflowTable">
@@ -79,7 +89,7 @@ import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
     "updateForm"
   ) as HTMLDivElement;
   const editModalConfirmBtn = document.getElementById(
-    "editModalConfirmBtn",
+    "editConfirmBtn",
   ) as HTMLButtonElement;
 
   function updateUserWorkflowsTable(workflowsResponse: GetWorkflowsResponse) {
@@ -93,20 +103,22 @@ import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
       row.id = `${workflow.id}`;
       row.innerHTML = `
         <td>${index + 1 + pageSize * (page - 1)}</td>
-        <td><a href="/discover/workflow?id=${workflow.id}">${workflow.name}</a></td>
-        <td>${workflow.latestVersion}</td>
+        <td><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
+        <td class="hidden sm:block">${workflow.latestVersion}</td>
         <td>
-          <div class="flex flex-col sm:flex-row gap-1">
             <button class="btn btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}">
-              📝 Edit Metadata
+              📝 Edit
             </button>
-            <button class="btn btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}">
-              🚀 Update Version
-            </button>
-            <button class="btn btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}">
+        </td>
+        <td>
+          <button class="btn btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}">
+              🚀 Upload New
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}">
               🗑️ Delete
-            </button>
-          </div>
+          </button>
         </td>
       `;
       workflowTableBody.appendChild(row);
