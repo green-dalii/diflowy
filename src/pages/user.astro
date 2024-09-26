@@ -2,6 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
+import EditModal from "../components/ui/EditModal.astro";
 import "../styles/globals.css";
 const description = "In User Center you can manage your Dify workflows.";
 ---
@@ -36,22 +37,23 @@ const description = "In User Center you can manage your Dify workflows.";
             </tr>
           </thead>
           <tbody id="workflowTable">
-            <tr>
-            </tr>
           </tbody>
         </table>
         <div class="mt-14 text-center">
           <div class="join" id="pagination"></div>
         </div>
       </div>
+      <EditModal />
     </Section>
   </div>
 </MainLayout>
 
 <script>
-  import { updatePagination, fetchWorkflows } from "../utils/tools";
+  import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
   import type { Workflow, GetWorkflowsResponse } from "../utils/tools";
-  const workflowTableBody = document.getElementById("workflowTable") as HTMLTableSectionElement;
+  const workflowTableBody = document.getElementById(
+    "workflowTable",
+  ) as HTMLTableSectionElement;
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
   const modalTitle = document.getElementById(
@@ -60,7 +62,20 @@ const description = "In User Center you can manage your Dify workflows.";
   const modalContent = document.getElementById(
     "modalContent",
   ) as HTMLDivElement;
-  
+  // Get Edit modal
+  const editModal = document.getElementById(
+    "editModal",
+  ) as HTMLDialogElement;
+  const editModalTitle = document.getElementById(
+    "editModalTitle",
+  ) as HTMLHeadingElement;
+  const editModalContent = document.getElementById(
+    "editModalContent",
+  ) as HTMLDivElement;
+  const editModalConfirmBtn = document.getElementById(
+    "editModalConfirmBtn",
+  ) as HTMLButtonElement;
+
   function updateUserWorkflowsTable(workflowsResponse: GetWorkflowsResponse) {
     workflowTableBody.innerHTML = "";
     const workflows = workflowsResponse.workflows as Workflow[];
@@ -68,34 +83,88 @@ const description = "In User Center you can manage your Dify workflows.";
     const pageSize = workflowsResponse.pageSize as number;
     workflows.forEach((workflow: Workflow, index: number) => {
       const row = document.createElement("tr");
+      row.classList.add("hover");
       row.id = `${workflow.id}`;
       row.innerHTML = `
         <td>${index + 1 + pageSize * (page - 1)}</td>
         <td>${workflow.name}</td>
         <td>${workflow.latestVersion}</td>
         <td>
-          <a href="/workflow/${workflow.id}">
-            <button class="btn-primary">
-              📝 Manage
+          <div class="flex flex-row gap-1">
+            <button class="btn btn-sm btn-info edit" data-workflow-id="${workflow.id}">
+              📝 Edit Metadata
             </button>
-          </a>
+            <button class="btn btn-sm btn-success update" data-workflow-id="${workflow.id}">
+              🚀 Update Version
+            </button>
+            <button class="btn btn-sm btn-error delete" data-workflow-id="${workflow.id}">
+              🗑️ Delete
+            </button>
+          </div>
         </td>
       `;
       workflowTableBody.appendChild(row);
     });
   }
 
-  async function loadPageData(page: number =1) {
-    try{
-      const workflowsResponse = await fetchWorkflows(page, 10, undefined, "yes");
+  async function loadPageData(page: number = 1) {
+    try {
+      const workflowsResponse = await fetchWorkflows(
+        page,
+        10,
+        undefined,
+        "yes",
+      );
       updateUserWorkflowsTable(workflowsResponse);
-      updatePagination(workflowsResponse.total, workflowsResponse.page, workflowsResponse.pageSize, loadPageData);
-    }catch(error){
-      console.error("Error loading page data:", error);
-      modalTitle.innerText = "⚠️ Error";
-      modalContent.innerText =
-        "Failed to fetch workflows. Please check your connection and try again.";
-      modal.showModal();
+      updatePagination(
+        workflowsResponse.total,
+        workflowsResponse.page,
+        workflowsResponse.pageSize,
+        loadPageData,
+      );
+      // Bind click event to each workflow's mangae buttons
+      workflowTableBody.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        // click edit button
+        if (target.classList.contains("edit")) {
+          const workflowId = target.dataset.workflowId;
+          console.log("Clicked the edit button of", workflowId)
+          editModalTitle.innerText = "Edit Workflow Metadata";
+          editModal.showModal();
+        }
+        // click update button
+        if (target.classList.contains("update")) {
+          const workflowId = target.dataset.workflowId;
+          console.log("Clicked the update button of", workflowId)
+        }
+        // click delete button
+        if (target.classList.contains("delete")) {
+          const workflowId = target.dataset.workflowId;
+          console.log("Clicked the delete button of", workflowId)
+        }
+      });
+    } catch (error) {
+      if (error instanceof JWTError) {
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "Your login has expired, please login again!";
+        const confirmBtn = document.getElementById(
+          "confirmBtn",
+        ) as HTMLButtonElement;
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.add("btn-error");
+        confirmBtn.classList.remove("hidden");
+        confirmBtn.setAttribute(
+          "onclick",
+          "window.location.href='/api/login/github'",
+        );
+        modal.showModal();
+      } else {
+        console.error("Error loading page data:", error);
+        modalTitle.innerText = "⚠️ Error";
+        modalContent.innerText =
+          "Failed to fetch workflows. Please check your connection and try again.";
+        modal.showModal();
+      }
     }
   }
 
@@ -103,4 +172,3 @@ const description = "In User Center you can manage your Dify workflows.";
     loadPageData(1);
   });
 </script>
-

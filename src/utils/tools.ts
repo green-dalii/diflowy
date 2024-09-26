@@ -5,14 +5,30 @@ export interface Workflow {
     description: string;
     tags: string;
     latestVersion: string;
-  }
+}
 
 export interface GetWorkflowsResponse {
     workflows: Workflow[];
     total: number;
     page: number;
     pageSize: number;
-  }
+}
+
+// 自定义错误类
+class CustomError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = this.constructor.name;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+export class JWTError extends CustomError {
+    constructor(message: string) {
+        super(message);
+        this.message = message || "Authentication failed";
+    }
+}
 
 // Skeleton in workflowgrid
 export function skeleton() {
@@ -116,16 +132,19 @@ export async function fetchWorkflows(
     console.log("Fetching workflows from:", url.toString());
     const response = await fetch(url.toString());
 
-    if (!response.ok) {
-        console.error("Failed to fetch workflows");
+    if (response.status == 401) {
+        console.error("JWT Authentication failed");
+        throw new JWTError("JWT Authentication failed");
+    } else if (!response.ok) {
+        console.error("Failed to fetch workflows:", response.statusText);
         throw new Error("Failed to fetch workflows");
     }
     return (await response.json()) as GetWorkflowsResponse;
 }
 
-  // Get tags[] from url
-  export function getTagsFromURL(): string[] {
+// Get tags[] from url
+export function getTagsFromURL(): string[] {
     const urlParams = new URLSearchParams(window.location.search);
     const tags: string[] = urlParams.getAll("tags");
     return tags;
-  }
+}

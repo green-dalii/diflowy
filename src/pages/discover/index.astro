@@ -39,20 +39,6 @@ const skeletonCount = 12;
     fetchWorkflows,
   } from "../../utils/tools";
   import type { Workflow } from "../../utils/tools";
-  // interface Workflow {
-  //   id: string;
-  //   name: string;
-  //   icon: string;
-  //   description: string;
-  //   tags: string;
-  // }
-
-  // interface GetWorkflowsResponse {
-  //   workflows: Workflow[];
-  //   total: number;
-  //   page: number;
-  //   pageSize: number;
-  // }
 
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
@@ -62,36 +48,6 @@ const skeletonCount = 12;
   const modalContent = document.getElementById(
     "modalContent",
   ) as HTMLDivElement;
-
-  // // Get tags[] from url
-  // function getTagsFromURL(): string[] {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const tags: string[] = urlParams.getAll("tags");
-  //   return tags;
-  // }
-
-  // // Get workflows from API
-  // async function fetchWorkflows(
-  //   page: number = 1,
-  //   pageSize: number = 12,
-  //   tags: string[] = [],
-  // ): Promise<GetWorkflowsResponse> {
-  //   const url = new URL("/api/workflow/filter", window.location.origin);
-  //   url.searchParams.append("page", page.toString());
-  //   url.searchParams.append("pageSize", pageSize.toString());
-  //   tags.forEach((tag) => url.searchParams.append("tags", tag));
-  //   console.log("Fetching workflows from:", url.toString());
-  //   const response = await fetch(url.toString());
-
-  //   if (!response.ok) {
-  //     console.error("Failed to fetch workflows");
-  //     modalTitle.innerText = "⚠️ Error";
-  //     modalContent.innerText =
-  //       "Failed to fetch workflows. Please check your connection and try again.";
-  //     modal.showModal();
-  //   }
-  //   return (await response.json()) as GetWorkflowsResponse;
-  // }
 
   // update workflow
   function updateWorkflowGrid(workflows: Workflow[]) {

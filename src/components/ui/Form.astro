@@ -86,7 +86,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
                   name="workflowname"
                   id="workflowname"
                   autocomplete="workflowname"
-                  class="block flex-1 bg-transparent py-1.5 px-2 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded-md shadow-sm border border-gray-300"
+                  class="input input-bordered w-full max-w-xs"
                   placeholder="Fill Your Workflow Name"
                 />
               </div>
@@ -127,7 +127,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
                 id="description"
                 name="description"
                 rows="10"
-                class="block w-full rounded-md border-0 p-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="textarea textarea-bordered w-full"
                 placeholder="Describe your workflow with a few key points, such as:
     - Introduction
     - Capabilities
@@ -222,7 +222,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
                 type="text"
                 name="author-name"
                 id="author-name"
-                class="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="input input-bordered w-full max-w-xs"
               />
             </div>
           </div>
@@ -236,7 +236,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
               <input
                 id="social-link"
                 name="social-link"
-                class="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                class="input input-bordered w-full max-w-xs"
               />
             </div>
             <p class="mt-1 text-xs leading-normal text-gray-400">
@@ -275,6 +275,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
       <div class="w-full h-[500px] sm:h-[600px]">
         <ReactFlowPreview client:only="react" />
       </div>
+      <div><small class="text-sm text-gray-400">* Above is for Preview Only. Any changes in preview area will not affect the file you upload.</small></div>
     </div>
   </div>
 </form>

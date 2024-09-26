@@ -1,0 +1,169 @@
+---
+
+---
+
+<dialog id="editModal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box sm:w-11/12 sm:max-w-5xl">
+        <h3 id="editModalTitle" class="text-lg font-bold"></h3>
+        <div id="editModalContent" class="py-4 text-sm">
+            <div id="editMetaForm" class="flex flex-col gap-2">
+                <div class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">Workflow Name</span>
+                    </div>
+                    <input
+                        id="editWorkflowName"
+                        name="editWorkflowName"
+                        type="text"
+                        class="input input-bordered w-full"
+                    />
+                </div>
+                <div class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">Description</span>
+                    </div>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="10"
+                        class="textarea textarea-bordered w-full"></textarea>
+                </div>
+                <!-- Dropdown Tags -->
+                <div class="relative block text-left sm:col-span-full">
+                    <div>
+                        <button
+                            id="dropdownButton"
+                            class="btn-secondary w-full px-4 py-2"
+                            type="button"
+                        >
+                            Select Tags
+                        </button>
+                        <div
+                            id="dropdownTags"
+                            class="dropdown-menu hidden absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Productivity"
+                                /> Productivity
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Assistant"
+                                /> Assistant
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Creative"
+                                /> Creative
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Social Media"
+                                /> Social Media
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Finance & Business"
+                                /> Finance & Business
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Lifestyle & Health"
+                                />
+                                Lifestyle & Health
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Education"
+                                />
+                                Education
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Entertainment"
+                                />
+                                Entertainment
+                            </label>
+                            <label
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="mr-2"
+                                    value="Others"
+                                />
+                                Others
+                            </label>
+                        </div>
+                    </div>
+                    <div id="selectedTags" class="selected-tags"></div>
+                </div>
+                <div class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">Author</span>
+                    </div>
+                    <input
+                        id="editWorkflowAuthor"
+                        name="editWorkflowAuthor"
+                        type="text"
+                        class="input input-bordered w-full"
+                    />
+                </div>
+                <div class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text"
+                            >Social Media / Contact Link</span
+                        >
+                    </div>
+                    <input
+                        id="editWorkflowAuthorLink"
+                        name="editWorkflowAuthorLink"
+                        type="text"
+                        class="input input-bordered w-full"
+                    />
+                </div>
+            </div>
+            <div id="updateForm" class="hidden"></div>
+        </div>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button id="editConfirmBtn" class="hidden btn"></button>
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
