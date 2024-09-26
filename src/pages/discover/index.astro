@@ -32,21 +32,27 @@ const skeletonCount = 12;
 </MainLayout>
 
 <script>
-  import { skeleton, updatePagination } from "../../utils/tools";
-  interface Workflow {
-    id: string;
-    name: string;
-    icon: string;
-    description: string;
-    tags: string;
-  }
+  import {
+    skeleton,
+    updatePagination,
+    getTagsFromURL,
+    fetchWorkflows,
+  } from "../../utils/tools";
+  import type { Workflow } from "../../utils/tools";
+  // interface Workflow {
+  //   id: string;
+  //   name: string;
+  //   icon: string;
+  //   description: string;
+  //   tags: string;
+  // }
 
-  interface GetWorkflowsResponse {
-    workflows: Workflow[];
-    total: number;
-    page: number;
-    pageSize: number;
-  }
+  // interface GetWorkflowsResponse {
+  //   workflows: Workflow[];
+  //   total: number;
+  //   page: number;
+  //   pageSize: number;
+  // }
 
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
@@ -57,34 +63,35 @@ const skeletonCount = 12;
     "modalContent",
   ) as HTMLDivElement;
 
-  // Get tags[] from url
-  function getTagsFromURL(): string[] {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tags: string[] = urlParams.getAll("tags");
-    return tags;
-  }
-  // Get workflows from API
-  async function fetchWorkflows(
-    page: number = 1,
-    pageSize: number = 12,
-    tags: string[] = [],
-  ): Promise<GetWorkflowsResponse> {
-    const url = new URL("/api/workflow/filter", window.location.origin);
-    url.searchParams.append("page", page.toString());
-    url.searchParams.append("pageSize", pageSize.toString());
-    tags.forEach((tag) => url.searchParams.append("tags", tag));
-    console.log("Fetching workflows from:", url.toString());
-    const response = await fetch(url.toString());
+  // // Get tags[] from url
+  // function getTagsFromURL(): string[] {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const tags: string[] = urlParams.getAll("tags");
+  //   return tags;
+  // }
 
-    if (!response.ok) {
-      console.error("Failed to fetch workflows");
-      modalTitle.innerText = "⚠️ Error";
-      modalContent.innerText =
-        "Failed to fetch workflows. Please check your connection and try again.";
-      modal.showModal();
-    }
-    return (await response.json()) as GetWorkflowsResponse;
-  }
+  // // Get workflows from API
+  // async function fetchWorkflows(
+  //   page: number = 1,
+  //   pageSize: number = 12,
+  //   tags: string[] = [],
+  // ): Promise<GetWorkflowsResponse> {
+  //   const url = new URL("/api/workflow/filter", window.location.origin);
+  //   url.searchParams.append("page", page.toString());
+  //   url.searchParams.append("pageSize", pageSize.toString());
+  //   tags.forEach((tag) => url.searchParams.append("tags", tag));
+  //   console.log("Fetching workflows from:", url.toString());
+  //   const response = await fetch(url.toString());
+
+  //   if (!response.ok) {
+  //     console.error("Failed to fetch workflows");
+  //     modalTitle.innerText = "⚠️ Error";
+  //     modalContent.innerText =
+  //       "Failed to fetch workflows. Please check your connection and try again.";
+  //     modal.showModal();
+  //   }
+  //   return (await response.json()) as GetWorkflowsResponse;
+  // }
 
   // update workflow
   function updateWorkflowGrid(workflows: Workflow[]) {
@@ -129,68 +136,6 @@ const skeletonCount = 12;
     });
   }
 
-  // // update pagination component
-  // function updatePagination(
-  //   total: number,
-  //   currentPage: number,
-  //   pageSize: number,
-  // ) {
-  //   const totalPages = Math.ceil(total / pageSize); // 计算总页数
-  //   const paginationDiv = document.getElementById(
-  //     "pagination",
-  //   ) as HTMLDivElement;
-  //   paginationDiv.innerHTML = ""; // 清空之前的内容
-
-  //   // 创建分页按钮
-  //   function createPageButton(page: number, isDisabled = false) {
-  //     const button = document.createElement("button");
-  //     button.className = `join-item btn ${isDisabled ? "btn-disabled" : ""}`;
-  //     button.textContent = page.toString();
-  //     button.disabled = isDisabled;
-  //     if (!isDisabled) {
-  //       button.addEventListener("click", () => {
-  //         loadPageData(page); // 点击按钮加载对应页数据
-  //       });
-  //     }
-  //     return button;
-  //   }
-
-  //   // add page 1 button
-  //   paginationDiv.appendChild(createPageButton(1, currentPage === 1));
-
-  //   // add ... button
-  //   if (currentPage > 3) {
-  //     const ellipsis = document.createElement("button");
-  //     ellipsis.className = "join-item btn btn-disabled";
-  //     ellipsis.textContent = "...";
-  //     paginationDiv.appendChild(ellipsis);
-  //   }
-
-  //   // add nearby button
-  //   for (
-  //     let i = Math.max(2, currentPage - 1);
-  //     i <= Math.min(totalPages - 1, currentPage + 1);
-  //     i++
-  //   ) {
-  //     paginationDiv.appendChild(createPageButton(i, currentPage === i));
-  //   }
-
-  //   // add ... button
-  //   if (currentPage < totalPages - 2) {
-  //     const ellipsis = document.createElement("button");
-  //     ellipsis.className = "join-item btn btn-disabled";
-  //     ellipsis.textContent = "...";
-  //     paginationDiv.appendChild(ellipsis);
-  //   }
-
-  //   // add last page button
-  //   if (totalPages > 1) {
-  //     paginationDiv.appendChild(
-  //       createPageButton(totalPages, currentPage === totalPages),
-  //     );
-  //   }
-  // }
-
   // 加载指定页码的数据
   async function loadPageData(page: number = 1) {
     try {
@@ -200,8 +145,8 @@ const skeletonCount = 12;
       ) as HTMLDivElement;
       workflowGrid.innerHTML = "";
       new Array(12).fill(null).map((_) => {
-        workflowGrid.innerHTML += skeleton()
-      })
+        workflowGrid.innerHTML += skeleton();
+      });
       const result = await fetchWorkflows(page, 12, getTagsFromURL()); // 默认每页12个
       console.log("Workflows:", result.workflows);
       console.log("Total:", result.total);
@@ -213,9 +158,18 @@ const skeletonCount = 12;
       updateWorkflowGrid(result.workflows);
 
       // 更新分页按钮
-      updatePagination(result.total, result.page, result.pageSize, loadPageData);
+      updatePagination(
+        result.total,
+        result.page,
+        result.pageSize,
+        loadPageData,
+      );
     } catch (error) {
       console.error("Error loading page data:", error);
+      modalTitle.innerText = "⚠️ Error";
+      modalContent.innerText =
+        "Failed to fetch workflows. Please check your connection and try again.";
+      modal.showModal();
     }
   }
 

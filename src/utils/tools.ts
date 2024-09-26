@@ -1,19 +1,20 @@
-interface Workflow {
+export interface Workflow {
     id: string;
     name: string;
     icon: string;
     description: string;
     tags: string;
+    latestVersion: string;
   }
 
-  interface GetWorkflowsResponse {
+export interface GetWorkflowsResponse {
     workflows: Workflow[];
     total: number;
     page: number;
     pageSize: number;
   }
 
-
+// Skeleton in workflowgrid
 export function skeleton() {
     return `
     <div class="border dark:border-[--darkbgoffset] shadow rounded-3xl p-4 w-full mx-auto h-52">
@@ -101,24 +102,30 @@ export function updatePagination(
 }
 
 // Get workflows from API
-async function fetchWorkflows(
+export async function fetchWorkflows(
     page: number = 1,
     pageSize: number = 12,
     tags: string[] = [],
+    myflow: string = "no",
 ): Promise<GetWorkflowsResponse> {
     const url = new URL("/api/workflow/filter", window.location.origin);
     url.searchParams.append("page", page.toString());
     url.searchParams.append("pageSize", pageSize.toString());
+    url.searchParams.append("myflow", myflow);
     tags.forEach((tag) => url.searchParams.append("tags", tag));
     console.log("Fetching workflows from:", url.toString());
     const response = await fetch(url.toString());
 
     if (!response.ok) {
         console.error("Failed to fetch workflows");
-        // modalTitle.innerText = "⚠️ Error";
-        // modalContent.innerText =
-        //     "Failed to fetch workflows. Please check your connection and try again.";
-        // modal.showModal();
+        throw new Error("Failed to fetch workflows");
     }
     return (await response.json()) as GetWorkflowsResponse;
 }
+
+  // Get tags[] from url
+  export function getTagsFromURL(): string[] {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tags: string[] = urlParams.getAll("tags");
+    return tags;
+  }

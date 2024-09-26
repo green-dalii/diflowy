@@ -49,16 +49,58 @@ const description = "In User Center you can manage your Dify workflows.";
 </MainLayout>
 
 <script>
-  import { updatePagination } from "../utils/tools";
-  const workflowTableBody = document.getElementById("workflowTable");
-
-  async function fetchUserWorkflows(page = 1) {
-    const url = new URL("/api/workflow/filter", window.location.origin);
-    url.searchParams.append("myflow", "yes");
-    const response = await fetch(url.toString());
-    const data = await response.json();
-    console.log("User's Workflows>>>>",data);
-    return data;
+  import { updatePagination, fetchWorkflows } from "../utils/tools";
+  import type { Workflow, GetWorkflowsResponse } from "../utils/tools";
+  const workflowTableBody = document.getElementById("workflowTable") as HTMLTableSectionElement;
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+  
+  function updateUserWorkflowsTable(workflowsResponse: GetWorkflowsResponse) {
+    workflowTableBody.innerHTML = "";
+    const workflows = workflowsResponse.workflows as Workflow[];
+    const page = workflowsResponse.page as number;
+    const pageSize = workflowsResponse.pageSize as number;
+    workflows.forEach((workflow: Workflow, index: number) => {
+      const row = document.createElement("tr");
+      row.id = `${workflow.id}`;
+      row.innerHTML = `
+        <td>${index + 1 + pageSize * (page - 1)}</td>
+        <td>${workflow.name}</td>
+        <td>${workflow.latestVersion}</td>
+        <td>
+          <a href="/workflow/${workflow.id}">
+            <button class="btn-primary">
+              📝 Manage
+            </button>
+          </a>
+        </td>
+      `;
+      workflowTableBody.appendChild(row);
+    });
   }
+
+  async function loadPageData(page: number =1) {
+    try{
+      const workflowsResponse = await fetchWorkflows(page, 10, undefined, "yes");
+      updateUserWorkflowsTable(workflowsResponse);
+      updatePagination(workflowsResponse.total, workflowsResponse.page, workflowsResponse.pageSize, loadPageData);
+    }catch(error){
+      console.error("Error loading page data:", error);
+      modalTitle.innerText = "⚠️ Error";
+      modalContent.innerText =
+        "Failed to fetch workflows. Please check your connection and try again.";
+      modal.showModal();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPageData(1);
+  });
 </script>
 
