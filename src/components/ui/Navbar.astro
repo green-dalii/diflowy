@@ -245,14 +245,14 @@ const navLinks = [
           notLogin.style.display = "block";
           protectedContent.style.display = "none";
         }
-        modalTitle.innerText = "😮 Opps...";
-        modalContent.innerText = "Your login has expired, please login again!";
-        const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
-        confirmBtn.textContent = "Login again";
-        confirmBtn.classList.add("btn-error");
-        confirmBtn.classList.remove("hidden");
-        confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
-        modal.showModal();
+        // modalTitle.innerText = "😮 Opps...";
+        // modalContent.innerText = "Your login has expired, please login again!";
+        // const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+        // confirmBtn.textContent = "Login again";
+        // confirmBtn.classList.add("btn-error");
+        // confirmBtn.classList.remove("hidden");
+        // confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
+        // modal.showModal();
         return;
       }
       const data: UserResponse = await response.json();
@@ -261,7 +261,7 @@ const navLinks = [
       if (data.user) {
         console.log("User found in server response");
         sessionStorage.setItem("username", data.user.username);
-        userMenuButton.textContent = `${data.user.username}`;
+        userMenuButton.textContent = data.user.username;
         // loginLink.setAttribute("href", "#");
         // loginLink.addEventListener("click", confirmLogiut);
         userMenuButton.addEventListener("click", toggleUserDropdown);
