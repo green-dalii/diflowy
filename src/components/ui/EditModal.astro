@@ -9,7 +9,7 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
       <!-- Edit Metadata Form -->
       <div id="editMetaForm" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <!-- Column 1 -->
-        <div class="flex flex-col">
+        <div class="flex flex-col gap-2">
           <div class="form-control w-full">
             <div class="label">
               <span class="label-text">Workflow Name</span>
@@ -126,8 +126,8 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
             <span class="label-text">Description</span>
           </div>
           <textarea
-            id="description"
-            name="description"
+            id="editWorkflowDescription"
+            name="editWorkflowDescription"
             rows="10"
             class="textarea textarea-bordered w-full"></textarea>
         </div>
@@ -145,7 +145,7 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
         </div>
         <!-- Version -->
         <div class="sm:col-span-full">
-          <label for="version" class="block text-sm font-medium leading-6">Version Control</label>
+          <label for="version" class="block text-sm font-medium leading-6">Update Version</label>
           <div class="mt-2 flex rounded-md shadow-sm">
             <span class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm">
               V
@@ -154,8 +154,8 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
               type="number"
               step="0.1"
               min="0.1"
-              name="version"
-              id="version"
+              name="updateVersion"
+              id="updateVersionInput"
               value="1.0"
               class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
               placeholder="1.0"

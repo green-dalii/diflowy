@@ -29,16 +29,16 @@ const description = "In User Center you can manage your Dify workflows.";
       <div id="protected-content" style="display: none;">
         <table class="table table-fixed w-full">
           <colgroup>
-            <col class="w-1/12">
-            <col class="w-3/12">
-            <col class="w-2/12">
-            <col class="w-2/12">
-            <col class="w-2/12">
-            <col class="w-2/12">
+            <col class="w-1/12" />
+            <col class="w-3/12" />
+            <col class="w-2/12" />
+            <col class="w-2/12" />
+            <col class="w-2/12" />
+            <col class="w-2/12" />
           </colgroup>
           <thead>
             <tr>
-              <th>No.</th>
+              <th class="hidden sm:block">No.</th>
               <th>Workflow Name</th>
               <th class="hidden sm:block">Latest Version</th>
               <th>Metadata</th>
@@ -46,8 +46,7 @@ const description = "In User Center you can manage your Dify workflows.";
               <th>Delete</th>
             </tr>
           </thead>
-          <tbody id="workflowTable">
-          </tbody>
+          <tbody id="workflowTable"> </tbody>
         </table>
         <div class="mt-14 text-center">
           <div class="join" id="pagination"></div>
@@ -59,8 +58,7 @@ const description = "In User Center you can manage your Dify workflows.";
 </MainLayout>
 
 <script>
-  import { fade } from "astro:transitions";
-import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
+  import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
   import type { Workflow, GetWorkflowsResponse } from "../utils/tools";
   const workflowTableBody = document.getElementById(
     "workflowTable",
@@ -74,20 +72,16 @@ import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
     "modalContent",
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
-  
+
   // Get Edit modal
-  const editModal = document.getElementById(
-    "editModal",
-  ) as HTMLDialogElement;
+  const editModal = document.getElementById("editModal") as HTMLDialogElement;
   const editModalTitle = document.getElementById(
     "editModalTitle",
   ) as HTMLHeadingElement;
   const editMetaForm = document.getElementById(
     "editMetaForm",
   ) as HTMLDivElement;
-  const updateForm = document.getElementById(
-    "updateForm"
-  ) as HTMLDivElement;
+  const updateForm = document.getElementById("updateForm") as HTMLDivElement;
   const editModalConfirmBtn = document.getElementById(
     "editConfirmBtn",
   ) as HTMLButtonElement;
@@ -102,22 +96,22 @@ import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
       row.classList.add("hover");
       row.id = `${workflow.id}`;
       row.innerHTML = `
-        <td>${index + 1 + pageSize * (page - 1)}</td>
+        <td class="hidden sm:block">${index + 1 + pageSize * (page - 1)}</td>
         <td><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden sm:block">${workflow.latestVersion}</td>
         <td>
-            <button class="btn btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}">
-              📝 Edit
+            <button class="btn btn-wide btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${workflow.tags}" data-workflow-description="${workflow.description}" data-workflow-author="${workflow.authorData}">
+              📝 <span class="hidden sm:block ml-1">Edit</span>
             </button>
         </td>
         <td>
-          <button class="btn btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}">
-              🚀 Upload New
+          <button class="btn btn-wide btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}" data-workflow-ver="${workflow.latestVersion}">
+              🚀 <span class="hidden sm:block ml-1">Upload New</span>
           </button>
         </td>
         <td>
-          <button class="btn btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}">
-              🗑️ Delete
+          <button class="btn btn-wide btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}">
+              🗑️ <span class="hidden sm:block ml-1">Delete</span>
           </button>
         </td>
       `;
@@ -148,35 +142,59 @@ import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
         editModalConfirmBtn.classList.add("btn-success");
         // click edit button
         if (target.classList.contains("edit")) {
-          console.log("Clicked the edit button of", workflowId)
+          console.log("Clicked the edit button of", workflowId);
           editModalTitle.innerText = "Edit Workflow Metadata";
-          editModalConfirmBtn.setAttribute("onclick", "window.location.href='/api/workflow/update'");
+          // Fill in metadata
+          const editWorkflowName = document.getElementById("editWorkflowName") as HTMLInputElement;
+          const editWorkflowAuthor = document.getElementById("editWorkflowAuthor") as HTMLInputElement;
+          const editWorkflowAuthorLink = document.getElementById("editWorkflowAuthorLink") as HTMLInputElement;
+          const editWorkflowDescription = document.getElementById("editWorkflowDescription") as HTMLTextAreaElement;
+          editWorkflowName.value = target.dataset.workflowName as string;
+          editWorkflowAuthor.value = JSON.parse(target.dataset.workflowAuthorData as string).authorName as string;
+          editWorkflowAuthorLink.value = JSON.parse(target.dataset.workflowAuthorData as string).socialLink as string;
+          editWorkflowDescription.value = target.dataset.workflowDescription as string
+          editModalConfirmBtn.setAttribute(
+            "onclick",
+            "window.location.href='/api/workflow/update'",
+          );
           editModalConfirmBtn.classList.toggle("hidden", false);
-          editMetaForm.classList.toggle("hidden", false)
-          updateForm.classList.toggle("hidden", true)
+          editMetaForm.classList.toggle("hidden", false);
+          updateForm.classList.toggle("hidden", true);
           editModal.showModal();
         }
         // click update button
         if (target.classList.contains("update")) {
-          console.log("Clicked the update button of", workflowId)
-          const editModalUpdateNote = document.getElementById("") as HTMLParagraphElement
-          editModalUpdateNote.innerText = `⚠️ Note: Currently the latest version of this workflow is [${workflowId}], the updated version must be bigger than it.`
+          const workflowVer = target.dataset.workflowVer;
+          const updateVersionInput = document.getElementById(
+            "updateVersionInput",
+          ) as HTMLInputElement;
+          console.log("Clicked the update button of", workflowId, workflowVer);
+          const expectVersion = Number(workflowVer) + 0.1;
+          updateVersionInput.value = String(expectVersion);
+          updateVersionInput.placeholder = String(expectVersion);
+          const editModalUpdateNote = document.getElementById(
+            "editModalUpdateNote",
+          ) as HTMLParagraphElement;
+          editModalUpdateNote.innerHTML = `⚠️ Note: Currently the latest version of this workflow is <span calss="font-bold">${workflowVer}</span>, the updated version must be bigger than it.`;
           editModalTitle.innerText = "Update Workflow Version";
           editModalConfirmBtn.classList.toggle("hidden", false);
-          editMetaForm.classList.toggle("hidden", true)
-          updateForm.classList.toggle("hidden", false)
+          editMetaForm.classList.toggle("hidden", true);
+          updateForm.classList.toggle("hidden", false);
           editModal.showModal();
         }
         // click delete button
         if (target.classList.contains("delete")) {
-          console.log("Clicked the delete button of", workflowId)
+          console.log("Clicked the delete button of", workflowId);
           modalTitle.innerText = "🤔 Delect?";
           modalContent.innerText =
             "Confirm to delete this workflow and all its version records?";
-          confirmBtn.textContent = "Login again";
+          confirmBtn.textContent = "Delete";
           confirmBtn.classList.add("btn-error");
           confirmBtn.classList.remove("hidden");
-          confirmBtn.setAttribute("onclick", "window.location.href='/api/workflow/delect'");
+          confirmBtn.setAttribute(
+            "onclick",
+            "window.location.href='/api/workflow/delect'",
+          );
           modal.showModal();
         }
       });

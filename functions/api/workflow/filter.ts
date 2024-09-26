@@ -9,6 +9,7 @@ interface Workflow {
     tags: string[];
     icon: string;
     latestVersion: string;
+    authorData: string;
 }
 
 interface GetWorkflowsResponse {
@@ -80,6 +81,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             tags: row.tags,
             icon: row.icon,
             latestVersion: row.latest_version,
+            authorData: row.author_data
         }));
         // 处理 totalResult 可能为 null 的情况
         const total = totalResult && typeof totalResult.count === 'number' ? totalResult.count : 0;

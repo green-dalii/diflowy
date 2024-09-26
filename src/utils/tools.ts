@@ -5,6 +5,7 @@ export interface Workflow {
     description: string;
     tags: string;
     latestVersion: string;
+    authorData: string;
 }
 
 export interface GetWorkflowsResponse {
