@@ -19,17 +19,17 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     try {
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
         console.log("Upload API Payload from JWT>>>", payload)
-        // Verify payload with Cloudflare D1 Users Table
-        const { results } = await context.env.D1.prepare(
-            "SELECT * FROM users WHERE id =?"
-        ).bind(payload.id).all();
-        if (results.length === 0 || results[0].username !== payload.username) {
-            console.log("User not found or username does not match")
-            return new Response(JSON.stringify({ res: 'Unauthorized' }), {
-                headers: { 'Content-Type': 'application/json' },
-                status: 401,
-            });
-        }
+        // // Verify payload with Cloudflare D1 Users Table
+        // const { results } = await context.env.D1.prepare(
+        //     "SELECT * FROM users WHERE id =?"
+        // ).bind(payload.id).all();
+        // if (results.length === 0 || results[0].username !== payload.username) {
+        //     console.log("User not found or username does not match")
+        //     return new Response(JSON.stringify({ res: 'Unauthorized' }), {
+        //         headers: { 'Content-Type': 'application/json' },
+        //         status: 401,
+        //     });
+        // }
         console.log("User Authorized")
         // Get Data from POST
         const formData = await request.formData();
