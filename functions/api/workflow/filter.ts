@@ -41,7 +41,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         // 检查是否有标签参数，并且构建筛选条件
         if (tags.length > 0) {
             // 使用 LIKE 创建筛选条件
-            const likeClauses = tags.map(tag => `tags LIKE ?`).join(' OR ');
+            const likeClauses = tags.map(_tag => `tags LIKE ?`).join(' OR ');
             whereClause = `WHERE ${likeClauses}`;
             // 为每个标签添加匹配绑定
             tags.forEach(tag => bindings.unshift(`%${tag}%`));

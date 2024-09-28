@@ -231,7 +231,7 @@ const description = "In User Center you can manage your Dify workflows.";
           editModalTitle.innerText = "Update Workflow Version";
           editModalConfirmBtn.innerText = "Update";
           editModalConfirmBtn.classList.toggle("hidden", false);
-          editModalConfirmBtn.addEventListener("click", )
+          editModalConfirmBtn.addEventListener("click", () => updateVersion(workflowId as string));
           editMetaForm.classList.toggle("hidden", true);
           updateForm.classList.toggle("hidden", false);
           updateForm.classList.toggle("grid", true);

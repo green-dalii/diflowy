@@ -5,7 +5,7 @@ import * as jose from 'jose'
 export const onRequestDelete: PagesFunction<Env> = async (context) => {
     try{
         console.log("Delete Request....")
-        const { request, env, params } = context;
+        const { request, params } = context;
         const cookie = request.headers.get('cookie');
         const workflowId = params.workflow_id
         const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];

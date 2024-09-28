@@ -1,7 +1,7 @@
 import type { Env } from '../../auth';
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
-    const { request, env, params } = context;
+    const { env, params } = context;
     const workflowId = params.workflow_id;
     console.log("Download ID>>>", workflowId)
 
