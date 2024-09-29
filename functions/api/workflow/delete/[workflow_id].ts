@@ -24,6 +24,7 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
         const workflowUserId  = await context.env.D1.prepare(
             "SELECT user_id FROM yaml_files WHERE id =?"
         ).bind(workflowId).first();
+        console.log("workflowUserId>>>", workflowUserId, "payloadID>>>", payload.id)
         if(workflowUserId !== payload.id){
             // If the user is not the owner of the workflow
             console.log("User not authorized to delete this workflow")
@@ -33,6 +34,7 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
             });
         } else {
             // Delete the workflow from the database
+            console.log("Deleting workflow from the database")
             const deleteQuery = await context.env.D1.prepare(
                 "DELETE FROM yaml_files WHERE id =?"
             ).bind(workflowId).run();

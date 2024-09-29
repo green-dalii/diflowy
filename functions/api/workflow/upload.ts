@@ -41,7 +41,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         const dslFile = formData.get('dsl-file') as File;
         const tags = formData.get('tags') as string;
         const icon = formData.get('icon') as string;
-        const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string })
+        const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string });
         // Read the file content as binary data
         const dslFileBuffer = await dslFile.arrayBuffer();
         const dslFileContent = new Uint8Array(dslFileBuffer);

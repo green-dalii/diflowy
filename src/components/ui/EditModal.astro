@@ -1,5 +1,7 @@
 ---
-import WorkflowFileInput from "./WorkflowFileInput.astro"
+import WorkflowFileInput from "./WorkflowFileInput.astro";
+import Tags from "./Tags.astro";
+import ReactFlowPreview from "../flow/ReactFlowPreview";
 ---
 
 <dialog id="editModal" class="modal modal-bottom sm:modal-middle">
@@ -22,81 +24,7 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
             />
           </div>
           <!-- Dropdown Tags -->
-          <div class="relative block text-left sm:col-span-full">
-            <div>
-              <button
-                id="dropdownButton"
-                class="btn-secondary w-full px-4 py-2"
-                type="button"
-              >
-                Select Tags
-              </button>
-              <div
-                id="dropdownTags"
-                class="dropdown-menu hidden absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-              >
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Productivity" /> Productivity
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Assistant" /> Assistant
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Creative" /> Creative
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Social Media" /> Social
-                  Media
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input
-                    type="checkbox"
-                    class="mr-2"
-                    value="Finance & Business"
-                  /> Finance & Business
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input
-                    type="checkbox"
-                    class="mr-2"
-                    value="Lifestyle & Health"
-                  />
-                  Lifestyle & Health
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Education" />
-                  Education
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Entertainment" />
-                  Entertainment
-                </label>
-                <label
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  <input type="checkbox" class="mr-2" value="Others" />
-                  Others
-                </label>
-              </div>
-            </div>
-            <div id="selectedTags" class="selected-tags"></div>
-          </div>
+          <Tags />
           <div class="form-control w-full">
             <div class="label">
               <span class="label-text">Author</span>
@@ -161,6 +89,9 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
           >
         </div>
         <p id="editModalUpdateNote" class="col-span-1 mt-1 text-xs leading-normal text-gray-400"></p>
+        <div class="col-span-full h-[400px]">
+          <ReactFlowPreview />
+        </div>
       </div>
     </div>
     <div class="modal-action">
@@ -174,55 +105,8 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
 </dialog>
 
 <script>
-  const dropdownButton = document.getElementById("dropdownButton");
-  const dropdownTags = document.getElementById("dropdownTags");
-  const selectedTagsDiv = document.getElementById("selectedTags");
-
-  if (dropdownButton && dropdownTags) {
-    dropdownButton.addEventListener("click", function (event: Event) {
-      event.stopPropagation();
-      dropdownTags.classList.toggle("hidden");
-    });
-
-    document.addEventListener("click", function (event: Event) {
-      const target = event.target as Node;
-      if (target !== dropdownButton && !dropdownTags.contains(target)) {
-        dropdownTags.classList.add("hidden");
-      }
-    });
-
-    dropdownTags.addEventListener("change", function (event: Event) {
-      const target = event.target as HTMLInputElement;
-      if (target && target.type === "checkbox") {
-        updateSelectedTags();
-      }
-    });
-
-    function updateSelectedTags() {
-      if (selectedTagsDiv && dropdownTags) {
-        selectedTagsDiv.innerHTML = "";
-        const checkboxes = dropdownTags.querySelectorAll(
-          "input[type='checkbox']:checked",
-        ) as NodeListOf<HTMLInputElement>;
-        checkboxes.forEach((checkbox) => {
-          const tagValue = checkbox.value;
-          const tagElement = document.createElement("span");
-          tagElement.classList.add("tag");
-          tagElement.classList.add("text-sm");
-          tagElement.textContent = tagValue;
-          selectedTagsDiv.appendChild(tagElement);
-        });
-      }
-    }
-  } else {
-    console.error(
-      "Element with id 'dropdownButton' or 'dropdownMenu' not found.",
-    );
-  }
-</script>
-<script>
   // Process YAML ReactFlow Data
-  // import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
+  import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
   // import * as emoji from "node-emoji";
   const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
   const uploadContainer = document.getElementById(
@@ -251,50 +135,48 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
     }
 
     if (file) {
-      // const workflow_name = document.getElementById(
-      //   "workflowname",
-      // ) as HTMLInputElement;
-      // const description = document.getElementById(
-      //   "description",
-      // ) as HTMLTextAreaElement;
+      const edit_workflow_name = document.getElementById(
+        "editWorkflowname",
+      ) as HTMLInputElement;
+      const edit_description = document.getElementById(
+        "editDescription",
+      ) as HTMLTextAreaElement;
       // const workflow_icon = document.getElementById(
       //   "workflowIcon",
       // ) as HTMLInputElement;
       const fileIndicator = document.getElementById("fileIndicator") as HTMLInputElement;
       fileIndicator.innerHTML = `Selected File: <br>${file.name}`
-      // const reader = new FileReader();
-      // reader.onload = function (e) {
-      //   const target = e.target as FileReader;
-      //   const yamlContent = target.result as string;
-      //   try {
-      //     const yamlData = paresYamlToJSON(yamlContent);
-      //     // workflow_name.value = yamlData.app.name;
-      //     // description.value = yamlData.app.description;
-      //     // workflow_icon.innerText =
-      //     //   (emoji.get(yamlData.app.icon) as string) || "😃";
-      //     // console.log("yamlData loaded");
-      //     const { nodes, edges } = parseYamlToReactFlow(yamlContent);
-      //     // Update the ReactFlow component
-      //     if (typeof (window as any).updateReactFlow === "function") {
-      //       (window as any).updateReactFlow(nodes, edges);
-      //     } else {
-      //       console.error("updateReactFlow function not found");
-      //     }
-      //   } catch (error) {
-      //     console.error("Error parsing YAML file:", error);
-      //     // alert(
-      //     //   "Unsupported file format. Please upload a valid Dify DSL file.",
-      //     // );
-      //     modalTitle.innerText = "⚠️ Error";
-      //     modalContent.innerText =
-      //       "Unsupported file format. Please upload a valid Dify DSL file.";
-      //     modal.showModal();
-      //     dslfile.value = ""; // Clear the file input field
-      //     workflow_name.value = "";
-      //     description.value = "";
-      //   }
-      // };
-      // reader.readAsText(file);
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const target = e.target as FileReader;
+        const yamlContent = target.result as string;
+        try {
+          const yamlData = paresYamlToJSON(yamlContent);
+          // workflow_name.value = yamlData.app.name;
+          // description.value = yamlData.app.description;
+          // workflow_icon.innerText =
+          //   (emoji.get(yamlData.app.icon) as string) || "😃";
+          // console.log("yamlData loaded");
+          const { nodes, edges } = parseYamlToReactFlow(yamlContent);
+          // Update the ReactFlow component
+          if (typeof (window as any).updateReactFlow === "function") {
+            (window as any).updateReactFlow(nodes, edges);
+          } else {
+            console.error("updateReactFlow function not found");
+          }
+        } catch (error) {
+          console.error("Error parsing YAML file:", error);
+          // alert(
+          //   "Unsupported file format. Please upload a valid Dify DSL file.",
+          // );
+          modalTitle.innerText = "⚠️ Error";
+          modalContent.innerText =
+            "Unsupported file format. Please upload a valid Dify DSL file.";
+          modal.showModal();
+          dslfile.value = ""; // Clear the file input field
+        }
+      };
+      reader.readAsText(file);
     }
   }
 
@@ -307,18 +189,18 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
     });
   }
 
-  // Add drag and drop event listeners
-  uploadContainer.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    uploadContainer.classList.add("bg-gray-100");
-  });
+  // // Add drag and drop event listeners
+  // uploadContainer.addEventListener("dragover", (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   uploadContainer.classList.add("bg-gray-100");
+  // });
 
-  uploadContainer.addEventListener("dragleave", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    uploadContainer.classList.remove("bg-gray-100");
-  });
+  // uploadContainer.addEventListener("dragleave", (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   uploadContainer.classList.remove("bg-gray-100");
+  // });
 
   uploadContainer.addEventListener("drop", (e: DragEvent) => {
     e.preventDefault();
@@ -338,4 +220,81 @@ import WorkflowFileInput from "./WorkflowFileInput.astro"
       }
     }
   });
+
+  // Upload Edit Meta Data of Workflow Form
+  const editMetaForm = document.getElementById("editMetaForm") as HTMLFormElement;
+  const workflowId = editMetaForm.dataset.workflowId as string;
+  async function handleSubmit(event: Event) {
+    event.preventDefault();
+    // Get form data
+    const formData = new FormData(editMetaForm);
+    const selectedTags = document.querySelectorAll(".tag");
+    // Check if all required fields are filled
+    if (
+      !formData.get("workflowname") ||
+      !formData.get("description") ||
+      !formData.get("author-name") ||
+      !formData.get("social-link") ||
+      selectedTags.length === 0
+    ) {
+      // alert("Please fill out all required fields.");
+      modalTitle.innerText = "😮 Opps";
+      modalContent.innerText = "Please fill out all required fields.";
+      modal.showModal();
+      return;
+    }
+    // Add the selected tags to the form data
+    const selectedTagsTree = document.getElementById("selectedTags");
+    const tags: string[] = [];
+    selectedTags.forEach((tag) => {
+      tags.push(tag.textContent as string);
+    });
+    formData.append("tags", JSON.stringify(tags));
+    // console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
+    // Send form data to the server
+    try {
+      const response = await fetch(`/api/workflow/edit/${workflowId}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        console.log("Response>>>", response.json());
+        // alert("Upload successful!");
+        modalTitle.innerText = "🎉 Tada!";
+        modalContent.innerText = "Upload successful!";
+        modal.showModal();
+        // Clear the form
+        editMetaForm.reset();
+        // Clear the selected tags
+        selectedTagsTree!.innerHTML = "";
+      } else if (response.status === 401) {
+        // alert("Before you upload, please login first.");
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "Your login has expired, please login again!";
+        const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.add("btn-error");
+        confirmBtn.classList.remove("hidden");
+        confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
+        modal.showModal();
+      } else {
+        // alert(
+        //   "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top",
+        // );
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
+        modal.showModal();
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // alert(
+      //   "Your network is unreachable. Please check your internet connection and try again.",
+      // );
+      modalTitle.innerText = "😮 Opps...";
+      modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
+      modal.showModal();
+    }
+  }
+  // Add event listener to the form
+  editMetaForm.addEventListener("submit", handleSubmit);
 </script>

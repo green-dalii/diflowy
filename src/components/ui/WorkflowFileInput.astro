@@ -53,3 +53,23 @@
     </p>
   </div>
 </div>
+
+<script>
+  const uploadContainer = document.getElementById(
+    "upload-container",
+  ) as HTMLElement;
+  const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
+
+  // Add drag and drop event listeners
+  uploadContainer.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.add("bg-gray-100");
+  });
+
+  uploadContainer.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.remove("bg-gray-100");
+  });
+</script>

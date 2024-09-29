@@ -97,17 +97,17 @@ const description = "In User Center you can manage your Dify workflows.";
         <td class="hidden sm:table-cell sm:w-2/12">${workflow.latestVersion}</td>
         <td class="w-2/12">
             <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${workflow.tags}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
-              📝 <span class="hidden lg:block ml-1 edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${workflow.tags}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">Edit</span>
+              📝 <span class="hidden lg:block ml-1 " data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${workflow.tags}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">Edit</span>
             </button>
         </td>
         <td class="w-2/12">
           <button class="btn w-full btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}" data-workflow-ver="${workflow.latestVersion}">
-              🚀 <span class="hidden lg:block ml-1 update" data-workflow-id="${workflow.id}" data-workflow-ver="${workflow.latestVersion}">Update</span>
+              🚀 <span class="hidden lg:block ml-1" data-workflow-id="${workflow.id}" data-workflow-ver="${workflow.latestVersion}">Update</span>
           </button>
         </td>
         <td class="w-2/12">
           <button class="btn w-full btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">
-              🗑️ <span class="hidden lg:block ml-1 delete" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">Delete</span>
+              🗑️ <span class="hidden lg:block ml-1" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">Delete</span>
           </button>
         </td>
       `;
@@ -155,7 +155,7 @@ const description = "In User Center you can manage your Dify workflows.";
         console.log("Delete Success", response.statusText);
         modalTitle.innerText = "🎉 Tida";
         modalContent.innerText = "Workflow deleted successfully";
-        confirmBtn.classList.toggle("hidden", false);
+        confirmBtn.classList.toggle("hidden", true);
         modal.showModal();
         loadPageData();
       } else {
@@ -163,7 +163,7 @@ const description = "In User Center you can manage your Dify workflows.";
         modalTitle.innerText = "⚠️ Error";
         modalContent.innerText =
           "Failed to delete workflow. Please try again later.";
-        confirmBtn.classList.toggle("hidden", false);
+        confirmBtn.classList.toggle("hidden", true);
         modal.showModal();
       }
     })
@@ -192,8 +192,9 @@ const description = "In User Center you can manage your Dify workflows.";
         editModalConfirmBtn.textContent = "Save";
         editModalConfirmBtn.classList.add("btn-success");
         // click edit button action
-        if (target.classList.contains("edit")) {
+        if (target.closest("button.edit")) {
           console.log("Clicked the edit button of", workflowId);
+          editMetaForm.dataset.workflowId = workflowId as string;
           editModalTitle.innerText = "Edit Workflow Metadata";
           // Fill in metadata
           const editWorkflowName = document.getElementById("editWorkflowName") as HTMLInputElement;
@@ -215,12 +216,13 @@ const description = "In User Center you can manage your Dify workflows.";
           editModal.showModal();
         }
         // click update button action
-        if (target.classList.contains("update")) {
+        if (target.closest("button.update")) {
           const workflowVer = target.dataset.workflowVer;
           const updateVersionInput = document.getElementById(
             "updateVersionInput",
           ) as HTMLInputElement;
           console.log("Clicked the update button of", workflowId, workflowVer);
+          updateForm.dataset.workflowId = workflowId as string;
           const expectVersion = Number(workflowVer) + 0.1;
           updateVersionInput.value = String(expectVersion);
           updateVersionInput.placeholder = String(expectVersion);
@@ -238,14 +240,14 @@ const description = "In User Center you can manage your Dify workflows.";
           editModal.showModal();
         }
         // click delete button action
-        if (target.classList.contains("delete")) {
+        if (target.closest("button.delete")) {
           console.log("Clicked the delete button of", workflowId);
           modalTitle.innerText = "🤔 Delect?";
           modalContent.innerHTML =
             `Confirm to delete this workflow: <span class="font-bold">${target.dataset.workflowName}</span> and all its version records?`;
           confirmBtn.textContent = "Delete";
-          confirmBtn.classList.add("btn-error");
-          confirmBtn.classList.remove("hidden");
+          confirmBtn.classList.toggle("btn-error", true);
+          confirmBtn.classList.toggle("hidden", false);
           confirmBtn.addEventListener("click", () => deleteWorkflow(workflowId as string));
           modal.showModal();
         }
