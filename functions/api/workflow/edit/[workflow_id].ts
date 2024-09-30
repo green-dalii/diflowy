@@ -4,7 +4,7 @@ import * as jose from 'jose'
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     try{
-        console.log("Delete Request....")
+        console.log("Edit Meta Data Request....")
         const { request, params } = context;
         const cookie = request.headers.get('cookie');
         const workflowId = params.workflow_id
@@ -22,9 +22,9 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         // Verify that the owner of the workflow to be edit is the requesting user
         const workflowUserId  = await context.env.D1.prepare(
             "SELECT user_id FROM yaml_files WHERE id =?"
-        ).bind(workflowId).first();
-        console.log("workflowUserId>>>", workflowUserId, "payloadID>>>", payload.id)
-        if(workflowUserId !== payload.id){
+        ).bind(workflowId).first() as {user_id: string};
+        console.log("workflowUserId>>>", workflowUserId.user_id, "payloadID>>>", payload.id)
+        if(workflowUserId.user_id !== payload.id){
             // If the user is not the owner of the workflow
             console.log("User not authorized to delete this workflow")
             return new Response(JSON.stringify({ res: 'Unauthorized' }), {

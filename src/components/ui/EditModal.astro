@@ -9,7 +9,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     <h3 id="editModalTitle" class="text-lg font-bold"></h3>
     <div id="editModalContent" class="py-4 text-sm">
       <!-- Edit Metadata Form -->
-      <div id="editMetaForm" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <form id="editMetaForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <!-- Column 1 -->
         <div class="flex flex-col gap-2">
           <div class="form-control w-full">
@@ -59,9 +59,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
             rows="10"
             class="textarea textarea-bordered w-full"></textarea>
         </div>
-      </div>
+      </form>
       <!-- Update Version Form -->
-      <div id="updateForm" class="hidden grid-cols-1 sm:grid-cols-2 gap-4">
+      <form id="updateForm" class="hidden grid-cols-1 sm:grid-cols-2 gap-4">
         <!-- WorkFlow Update File Entrance-->
         <div class="col-span-full">
           <WorkflowFileInput />
@@ -89,15 +89,16 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           >
         </div>
         <p id="editModalUpdateNote" class="col-span-1 mt-1 text-xs leading-normal text-gray-400"></p>
-        <div class="col-span-full h-[400px]">
-          <ReactFlowPreview />
+        <div class="col-span-full h-[300px]">
+          <ReactFlowPreview client:only="react" />
         </div>
-      </div>
+      </form>
     </div>
     <div class="modal-action">
       <form method="dialog">
         <!-- if there is a button in form, it will close the modal -->
-        <button id="editConfirmBtn" class="hidden btn"></button>
+        <button id="editConfirmBtn" class="hidden btn btn-success">Save</button>
+        <button id="updateConfirmBtn" class="hidden btn btn-success">Update</button>
         <button class="btn">Close</button>
       </form>
     </div>
@@ -121,6 +122,11 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   const modalContent = document.getElementById(
     "modalContent",
   ) as HTMLDivElement;
+  // Get the confirm button
+  const editModalConfirmBtn = document.getElementById(
+    "editConfirmBtn",
+  ) as HTMLButtonElement;
+  const updateConfirmBtn = document.getElementById("updateConfirmBtn") as HTMLButtonElement;
 
   // Function to handle file upload
   function handleFile(event: Event | DragEvent) {
@@ -223,9 +229,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
 
   // Upload Edit Meta Data of Workflow Form
   const editMetaForm = document.getElementById("editMetaForm") as HTMLFormElement;
-  const workflowId = editMetaForm.dataset.workflowId as string;
-  async function handleSubmit(event: Event) {
+  async function handleEditMetaSubmit(event: Event) {
     event.preventDefault();
+    // Get workflowId
+    const workflowId = editMetaForm.dataset.workflowId as string;
     // Get form data
     const formData = new FormData(editMetaForm);
     const selectedTags = document.querySelectorAll(".tag");
@@ -295,6 +302,69 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       modal.showModal();
     }
   }
+
+  // Update Version of Workflow Form
+  const updateForm = document.getElementById("updateForm") as HTMLFormElement;
+  async function handleUpdateSubmit(event: Event) {
+    event.preventDefault();
+    // Get workflowId
+    const workflowId = updateForm.dataset.workflowId as string;
+    // Get form data
+    const formData = new FormData(updateForm);
+    // Check if all required fields are filled
+    if (!formData.get("dsl-file") ||!formData.get("updateVersion")) {
+      // alert("Please fill out all required fields.");
+      modalTitle.innerText = "😮 Opps...";
+      modalContent.innerText = "Please fill out all required fields.";
+      modal.showModal();
+      return;
+    }
+    // Send form data to the server
+    try {
+      const response = await fetch(`/api/workflow/update/${workflowId}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        console.log("Response>>>", response.json());
+        // alert("Upload successful!");
+        modalTitle.innerText = "🎉 Tada!";
+        modalContent.innerText = "Update Version Successful!";
+        modal.showModal();
+        // Clear the form
+        updateForm.reset();
+      } else if (response.status === 401) {
+        // alert("Before you upload, please login first.");
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "Your login has expired, please login again!";
+        const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.add("btn-error");
+        confirmBtn.classList.remove("hidden");
+        confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
+        modal.showModal();
+      } else {
+        // alert(
+        //   "An error occurred while uploading the file. Please try again or contact us with email: EMAIL",
+        // );
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
+        modal.showModal();
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // alert(
+      //   "Your network is unreachable. Please check your internet connection and try again.",
+      // );
+      modalTitle.innerText = "😮 Opps...";
+      modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
+      modal.showModal();
+    }
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+      // Add event listener to the confirm button
+  editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
   // Add event listener to the form
-  editMetaForm.addEventListener("submit", handleSubmit);
+  updateConfirmBtn.addEventListener("click", handleUpdateSubmit);
+  });
 </script>
