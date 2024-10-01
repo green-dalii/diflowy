@@ -10,10 +10,11 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     const url = await github.createAuthorizationURL(state);
     const redirect = url.searchParams.get("redirect") || "/";
     // console.log("AuthorizationURL>>>>", url)
+    console.log("redirect>>>", redirect)
 
     const stateCookie = `github_oauth_state=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
     const redirectCookie = `auth_redirect=${encodeURIComponent(redirect)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
-  
+    console.log("redirectCookie>>>", redirectCookie)
     // 创建用于设置 cookie 的 Response 对象
     const response = new Response(null, {
       status: 302,

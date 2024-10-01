@@ -178,6 +178,14 @@ const navLinks = [
     }
   }
 
+  // Close dropdown when clicking outside
+  window.addEventListener("click", function(event) {
+    if (!userMenuButton.contains(event.target as Node) && !userDropdown.contains(event.target as Node)) {
+      userDropdown.classList.add("hidden");
+    }
+  });
+
+  // confirm to logout
   function confirmLogout(event: MouseEvent) {
     event.preventDefault();
     modalTitle.innerText = "🤔 Logout?";
@@ -190,6 +198,7 @@ const navLinks = [
     modal.showModal();
   }
 
+  // action to logout
   async function handleLogout(event: MouseEvent) {
     event.preventDefault();
     try {
@@ -208,6 +217,7 @@ const navLinks = [
     }
   }
 
+  // load user from sessionStorage and update UI
   async function loadUserFromStorage() {
     const protectedContent = document.getElementById(
       "protected-content",
@@ -216,19 +226,12 @@ const navLinks = [
     
     try{
       const username = sessionStorage.getItem("username");
-    // const loginButton = document.getElementById("login") as HTMLButtonElement;
-    // const loginLink = document.getElementById(
-    //   "login-link",
-    // ) as HTMLAnchorElement;
-
 
     if (username) {
       console.log("Loaded username from sessionStorage:", username);
       userMenuButton.textContent = username;
       userMenuButton.addEventListener("click", toggleUserDropdown);
-      // loginLink.setAttribute("href", "#");
       logoutLink.addEventListener("click", confirmLogout);
-      // loginLink.addEventListener("click", confirmLogiut);
       if (protectedContent) {
         notLogin.style.display = "none";
         protectedContent.style.display = "block";
@@ -262,20 +265,19 @@ const navLinks = [
         console.log("User found in server response");
         sessionStorage.setItem("username", data.user.username);
         userMenuButton.textContent = data.user.username;
-        // loginLink.setAttribute("href", "#");
-        // loginLink.addEventListener("click", confirmLogiut);
         userMenuButton.addEventListener("click", toggleUserDropdown);
         logoutLink.addEventListener("click", confirmLogout);
         if (protectedContent) {
           notLogin.style.display = "none";
           protectedContent.style.display = "block";
         }
-      }
-      userMenuButton.textContent = "Login";
-      userMenuButton.setAttribute("onclick", "window.location.href='/login'")
-      if(protectedContent && notLogin){
-        notLogin.style.display = "block";
-        protectedContent.style.display = "none";
+      } else {
+        userMenuButton.textContent = "Login";
+        userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+        if(protectedContent && notLogin){
+          notLogin.style.display = "block";
+          protectedContent.style.display = "none";
+        }
       }
     }
     }catch(error){
@@ -293,12 +295,5 @@ const navLinks = [
 
   document.addEventListener("DOMContentLoaded", function () {
     loadUserFromStorage();
-  });
-
-  // Close dropdown when clicking outside
-  window.addEventListener("click", function(event) {
-    if (!userMenuButton.contains(event.target as Node) && !userDropdown.contains(event.target as Node)) {
-      userDropdown.classList.add("hidden");
-    }
   });
 </script>

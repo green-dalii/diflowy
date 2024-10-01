@@ -254,17 +254,19 @@ const skeletonCount = 10;
           const updateVersionInput = document.getElementById(
             "updateVersionInput",
           ) as HTMLInputElement;
+          const originalWorkflowVersion = document.getElementById("originalWorkflowVersion") as HTMLInputElement;
           const updateWorkflowName = document.getElementById("updateWorkflowName") as HTMLInputElement;
           console.log("Clicked the update button of", workflowId, workflowVer);
           // updateForm.dataset.workflowId = workflowId as string;
           updateWorkflowName.value = target.dataset.workflowName as string;
+          originalWorkflowVersion.value = workflowVer as string;
           const expectVersion = Number(workflowVer) + 0.1;
           updateVersionInput.value = String(expectVersion);
           updateVersionInput.placeholder = String(expectVersion);
           const editModalUpdateNote = document.getElementById(
             "editModalUpdateNote",
           ) as HTMLParagraphElement;
-          editModalUpdateNote.innerHTML = `⚠️ Note: Currently the latest version of this workflow is <span style="font-weight: bold;">${workflowVer}</span>, the updated version must be bigger than it. Recommended: <span style="font-weight: bold;">${expectVersion}</span>.`;
+          editModalUpdateNote.innerHTML = `⚠️ Note: The original latest version of this workflow is <span style="font-weight: bold;">${workflowVer}</span>, the updated version must be bigger than it. Recommended: <span style="font-weight: bold;">${expectVersion}</span>.`;
           editModalTitle.innerText = "Update Workflow Version";
           editModalConfirmBtn.classList.toggle("hidden", true);
           updateConfirmBtn.classList.toggle("hidden", false);

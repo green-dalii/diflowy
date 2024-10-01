@@ -77,6 +77,16 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
             class="input input-bordered w-full"
             disabled
           />
+          <div class="label">
+            <span class="label-text">Original Latest Version</span>
+          </div>
+          <input
+            id="originalWorkflowVersion"
+            name="originalWorkflowVersion"
+            type="text"
+            class="input input-bordered w-full"
+            disabled
+          />
           <!-- Version -->
           <label for="version" class="text-sm font-medium leading-6">Update Version</label>
           <div class="w-full mt-2 flex rounded-md shadow-sm">
@@ -282,7 +292,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         modalTitle.innerText = "🎉 Tada!";
         modalContent.innerText = "Upload meta data successful!";
         confirmBtn.classList.toggle("hidden", true);
+        editModal.close();
         modal.showModal();
+        ;
       } else if (response.status === 401) {
         // alert("Before you upload, please login first.");
         modalTitle.innerText = "😮 Opps...";
@@ -290,7 +302,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
         confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.setAttribute("onclick", `window.location.href='/api/login/github?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)`);
+        confirmBtn.setAttribute("onclick", `/api/login/github?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`);
         modal.showModal();
       } else {
         // Clear the form
@@ -352,6 +364,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         modalTitle.innerText = "🎉 Tada!";
         modalContent.innerText = "Update Version Successful!";
         confirmBtn.classList.toggle("hidden", true);
+        editModal.close();
         modal.showModal();
       } else if (response.status === 401) {
         // alert("Before you upload, please login first.");
@@ -360,7 +373,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
         confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.setAttribute("onclick", `window.location.href='/api/login/github?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)`);
+        confirmBtn.setAttribute("onclick", `/api/login/github?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`);
         modal.showModal();
       } else {
         // Clear the form

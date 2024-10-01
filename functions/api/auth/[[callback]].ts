@@ -23,7 +23,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
   const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
   const redirectCookie = context.request.headers.get("Cookie")?.match(/auth_redirect=([^;]+)/)?.[1]?? null;
   const redirectUrl = redirectCookie? decodeURIComponent(redirectCookie) : "/";
-  console.log("redirectUrl>>>", redirectUrl)
+  console.log("redirect cookie>>>", redirectCookie, "redirectUrl>>>", redirectUrl)
 
   if (!code || !state || !storedState || state !== storedState) {
     console.log("Invalid request parameters")
