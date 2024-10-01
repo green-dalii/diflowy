@@ -97,7 +97,7 @@ const description = "In User Center you can manage your Dify workflows.";
         <td class="w-6/12 sm:3/12"><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden sm:table-cell sm:w-2/12">${workflow.latestVersion}</td>
         <td class="w-2/12">
-            <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${JSON.stringify(workflow.tags)}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
+            <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags='${JSON.stringify(workflow.tags)}' data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
               📝 <span class="hidden lg:block ml-1 ">Edit</span>
             </button>
         </td>
