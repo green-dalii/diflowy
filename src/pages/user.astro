@@ -301,7 +301,7 @@ const skeletonCount = 10;
         confirmBtn.classList.remove("hidden");
         confirmBtn.setAttribute(
           "onclick",
-          "window.location.href='/api/login/github'",
+          `window.location.href='/api/login/github?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)`,
         );
         modal.showModal();
       } else {

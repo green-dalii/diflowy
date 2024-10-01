@@ -152,12 +152,12 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     }
 
     if (file) {
-      const edit_workflow_name = document.getElementById(
-        "editWorkflowname",
-      ) as HTMLInputElement;
-      const edit_description = document.getElementById(
-        "editDescription",
-      ) as HTMLTextAreaElement;
+      // const edit_workflow_name = document.getElementById(
+      //   "editWorkflowname",
+      // ) as HTMLInputElement;
+      // const edit_description = document.getElementById(
+      //   "editDescription",
+      // ) as HTMLTextAreaElement;
       // const workflow_icon = document.getElementById(
       //   "workflowIcon",
       // ) as HTMLInputElement;
@@ -168,7 +168,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         const target = e.target as FileReader;
         const yamlContent = target.result as string;
         try {
-          const yamlData = paresYamlToJSON(yamlContent);
+          // const yamlData = paresYamlToJSON(yamlContent);
           // workflow_name.value = yamlData.app.name;
           // description.value = yamlData.app.description;
           // workflow_icon.innerText =
@@ -246,7 +246,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
     // Check if all required fields are filled
     if (
-      !formData.get("editWorkflowname") ||
+      !formData.get("editWorkflowName") ||
       !formData.get("editWorkflowDescription") ||
       !formData.get("editWorkflowAuthor") ||
       !formData.get("editWorkflowAuthorLink") ||
@@ -290,7 +290,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
         confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
+        confirmBtn.setAttribute("onclick", `window.location.href='/api/login/github?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)`);
         modal.showModal();
       } else {
         // Clear the form
@@ -360,7 +360,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
         confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
+        confirmBtn.setAttribute("onclick", `window.location.href='/api/login/github?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)`);
         modal.showModal();
       } else {
         // Clear the form

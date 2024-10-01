@@ -17,6 +17,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
   const url = new URL(context.request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
+  const redirectUrl = url.searchParams.get("redirect") || "/";
   console.log("GET Request>>>URL>>>", url, "code>>>", code, "state>>>", state)
 
   const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
@@ -88,7 +89,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     return new Response(null, {
       status: 302,
       headers: {
-        Location: "/",
+        Location: redirectUrl,
         "Set-Cookie": cookie
       }
     });
