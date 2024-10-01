@@ -34,12 +34,13 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
             });
         } else {
             // Delete the workflow from the database
-            console.log("Deleting workflow from the database")
-            const deleteQuery = await context.env.D1.prepare(
-                "DELETE FROM yaml_files WHERE id =?"
-            ).bind(workflowId).run();
+            console.log("Deleting workflow all version file from the database")
             const deleteVersionQuery = await context.env.D1.prepare(
                 "DELETE FROM yaml_versions WHERE yaml_file_id =?"
+            ).bind(workflowId).run();
+            console.log("Deleting workflow meta data from the database")
+            const deleteQuery = await context.env.D1.prepare(
+                "DELETE FROM yaml_files WHERE id =?"
             ).bind(workflowId).run();
             console.log("Delete Workflow Query Result>>>", deleteQuery, "Delete Version Query Result>>>", deleteVersionQuery);
 

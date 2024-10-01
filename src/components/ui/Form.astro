@@ -109,7 +109,7 @@ import Tags from "./Tags.astro";
                 type="text"
                 name="author-name"
                 id="author-name"
-                class="input input-bordered w-full max-w-xs"
+                class="input input-bordered w-full"
               />
             </div>
           </div>
@@ -123,7 +123,7 @@ import Tags from "./Tags.astro";
               <input
                 id="social-link"
                 name="social-link"
-                class="input input-bordered w-full max-w-xs"
+                class="input input-bordered w-full"
               />
             </div>
             <p class="mt-1 text-xs leading-normal text-gray-400">
@@ -296,7 +296,7 @@ import Tags from "./Tags.astro";
   const modalContent = document.getElementById(
     "modalContent",
   ) as HTMLDivElement;
-  
+
   // Upload Form
   const form = document.getElementById("uploadForm") as HTMLFormElement;
   async function handleSubmit(event: Event) {

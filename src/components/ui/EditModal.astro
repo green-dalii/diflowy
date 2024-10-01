@@ -56,7 +56,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           <textarea
             id="editWorkflowDescription"
             name="editWorkflowDescription"
-            rows="10"
+            rows="11"
             class="textarea textarea-bordered w-full"></textarea>
         </div>
       </form>
@@ -86,7 +86,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           </div>
           <p id="editModalUpdateNote" class="col-span-1 mt-1 text-xs leading-normal text-gray-400"></p>
         </div>
-        <div class="col-span-2 h-[500px]">
+        <div class="col-span-2 h-[360px]">
           <ReactFlowPreview client:only="react" />
         </div>
       </form>
@@ -94,8 +94,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     <div class="modal-action">
       <form method="dialog">
         <!-- if there is a button in form, it will close the modal -->
-        <button id="editConfirmBtn" class="hidden btn btn-success">Save</button>
-        <button id="updateConfirmBtn" class="hidden btn btn-success">Update</button>
+        <button id="editConfirmBtn" type="submit" class="hidden btn btn-success">Save</button>
+        <button id="updateConfirmBtn" type="submit" class="hidden btn btn-success">Update Version</button>
         <button class="btn">Close</button>
       </form>
     </div>
@@ -119,6 +119,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   const modalContent = document.getElementById(
     "modalContent",
   ) as HTMLDivElement;
+  const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
   // Get the confirm button
   const editModalConfirmBtn = document.getElementById(
     "editConfirmBtn",
@@ -192,19 +193,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     });
   }
 
-  // // Add drag and drop event listeners
-  // uploadContainer.addEventListener("dragover", (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   uploadContainer.classList.add("bg-gray-100");
-  // });
-
-  // uploadContainer.addEventListener("dragleave", (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   uploadContainer.classList.remove("bg-gray-100");
-  // });
-
+  // Event listener for drag and drop
   uploadContainer.addEventListener("drop", (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -235,15 +224,16 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     const selectedTags = document.querySelectorAll(".tag");
     // Check if all required fields are filled
     if (
-      !formData.get("workflowname") ||
-      !formData.get("description") ||
-      !formData.get("author-name") ||
-      !formData.get("social-link") ||
+      !formData.get("editWorkflowname") ||
+      !formData.get("editWorkflowDescription") ||
+      !formData.get("editWorkflowAuthor") ||
+      !formData.get("editWorkflowAuthorLink") ||
       selectedTags.length === 0
     ) {
       // alert("Please fill out all required fields.");
       modalTitle.innerText = "😮 Opps";
       modalContent.innerText = "Please fill out all required fields.";
+      confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
       return;
     }
@@ -265,7 +255,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         console.log("Response>>>", response.json());
         // alert("Upload successful!");
         modalTitle.innerText = "🎉 Tada!";
-        modalContent.innerText = "Upload successful!";
+        modalContent.innerText = "Upload meta data successful!";
+        confirmBtn.classList.toggle("hidden", true);
         modal.showModal();
         // Clear the form
         editMetaForm.reset();
@@ -275,10 +266,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         // alert("Before you upload, please login first.");
         modalTitle.innerText = "😮 Opps...";
         modalContent.innerText = "Your login has expired, please login again!";
-        const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
-        confirmBtn.classList.remove("hidden");
+        confirmBtn.classList.toggle("hidden", false);
         confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
         modal.showModal();
       } else {
@@ -286,6 +276,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         //   "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top",
         // );
         modalTitle.innerText = "😮 Opps...";
+        confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
         modal.showModal();
       }
@@ -295,6 +286,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       //   "Your network is unreachable. Please check your internet connection and try again.",
       // );
       modalTitle.innerText = "😮 Opps...";
+      confirmBtn.classList.toggle("hidden", true);
       modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
       modal.showModal();
     }
@@ -313,6 +305,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       // alert("Please fill out all required fields.");
       modalTitle.innerText = "😮 Opps...";
       modalContent.innerText = "Please fill out all required fields.";
+      confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
       return;
     }
@@ -327,6 +320,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         // alert("Upload successful!");
         modalTitle.innerText = "🎉 Tada!";
         modalContent.innerText = "Update Version Successful!";
+        confirmBtn.classList.toggle("hidden", true);
         modal.showModal();
         // Clear the form
         updateForm.reset();
@@ -334,10 +328,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         // alert("Before you upload, please login first.");
         modalTitle.innerText = "😮 Opps...";
         modalContent.innerText = "Your login has expired, please login again!";
-        const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
-        confirmBtn.classList.remove("hidden");
+        confirmBtn.classList.toggle("hidden", false);
         confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
         modal.showModal();
       } else {
@@ -345,6 +338,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         //   "An error occurred while uploading the file. Please try again or contact us with email: EMAIL",
         // );
         modalTitle.innerText = "😮 Opps...";
+        confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
         modal.showModal();
       }
@@ -354,6 +348,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       //   "Your network is unreachable. Please check your internet connection and try again.",
       // );
       modalTitle.innerText = "😮 Opps...";
+      confirmBtn.classList.toggle("hidden", true);
       modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
       modal.showModal();
     }

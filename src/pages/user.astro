@@ -184,12 +184,23 @@ const description = "In User Center you can manage your Dify workflows.";
           editWorkflowAuthorLink.value = target.dataset.workflowSocialLink as string;
           editWorkflowDescription.value = target.dataset.workflowDescription as string
           selectedTagsDiv.innerHTML = "";
+          // Add tags to the selectedTagsDiv
           selectedTagsObject.forEach((tag) => {
             const tagElement = document.createElement("span");
             tagElement.classList.add("tag", "tag-sm");
             tagElement.textContent = tag;
             selectedTagsDiv.appendChild(tagElement);
           });
+          // Set checked state for each tag
+          const dropdownTags = document.getElementById("dropdownTags") as HTMLDivElement;
+          const checkboxes = dropdownTags.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
+          checkboxes.forEach((checkbox) => {
+            const tagName = checkbox.value;
+            if (selectedTagsObject.includes(tagName)) {
+              checkbox.checked = true;
+            }
+          });
+          // Show the edit modal
           updateConfirmBtn.classList.toggle("hidden", true);
           editModalConfirmBtn.classList.toggle("hidden", false);
           editMetaForm.classList.toggle("hidden", false);
@@ -212,7 +223,7 @@ const description = "In User Center you can manage your Dify workflows.";
           const editModalUpdateNote = document.getElementById(
             "editModalUpdateNote",
           ) as HTMLParagraphElement;
-          editModalUpdateNote.innerHTML = `⚠️ Note: Currently the latest version of this workflow is <span calss="font-bold">${workflowVer}</span>, the updated version must be bigger than it.`;
+          editModalUpdateNote.innerHTML = `⚠️ Note: Currently the latest version of this workflow is <span style="font-weight: bold;">${workflowVer}</span>, the updated version must be bigger than it. Recommended: <span style="font-weight: bold;">${expectVersion}</span>.`;
           editModalTitle.innerText = "Update Workflow Version";
           editModalConfirmBtn.classList.toggle("hidden", true);
           updateConfirmBtn.classList.toggle("hidden", false);
