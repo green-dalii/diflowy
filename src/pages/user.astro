@@ -92,12 +92,13 @@ const description = "In User Center you can manage your Dify workflows.";
       const row = document.createElement("tr");
       row.classList.add("hover");
       row.id = `${workflow.id}`;
+      const tagsBase64 = btoa(JSON.stringify(JSON.stringify(workflow.tags)))
       row.innerHTML = `
         <td class="hidden sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
         <td class="w-6/12 sm:3/12"><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden sm:table-cell sm:w-2/12">${workflow.latestVersion}</td>
         <td class="w-2/12">
-            <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags='${JSON.stringify(workflow.tags)}' data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
+            <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
               📝 <span class="hidden lg:block ml-1 ">Edit</span>
             </button>
         </td>
@@ -175,7 +176,7 @@ const description = "In User Center you can manage your Dify workflows.";
           const editWorkflowAuthorLink = document.getElementById("editWorkflowAuthorLink") as HTMLInputElement;
           const editWorkflowDescription = document.getElementById("editWorkflowDescription") as HTMLTextAreaElement;
           const selectedTagsDiv = document.getElementById("selectedTags") as HTMLDivElement;
-          const selectedTags = JSON.parse(target.dataset.workflowTags as string) as string[];
+          const selectedTags = JSON.parse(atob(target.dataset.workflowTags as string)) as string[];
           editWorkflowName.value = target.dataset.workflowName as string;
           editWorkflowAuthor.value = target.dataset.workflowAuthor as string;
           editWorkflowAuthorLink.value = target.dataset.workflowSocialLink as string;

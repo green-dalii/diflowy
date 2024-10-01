@@ -61,35 +61,32 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         </div>
       </form>
       <!-- Update Version Form -->
-      <form id="updateForm" class="hidden grid-cols-1 sm:grid-cols-2 gap-4">
+      <form id="updateForm" class="hidden grid-cols-1 sm:grid-cols-3 gap-4">
         <!-- WorkFlow Update File Entrance-->
-        <div class="col-span-full">
-          <WorkflowFileInput />
+        <div class="col-span-1">
+          <div class="w-full">
+            <WorkflowFileInput />
+          </div>
+          <!-- Version -->
+          <label for="version" class="text-sm font-medium leading-6">Update Version</label>
+          <div class="w-full mt-2 flex rounded-md shadow-sm">
+            <span class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm">
+              V
+            </span>
+            <input
+              type="number"
+              step="0.1"
+              min="0.1"
+              name="updateVersion"
+              id="updateVersionInput"
+              value="1.0"
+              class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
+              placeholder="1.0"
+            >
+          </div>
+          <p id="editModalUpdateNote" class="col-span-1 mt-1 text-xs leading-normal text-gray-400"></p>
         </div>
-        <!-- <label
-          for="dsl-file"
-          class="col-span-1 text-sm font-medium leading-6"
-          >Update your Dify Workflow with new file
-        </label> -->
-        <!-- Version -->
-        <label for="version" class="col-span-full text-sm font-medium leading-6">Update Version</label>
-        <div class="col-span-1 mt-2 flex rounded-md shadow-sm">
-          <span class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm">
-            V
-          </span>
-          <input
-            type="number"
-            step="0.1"
-            min="0.1"
-            name="updateVersion"
-            id="updateVersionInput"
-            value="1.0"
-            class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
-            placeholder="1.0"
-          >
-        </div>
-        <p id="editModalUpdateNote" class="col-span-1 mt-1 text-xs leading-normal text-gray-400"></p>
-        <div class="col-span-full h-[300px]">
+        <div class="col-span-2 h-[500px]">
           <ReactFlowPreview client:only="react" />
         </div>
       </form>
