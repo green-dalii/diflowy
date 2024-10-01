@@ -20,7 +20,7 @@ interface GetWorkflowsResponse {
 }
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
-    console.log("Get Request....")
+    console.log("Get Filter Workflows Request....")
     const { request, env } = context;
     const url = new URL(request.url);
     console.log("url>>>", url)
@@ -67,12 +67,12 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         // 查询分页数据
         const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;
         const workflowsResult = await env.D1.prepare(workflowsQuery).bind(...bindings).all();
-        console.log("workflowsResult>>>", workflowsResult);
+        // console.log("workflowsResult>>>", workflowsResult);
 
         // 查询总数
         const countQuery = `SELECT COUNT(*) as count FROM yaml_files ${whereClause}`;
         const totalResult = await env.D1.prepare(countQuery).bind(...bindings.slice(0, -2)).first();
-        console.log("totalResult>>>", totalResult);
+        // console.log("totalResult>>>", totalResult);
 
         const workflows: Workflow[] = (workflowsResult.results as any[]).map(row => ({
             id: row.id,

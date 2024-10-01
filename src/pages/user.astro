@@ -68,7 +68,7 @@ const description = "In User Center you can manage your Dify workflows.";
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
 
-  // Get Edit modal
+  // Get Edit modal element
   const editModal = document.getElementById("editModal") as HTMLDialogElement;
   const editModalTitle = document.getElementById(
     "editModalTitle",
@@ -81,6 +81,7 @@ const description = "In User Center you can manage your Dify workflows.";
     "editConfirmBtn",
   ) as HTMLButtonElement;
   const updateConfirmBtn = document.getElementById("updateConfirmBtn") as HTMLButtonElement;
+  const reactFlowPreview = document.getElementById("reactFlowPreview") as HTMLDivElement;
 
   // Update Workfow Table
   function updateUserWorkflowsTable(workflowsResponse: GetWorkflowsResponse) {
@@ -178,7 +179,7 @@ const description = "In User Center you can manage your Dify workflows.";
           const selectedTagsDiv = document.getElementById("selectedTags") as HTMLDivElement;
           const selectedTags = JSON.parse(atob(target.dataset.workflowTags as string)) as string;
           const selectedTagsObject = JSON.parse(selectedTags) as string[];
-          console.log("Tags>>>>", selectedTags, "type of tags>>>", typeof selectedTags, "selectedTagsObject>>>", selectedTagsObject, "type of selectedTagsObject>>>", typeof selectedTagsObject)
+          // console.log("Tags>>>>", selectedTags, "type of tags>>>", typeof selectedTags, "selectedTagsObject>>>", selectedTagsObject, "type of selectedTagsObject>>>", typeof selectedTagsObject)
           editWorkflowName.value = target.dataset.workflowName as string;
           editWorkflowAuthor.value = target.dataset.workflowAuthor as string;
           editWorkflowAuthorLink.value = target.dataset.workflowSocialLink as string;
@@ -230,6 +231,7 @@ const description = "In User Center you can manage your Dify workflows.";
           editMetaForm.classList.toggle("hidden", true);
           updateForm.classList.toggle("hidden", false);
           updateForm.classList.toggle("grid", true);
+          reactFlowPreview.classList.toggle("hidden", false);
           editModal.showModal();
         }
         // click delete button action

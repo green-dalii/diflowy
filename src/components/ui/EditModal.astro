@@ -86,7 +86,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           </div>
           <p id="editModalUpdateNote" class="col-span-1 mt-1 text-xs leading-normal text-gray-400"></p>
         </div>
-        <div class="col-span-2 h-[360px]">
+        <div id="reactFlowPreview" class="col-span-2 h-[360px]">
           <ReactFlowPreview client:only="react" />
         </div>
       </form>
@@ -94,9 +94,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     <div class="modal-action">
       <form method="dialog">
         <!-- if there is a button in form, it will close the modal -->
-        <button id="editConfirmBtn" type="submit" class="hidden btn btn-success">Save</button>
-        <button id="updateConfirmBtn" type="submit" class="hidden btn btn-success">Update Version</button>
-        <button class="btn">Close</button>
+        <button id="editConfirmBtn" class="hidden btn btn-success">Save</button>
+        <button id="updateConfirmBtn" class="hidden btn btn-success">Update Version</button>
+        <button id="closeEditModalBtn" class="btn">Close</button>
       </form>
     </div>
   </div>
@@ -120,11 +120,14 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     "modalContent",
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
-  // Get the confirm button
+  // Get the element inside the edit modal
   const editModalConfirmBtn = document.getElementById(
     "editConfirmBtn",
   ) as HTMLButtonElement;
   const updateConfirmBtn = document.getElementById("updateConfirmBtn") as HTMLButtonElement;
+  const closeEditModalBtn = document.getElementById("closeEditModalBtn") as HTMLButtonElement;
+  const editModal = document.getElementById("editModal") as HTMLDialogElement;
+  const reactFlowPreview = document.getElementById("reactFlowPreview") as HTMLDivElement;
 
   // Function to handle file upload
   function handleFile(event: Event | DragEvent) {
@@ -220,8 +223,17 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     // Get workflowId
     const workflowId = editMetaForm.dataset.workflowId as string;
     // Get form data
-    const formData = new FormData(editMetaForm);
-    const selectedTags = document.querySelectorAll(".tag");
+    const formData = new FormData(editMetaForm) as FormData;
+    const selectedTags = document.querySelectorAll(".tag") as NodeListOf<HTMLElement>;
+    // Append data in formData
+    const editWorkflowname = document.getElementById("editWorkflowname") as HTMLInputElement;
+    const editWorkflowDescription = document.getElementById("editWorkflowDescription") as HTMLTextAreaElement;
+    const editWorkflowAuthor = document.getElementById("editWorkflowAuthor") as HTMLInputElement;
+    const editWorkflowAuthorLink = document.getElementById("editWorkflowAuthorLink") as HTMLInputElement;
+    formData.append("editWorkflowname", editWorkflowname.value);
+    formData.append("editWorkflowDescription", editWorkflowDescription.value);
+    formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
+    formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
     // Check if all required fields are filled
     if (
       !formData.get("editWorkflowname") ||
@@ -299,7 +311,14 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     // Get workflowId
     const workflowId = updateForm.dataset.workflowId as string;
     // Get form data
-    const formData = new FormData(updateForm);
+    const formData = new FormData(updateForm) as FormData;
+    // Append data in formData
+    const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
+    const updateVersion = document.getElementById("updateVersion") as HTMLInputElement;
+    if (dslfile.files) {
+      formData.append("dsl-file", dslfile.files[0]);
+    }
+    formData.append("updateVersion", updateVersion.value);
     // Check if all required fields are filled
     if (!formData.get("dsl-file") ||!formData.get("updateVersion")) {
       // alert("Please fill out all required fields.");
@@ -354,9 +373,15 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     }
   }
   document.addEventListener("DOMContentLoaded", () => {
-      // Add event listener to the confirm button
-  editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
-  // Add event listener to the form
-  updateConfirmBtn.addEventListener("click", handleUpdateSubmit);
-  });
+    // Add event listener to the confirm button
+    editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
+    // Add event listener to the form
+    updateConfirmBtn.addEventListener("click", handleUpdateSubmit);
+    });
+    // Add event listener to the close button
+    closeEditModalBtn.addEventListener("click", (event: Event) => {
+      event.preventDefault();
+      reactFlowPreview.classList.toggle("hidden", true);
+      editModal.close();
+    });
 </script>
