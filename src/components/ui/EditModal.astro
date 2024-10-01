@@ -230,7 +230,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     const editWorkflowDescription = document.getElementById("editWorkflowDescription") as HTMLTextAreaElement;
     const editWorkflowAuthor = document.getElementById("editWorkflowAuthor") as HTMLInputElement;
     const editWorkflowAuthorLink = document.getElementById("editWorkflowAuthorLink") as HTMLInputElement;
-    formData.append("editWorkflowname", editWorkflowname.value);
+    formData.append("editWorkflowName", editWorkflowname.value);
     formData.append("editWorkflowDescription", editWorkflowDescription.value);
     formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
     formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
@@ -314,7 +314,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     const formData = new FormData(updateForm) as FormData;
     // Append data in formData
     const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
-    const updateVersion = document.getElementById("updateVersion") as HTMLInputElement;
+    const updateVersion = document.getElementById("updateVersionInput") as HTMLInputElement;
     if (dslfile.files) {
       formData.append("dsl-file", dslfile.files[0]);
     }
@@ -381,6 +381,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     // Add event listener to the close button
     closeEditModalBtn.addEventListener("click", (event: Event) => {
       event.preventDefault();
+      editMetaForm.reset();
+      updateForm.reset();
       reactFlowPreview.classList.toggle("hidden", true);
       editModal.close();
     });
