@@ -56,7 +56,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           <textarea
             id="editWorkflowDescription"
             name="editWorkflowDescription"
-            rows="11"
+            rows="15"
             class="textarea textarea-bordered w-full"></textarea>
         </div>
       </form>
@@ -67,6 +67,16 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           <div class="w-full">
             <WorkflowFileInput />
           </div>
+          <div class="label">
+            <span class="label-text">Workflow Name</span>
+          </div>
+          <input
+            id="updateWorkflowName"
+            name="updateWorkflowName"
+            type="text"
+            class="input input-bordered w-full"
+            disabled
+          />
           <!-- Version -->
           <label for="version" class="text-sm font-medium leading-6">Update Version</label>
           <div class="w-full mt-2 flex rounded-md shadow-sm">
@@ -265,15 +275,14 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       });
       if (response.ok) {
         console.log("Response>>>", response.json());
-        // alert("Upload successful!");
-        modalTitle.innerText = "🎉 Tada!";
-        modalContent.innerText = "Upload meta data successful!";
-        confirmBtn.classList.toggle("hidden", true);
-        modal.showModal();
         // Clear the form
         editMetaForm.reset();
         // Clear the selected tags
         selectedTagsTree!.innerHTML = "";
+        modalTitle.innerText = "🎉 Tada!";
+        modalContent.innerText = "Upload meta data successful!";
+        confirmBtn.classList.toggle("hidden", true);
+        modal.showModal();
       } else if (response.status === 401) {
         // alert("Before you upload, please login first.");
         modalTitle.innerText = "😮 Opps...";
@@ -284,9 +293,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
         modal.showModal();
       } else {
-        // alert(
-        //   "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top",
-        // );
+        // Clear the form
+        editMetaForm.reset();
+        // Clear the selected tags
+        selectedTagsTree!.innerHTML = "";
         modalTitle.innerText = "😮 Opps...";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
@@ -294,9 +304,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       }
     } catch (error) {
       console.error("Error uploading file:", error);
-      // alert(
-      //   "Your network is unreachable. Please check your internet connection and try again.",
-      // );
+      // Clear the form
+      editMetaForm.reset();
+      // Clear the selected tags
+      selectedTagsTree!.innerHTML = "";
       modalTitle.innerText = "😮 Opps...";
       confirmBtn.classList.toggle("hidden", true);
       modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
@@ -336,13 +347,12 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       });
       if (response.ok) {
         console.log("Response>>>", response.json());
-        // alert("Upload successful!");
+        // Clear the form
+        updateForm.reset();
         modalTitle.innerText = "🎉 Tada!";
         modalContent.innerText = "Update Version Successful!";
         confirmBtn.classList.toggle("hidden", true);
         modal.showModal();
-        // Clear the form
-        updateForm.reset();
       } else if (response.status === 401) {
         // alert("Before you upload, please login first.");
         modalTitle.innerText = "😮 Opps...";
@@ -353,9 +363,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
         modal.showModal();
       } else {
-        // alert(
-        //   "An error occurred while uploading the file. Please try again or contact us with email: EMAIL",
-        // );
+        // Clear the form
+        updateForm.reset();
         modalTitle.innerText = "😮 Opps...";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
@@ -363,9 +372,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       }
     } catch (error) {
       console.error("Error uploading file:", error);
-      // alert(
-      //   "Your network is unreachable. Please check your internet connection and try again.",
-      // );
+      // Clear the form
+      updateForm.reset();
       modalTitle.innerText = "😮 Opps...";
       confirmBtn.classList.toggle("hidden", true);
       modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
@@ -381,6 +389,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     // Add event listener to the close button
     closeEditModalBtn.addEventListener("click", (event: Event) => {
       event.preventDefault();
+      console.log("Edit Modal Close button clicked");
       editMetaForm.reset();
       updateForm.reset();
       reactFlowPreview.classList.toggle("hidden", true);

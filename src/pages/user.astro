@@ -5,6 +5,7 @@ import Section from "../components/sections/Section.astro";
 import EditModal from "../components/ui/EditModal.astro";
 import "../styles/globals.css";
 const description = "In User Center you can manage your Dify workflows.";
+const skeletonCount = 10;
 ---
 
 <MainLayout
@@ -32,13 +33,29 @@ const description = "In User Center you can manage your Dify workflows.";
             <tr>
               <th class="text-wrap hidden sm:table-cell sm:w-1/12">No.</th>
               <th class="text-wrap w-6/12 sm:3/12">Workflow Name</th>
-              <th class="text-wrap hidden sm:table-cell sm:w-2/12">Latest Version</th>
+              <th class="text-wrap hidden sm:table-cell sm:w-2/12"
+                >Latest Version</th
+              >
               <th class="text-wrap w-2/12">Metadata</th>
               <th class="text-wrap w-2/12">Update Version</th>
               <th class="text-wrap w-2/12">Delete</th>
             </tr>
           </thead>
-          <tbody id="workflowTable"> </tbody>
+          <tbody id="workflowTable">
+            <!-- Workflow rows will be dynamically replaced here -->
+            {
+              new Array(skeletonCount).fill(null).map((_) => (
+                <tr>
+                  <td class="hidden sm:table-cell sm:w-1/12">...</td>
+                  <td class="w-6/12 sm:3/12">Loading...</td>
+                  <td class="hidden sm:table-cell sm:w-2/12">...</td>
+                  <td class="w-2/12">...</td>
+                  <td class="w-2/12">...</td>
+                  <td class="w-2/12">...</td>
+                </tr>
+              ))
+            }
+          </tbody>
         </table>
         <div class="mt-14 text-center">
           <div class="join" id="pagination"></div>
@@ -52,7 +69,7 @@ const description = "In User Center you can manage your Dify workflows.";
 <script>
   import { updatePagination, fetchWorkflows, JWTError } from "../utils/tools";
   import type { Workflow, GetWorkflowsResponse } from "../utils/tools";
-  
+
   // Get the table body element
   const workflowTableBody = document.getElementById(
     "workflowTable",
@@ -80,8 +97,12 @@ const description = "In User Center you can manage your Dify workflows.";
   const editModalConfirmBtn = document.getElementById(
     "editConfirmBtn",
   ) as HTMLButtonElement;
-  const updateConfirmBtn = document.getElementById("updateConfirmBtn") as HTMLButtonElement;
-  const reactFlowPreview = document.getElementById("reactFlowPreview") as HTMLDivElement;
+  const updateConfirmBtn = document.getElementById(
+    "updateConfirmBtn",
+  ) as HTMLButtonElement;
+  const reactFlowPreview = document.getElementById(
+    "reactFlowPreview",
+  ) as HTMLDivElement;
 
   // Update Workfow Table
   function updateUserWorkflowsTable(workflowsResponse: GetWorkflowsResponse) {
@@ -93,24 +114,24 @@ const description = "In User Center you can manage your Dify workflows.";
       const row = document.createElement("tr");
       row.classList.add("hover");
       row.id = `${workflow.id}`;
-      const tagsBase64 = btoa(JSON.stringify(workflow.tags))
+      const tagsBase64 = btoa(JSON.stringify(workflow.tags));
       row.innerHTML = `
         <td class="hidden sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
         <td class="w-6/12 sm:3/12"><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden sm:table-cell sm:w-2/12">${workflow.latestVersion}</td>
         <td class="w-2/12">
             <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
-              📝 <span class="hidden lg:block ml-1 ">Edit</span>
+              📝 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">Edit</span>
             </button>
         </td>
         <td class="w-2/12">
-          <button class="btn w-full btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}" data-workflow-ver="${workflow.latestVersion}">
-              🚀 <span class="hidden lg:block ml-1">Update</span>
+          <button class="btn w-full btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">
+              🚀 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">Update</span>
           </button>
         </td>
         <td class="w-2/12">
           <button class="btn w-full btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">
-              🗑️ <span class="hidden lg:block ml-1">Delete</span>
+              🗑️ <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">Delete</span>
           </button>
         </td>
       `;
@@ -119,14 +140,13 @@ const description = "In User Center you can manage your Dify workflows.";
   }
 
   // Delete workflow by API
-  function deleteWorkflow(workflowId: string){
+  function deleteWorkflow(workflowId: string) {
     fetch(`/api/workflow/delete/${workflowId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-    })
-   .then((response) => {
+    }).then((response) => {
       if (response.ok) {
         console.log("Delete Success", response.statusText);
         modalTitle.innerText = "🎉 Tida";
@@ -142,7 +162,7 @@ const description = "In User Center you can manage your Dify workflows.";
         confirmBtn.classList.toggle("hidden", true);
         modal.showModal();
       }
-    })
+    });
   }
 
   // Load page data
@@ -172,18 +192,32 @@ const description = "In User Center you can manage your Dify workflows.";
           editMetaForm.dataset.workflowId = workflowId as string;
           editModalTitle.innerText = "Edit Workflow Metadata";
           // Fill in metadata
-          const editWorkflowName = document.getElementById("editWorkflowName") as HTMLInputElement;
-          const editWorkflowAuthor = document.getElementById("editWorkflowAuthor") as HTMLInputElement;
-          const editWorkflowAuthorLink = document.getElementById("editWorkflowAuthorLink") as HTMLInputElement;
-          const editWorkflowDescription = document.getElementById("editWorkflowDescription") as HTMLTextAreaElement;
-          const selectedTagsDiv = document.getElementById("selectedTags") as HTMLDivElement;
-          const selectedTags = JSON.parse(atob(target.dataset.workflowTags as string)) as string;
+          const editWorkflowName = document.getElementById(
+            "editWorkflowName",
+          ) as HTMLInputElement;
+          const editWorkflowAuthor = document.getElementById(
+            "editWorkflowAuthor",
+          ) as HTMLInputElement;
+          const editWorkflowAuthorLink = document.getElementById(
+            "editWorkflowAuthorLink",
+          ) as HTMLInputElement;
+          const editWorkflowDescription = document.getElementById(
+            "editWorkflowDescription",
+          ) as HTMLTextAreaElement;
+          const selectedTagsDiv = document.getElementById(
+            "selectedTags",
+          ) as HTMLDivElement;
+          const selectedTags = JSON.parse(
+            atob(target.dataset.workflowTags as string),
+          ) as string;
           const selectedTagsObject = JSON.parse(selectedTags) as string[];
           // console.log("Tags>>>>", selectedTags, "type of tags>>>", typeof selectedTags, "selectedTagsObject>>>", selectedTagsObject, "type of selectedTagsObject>>>", typeof selectedTagsObject)
           editWorkflowName.value = target.dataset.workflowName as string;
           editWorkflowAuthor.value = target.dataset.workflowAuthor as string;
-          editWorkflowAuthorLink.value = target.dataset.workflowSocialLink as string;
-          editWorkflowDescription.value = target.dataset.workflowDescription as string
+          editWorkflowAuthorLink.value = target.dataset
+            .workflowSocialLink as string;
+          editWorkflowDescription.value = target.dataset
+            .workflowDescription as string;
           selectedTagsDiv.innerHTML = "";
           // Add tags to the selectedTagsDiv
           selectedTagsObject.forEach((tag) => {
@@ -193,8 +227,12 @@ const description = "In User Center you can manage your Dify workflows.";
             selectedTagsDiv.appendChild(tagElement);
           });
           // Set checked state for each tag
-          const dropdownTags = document.getElementById("dropdownTags") as HTMLDivElement;
-          const checkboxes = dropdownTags.querySelectorAll("input[type='checkbox']") as NodeListOf<HTMLInputElement>;
+          const dropdownTags = document.getElementById(
+            "dropdownTags",
+          ) as HTMLDivElement;
+          const checkboxes = dropdownTags.querySelectorAll(
+            "input[type='checkbox']",
+          ) as NodeListOf<HTMLInputElement>;
           checkboxes.forEach((checkbox) => {
             const tagName = checkbox.value;
             if (selectedTagsObject.includes(tagName)) {
@@ -216,8 +254,10 @@ const description = "In User Center you can manage your Dify workflows.";
           const updateVersionInput = document.getElementById(
             "updateVersionInput",
           ) as HTMLInputElement;
+          const updateWorkflowName = document.getElementById("updateWorkflowName") as HTMLInputElement;
           console.log("Clicked the update button of", workflowId, workflowVer);
-          updateForm.dataset.workflowId = workflowId as string;
+          // updateForm.dataset.workflowId = workflowId as string;
+          updateWorkflowName.value = target.dataset.workflowName as string;
           const expectVersion = Number(workflowVer) + 0.1;
           updateVersionInput.value = String(expectVersion);
           updateVersionInput.placeholder = String(expectVersion);
@@ -239,12 +279,13 @@ const description = "In User Center you can manage your Dify workflows.";
           event.stopPropagation(); // Prevent the event from bubbling up to the document
           console.log("Clicked the delete button of", workflowId);
           modalTitle.innerText = "🤔 Delect?";
-          modalContent.innerHTML =
-            `Confirm to delete this workflow: <span class="font-bold">${target.dataset.workflowName}</span> and all its version records?`;
+          modalContent.innerHTML = `Confirm to delete this workflow: <span class="font-bold">${target.dataset.workflowName}</span> and all its version records?`;
           confirmBtn.textContent = "Delete";
           confirmBtn.classList.toggle("btn-error", true);
           confirmBtn.classList.toggle("hidden", false);
-          confirmBtn.addEventListener("click", () => deleteWorkflow(workflowId as string));
+          confirmBtn.addEventListener("click", () =>
+            deleteWorkflow(workflowId as string),
+          );
           modal.showModal();
         }
       });
