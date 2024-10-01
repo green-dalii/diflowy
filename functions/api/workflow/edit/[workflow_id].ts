@@ -36,7 +36,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             const formData = await request.formData();
             console.log("Edit Upload API Data>>>", formData)
             // Extract data from formData
-            const workflowName = formData.get('editWorkflowname') as string;
+            const workflowName = formData.get('editWorkflowName') as string;
             const tags = formData.get('tags') as string;
             const description = formData.get('editWorkflowDescription') as string;
             const author = JSON.stringify({ "authorName": formData.get("editWorkflowAuthor") as string, "socialLink": formData.get("editWorkflowAuthorLink") as string });

@@ -17,11 +17,13 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
   const url = new URL(context.request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  const redirectUrl = url.searchParams.get("redirect") || "/";
+  // const redirectUrl = url.searchParams.get("redirect") || "/";
   console.log("GET Request>>>URL>>>", url, "code>>>", code, "state>>>", state)
 
   const storedState = context.request.headers.get("Cookie")?.match(/github_oauth_state=([^;]+)/)?.[1] ?? null;
-  console.log("storedState>>>", storedState)
+  const redirectCookie = context.request.headers.get("Cookie")?.match(/auth_redirect=([^;]+)/)?.[1]?? null;
+  const redirectUrl = redirectCookie? decodeURIComponent(redirectCookie) : "/";
+  console.log("redirectUrl>>>", redirectUrl)
 
   if (!code || !state || !storedState || state !== storedState) {
     console.log("Invalid request parameters")
@@ -85,7 +87,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     console.log("Callback JWT Created>>>", token)
     // 设置响应头
     const cookie = `auth_token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`;
-    console.log("Cookie Prepared, Redirecting...")
+    console.log("Cookie Prepared, Redirecting to>>>>>", redirectUrl)
     return new Response(null, {
       status: 302,
       headers: {

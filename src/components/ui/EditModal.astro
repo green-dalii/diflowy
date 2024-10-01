@@ -236,11 +236,11 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     const formData = new FormData(editMetaForm) as FormData;
     const selectedTags = document.querySelectorAll(".tag") as NodeListOf<HTMLElement>;
     // Append data in formData
-    const editWorkflowname = document.getElementById("editWorkflowname") as HTMLInputElement;
+    const editWorkflowName = document.getElementById("editWorkflowName") as HTMLInputElement;
     const editWorkflowDescription = document.getElementById("editWorkflowDescription") as HTMLTextAreaElement;
     const editWorkflowAuthor = document.getElementById("editWorkflowAuthor") as HTMLInputElement;
     const editWorkflowAuthorLink = document.getElementById("editWorkflowAuthorLink") as HTMLInputElement;
-    formData.append("editWorkflowName", editWorkflowname.value);
+    formData.append("editWorkflowName", editWorkflowName.value);
     formData.append("editWorkflowDescription", editWorkflowDescription.value);
     formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
     formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
