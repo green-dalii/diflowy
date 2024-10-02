@@ -245,7 +245,8 @@ const description =
         workflowName.innerText = workflowObject.name;
         workflowDescription.innerText = workflowObject.description;
         workflowAuthor.innerText = workflowObject.authorData.authorName;
-        workflowAuthorInfo.innerText = workflowObject.authorData.socialLink || "";
+        workflowAuthorInfo.innerText =
+          workflowObject.authorData.socialLink || "";
         // Update the updated time
         updatedTime.innerText = `Last Updated: ${workflowObject.update_time}`;
         // Update the version select
@@ -258,7 +259,7 @@ const description =
             }
           })
           .join("");
-        
+
         // Update the tags
         const tagsHTML = workflowObject.tags
           .map(
@@ -273,10 +274,12 @@ const description =
         const { nodes, edges } = parseYamlToReactFlow(
           workflowObject.file_content as string,
         );
+
+        // Check if ReactFlow is ready
+        // Check if ReactFlow is ready
         const checkAndUpdateReactFlow = () => {
           if (typeof (window as any).updateReactFlow === "function") {
             (window as any).updateReactFlow(nodes, edges);
-            console.log("ReactFlow updated.");
           } else {
             console.log("updateReactFlow not ready, retrying...");
             setTimeout(checkAndUpdateReactFlow, 100); // 每100ms检查一次
@@ -285,20 +288,28 @@ const description =
         checkAndUpdateReactFlow();
 
         // Add event listeners to buttons
-        downloadButton.addEventListener("click", () => {
+        downloadButton.addEventListener("click", (event: Event) => {
+          event.preventDefault();
           downloadWorkflow(workflowObject);
         });
-        copyButton.addEventListener("click", () => {
+        copyButton.addEventListener("click", (event: Event) => {
+          event.preventDefault();
           copyDownloadUrl(workflowObject);
         });
 
         // Set the current version
-        console.log("current version>>", workflowObject.currentVersion);
+        console.log(
+          "current version>>",
+          workflowObject.currentVersion,
+          "workflowObject>>>",
+          workflowObject,
+        );
         version.value = workflowObject.currentVersion;
       }
 
       // add event listener to version select
-      version.addEventListener("change", async (event) => {
+      version.addEventListener("change", async (event: Event) => {
+        event.preventDefault();
         const selectedVersion = version.value;
         console.log("Selected version:", selectedVersion);
         let newVersionWorkflow = (await changeWorkflowVersion(
