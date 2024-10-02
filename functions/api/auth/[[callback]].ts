@@ -49,12 +49,11 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       "SELECT * FROM users WHERE github_id = ?"
     ).bind(githubUser.id).all();
     const existingUser = results[0];
-    console.log("Existing User>>>")
 
     let userId: string;
     // 如果数据库中存在用户
     if (existingUser) {
-      console.log("User exists")
+      console.log("User exists>>>", existingUser)
       userId = existingUser.id as string;
     }
     // 如果为新用户

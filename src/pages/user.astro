@@ -140,8 +140,9 @@ const skeletonCount = 10;
   }
 
   // Delete workflow by API
-  function deleteWorkflow(workflowId: string) {
-    fetch(`/api/workflow/delete/${workflowId}`, {
+  async function deleteWorkflow(workflowId: string, event: Event) {
+    event.preventDefault();
+    const response = await fetch(`/api/workflow/delete/${workflowId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -285,8 +286,8 @@ const skeletonCount = 10;
           confirmBtn.textContent = "Delete";
           confirmBtn.classList.toggle("btn-error", true);
           confirmBtn.classList.toggle("hidden", false);
-          confirmBtn.addEventListener("click", () =>
-            deleteWorkflow(workflowId as string),
+          confirmBtn.addEventListener("click", (event: Event) =>
+            deleteWorkflow(workflowId as string, event),
           );
           modal.showModal();
         }
@@ -301,10 +302,10 @@ const skeletonCount = 10;
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
         confirmBtn.classList.remove("hidden");
-        confirmBtn.setAttribute(
-          "onclick",
-          `window.location.href='/api/login/github?redirect=' + encodeURIComponent(window.location.pathname + window.location.search)`,
-        );
+        confirmBtn.addEventListener("click", (event: Event) => {
+          event.preventDefault();
+          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+        });
         modal.showModal();
       } else {
         console.error("Error loading page data:", error);
@@ -315,6 +316,9 @@ const skeletonCount = 10;
       }
     }
   }
+
+  // 
+  (window as any).loadTableData = loadPageData;
 
   document.addEventListener("DOMContentLoaded", () => {
     loadPageData(1);

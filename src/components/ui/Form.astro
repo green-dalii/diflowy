@@ -344,7 +344,10 @@ import Tags from "./Tags.astro";
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
         confirmBtn.classList.remove("hidden");
-        confirmBtn.setAttribute("onclick", `/api/login/github?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`);
+        confirmBtn.addEventListener("click", (event: Event) => {
+          event.preventDefault();
+          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+        });
         modal.showModal();
       } else {
         // alert(
