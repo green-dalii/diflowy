@@ -57,7 +57,7 @@ const description =
                 Last Updated: Loading...
               </div>
             </div>
-            <div id="tagsarea" class="mt-5"></div>
+            <div id="tagsarea" class="mt-10"></div>
             <div class="mt-20">
               <h4>👁️ Before You Use</h4>
               <ul
@@ -245,7 +245,7 @@ const description =
         workflowName.innerText = workflowObject.name;
         workflowDescription.innerText = workflowObject.description;
         workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
-        workflowAuthorInfo.innerHTML = `<a class="link" href="${workflowObject.authorData.socialLink}">Contact the author</a>`;
+        workflowAuthorInfo.innerHTML = `<a class="link" href="//${workflowObject.authorData.socialLink}/">👉Contact the author</a>`;
         // Update the updated time
         updatedTime.innerText = `Last Updated: ${workflowObject.update_time}`;
         // Update the version select

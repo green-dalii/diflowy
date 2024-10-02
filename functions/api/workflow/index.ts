@@ -5,7 +5,7 @@ interface Workflow {
     name: string;
     description: string;
     versions: string[];
-    currunt_version: string;
+    current_version: string;
     tags: string[];
     icon: string;
     authorData: object;
@@ -72,7 +72,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             name: workflowResult.filename as string,
             description: workflowResult.description as string,
             versions: versions,
-            currunt_version: queryVersion,
+            current_version: queryVersion,
             tags: JSON.parse(workflowResult.tags as string),
             icon: workflowResult.icon as string,
             authorData: JSON.parse(workflowResult.author_data as string),
