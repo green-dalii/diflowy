@@ -296,9 +296,12 @@ const skeletonCount = 10;
           confirmBtn.textContent = "Delete";
           confirmBtn.classList.toggle("btn-error", true);
           confirmBtn.classList.toggle("hidden", false);
-          confirmBtn.addEventListener("click", (event: Event) =>
-            deleteWorkflow(workflowId as string, event),
-          );
+          confirmBtn.removeEventListener("click", (event: Event) => {
+            deleteWorkflow(workflowId as string, event)
+          });
+          confirmBtn.addEventListener("click", (event: Event) => {
+            deleteWorkflow(workflowId as string, event)
+          });
           modal.showModal();
         }
       });
@@ -314,7 +317,6 @@ const skeletonCount = 10;
         confirmBtn.classList.remove("hidden");
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
-          console.log("Login URL>>>", "/api/login/github?redirect=" + window.location.pathname + window.location.search)
           window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
         });
         modal.showModal();

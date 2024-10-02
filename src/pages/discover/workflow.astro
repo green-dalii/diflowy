@@ -108,6 +108,7 @@ const description =
 
 <script>
   import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
+  import { formatUpdateTime } from "../../utils/tools"
 
   const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-4" />`;
   interface WorkflowContentResponse {
@@ -226,7 +227,8 @@ const description =
       }
       // copy download url function
       function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
-        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}?version=${workflowObject.current_version}`;
+        let downloadUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}?version=${workflowObject.current_version}&name=${workflowObject.name}`;
+        downloadUrl = encodeURIComponent(downloadUrl);
         navigator.clipboard.writeText(downloadUrl).then(() => {
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
@@ -247,7 +249,7 @@ const description =
         workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `<a class="link" href="//${workflowObject.authorData.socialLink}/">👉Contact the author</a>`;
         // Update the updated time
-        updatedTime.innerText = `Last Updated: ${workflowObject.update_time}`;
+        updatedTime.innerText = `Updated: ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select
         version.innerHTML = workflowObject.versions
           .map((version: string, index: number) => {
@@ -275,7 +277,6 @@ const description =
         );
 
         // Check if ReactFlow is ready
-        // Check if ReactFlow is ready
         const checkAndUpdateReactFlow = () => {
           if (typeof (window as any).updateReactFlow === "function") {
             (window as any).updateReactFlow(nodes, edges);
@@ -285,6 +286,14 @@ const description =
           }
         };
         checkAndUpdateReactFlow();
+
+        // Remove existing event listeners
+        downloadButton.removeEventListener("click", (event: Event) => {
+          downloadWorkflow(workflowObject);
+        });
+        copyButton.removeEventListener("click", (event: Event) => {
+          copyDownloadUrl(workflowObject);
+        });
 
         // Add event listeners to buttons
         downloadButton.addEventListener("click", (event: Event) => {
@@ -297,7 +306,6 @@ const description =
         });
 
         // Set the current version
-        console.log("Current version:", workflowObject.current_version, "WorkflowObject>>>", workflowObject);
         version.value = workflowObject.current_version;
       }
 
@@ -314,7 +322,7 @@ const description =
 
       // Load workflow from API and update the page when the page is loaded
       console.log("First Call loadWorkflow...");
-      const workflow = await loadWorkflow();
+      const workflow = await loadWorkflow() as WorkflowContentResponse;
       updateWorkflow(workflow);
     } catch (error) {
       console.error("Error loading workflow:", error);

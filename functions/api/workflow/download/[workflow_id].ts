@@ -6,13 +6,14 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const workflowId = params.workflow_id;
         const url = new URL(request.url);
         const version = url.searchParams.get('version');
+        const workflowName = url.searchParams.get('name');
         console.log("Download ID>>>", workflowId, "Download Version>>>", version)
         const workflowResult = await env.D1.prepare(
             'SELECT file_content FROM yaml_versions WHERE yaml_file_id = ? AND version = ?'
         ).bind(workflowId, version).first();
 
-        if (!workflowResult || !version) {
-            console.log("Workflow not found", workflowResult, "Version not found", version);
+        if (!workflowResult || !version || !workflowName) {
+            console.log("Workflow not found", workflowResult, "Version not found", version, "Workflow Name not found", workflowName);
             return new Response("Workflow not found", { status: 404 });
         }
         
@@ -23,7 +24,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         return new Response(fileContentString, {
             headers: {
                 'Content-Type': 'text/yaml',
-                'Content-Disposition': `attachment; filename="${workflowResult.filename}_${version}.yml"`,
+                'Content-Disposition': `attachment; filename="${workflowName}_${version}.yml"`,
             }
         });
     } catch (error) {
