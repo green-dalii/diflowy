@@ -456,7 +456,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
             modalTitle.innerText = "😮 Opps...";
             confirmBtn.classList.toggle("hidden", true);
             modalContent.innerText =
-              "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
+              "An error occurred while uploading the file. Please try again or contact us.";
+            reactFlowPreview.classList.toggle("hidden", true);
             modal.showModal();
           }
         } catch (error) {
@@ -467,6 +468,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           confirmBtn.classList.toggle("hidden", true);
           modalContent.innerText =
             "Your network is unreachable. Please check your internet connection and try again.";
+          reactFlowPreview.classList.toggle("hidden", true);
           modal.showModal();
         }
       }

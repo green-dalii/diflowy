@@ -23,7 +23,8 @@ const description =
           </div>
           <div>
             <small class="text-sm text-gray-400"
-              >* The above is for preview only; any changes will not affect the file.</small
+              >* The above is for preview only; any changes will not affect the
+              file.</small
             >
           </div>
         </div>
@@ -64,14 +65,13 @@ const description =
               >
                 <li>Please ensure the security of this workflow.</li>
                 <li>
-                  You might need to replace the LLM and API keys with your own in the workflow.
+                  You might need to replace the LLM and API keys with your own
+                  in the workflow.
                 </li>
                 <li>
                   Feel free to modify the workflow content to fit your needs.
                 </li>
-                <li>
-                  If you find it useful, remember to thank the author ❤️
-                </li>
+                <li>If you find it useful, remember to thank the author ❤️</li>
               </ul>
             </div>
           </div>
@@ -202,6 +202,41 @@ const description =
       const version = document.getElementById(
         "version",
       ) as unknown as HTMLSelectElement;
+      // Get the buttons
+      const downloadButton = document.getElementById(
+        "downloadButton",
+      ) as HTMLButtonElement;
+      const copyButton = document.getElementById(
+        "copyButton",
+      ) as HTMLButtonElement;
+
+      // Download workflow function
+      async function downloadWorkflow(workflow: WorkflowContentResponse) {
+        const a = document.createElement("a") as HTMLAnchorElement;
+        const blob = new Blob([workflow.file_content as string], {
+          type: "text/yaml",
+        });
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `${workflow.name}_${workflow.currentVersion}.yml`;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+      // copy download url function
+      function copyDownloadUrl(workflow: WorkflowContentResponse) {
+        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflow.id}?version=${workflow.currentVersion}`;
+        navigator.clipboard.writeText(downloadUrl).then(() => {
+          modalTitle.innerText = "🎉 Tada!";
+          modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
+          modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
+          modalContent.innerHTML += importStepImg;
+          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @${workflow.authorData.authorName} if you found it useful!</div>`;
+          modal.showModal();
+          console.log("Download URL>>>", downloadUrl);
+        });
+      }
 
       // Function for updating workflow page
       function updateWorkflow(workflow: WorkflowContentResponse) {
@@ -247,6 +282,18 @@ const description =
           }
         };
         checkAndUpdateReactFlow();
+
+        // Add event listeners to buttons
+        downloadButton.addEventListener("click", () => {
+          downloadWorkflow(workflow);
+        });
+        copyButton.addEventListener("click", () => {
+          copyDownloadUrl(workflow);
+        });
+
+        // Set the current version
+        console.log("current version>>", workflow.currentVersion);
+        version.value = workflow.currentVersion;
       }
 
       // add event listener to version select
@@ -257,53 +304,12 @@ const description =
           selectedVersion,
         )) as WorkflowContentResponse;
         updateWorkflow(workflow);
-        version.value = workflow.currentVersion;
       });
 
       // Load workflow from API and update the page
       console.log("Call loadWorkflow...");
       const workflow = await loadWorkflow();
       updateWorkflow(workflow);
-
-      // Download workflow function
-      async function downloadWorkflow() {
-        const a = document.createElement("a") as HTMLAnchorElement;
-        const blob = new Blob([workflow.file_content as string], {
-          type: "text/yaml",
-        });
-        const url = URL.createObjectURL(blob);
-        a.href = url;
-        a.download = `${workflow.name}.yml`;
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      }
-      // copy download url function
-      function copyDownloadUrl() {
-        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflow.id}`;
-        navigator.clipboard.writeText(downloadUrl).then(() => {
-          // alert(
-          //   "Download URL copied to clipboard! Please paste it to your browser to Dify import window and then click 'Confirm' Button below.",
-          // );
-          modalTitle.innerText = "🎉 Tada!";
-          modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
-          modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
-          modalContent.innerHTML += importStepImg;
-          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @${workflow.authorData.authorName} if you found it useful!</div>`;
-          modal.showModal();
-          console.log("Download URL>>>", downloadUrl);
-        });
-      }
-      // Add event listeners to buttons
-      const downloadButton = document.getElementById(
-        "downloadButton",
-      ) as HTMLButtonElement;
-      const copyButton = document.getElementById(
-        "copyButton",
-      ) as HTMLButtonElement;
-      downloadButton.addEventListener("click", downloadWorkflow);
-      copyButton.addEventListener("click", copyDownloadUrl);
     } catch (error) {
       console.error("Error loading workflow:", error);
       modalTitle.innerText = "⚠️ Error";
