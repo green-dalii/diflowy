@@ -41,7 +41,7 @@ const description =
             </div>
             <div class="flex flex-row space-x-4 items-center mt-5">
               <div id="author" class="text-sm">@Author</div>
-              <div id="authorInfo" class="text-sm italic link">Author Link</div>
+              <div id="authorInfo" class="text-sm italic">Author Link</div>
             </div>
             <div class="mt-5 grid grid-cols-2 items-center gap-4">
               <div class="flex flex-row space-x-2 items-center">
@@ -244,9 +244,8 @@ const description =
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
         workflowDescription.innerText = workflowObject.description;
-        workflowAuthor.innerText = `Author: ${workflowObject.authorData.authorName}`;
-        workflowAuthorInfo.innerText =
-          workflowObject.authorData.socialLink || "";
+        workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
+        workflowAuthorInfo.innerHTML = `<a class="link" href="${workflowObject.authorData.socialLink}">Contact the author</a>`;
         // Update the updated time
         updatedTime.innerText = `Last Updated: ${workflowObject.update_time}`;
         // Update the version select
@@ -298,6 +297,7 @@ const description =
         });
 
         // Set the current version
+        console.log("Current version:", workflowObject.current_version, "WorkflowObject>>>", workflowObject);
         version.value = workflowObject.current_version;
       }
 
