@@ -32,7 +32,7 @@ const skeletonCount = 10;
           <thead>
             <tr>
               <th class="text-wrap hidden sm:table-cell sm:w-1/12">No.</th>
-              <th class="text-wrap w-6/12 sm:3/12">Workflow Name</th>
+              <th class="text-wrap w-6/12 sm:w-3/12">Workflow Name</th>
               <th class="text-wrap hidden sm:table-cell sm:w-2/12"
                 >Latest Version</th
               >
@@ -142,6 +142,11 @@ const skeletonCount = 10;
   // Delete workflow by API
   async function deleteWorkflow(workflowId: string, event: Event) {
     event.preventDefault();
+    // Show loading modal
+    modalTitle.innerText = "⏳ Processing...";
+    modalContent.innerText = "Workflow is deleting...";
+    confirmBtn.classList.toggle("hidden", true);
+    modal.showModal();
     const response = await fetch(`/api/workflow/delete/${workflowId}`, {
       method: "DELETE",
       headers: {

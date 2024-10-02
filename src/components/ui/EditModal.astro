@@ -253,6 +253,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       } else {
         // alert("Please upload a Dify DSL file.");
         modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
           "Unsupported file format. Please upload a valid Dify DSL file.";
         modal.showModal();
@@ -266,6 +267,11 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   ) as HTMLFormElement;
   async function handleEditMetaSubmit(event: Event) {
     event.preventDefault();
+    // Show loading modal
+    modalTitle.innerText = "⏳ Processing...";
+    modalContent.innerText = "Workflow metadata is uploading...";
+    confirmBtn.classList.toggle("hidden", true);
+    modal.showModal();
     // Get workflowId
     const workflowId = editMetaForm.dataset.workflowId as string;
     // Get form data
@@ -376,6 +382,11 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   const updateForm = document.getElementById("updateForm") as HTMLFormElement;
   async function handleUpdateSubmit(event: Event) {
     event.preventDefault();
+    // Show loading modal
+    modalTitle.innerText = "⏳ Processing...";
+    modalContent.innerText = "New version is updating...";
+    confirmBtn.classList.toggle("hidden", true);
+    modal.showModal();
     // Get workflowId and workflowVersion
     const workflowId = updateForm.dataset.workflowId as string;
     const workflowVersion = updateForm.dataset.workflowVersion as string;

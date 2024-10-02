@@ -3,7 +3,6 @@ import { initializeGitHub } from "../../auth";
 import type { Env } from "../../auth";
 import type { EventContext } from "@cloudflare/workers-types";
 
-//Creating authorization URL
 export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context) => {
     const github = initializeGitHub(context.env);
     const state = generateState();
@@ -21,9 +20,12 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       status: 302,
       headers: {
         Location: githubAuthURL.toString(),
-        "Set-Cookie": [stateCookie, redirectCookie].join(", "),
+        // "Set-Cookie": stateCookie,
       },
     });
-  
+    // 添加 cookie
+    response.headers.append("Set-Cookie", stateCookie);
+    response.headers.append("Set-Cookie", redirectCookie);
+
     return response;
   };
