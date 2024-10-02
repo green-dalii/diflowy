@@ -42,7 +42,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     console.log("GitHub User Getting")
     console.log("GitHub User Response Status>>>", githubUserResponse.status, githubUserResponse.ok)
     const githubUser: GitHubUser = await githubUserResponse.json();
-    console.log("GitHub User Got", githubUser)
+    // console.log("GitHub User Got", githubUser)
 
     // 使用 D1 数据库查询现有用户
     const { results } = await context.env.D1.prepare(

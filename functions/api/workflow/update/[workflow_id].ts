@@ -23,7 +23,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         // Verify that the owner of the workflow to be update is the requesting user
         const workflowUserId  = await context.env.D1.prepare(
             "SELECT user_id FROM yaml_files WHERE id =?"
-        ).bind(workflowId).first() as {user_id: string};
+        ).bind(workflowId).first() as any;
         console.log("workflowUserId>>>", workflowUserId.user_id, "payloadID>>>", payload.id)
         if(workflowUserId.user_id !== payload.id){
             // If the user is not the owner of the workflow

@@ -386,78 +386,78 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     const updateVersion = document.getElementById(
       "updateVersionInput",
     ) as HTMLInputElement;
-    if (dslfile.files && dslfile.files.length > 0) {
-      formData.append("dsl-file", dslfile.files[0]);
-    }
-    formData.append("updateVersion", updateVersion.value);
     // Check if all required fields are filled
-    if (!formData.get("dsl-file") || !updateVersion.value) {
+    if (dslfile.files && dslfile.files.length > 0 && updateVersion.value) {
+      if (Number(updateVersion.value) <= Number(workflowVersion)) {
+        // updateVersion is not greater than the original version
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText =
+          "Please make sure that the update version is greater than the latest version of the original.";
+        confirmBtn.classList.toggle("hidden", true);
+        modal.showModal();
+        return;
+      } else {
+        formData.append("dsl-file", dslfile.files[0]);
+        formData.append("updateVersion", updateVersion.value);
+        // Send form data to the server
+        try {
+          const response = await fetch(`/api/workflow/update/${workflowId}`, {
+            method: "POST",
+            body: formData,
+          });
+          if (response.ok) {
+            console.log("Response>>>", response.json());
+            // Clear the form
+            updateForm.reset();
+            modalTitle.innerText = "🎉 Tada!";
+            modalContent.innerText = "Update Version Successful!";
+            confirmBtn.classList.toggle("hidden", true);
+            editModal.close();
+            modal.showModal();
+            (window as any).loadTableData(); // Reload the table data
+          } else if (response.status === 401) {
+            // alert("Before you upload, please login first.");
+            modalTitle.innerText = "😮 Opps...";
+            modalContent.innerText =
+              "Your login has expired, please login again!";
+            confirmBtn.textContent = "Login again";
+            confirmBtn.classList.add("btn-error");
+            confirmBtn.classList.toggle("hidden", false);
+            confirmBtn.addEventListener("click", (event: Event) => {
+              event.preventDefault();
+              window.location.href =
+                "/api/login/github?redirect=" +
+                encodeURIComponent(
+                  window.location.pathname + window.location.search,
+                );
+            });
+            modal.showModal();
+          } else {
+            // Clear the form
+            updateForm.reset();
+            modalTitle.innerText = "😮 Opps...";
+            confirmBtn.classList.toggle("hidden", true);
+            modalContent.innerText =
+              "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
+            modal.showModal();
+          }
+        } catch (error) {
+          console.error("Error uploading file:", error);
+          // Clear the form
+          updateForm.reset();
+          modalTitle.innerText = "😮 Opps...";
+          confirmBtn.classList.toggle("hidden", true);
+          modalContent.innerText =
+            "Your network is unreachable. Please check your internet connection and try again.";
+          modal.showModal();
+        }
+      }
+    } else {
       modalTitle.innerText = "😮 Opps...";
       modalContent.innerText = "Please fill out all required fields.";
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
       return;
-    } else if (Number(updateVersion.value) <= Number(workflowVersion)) {
-      // updateVersion is the same as the original version
-      modalTitle.innerText = "😮 Opps...";
-      modalContent.innerText =
-        "Please make sure that the update version is greater than the latest version of the original.";
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
-      return;
-    } else {
-      // Send form data to the server
-      try {
-        const response = await fetch(`/api/workflow/update/${workflowId}`, {
-          method: "POST",
-          body: formData,
-        });
-        if (response.ok) {
-          console.log("Response>>>", response.json());
-          // Clear the form
-          updateForm.reset();
-          modalTitle.innerText = "🎉 Tada!";
-          modalContent.innerText = "Update Version Successful!";
-          confirmBtn.classList.toggle("hidden", true);
-          editModal.close();
-          modal.showModal();
-          (window as any).loadTableData(); // Reload the table data
-        } else if (response.status === 401) {
-          // alert("Before you upload, please login first.");
-          modalTitle.innerText = "😮 Opps...";
-          modalContent.innerText =
-            "Your login has expired, please login again!";
-          confirmBtn.textContent = "Login again";
-          confirmBtn.classList.add("btn-error");
-          confirmBtn.classList.toggle("hidden", false);
-          confirmBtn.addEventListener("click", (event: Event) => {
-            event.preventDefault();
-            window.location.href =
-              "/api/login/github?redirect=" +
-              encodeURIComponent(
-                window.location.pathname + window.location.search,
-              );
-          });
-          modal.showModal();
-        } else {
-          // Clear the form
-          updateForm.reset();
-          modalTitle.innerText = "😮 Opps...";
-          confirmBtn.classList.toggle("hidden", true);
-          modalContent.innerText =
-            "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
-          modal.showModal();
-        }
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        // Clear the form
-        updateForm.reset();
-        modalTitle.innerText = "😮 Opps...";
-        confirmBtn.classList.toggle("hidden", true);
-        modalContent.innerText =
-          "Your network is unreachable. Please check your internet connection and try again.";
-        modal.showModal();
-      }
     }
   }
   document.addEventListener("DOMContentLoaded", () => {

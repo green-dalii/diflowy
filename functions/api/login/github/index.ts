@@ -7,10 +7,11 @@ import type { EventContext } from "@cloudflare/workers-types";
 export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context) => {
     const github = initializeGitHub(context.env);
     const state = generateState();
-    const url = await github.createAuthorizationURL(state);
-    const redirect = url.searchParams.get("redirect") || "/";
+    const githubAuthURL = await github.createAuthorizationURL(state);
+    const requestUrl = new URL(context.request.url)
+    const redirect = requestUrl.searchParams.get("redirect") || "/";
     // console.log("AuthorizationURL>>>>", url)
-    console.log("Login/Github redirect>>>", redirect, "redirect>>>>", url.searchParams.get("redirect"))
+    console.log("Login/Github redirect>>>", redirect)
 
     const stateCookie = `github_oauth_state=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
     const redirectCookie = `auth_redirect=${encodeURIComponent(redirect)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
@@ -19,7 +20,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     const response = new Response(null, {
       status: 302,
       headers: {
-        Location: url.toString(),
+        Location: githubAuthURL.toString(),
         "Set-Cookie": [stateCookie, redirectCookie].join(", "),
       },
     });

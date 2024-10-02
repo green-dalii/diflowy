@@ -185,10 +185,13 @@ const skeletonCount = 10;
       // Bind click event to each workflow's mangae buttons
       workflowTableBody.addEventListener("click", (event) => {
         const target = event.target as HTMLElement;
-        const workflowId = target.dataset.workflowId;
+        const editButton = target.closest("button.edit") as HTMLButtonElement;
+        const updateButton = target.closest("button.update") as HTMLButtonElement;
+        const deleteButton = target.closest("button.delete") as HTMLButtonElement;
         // click edit button action
-        if (target.closest("button.edit")) {
+        if (editButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          const workflowId = editButton.dataset.workflowId as string;
           console.log("Clicked the edit button of", workflowId);
           editMetaForm.dataset.workflowId = workflowId as string;
           editModalTitle.innerText = "Edit Workflow Metadata";
@@ -249,16 +252,17 @@ const skeletonCount = 10;
           editModal.showModal();
         }
         // click update button action
-        if (target.closest("button.update")) {
+        if (updateButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
           const workflowVer = target.dataset.workflowVer;
           const updateVersionInput = document.getElementById(
             "updateVersionInput",
           ) as HTMLInputElement;
+          const workflowId = updateButton.dataset.workflowId as string;
           const originalWorkflowVersion = document.getElementById("originalWorkflowVersion") as HTMLInputElement;
           const updateWorkflowName = document.getElementById("updateWorkflowName") as HTMLInputElement;
           console.log("Clicked the update button of", workflowId, workflowVer);
-          // updateForm.dataset.workflowId = workflowId as string;
+          updateForm.dataset.workflowId = workflowId as string;
           updateWorkflowName.value = target.dataset.workflowName as string;
           originalWorkflowVersion.value = workflowVer as string;
           const expectVersion = Number(workflowVer) + 0.1;
@@ -278,8 +282,9 @@ const skeletonCount = 10;
           editModal.showModal();
         }
         // click delete button action
-        if (target.closest("button.delete")) {
+        if (deleteButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          const workflowId = deleteButton.dataset.workflowId as string;
           console.log("Clicked the delete button of", workflowId);
           modalTitle.innerText = "🤔 Delect?";
           modalContent.innerHTML = `Confirm to delete this workflow: <span class="font-bold">${target.dataset.workflowName}</span> and all its version records?`;
