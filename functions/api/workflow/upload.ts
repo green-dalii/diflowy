@@ -4,33 +4,22 @@ import { generateIdFromEntropySize } from "lucia";
 import type { Env } from '../auth';
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
-    const { request } = context;
-    const cookie = request.headers.get('cookie');
-    const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
-
-    if (!jwt) {
-        // If jwf is null
-        console.log("No JWT found in cookie")
-        return new Response(JSON.stringify({ res: 'Unauthorized' }), {
-            headers: { 'Content-Type': 'application/json' },
-            status: 401,
-        });
-    }
     try {
+        const { request } = context;
+        const cookie = request.headers.get('cookie');
+        const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
+
+        if (!jwt) {
+            // If jwf is null
+            console.log("No JWT found in cookie")
+            return new Response(JSON.stringify({ res: 'Unauthorized' }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 401,
+            });
+        }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-        console.log("Upload API Payload from JWT>>>", payload)
-        // // Verify payload with Cloudflare D1 Users Table
-        // const { results } = await context.env.D1.prepare(
-        //     "SELECT * FROM users WHERE id =?"
-        // ).bind(payload.id).all();
-        // if (results.length === 0 || results[0].username !== payload.username) {
-        //     console.log("User not found or username does not match")
-        //     return new Response(JSON.stringify({ res: 'Unauthorized' }), {
-        //         headers: { 'Content-Type': 'application/json' },
-        //         status: 401,
-        //     });
-        // }
-        console.log("User Authorized")
+
+        console.log("User Authorized", payload)
         // Get Data from POST
         const formData = await request.formData();
         console.log("Upload API Data>>>", formData)
@@ -66,6 +55,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             status: 201,
         });
     } catch (error) {
+        console.error('Error in uploading workflow>>>', error);
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
             return new Response(JSON.stringify({ res: 'JWT Broken' }), {

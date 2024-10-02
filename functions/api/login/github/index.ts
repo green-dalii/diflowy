@@ -4,6 +4,7 @@ import type { Env } from "../../auth";
 import type { EventContext } from "@cloudflare/workers-types";
 
 export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context) => {
+  try {
     const github = initializeGitHub(context.env);
     const state = generateState();
     const githubAuthURL = await github.createAuthorizationURL(state);
@@ -28,4 +29,8 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     response.headers.append("Set-Cookie", redirectCookie);
 
     return response;
-  };
+  } catch (error) {
+    console.error("Error during GitHub OAuth:", error);
+    return new Response("Internal Server Error", { status: 500 });
+  }
+};

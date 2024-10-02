@@ -53,7 +53,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             });
         }
     } catch (error) {
-        console.log("Error>>>>", error)
+        console.error("Error in Edit Workflow Request>>>>", error)
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
             return new Response(JSON.stringify({ error: "JWT Expired" }), {

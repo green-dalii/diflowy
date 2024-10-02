@@ -21,6 +21,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
             status: 200,
         });
     } catch (error) {
+        console.error("Error in verifying User>>>", error);
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
             return new Response(JSON.stringify({ user: null }), {

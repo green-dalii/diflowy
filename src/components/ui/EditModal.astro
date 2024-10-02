@@ -120,8 +120,15 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
             </p>
           </div>
         </div>
-        <div id="reactFlowPreview" class="col-span-2 h-[360px] sm:h-[500px]">
-          <ReactFlowPreview client:only="react" />
+        <div class="col-span-2 flex flex-col">
+          <div id="reactFlowPreview" class="h-[360px] sm:h-[500px]">
+            <ReactFlowPreview client:only="react" />
+          </div>
+          <div>
+            <small class="text-sm text-gray-400"
+              >* The above is for preview only; any changes will not affect the file.</small
+            >
+          </div>
         </div>
       </form>
     </div>

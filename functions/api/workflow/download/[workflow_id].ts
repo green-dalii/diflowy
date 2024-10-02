@@ -1,15 +1,14 @@
 import type { Env } from '../../auth';
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
-    const { env, params } = context;
-    const workflowId = params.workflow_id;
-    console.log("Download ID>>>", workflowId)
-
     try {
+        const { env, params } = context;
+        const workflowId = params.workflow_id;
+        console.log("Download ID>>>", workflowId)
         const workflowResult = await env.D1.prepare(
             'SELECT file_content FROM yaml_files WHERE id = ?'
         ).bind(workflowId).first();
-        
+
         if (!workflowResult) {
             return new Response("Workflow not found", { status: 404 });
         }
@@ -24,7 +23,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             }
         });
     } catch (error) {
-        console.error('Error retrieving workflow:', error);
+        console.error('Error retrieving workflow>>>', error);
         return new Response('Internal Server Error', { status: 500 });
     }
 };

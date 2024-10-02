@@ -17,12 +17,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     console.log("Get Request....")
     const { request, env } = context;
     const url = new URL(request.url);
-    console.log("url>>>", url)
     // 提取 workflow_id 参数
     const workflowId = url.searchParams.get('workflowId');
     // 提取 version 参数
     const workflowVersion = url.searchParams.get('version')
-    console.log("workflowId>>>", workflowId)
+    console.log("workflowId>>>", workflowId, "workflowVersion>>>", workflowVersion)
     try {
         console.log("Querying Database for Workflow...")
         // 查询特定的 workflow
@@ -85,7 +84,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
-        console.error("Error>>>>", error);
+        console.error("Error in return a single workflow json>>>>", error);
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }

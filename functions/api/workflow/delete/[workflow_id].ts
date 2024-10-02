@@ -50,7 +50,7 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
             });
         }
     } catch (error) {
-        console.log("Error>>>>", error)
+        console.error("Error in Delete Workflow Request>>>>", error)
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
             return new Response(JSON.stringify({ error: "JWT Expired" }), {

@@ -97,7 +97,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
-        console.log("Error>>>>", error)
+        console.error("Error in Get Filter Workflows Request>>>>", error)
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
             return new Response(JSON.stringify({ error: "JWT Expired" }), {

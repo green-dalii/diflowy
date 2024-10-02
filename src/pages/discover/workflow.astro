@@ -21,7 +21,11 @@ const description =
           <div class="h-96 sm:h-[600px]">
             <ReactFlowPreview client:only="react" />
           </div>
-          <div><small class="text-sm text-gray-400">* Above is for Preview Only. Any changes will not affect the file.</small></div>
+          <div>
+            <small class="text-sm text-gray-400"
+              >* The above is for preview only; any changes will not affect the file.</small
+            >
+          </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           <div class="w-full">
@@ -42,28 +46,31 @@ const description =
             <div class="mt-10 grid grid-cols-2 items-center gap-4">
               <div class="flex flex-row space-x-2 items-center">
                 <div class="text-xs">Version</div>
-                <select id="version" class="select select-bordered select-xs w-full max-w-xs">
-                  <option>v2.0 (latest)</option>
-                  <option>v1.4</option>
-                  <option>v1.0</option>
+                <select
+                  id="version"
+                  class="select select-bordered select-xs w-full max-w-xs"
+                >
+                  <option>Loading...</option>
                 </select>
               </div>
-              <div id="updated_time" class="text-xs">Last Updated: 2023-08-01</div>
+              <div id="updated_time" class="text-xs">
+                Last Updated: Loading...
+              </div>
             </div>
             <div class="mt-20">
               <h4>👁️ Before You Use</h4>
               <ul
                 class="list-disc list-inside mt-2 text-xs text-gray-500 space-y-2"
               >
-                <li>Please check the security of this workflow.</li>
+                <li>Please ensure the security of this workflow.</li>
                 <li>
-                  Maybe You need to replace the LLM and API keys with yours in workflow.
+                  You might need to replace the LLM and API keys with your own in the workflow.
                 </li>
                 <li>
-                  You can modify the content of this workflow to suit your needs.
+                  Feel free to modify the workflow content to fit your needs.
                 </li>
                 <li>
-                  If you think it's useful, don't forget to thank the author ❤️
+                  If you find it useful, remember to thank the author ❤️
                 </li>
               </ul>
             </div>
@@ -121,39 +128,56 @@ const description =
     socialLink?: string;
   }
 
-  // Get the modal element
-  const modal = document.getElementById("modal") as HTMLDialogElement;
-  const modalTitle = document.getElementById(
-    "modalTitle",
-  ) as HTMLHeadingElement;
-  const modalContent = document.getElementById(
-    "modalContent",
-  ) as HTMLDivElement;
-
+  // Function for loading workflow from API
   async function loadWorkflow(): Promise<WorkflowContentResponse> {
     console.log("Executing loadWorkflow...");
     const urlParams = new URLSearchParams(window.location.search);
     const workflowId = urlParams.get("id") as string;
     const url = new URL("/api/workflow", window.location.origin);
     url.searchParams.append("workflowId", workflowId);
+
     console.log("Getting workflow from:", url.toString());
     const response = await fetch(url.toString());
     if (!response.ok) {
       console.error("Failed to fetch workflows");
-      // alert("Failed to fetch workflows");
-      console.error("Failed to fetch workflows");
-      modalTitle.innerText = "⚠️ Error";
-      modalContent.innerText =
-        "Failed to fetch workflows. Please check your connection and try again.";
-      modal.showModal();
+      throw new Error("Failed to fetch the workflow");
     }
     return (await response.json()) as WorkflowContentResponse;
   }
 
+  // Function for changing workflow version
+  async function changeWorkflowVersion(version: string) {
+    console.log("Executing changeWorkflowVersion...");
+    const urlParams = new URLSearchParams(window.location.search);
+    const workflowId = urlParams.get("id") as string;
+    const url = new URL("/api/workflow", window.location.origin);
+    url.searchParams.append("workflowId", workflowId); // Append workflowId to the URL
+    url.searchParams.append("version", version); // Append version to the URL
+
+    console.log("Sending request to:", url.toString());
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      console.error("Failed to fetch the version of the workflow");
+      throw new Error("Failed to fetch the version of the workflow");
+    }
+    const data = await response.json();
+    return data;
+  }
+
+  // After all DOM is loaded
   document.addEventListener("DOMContentLoaded", async (_) => {
     console.log("DOMContentLoaded.");
+    // Get the modal element
+    const modal = document.getElementById("modal") as HTMLDialogElement;
+    const modalTitle = document.getElementById(
+      "modalTitle",
+    ) as HTMLHeadingElement;
+    const modalContent = document.getElementById(
+      "modalContent",
+    ) as HTMLDivElement;
     // Get workflow from API
     try {
+      // Get the elements in page
       const workflowName = document.getElementById(
         "workflowname",
       ) as HTMLHeadingElement;
@@ -172,55 +196,75 @@ const description =
       const workflowAuthorInfo = document.getElementById(
         "authorInfo",
       ) as HTMLDivElement;
-      const updatedTime = document.getElementById("updated_time") as HTMLDivElement;
-      const version = document.getElementById("version") as unknown as HTMLSelectElement;
+      const updatedTime = document.getElementById(
+        "updated_time",
+      ) as HTMLDivElement;
+      const version = document.getElementById(
+        "version",
+      ) as unknown as HTMLSelectElement;
+
+      // Function for updating workflow page
+      function updateWorkflow(workflow: WorkflowContentResponse) {
+        // Update the workflow info
+        workflowIcon.innerText = workflow.icon;
+        workflowName.innerText = workflow.name;
+        workflowDescription.innerText = workflow.description;
+        workflowAuthor.innerText = workflow.authorData.authorName;
+        workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
+        // Update the updated time
+        updatedTime.innerText = `Last Updated: ${workflow.update_time}`;
+        // Update the version select
+        version.innerHTML = workflow.versions
+          .map((version: string, index: number) => {
+            if (index === 0) {
+              return `<option value="${version}">${version} - latest</option>`;
+            } else {
+              return `<option value="${version}">${version}</option>`;
+            }
+          })
+          .join("");
+        // Update the tags
+        const tagsHTML = workflow.tags
+          .map(
+            (tag: string) =>
+              `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
+          )
+          .join("");
+        workflowTags.innerHTML = tagsHTML;
+        console.log("Workflow info updated.");
+
+        // Update the ReactFlow component
+        const { nodes, edges } = parseYamlToReactFlow(
+          workflow.file_content as string,
+        );
+        const checkAndUpdateReactFlow = () => {
+          if (typeof (window as any).updateReactFlow === "function") {
+            (window as any).updateReactFlow(nodes, edges);
+            console.log("ReactFlow updated.");
+          } else {
+            console.log("updateReactFlow not ready, retrying...");
+            setTimeout(checkAndUpdateReactFlow, 100); // 每100ms检查一次
+          }
+        };
+        checkAndUpdateReactFlow();
+      }
+
+      // add event listener to version select
+      version.addEventListener("change", async (event) => {
+        const selectedVersion = version.value;
+        console.log("Selected version:", selectedVersion);
+        const workflow = (await changeWorkflowVersion(
+          selectedVersion,
+        )) as WorkflowContentResponse;
+        updateWorkflow(workflow);
+        version.value = workflow.currentVersion;
+      });
+
+      // Load workflow from API and update the page
       console.log("Call loadWorkflow...");
       const workflow = await loadWorkflow();
-      console.log("Workflow Got, Preparing Flow Data...", workflow);
-      const { nodes, edges } = parseYamlToReactFlow(
-        workflow.file_content as string,
-      );
-      console.log(
-        "Flow Data Prepared, Updating ReactFlow...NODE/EDGE>>>",
-        nodes,
-        edges,
-      );
-      // Update the ReactFlow component
-      const checkAndUpdateReactFlow = () => {
-        if (typeof (window as any).updateReactFlow === "function") {
-          (window as any).updateReactFlow(nodes, edges);
-          console.log("ReactFlow updated.");
-        } else {
-          console.log("updateReactFlow not ready, retrying...");
-          setTimeout(checkAndUpdateReactFlow, 100); // 每100ms检查一次
-        }
-      };
-      checkAndUpdateReactFlow();
+      updateWorkflow(workflow);
 
-      // Update the workflow info
-      workflowIcon.innerText = workflow.icon;
-      workflowName.innerText = workflow.name;
-      workflowDescription.innerText = workflow.description;
-      workflowAuthor.innerText = workflow.authorData.authorName;
-      workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
-      // Update the updated time
-      updatedTime.innerText = `Last Updated: ${workflow.update_time}`;
-      // Update the version select
-      version.innerHTML = workflow.versions
-       .map(
-          (version: string) =>
-            `<option value="${version}">${version}</option>`,
-        )
-       .join("");
-      // Update the tags
-      const tagsHTML = workflow.tags
-        .map(
-          (tag: string) =>
-            `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
-        )
-        .join("");
-      workflowTags.innerHTML = tagsHTML;
-      console.log("Workflow info updated.");
       // Download workflow function
       async function downloadWorkflow() {
         const a = document.createElement("a") as HTMLAnchorElement;
@@ -243,11 +287,10 @@ const description =
           //   "Download URL copied to clipboard! Please paste it to your browser to Dify import window and then click 'Confirm' Button below.",
           // );
           modalTitle.innerText = "🎉 Tada!";
-          modalContent.innerHTML =
-            `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
+          modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
           modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
           modalContent.innerHTML += importStepImg;
-          modalContent.innerHTML += `<div class="text-xs">👋 If you think it's useful, please thank the author @${workflow.authorData.authorName} !</div>`;
+          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @${workflow.authorData.authorName} if you found it useful!</div>`;
           modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });
@@ -263,7 +306,10 @@ const description =
       copyButton.addEventListener("click", copyDownloadUrl);
     } catch (error) {
       console.error("Error loading workflow:", error);
-      // alert("Error loading workflow");
+      modalTitle.innerText = "⚠️ Error";
+      modalContent.innerText =
+        "Failed to fetch workflows. Please check your connection and try again.";
+      modal.showModal();
     }
   });
 </script>

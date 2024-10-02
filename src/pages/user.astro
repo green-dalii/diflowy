@@ -32,13 +32,13 @@ const skeletonCount = 10;
           <thead>
             <tr>
               <th class="text-wrap hidden sm:table-cell sm:w-1/12">No.</th>
-              <th class="text-wrap w-6/12 sm:w-3/12">Workflow Name</th>
+              <th class="text-wrap w-3/12 sm:w-3/12">Workflow Name</th>
               <th class="text-wrap hidden sm:table-cell sm:w-2/12"
                 >Latest Version</th
               >
-              <th class="text-wrap w-2/12">Metadata</th>
-              <th class="text-wrap w-2/12">Update Version</th>
-              <th class="text-wrap w-2/12">Delete</th>
+              <th class="text-wrap w-3/12 sm:w-2/12">Metadata</th>
+              <th class="text-wrap w-3/12 sm:w-2/12">Update Version</th>
+              <th class="text-wrap w-3/12 sm:w-2/12">Delete</th>
             </tr>
           </thead>
           <tbody id="workflowTable">
@@ -117,19 +117,19 @@ const skeletonCount = 10;
       const tagsBase64 = btoa(JSON.stringify(workflow.tags));
       row.innerHTML = `
         <td class="hidden sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
-        <td class="w-6/12 sm:3/12"><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
+        <td class="w-3/12 sm:3/12"><a href="/discover/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden sm:table-cell sm:w-2/12">${workflow.latestVersion}</td>
-        <td class="w-2/12">
+        <td class="w-3/12 sm:w-2/12">
             <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
               📝 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">Edit</span>
             </button>
         </td>
-        <td class="w-2/12">
+        <td class="w-3/12 sm:w-2/12">
           <button class="btn w-full btn-outline btn-sm btn-success update" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">
               🚀 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">Update</span>
           </button>
         </td>
-        <td class="w-2/12">
+        <td class="w-3/12 sm:w-2/12">
           <button class="btn w-full btn-outline btn-sm btn-error delete" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">
               🗑️ <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">Delete</span>
           </button>
