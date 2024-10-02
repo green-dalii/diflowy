@@ -15,8 +15,8 @@ const initialNodes = [
         targetPosition: 'left',
         type: 'custom',
         data: {
-            label: 'Parsing',
-            description: 'The workflow will be parsed quickly and safely in your browser',
+            label: 'Please Upload your workflow first',
+            description: 'The workflow will be parsed safely in your browser',
             nodeType: 'code',
         },
         position: { x: 300, y: 250 },
@@ -28,7 +28,7 @@ const initialNodes = [
         type: 'custom',
         data: {
             label: 'Preview',
-            description: 'Finally you will see the simplified structure preview of your worflow here',
+            description: 'Finally you will see the structure preview of your worflow here',
             nodeType: 'answer',
         },
         position: { x: 500, y: 400 },

@@ -63,53 +63,62 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       <!-- Update Version Form -->
       <form id="updateForm" class="hidden grid-cols-1 sm:grid-cols-3 gap-4">
         <!-- WorkFlow Update File Entrance-->
-        <div class="col-span-1">
+        <div class="col-span-1 flex flex-col gap-1">
           <div class="w-full">
             <WorkflowFileInput />
           </div>
-          <div class="label">
-            <span class="label-text">Workflow Name</span>
-          </div>
-          <input
-            id="updateWorkflowName"
-            name="updateWorkflowName"
-            type="text"
-            class="input input-bordered w-full"
-            disabled
-          />
-          <div class="label">
-            <span class="label-text">Original Latest Version</span>
-          </div>
-          <div class="w-full mt-2 flex rounded-md shadow-sm">
-            <span class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm">
-              V
-            </span>
+          <div>
+            <div class="label">
+              <span class="label-text">Workflow Name</span>
+            </div>
             <input
-              name="originalWorkflowVersion"
-              id="originalWorkflowVersion"
+              id="updateWorkflowName"
+              name="updateWorkflowName"
               type="text"
-              class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
+              class="input input-bordered w-full"
               disabled
-            >
+            />
+          </div>
+          <div>
+            <div class="label">
+              <span class="label-text">Original Latest Version</span>
+            </div>
+            <input
+              id="originalWorkflowVersion"
+              name="originalWorkflowVersion"
+              type="text"
+              class="input input-bordered w-full"
+              disabled
+            />
           </div>
           <!-- Version -->
-          <label for="version" class="text-sm font-medium leading-6">Update Version</label>
-          <div class="w-full mt-2 flex rounded-md shadow-sm">
-            <span class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm">
-              V
-            </span>
-            <input
-              type="number"
-              step="0.1"
-              min="0.1"
-              name="updateVersion"
-              id="updateVersionInput"
-              value="1.0"
-              class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
-              placeholder="1.0"
+          <div>
+            <label for="version" class="text-sm font-medium leading-6"
+              >Update Version</label
             >
+            <div class="w-full mt-2 flex rounded-md shadow-sm">
+              <span
+                class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm"
+              >
+                V
+              </span>
+              <input
+                type="number"
+                step="0.1"
+                min="0.1"
+                name="updateVersion"
+                id="updateVersionInput"
+                value="1.0"
+                class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
+                placeholder="1.0"
+              />
+            </div>
+            <p
+              id="editModalUpdateNote"
+              class="col-span-1 mt-1 text-xs leading-normal text-gray-400"
+            >
+            </p>
           </div>
-          <p id="editModalUpdateNote" class="col-span-1 mt-1 text-xs leading-normal text-gray-400"></p>
         </div>
         <div id="reactFlowPreview" class="col-span-2 h-[360px] sm:h-[500px]">
           <ReactFlowPreview client:only="react" />
@@ -120,7 +129,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       <form method="dialog">
         <!-- if there is a button in form, it will close the modal -->
         <button id="editConfirmBtn" class="hidden btn btn-success">Save</button>
-        <button id="updateConfirmBtn" class="hidden btn btn-success">Update Version</button>
+        <button id="updateConfirmBtn" class="hidden btn btn-success"
+          >Update Version</button
+        >
         <button id="closeEditModalBtn" class="btn">Close</button>
       </form>
     </div>
@@ -149,10 +160,16 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   const editModalConfirmBtn = document.getElementById(
     "editConfirmBtn",
   ) as HTMLButtonElement;
-  const updateConfirmBtn = document.getElementById("updateConfirmBtn") as HTMLButtonElement;
-  const closeEditModalBtn = document.getElementById("closeEditModalBtn") as HTMLButtonElement;
+  const updateConfirmBtn = document.getElementById(
+    "updateConfirmBtn",
+  ) as HTMLButtonElement;
+  const closeEditModalBtn = document.getElementById(
+    "closeEditModalBtn",
+  ) as HTMLButtonElement;
   const editModal = document.getElementById("editModal") as HTMLDialogElement;
-  const reactFlowPreview = document.getElementById("reactFlowPreview") as HTMLDivElement;
+  const reactFlowPreview = document.getElementById(
+    "reactFlowPreview",
+  ) as HTMLDivElement;
 
   // Function to handle file upload
   function handleFile(event: Event | DragEvent) {
@@ -176,8 +193,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       // const workflow_icon = document.getElementById(
       //   "workflowIcon",
       // ) as HTMLInputElement;
-      const fileIndicator = document.getElementById("fileIndicator") as HTMLInputElement;
-      fileIndicator.innerHTML = `Selected File: <br>${file.name}`
+      const fileIndicator = document.getElementById(
+        "fileIndicator",
+      ) as HTMLInputElement;
+      fileIndicator.innerHTML = `Selected File: <br>${file.name}`;
       const reader = new FileReader();
       reader.onload = function (e) {
         const target = e.target as FileReader;
@@ -242,19 +261,31 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   });
 
   // Upload Edit Meta Data of Workflow Form
-  const editMetaForm = document.getElementById("editMetaForm") as HTMLFormElement;
+  const editMetaForm = document.getElementById(
+    "editMetaForm",
+  ) as HTMLFormElement;
   async function handleEditMetaSubmit(event: Event) {
     event.preventDefault();
     // Get workflowId
     const workflowId = editMetaForm.dataset.workflowId as string;
     // Get form data
     const formData = new FormData(editMetaForm) as FormData;
-    const selectedTags = document.querySelectorAll(".tag") as NodeListOf<HTMLElement>;
+    const selectedTags = document.querySelectorAll(
+      ".tag",
+    ) as NodeListOf<HTMLElement>;
     // Append data in formData
-    const editWorkflowName = document.getElementById("editWorkflowName") as HTMLInputElement;
-    const editWorkflowDescription = document.getElementById("editWorkflowDescription") as HTMLTextAreaElement;
-    const editWorkflowAuthor = document.getElementById("editWorkflowAuthor") as HTMLInputElement;
-    const editWorkflowAuthorLink = document.getElementById("editWorkflowAuthorLink") as HTMLInputElement;
+    const editWorkflowName = document.getElementById(
+      "editWorkflowName",
+    ) as HTMLInputElement;
+    const editWorkflowDescription = document.getElementById(
+      "editWorkflowDescription",
+    ) as HTMLTextAreaElement;
+    const editWorkflowAuthor = document.getElementById(
+      "editWorkflowAuthor",
+    ) as HTMLInputElement;
+    const editWorkflowAuthorLink = document.getElementById(
+      "editWorkflowAuthorLink",
+    ) as HTMLInputElement;
     formData.append("editWorkflowName", editWorkflowName.value);
     formData.append("editWorkflowDescription", editWorkflowDescription.value);
     formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
@@ -300,7 +331,6 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         editModal.close();
         modal.showModal();
         (window as any).loadTableData(); // Reload the table data
-        ;
       } else if (response.status === 401) {
         // alert("Before you upload, please login first.");
         modalTitle.innerText = "😮 Opps...";
@@ -310,7 +340,11 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         confirmBtn.classList.toggle("hidden", false);
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
-          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href =
+            "/api/login/github?redirect=" +
+            encodeURIComponent(
+              window.location.pathname + window.location.search,
+            );
         });
         modal.showModal();
       } else {
@@ -320,7 +354,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         selectedTagsTree!.innerHTML = "";
         modalTitle.innerText = "😮 Opps...";
         confirmBtn.classList.toggle("hidden", true);
-        modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
+        modalContent.innerText =
+          "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
         modal.showModal();
       }
     } catch (error) {
@@ -331,7 +366,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       selectedTagsTree!.innerHTML = "";
       modalTitle.innerText = "😮 Opps...";
       confirmBtn.classList.toggle("hidden", true);
-      modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
+      modalContent.innerText =
+        "Your network is unreachable. Please check your internet connection and try again.";
       modal.showModal();
     }
   }
@@ -340,70 +376,88 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   const updateForm = document.getElementById("updateForm") as HTMLFormElement;
   async function handleUpdateSubmit(event: Event) {
     event.preventDefault();
-    // Get workflowId
+    // Get workflowId and workflowVersion
     const workflowId = updateForm.dataset.workflowId as string;
+    const workflowVersion = updateForm.dataset.workflowVersion as string;
     // Get form data
     const formData = new FormData(updateForm) as FormData;
     // Append data in formData
     const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
-    const updateVersion = document.getElementById("updateVersionInput") as HTMLInputElement;
-    if (dslfile.files) {
+    const updateVersion = document.getElementById(
+      "updateVersionInput",
+    ) as HTMLInputElement;
+    if (dslfile.files && dslfile.files.length > 0) {
       formData.append("dsl-file", dslfile.files[0]);
     }
     formData.append("updateVersion", updateVersion.value);
     // Check if all required fields are filled
     if (!formData.get("dsl-file") || !updateVersion.value) {
-      // alert("Please fill out all required fields.");
       modalTitle.innerText = "😮 Opps...";
       modalContent.innerText = "Please fill out all required fields.";
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
       return;
-    }
-    // Send form data to the server
-    try {
-      const response = await fetch(`/api/workflow/update/${workflowId}`, {
-        method: "POST",
-        body: formData,
-      });
-      if (response.ok) {
-        console.log("Response>>>", response.json());
-        // Clear the form
-        updateForm.reset();
-        modalTitle.innerText = "🎉 Tada!";
-        modalContent.innerText = "Update Version Successful!";
-        confirmBtn.classList.toggle("hidden", true);
-        editModal.close();
-        modal.showModal();
-        (window as any).loadTableData(); // Reload the table data
-      } else if (response.status === 401) {
-        // alert("Before you upload, please login first.");
-        modalTitle.innerText = "😮 Opps...";
-        modalContent.innerText = "Your login has expired, please login again!";
-        confirmBtn.textContent = "Login again";
-        confirmBtn.classList.add("btn-error");
-        confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.addEventListener("click", (event: Event) => {
-          event.preventDefault();
-          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+    } else if (Number(updateVersion.value) <= Number(workflowVersion)) {
+      // updateVersion is the same as the original version
+      modalTitle.innerText = "😮 Opps...";
+      modalContent.innerText =
+        "Please make sure that the update version is greater than the latest version of the original.";
+      confirmBtn.classList.toggle("hidden", true);
+      modal.showModal();
+      return;
+    } else {
+      // Send form data to the server
+      try {
+        const response = await fetch(`/api/workflow/update/${workflowId}`, {
+          method: "POST",
+          body: formData,
         });
-        modal.showModal();
-      } else {
+        if (response.ok) {
+          console.log("Response>>>", response.json());
+          // Clear the form
+          updateForm.reset();
+          modalTitle.innerText = "🎉 Tada!";
+          modalContent.innerText = "Update Version Successful!";
+          confirmBtn.classList.toggle("hidden", true);
+          editModal.close();
+          modal.showModal();
+          (window as any).loadTableData(); // Reload the table data
+        } else if (response.status === 401) {
+          // alert("Before you upload, please login first.");
+          modalTitle.innerText = "😮 Opps...";
+          modalContent.innerText =
+            "Your login has expired, please login again!";
+          confirmBtn.textContent = "Login again";
+          confirmBtn.classList.add("btn-error");
+          confirmBtn.classList.toggle("hidden", false);
+          confirmBtn.addEventListener("click", (event: Event) => {
+            event.preventDefault();
+            window.location.href =
+              "/api/login/github?redirect=" +
+              encodeURIComponent(
+                window.location.pathname + window.location.search,
+              );
+          });
+          modal.showModal();
+        } else {
+          // Clear the form
+          updateForm.reset();
+          modalTitle.innerText = "😮 Opps...";
+          confirmBtn.classList.toggle("hidden", true);
+          modalContent.innerText =
+            "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
+          modal.showModal();
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
         // Clear the form
         updateForm.reset();
         modalTitle.innerText = "😮 Opps...";
         confirmBtn.classList.toggle("hidden", true);
-        modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: EMAIL";
+        modalContent.innerText =
+          "Your network is unreachable. Please check your internet connection and try again.";
         modal.showModal();
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      // Clear the form
-      updateForm.reset();
-      modalTitle.innerText = "😮 Opps...";
-      confirmBtn.classList.toggle("hidden", true);
-      modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
-      modal.showModal();
     }
   }
   document.addEventListener("DOMContentLoaded", () => {
@@ -411,14 +465,14 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
     // Add event listener to the form
     updateConfirmBtn.addEventListener("click", handleUpdateSubmit);
-    });
-    // Add event listener to the close button
-    closeEditModalBtn.addEventListener("click", (event: Event) => {
-      event.preventDefault();
-      console.log("Edit Modal Close button clicked");
-      editMetaForm.reset();
-      updateForm.reset();
-      reactFlowPreview.classList.toggle("hidden", true);
-      editModal.close();
-    });
+  });
+  // Add event listener to the close button
+  closeEditModalBtn.addEventListener("click", (event: Event) => {
+    event.preventDefault();
+    console.log("Edit Modal Close button clicked");
+    editMetaForm.reset();
+    updateForm.reset();
+    reactFlowPreview.classList.toggle("hidden", true);
+    editModal.close();
+  });
 </script>

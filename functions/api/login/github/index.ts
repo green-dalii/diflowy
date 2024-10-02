@@ -10,7 +10,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     const url = await github.createAuthorizationURL(state);
     const redirect = url.searchParams.get("redirect") || "/";
     // console.log("AuthorizationURL>>>>", url)
-    console.log("redirect>>>", redirect)
+    console.log("Login/Github redirect>>>", redirect, "redirect>>>>", url.searchParams.get("redirect"))
 
     const stateCookie = `github_oauth_state=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
     const redirectCookie = `auth_redirect=${encodeURIComponent(redirect)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;

@@ -267,7 +267,7 @@ const skeletonCount = 10;
           const editModalUpdateNote = document.getElementById(
             "editModalUpdateNote",
           ) as HTMLParagraphElement;
-          editModalUpdateNote.innerHTML = `⚠️ Note: The original latest version of this workflow is <span style="font-weight: bold;">${workflowVer}</span>, the updated version must be bigger than it. Recommended: <span style="font-weight: bold;">${expectVersion}</span>.`;
+          editModalUpdateNote.innerHTML = `⚠️ Note: The original latest version of this workflow is <span style="font-weight: bold;">${workflowVer}</span>, the updated version must be greater than it. Recommended: <span style="font-weight: bold;">${expectVersion}</span>.`;
           editModalTitle.innerText = "Update Workflow Version";
           editModalConfirmBtn.classList.toggle("hidden", true);
           updateConfirmBtn.classList.toggle("hidden", false);
@@ -304,6 +304,7 @@ const skeletonCount = 10;
         confirmBtn.classList.remove("hidden");
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
+          console.log("Login URL>>>", "/api/login/github?redirect=" + window.location.pathname + window.location.search)
           window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
         });
         modal.showModal();
