@@ -211,45 +211,45 @@ const description =
       ) as HTMLButtonElement;
 
       // Download workflow function
-      async function downloadWorkflow(workflow: WorkflowContentResponse) {
+      async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
         const a = document.createElement("a") as HTMLAnchorElement;
-        const blob = new Blob([workflow.file_content as string], {
+        const blob = new Blob([workflowObject.file_content as string], {
           type: "text/yaml",
         });
         const url = URL.createObjectURL(blob);
         a.href = url;
-        a.download = `${workflow.name}_${workflow.currentVersion}.yml`;
+        a.download = `${workflowObject.name}_${workflowObject.currentVersion}.yml`;
         document.body.appendChild(a);
         a.click();
         URL.revokeObjectURL(url);
         document.body.removeChild(a);
       }
       // copy download url function
-      function copyDownloadUrl(workflow: WorkflowContentResponse) {
-        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflow.id}?version=${workflow.currentVersion}`;
+      function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
+        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}?version=${workflowObject.currentVersion}`;
         navigator.clipboard.writeText(downloadUrl).then(() => {
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
           modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
           modalContent.innerHTML += importStepImg;
-          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @${workflow.authorData.authorName} if you found it useful!</div>`;
+          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @${workflowObject.authorData.authorName} if you found it useful!</div>`;
           modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });
       }
 
       // Function for updating workflow page
-      function updateWorkflow(workflow: WorkflowContentResponse) {
+      function updateWorkflow(workflowObject: WorkflowContentResponse) {
         // Update the workflow info
-        workflowIcon.innerText = workflow.icon;
-        workflowName.innerText = workflow.name;
-        workflowDescription.innerText = workflow.description;
-        workflowAuthor.innerText = workflow.authorData.authorName;
-        workflowAuthorInfo.innerText = workflow.authorData.socialLink || "";
+        workflowIcon.innerText = workflowObject.icon;
+        workflowName.innerText = workflowObject.name;
+        workflowDescription.innerText = workflowObject.description;
+        workflowAuthor.innerText = workflowObject.authorData.authorName;
+        workflowAuthorInfo.innerText = workflowObject.authorData.socialLink || "";
         // Update the updated time
-        updatedTime.innerText = `Last Updated: ${workflow.update_time}`;
+        updatedTime.innerText = `Last Updated: ${workflowObject.update_time}`;
         // Update the version select
-        version.innerHTML = workflow.versions
+        version.innerHTML = workflowObject.versions
           .map((version: string, index: number) => {
             if (index === 0) {
               return `<option value="${version}">${version} - latest</option>`;
@@ -258,8 +258,9 @@ const description =
             }
           })
           .join("");
+        
         // Update the tags
-        const tagsHTML = workflow.tags
+        const tagsHTML = workflowObject.tags
           .map(
             (tag: string) =>
               `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
@@ -270,7 +271,7 @@ const description =
 
         // Update the ReactFlow component
         const { nodes, edges } = parseYamlToReactFlow(
-          workflow.file_content as string,
+          workflowObject.file_content as string,
         );
         const checkAndUpdateReactFlow = () => {
           if (typeof (window as any).updateReactFlow === "function") {
@@ -285,29 +286,29 @@ const description =
 
         // Add event listeners to buttons
         downloadButton.addEventListener("click", () => {
-          downloadWorkflow(workflow);
+          downloadWorkflow(workflowObject);
         });
         copyButton.addEventListener("click", () => {
-          copyDownloadUrl(workflow);
+          copyDownloadUrl(workflowObject);
         });
 
         // Set the current version
-        console.log("current version>>", workflow.currentVersion);
-        version.value = workflow.currentVersion;
+        console.log("current version>>", workflowObject.currentVersion);
+        version.value = workflowObject.currentVersion;
       }
 
       // add event listener to version select
       version.addEventListener("change", async (event) => {
         const selectedVersion = version.value;
         console.log("Selected version:", selectedVersion);
-        const workflow = (await changeWorkflowVersion(
+        let newVersionWorkflow = (await changeWorkflowVersion(
           selectedVersion,
         )) as WorkflowContentResponse;
-        updateWorkflow(workflow);
+        updateWorkflow(newVersionWorkflow);
       });
 
-      // Load workflow from API and update the page
-      console.log("Call loadWorkflow...");
+      // Load workflow from API and update the page when the page is loaded
+      console.log("First Call loadWorkflow...");
       const workflow = await loadWorkflow();
       updateWorkflow(workflow);
     } catch (error) {
