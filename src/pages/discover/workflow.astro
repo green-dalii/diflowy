@@ -43,8 +43,7 @@ const description =
               <div id="author" class="text-sm">@Author</div>
               <div id="authorInfo" class="text-sm italic link">Author Link</div>
             </div>
-            <div id="tagsarea" class="mt-10"></div>
-            <div class="mt-10 grid grid-cols-2 items-center gap-4">
+            <div class="mt-5 grid grid-cols-2 items-center gap-4">
               <div class="flex flex-row space-x-2 items-center">
                 <div class="text-xs">Version</div>
                 <select
@@ -58,6 +57,7 @@ const description =
                 Last Updated: Loading...
               </div>
             </div>
+            <div id="tagsarea" class="mt-5"></div>
             <div class="mt-20">
               <h4>👁️ Before You Use</h4>
               <ul
@@ -115,7 +115,7 @@ const description =
     name: string;
     description: string;
     versions: string[];
-    currentVersion: string;
+    current_version: string;
     tags: string[];
     icon: string;
     authorData: WorkflowAuthor;
@@ -218,7 +218,7 @@ const description =
         });
         const url = URL.createObjectURL(blob);
         a.href = url;
-        a.download = `${workflowObject.name}_${workflowObject.currentVersion}.yml`;
+        a.download = `${workflowObject.name}_${workflowObject.current_version}.yml`;
         document.body.appendChild(a);
         a.click();
         URL.revokeObjectURL(url);
@@ -226,7 +226,7 @@ const description =
       }
       // copy download url function
       function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
-        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}?version=${workflowObject.currentVersion}`;
+        const downloadUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}?version=${workflowObject.current_version}`;
         navigator.clipboard.writeText(downloadUrl).then(() => {
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
@@ -244,7 +244,7 @@ const description =
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
         workflowDescription.innerText = workflowObject.description;
-        workflowAuthor.innerText = workflowObject.authorData.authorName;
+        workflowAuthor.innerText = `Author: ${workflowObject.authorData.authorName}`;
         workflowAuthorInfo.innerText =
           workflowObject.authorData.socialLink || "";
         // Update the updated time
@@ -298,13 +298,7 @@ const description =
         });
 
         // Set the current version
-        console.log(
-          "current version>>",
-          workflowObject.currentVersion,
-          "workflowObject>>>",
-          workflowObject,
-        );
-        version.value = workflowObject.currentVersion;
+        version.value = workflowObject.current_version;
       }
 
       // add event listener to version select
