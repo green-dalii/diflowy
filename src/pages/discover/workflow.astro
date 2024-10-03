@@ -108,7 +108,7 @@ const description =
 
 <script>
   import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
-  import { formatUpdateTime } from "../../utils/tools"
+  import { formatUpdateTime } from "../../utils/tools";
 
   const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-4" />`;
   interface WorkflowContentResponse {
@@ -128,6 +128,11 @@ const description =
     authorName: string;
     socialLink?: string;
   }
+
+  // Define the current workflow object
+  let currentWorkflowObject: WorkflowContentResponse;
+  // Define current download url
+  let currentDownloadUrl: string;
 
   // Function for loading workflow from API
   async function loadWorkflow(): Promise<WorkflowContentResponse> {
@@ -213,22 +218,28 @@ const description =
 
       // Download workflow function
       async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+        }
         const a = document.createElement("a") as HTMLAnchorElement;
         const blob = new Blob([workflowObject.file_content as string], {
           type: "text/yaml",
         });
-        const url = URL.createObjectURL(blob);
-        a.href = url;
+        currentDownloadUrl = URL.createObjectURL(blob);
+        a.href = currentDownloadUrl;
         a.download = `${workflowObject.name}_${workflowObject.current_version}.yml`;
         document.body.appendChild(a);
         a.click();
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(currentDownloadUrl);
         document.body.removeChild(a);
       }
+      
       // copy download url function
       function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
-        let downloadUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}?version=${workflowObject.current_version}&name=${workflowObject.name}`;
-        downloadUrl = encodeURIComponent(downloadUrl);
+        let downloadUrl = `?version=${workflowObject.current_version}&name=${workflowObject.name}`;
+        downloadUrl =
+          `${window.location.origin}/api/workflow/download/${workflowObject.id}` +
+          encodeURIComponent(downloadUrl);
         navigator.clipboard.writeText(downloadUrl).then(() => {
           modalTitle.innerText = "🎉 Tada!";
           modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
@@ -240,8 +251,24 @@ const description =
         });
       }
 
+      // Add event listeners to buttons
+      downloadButton.addEventListener("click", (event: Event) => {
+        event.preventDefault();
+        if (currentWorkflowObject) {
+          downloadWorkflow(currentWorkflowObject);
+        }
+      });
+      copyButton.addEventListener("click", (event: Event) => {
+        event.preventDefault();
+        if (currentWorkflowObject) {
+          copyDownloadUrl(currentWorkflowObject);
+        }
+      });
+
       // Function for updating workflow page
       function updateWorkflow(workflowObject: WorkflowContentResponse) {
+        // Update the current workflow object
+        currentWorkflowObject = workflowObject;
         // Update the workflow info
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
@@ -287,24 +314,6 @@ const description =
         };
         checkAndUpdateReactFlow();
 
-        // Remove existing event listeners
-        downloadButton.removeEventListener("click", (event: Event) => {
-          downloadWorkflow(workflowObject);
-        });
-        copyButton.removeEventListener("click", (event: Event) => {
-          copyDownloadUrl(workflowObject);
-        });
-
-        // Add event listeners to buttons
-        downloadButton.addEventListener("click", (event: Event) => {
-          event.preventDefault();
-          downloadWorkflow(workflowObject);
-        });
-        copyButton.addEventListener("click", (event: Event) => {
-          event.preventDefault();
-          copyDownloadUrl(workflowObject);
-        });
-
         // Set the current version
         version.value = workflowObject.current_version;
       }
@@ -322,7 +331,7 @@ const description =
 
       // Load workflow from API and update the page when the page is loaded
       console.log("First Call loadWorkflow...");
-      const workflow = await loadWorkflow() as WorkflowContentResponse;
+      const workflow = (await loadWorkflow()) as WorkflowContentResponse;
       updateWorkflow(workflow);
     } catch (error) {
       console.error("Error loading workflow:", error);

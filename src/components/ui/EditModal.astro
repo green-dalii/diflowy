@@ -126,7 +126,8 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           </div>
           <div>
             <small class="text-sm text-gray-400"
-              >* The above is for preview only; any changes will not affect the file.</small
+              >* The above is for preview only; any changes will not affect the
+              file.</small
             >
           </div>
         </div>
@@ -148,12 +149,112 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
 <script>
   // Process YAML ReactFlow Data
   import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
-  // import * as emoji from "node-emoji";
+
+  // Utility functions
+  const showModal = (
+    title: string,
+    content: string,
+    showConfirmBtn: boolean = false,
+    btnText: string = "OK",
+    btnClass: string = "",
+  ) => {
+    modalTitle.innerText = title;
+    modalContent.innerText = content;
+    confirmBtn.classList.toggle("hidden", !showConfirmBtn);
+    confirmBtn.textContent = btnText;
+    confirmBtn.className = `btn ${btnClass}`;
+    modal.showModal();
+  };
+
+  const clearForm = (form: HTMLFormElement) => {
+    form.reset();
+    const selectedTagsTree = document.getElementById("selectedTags");
+    if (selectedTagsTree) selectedTagsTree.innerHTML = "";
+  };
+
+  const handleNetworkError = (error: Error) => {
+    console.error("Network error:", error);
+    showModal(
+      "😮 Oops...",
+      "Your network is unreachable. Please check your internet connection and try again.",
+    );
+  };
+
+  // Handle unauthorized access
+  const handleUnauthorized = () => {
+    showModal(
+      "😮 Oops...",
+      "Your login has expired, please login again!",
+      true,
+      "Login again",
+      "btn-error",
+    );
+    confirmBtn.addEventListener(
+      "click",
+      () => {
+        window.location.href = `/api/login/github?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+      },
+      { once: true },
+    );
+  };
+
+  // Validation function
+  const validateFormData = (formData: FormData): boolean => {
+    // Implement your validation logic here
+    // Return true if valid, false otherwise
+    return true; // Placeholder
+  };
+
+  // Close Edit Modal function
+  const closeEditModal = () => {
+    clearForm(editMetaForm);
+    clearForm(updateForm);
+    reactFlowPreview.classList.toggle("hidden", true);
+    editModal.close();
+  };
+
+
+  // Form submission handler
+  const handleFormSubmit = async (
+    event: Event,
+    form: HTMLFormElement,
+    url: string,
+    successMessage: string,
+  ) => {
+    event.preventDefault();
+    showModal("⏳ Processing...", "Uploading data...");
+
+    const formData = new FormData(form);
+
+    // Validate form data
+    if (!validateFormData(formData)) {
+      showModal("😮 Oops", "Please fill out all required fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch(url, { method: "POST", body: formData });
+
+      if (response.ok) {
+        showModal("🎉 Success!", successMessage);
+        clearForm(form);
+        (window as any).loadTableData(); // Reload the table data
+        editModal.close();
+      } else if (response.status === 401) {
+        handleUnauthorized();
+      } else {
+        throw new Error("Server error");
+      }
+    } catch (error) {
+      handleNetworkError(error as Error);
+    }
+  };
+
+  // Get the file input element
   const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
   const uploadContainer = document.getElementById(
     "upload-container",
   ) as HTMLElement;
-
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
   const modalTitle = document.getElementById(
@@ -163,6 +264,11 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     "modalContent",
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+  // Get form element
+  const editMetaForm = document.getElementById(
+    "editMetaForm",
+  ) as HTMLFormElement;
+  const updateForm = document.getElementById("updateForm") as HTMLFormElement;
   // Get the element inside the edit modal
   const editModalConfirmBtn = document.getElementById(
     "editConfirmBtn",
@@ -191,15 +297,6 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     }
 
     if (file) {
-      // const edit_workflow_name = document.getElementById(
-      //   "editWorkflowname",
-      // ) as HTMLInputElement;
-      // const edit_description = document.getElementById(
-      //   "editDescription",
-      // ) as HTMLTextAreaElement;
-      // const workflow_icon = document.getElementById(
-      //   "workflowIcon",
-      // ) as HTMLInputElement;
       const fileIndicator = document.getElementById(
         "fileIndicator",
       ) as HTMLInputElement;
@@ -209,12 +306,6 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         const target = e.target as FileReader;
         const yamlContent = target.result as string;
         try {
-          // const yamlData = paresYamlToJSON(yamlContent);
-          // workflow_name.value = yamlData.app.name;
-          // description.value = yamlData.app.description;
-          // workflow_icon.innerText =
-          //   (emoji.get(yamlData.app.icon) as string) || "😃";
-          // console.log("yamlData loaded");
           const { nodes, edges } = parseYamlToReactFlow(yamlContent);
           // Update the ReactFlow component
           if (typeof (window as any).updateReactFlow === "function") {
@@ -224,9 +315,6 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           }
         } catch (error) {
           console.error("Error parsing YAML file:", error);
-          // alert(
-          //   "Unsupported file format. Please upload a valid Dify DSL file.",
-          // );
           modalTitle.innerText = "⚠️ Error";
           modalContent.innerText =
             "Unsupported file format. Please upload a valid Dify DSL file.";
@@ -269,16 +357,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   });
 
   // Upload Edit Meta Data of Workflow Form
-  const editMetaForm = document.getElementById(
-    "editMetaForm",
-  ) as HTMLFormElement;
   async function handleEditMetaSubmit(event: Event) {
     event.preventDefault();
     // Show loading modal
-    modalTitle.innerText = "⏳ Processing...";
-    modalContent.innerText = "Workflow metadata is uploading...";
-    confirmBtn.classList.toggle("hidden", true);
-    modal.showModal();
+    showModal('⏳ Processing...', 'Uploading data...');
     // Get workflowId
     const workflowId = editMetaForm.dataset.workflowId as string;
     // Get form data
@@ -311,11 +393,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       !formData.get("editWorkflowAuthorLink") ||
       selectedTags.length === 0
     ) {
-      // alert("Please fill out all required fields.");
-      modalTitle.innerText = "😮 Opps";
-      modalContent.innerText = "Please fill out all required fields.";
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
+      showModal('😮 Oops', 'Please fill out all required fields.');
       return;
     }
     // Add the selected tags to the form data
@@ -325,7 +403,6 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       tags.push(tag.textContent as string);
     });
     formData.append("tags", JSON.stringify(tags));
-    // console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
     // Send form data to the server
     try {
       const response = await fetch(`/api/workflow/edit/${workflowId}`, {
@@ -334,66 +411,32 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       });
       if (response.ok) {
         console.log("Response>>>", response.json());
-        // Clear the form
-        editMetaForm.reset();
-        // Clear the selected tags
-        selectedTagsTree!.innerHTML = "";
-        modalTitle.innerText = "🎉 Tada!";
-        modalContent.innerText = "Upload meta data successful!";
-        confirmBtn.classList.toggle("hidden", true);
-        editModal.close();
-        modal.showModal();
+        // close the edit modal
+        closeEditModal();
+        showModal('🎉 Success!', "Upload meta data successful!");
         (window as any).loadTableData(); // Reload the table data
       } else if (response.status === 401) {
-        // alert("Before you upload, please login first.");
-        modalTitle.innerText = "😮 Opps...";
-        modalContent.innerText = "Your login has expired, please login again!";
-        confirmBtn.textContent = "Login again";
-        confirmBtn.classList.add("btn-error");
-        confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.addEventListener("click", (event: Event) => {
-          event.preventDefault();
-          window.location.href =
-            "/api/login/github?redirect=" +
-            encodeURIComponent(
-              window.location.pathname + window.location.search,
-            );
-        });
-        modal.showModal();
+        // close the edit modal
+        closeEditModal();
+        handleUnauthorized();
       } else {
-        // Clear the form
-        editMetaForm.reset();
-        // Clear the selected tags
-        selectedTagsTree!.innerHTML = "";
-        modalTitle.innerText = "😮 Opps...";
-        confirmBtn.classList.toggle("hidden", true);
-        modalContent.innerText =
-          "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
-        modal.showModal();
+        // close the edit modal
+        closeEditModal();
+        showModal('😮 Oops...', 'Something went wrong in remote server. Please cantact us.');
       }
     } catch (error) {
       console.error("Error uploading file:", error);
-      // Clear the form
-      editMetaForm.reset();
-      // Clear the selected tags
-      selectedTagsTree!.innerHTML = "";
-      modalTitle.innerText = "😮 Opps...";
-      confirmBtn.classList.toggle("hidden", true);
-      modalContent.innerText =
-        "Your network is unreachable. Please check your internet connection and try again.";
-      modal.showModal();
+      // close the edit modal
+      closeEditModal();
+      handleNetworkError(error as Error);
     }
   }
 
   // Update Version of Workflow Form
-  const updateForm = document.getElementById("updateForm") as HTMLFormElement;
   async function handleUpdateSubmit(event: Event) {
     event.preventDefault();
     // Show loading modal
-    modalTitle.innerText = "⏳ Processing...";
-    modalContent.innerText = "New version is updating...";
-    confirmBtn.classList.toggle("hidden", true);
-    modal.showModal();
+    showModal('⏳ Processing...', 'Uploading data...');
     // Get workflowId and workflowVersion
     const workflowId = updateForm.dataset.workflowId as string;
     const workflowVersion = updateForm.dataset.workflowVersion as string;
@@ -408,11 +451,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     if (dslfile.files && dslfile.files.length > 0 && updateVersion.value) {
       if (Number(updateVersion.value) <= Number(workflowVersion)) {
         // updateVersion is not greater than the original version
-        modalTitle.innerText = "😮 Opps...";
-        modalContent.innerText =
-          "Please make sure that the update version is greater than the latest version of the original.";
-        confirmBtn.classList.toggle("hidden", true);
-        modal.showModal();
+        showModal('😮 Oops...', 'Please make sure that the update version is greater than the latest version of the original.');
         return;
       } else {
         formData.append("dsl-file", dslfile.files[0]);
@@ -425,74 +464,43 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           });
           if (response.ok) {
             console.log("Response>>>", response.json());
-            // Clear the form
-            updateForm.reset();
-            modalTitle.innerText = "🎉 Tada!";
-            modalContent.innerText = "Update Version Successful!";
-            confirmBtn.classList.toggle("hidden", true);
-            editModal.close();
-            modal.showModal();
+            // close the edit modal
+            closeEditModal();
+            showModal('🎉 Success!', "Upload new version successful!");
             (window as any).loadTableData(); // Reload the table data
           } else if (response.status === 401) {
-            // alert("Before you upload, please login first.");
-            modalTitle.innerText = "😮 Opps...";
-            modalContent.innerText =
-              "Your login has expired, please login again!";
-            confirmBtn.textContent = "Login again";
-            confirmBtn.classList.add("btn-error");
-            confirmBtn.classList.toggle("hidden", false);
-            confirmBtn.addEventListener("click", (event: Event) => {
-              event.preventDefault();
-              window.location.href =
-                "/api/login/github?redirect=" +
-                encodeURIComponent(
-                  window.location.pathname + window.location.search,
-                );
-            });
-            modal.showModal();
+            // close the edit modal
+            closeEditModal();
+            handleUnauthorized();
           } else {
-            // Clear the form
-            updateForm.reset();
-            modalTitle.innerText = "😮 Opps...";
-            confirmBtn.classList.toggle("hidden", true);
-            modalContent.innerText =
-              "An error occurred while uploading the file. Please try again or contact us.";
-            reactFlowPreview.classList.toggle("hidden", true);
-            modal.showModal();
+            // close the edit modal
+            closeEditModal();
+            showModal('😮 Oops...', 'Something went wrong in remote server. Please cantact us.');
           }
         } catch (error) {
           console.error("Error uploading file:", error);
-          // Clear the form
-          updateForm.reset();
-          modalTitle.innerText = "😮 Opps...";
-          confirmBtn.classList.toggle("hidden", true);
-          modalContent.innerText =
-            "Your network is unreachable. Please check your internet connection and try again.";
-          reactFlowPreview.classList.toggle("hidden", true);
-          modal.showModal();
+          // close the edit modal
+          closeEditModal();
+          handleNetworkError(error as Error);
         }
       }
     } else {
-      modalTitle.innerText = "😮 Opps...";
-      modalContent.innerText = "Please fill out all required fields.";
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
+      showModal('😮 Oops...', 'Please fill out all required fields.');
       return;
     }
   }
+
+  // Add event listener to the document
   document.addEventListener("DOMContentLoaded", () => {
     // Add event listener to the confirm button
     editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
     // Add event listener to the form
     updateConfirmBtn.addEventListener("click", handleUpdateSubmit);
-  });
-  // Add event listener to the close button
-  closeEditModalBtn.addEventListener("click", (event: Event) => {
-    event.preventDefault();
-    console.log("Edit Modal Close button clicked");
-    editMetaForm.reset();
-    updateForm.reset();
-    reactFlowPreview.classList.toggle("hidden", true);
-    editModal.close();
+    // Add event listener to the close button
+    closeEditModalBtn.addEventListener("click", (event: Event) => {
+      event.preventDefault();
+      console.log("Edit Modal Close button clicked");
+      closeEditModal();
+    });
   });
 </script>
