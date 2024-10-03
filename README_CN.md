@@ -1,8 +1,10 @@
-# Diflowy 🌊
+# Diflowy
 
 > Dify Workflows的分享、发现和下载平台
 
-[English](README.md) | 简体中文
+### [🌐 立刻访问 → Diflowy](https://diflowy.greenerai.top/)
+
+[English](README.md) | 简体中文 | [日本語](README_JP.md)
 
 ## 🚀 简介
 
