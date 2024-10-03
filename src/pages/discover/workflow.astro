@@ -83,12 +83,7 @@ const description =
           </div>
           <div>
             <h4 id="workflowname" class="mt-10">Description</h4>
-            <div
-              id="description"
-              class="mt-5"
-            >
-              Loading...
-            </div>
+            <div id="description" class="mt-5">Loading...</div>
           </div>
         </div>
         <!-- Button -->
@@ -115,8 +110,6 @@ const description =
 <script>
   import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
   import { formatUpdateTime } from "../../utils/tools";
-  var md = require('markdown-it')();
-  // import markdownit from 'markdown-it'
 
   const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-4" />`;
   interface WorkflowContentResponse {
@@ -200,7 +193,7 @@ const description =
       ) as HTMLImageElement;
       const workflowDescription = document.getElementById(
         "description",
-      ) as HTMLParagraphElement;
+      ) as HTMLDivElement;
       const workflowTags = document.getElementById(
         "tagsarea",
       ) as HTMLDivElement;
@@ -282,7 +275,7 @@ const description =
         // Update the workflow info
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
-        workflowDescription.innerHTML = md.render(workflowObject.description);
+        workflowDescription.innerHTML = workflowObject.description;
         workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact the author ➤  <span class="underline">${workflowObject.authorData.socialLink}</span>`;
         // Update the updated time
@@ -351,4 +344,13 @@ const description =
       modal.showModal();
     }
   });
+</script>
+<script type="module">
+  import { marked } from "marked";
+  const workflowDescription = document.getElementById("description");
+  if (workflowDescription) {
+    workflowDescription.innerHTML = marked(
+      workflowDescription.innerText,
+    );
+  }
 </script>
