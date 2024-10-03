@@ -82,8 +82,8 @@ const description =
             </div>
           </div>
           <div>
-            <h4 id="workflowname" class="mt-10">Description</h4>
-            <div id="description" class="mt-5">Loading...</div>
+            <h4 class="mt-10">Description</h4>
+            <pre id="description" class="mt-5">Loading...</pre>
           </div>
         </div>
         <!-- Button -->
@@ -193,7 +193,7 @@ const description =
       ) as HTMLImageElement;
       const workflowDescription = document.getElementById(
         "description",
-      ) as HTMLDivElement;
+      ) as HTMLPreElement;
       const workflowTags = document.getElementById(
         "tagsarea",
       ) as HTMLDivElement;
@@ -275,7 +275,7 @@ const description =
         // Update the workflow info
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
-        workflowDescription.innerHTML = workflowObject.description;
+        workflowDescription.innerText = `${workflowObject.description}`;
         workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact the author ➤  <span class="underline">${workflowObject.authorData.socialLink}</span>`;
         // Update the updated time
@@ -345,12 +345,15 @@ const description =
     }
   });
 </script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+></script>
 <script type="module">
+  marked.use({
+    pedantic: false,
+    gfm: true,
+  });
   const workflowDescription = document.getElementById("description");
   if (workflowDescription) {
-    workflowDescription.innerHTML = marked.parse(
-      workflowDescription.innerText,
-    );
+    workflowDescription.innerHTML = marked.parse(workflowDescription.innerText);
   }
 </script>
