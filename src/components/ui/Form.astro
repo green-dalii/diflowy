@@ -39,7 +39,7 @@ import Tags from "./Tags.astro";
                   id="workflowname"
                   autocomplete="workflowname"
                   class="input input-bordered w-full max-w-xs"
-                  placeholder="Fill Your Workflow Name"
+                  placeholder="Workflow Name",
                 />
               </div>
             </div>
@@ -63,8 +63,8 @@ import Tags from "./Tags.astro";
               >
             </div>
             <p class="mt-1 text-xs leading-normal text-gray-400">
-              ⚠️ Note: Here is for uploading the first version of your workflow. We recommend that it be set to <span class="font-semibold">v1.0</span>.
-              <br>If there are future updates to this workflow, you can go to the <a href="/user" class="link font-medium hover:text-dark">User Center</a> to update the newer version.
+              ⚠️ Note: This section is for uploading the initial version of your workflow. We recommend labeling it as <span class="font-semibold">v1.0</span>.
+              <br>For any future updates, you can visit the <a href="/user" class="link font-semibold hover:text-dark">► User Center</a> to upload newer versions.
             </p>
           </div>
           <!-- Description -->
@@ -110,6 +110,7 @@ import Tags from "./Tags.astro";
                 name="author-name"
                 id="author-name"
                 class="input input-bordered w-full"
+                placeholder="Enter your name"
               />
             </div>
           </div>
@@ -124,11 +125,26 @@ import Tags from "./Tags.astro";
                 id="social-link"
                 name="social-link"
                 class="input input-bordered w-full"
+                placeholder="Enter link or social account"
               />
             </div>
-            <p class="mt-1 text-xs leading-normal text-gray-400">
-              Such as Email, Website, Twitter(𝕏), Facebook, WhatsApp, WeChat, etc. So others can contact with you.
-            </p>
+            <div class="mt-1">
+              <p class="text-xs leading-5 text-gray-400">Please enter your social account username or URL. <br>Include the social platform name after the account username. For example:</p>
+              <ul class="list-disc list-inside text-xs text-gray-400 break-all leading-5">
+                <li>
+                  @yourusername(Twitter/Instagram/Tiktok/Github/LinkedIn)
+                </li>
+                <li>
+                  facebook.com/yourusername
+                </li>
+                <li>
+                  http://yourwebsite.com
+                </li>
+                <li>
+                  yourEmail@example.com
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -139,10 +155,10 @@ import Tags from "./Tags.astro";
         </h2>
         <ul class="list-disc list-inside text-xs">
           <li class="leading-6 text-gray-600">
-            Please fill out the above in detail for the convenience of others.
+            Please complete the above fields in detail for the benefit of others.
           </li>
           <li class="leading-6 text-gray-600">
-            Please make sure there is no private information(API keys, Environment variables etc.) before uploading.
+            Ensure there is no private information (API keys, environment variables, etc.) before uploading.
           </li>
         </ul>
       </div>

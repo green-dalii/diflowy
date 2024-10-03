@@ -39,9 +39,11 @@ const description =
               </div>
               <h3 id="workflowname" class="">Loading...</h3>
             </div>
-            <div class="flex flex-row space-x-4 items-center mt-5">
+            <div class="flex flex-col space-y-2 mt-5">
               <div id="author" class="text-sm">@Author</div>
-              <div id="authorInfo" class="text-sm italic">Author Link</div>
+              <div id="authorInfo" class="text-xs italic">
+                Contact the author ➤
+              </div>
             </div>
             <div class="mt-5 grid grid-cols-2 items-center gap-4">
               <div class="flex flex-row space-x-2 items-center">
@@ -233,19 +235,21 @@ const description =
         URL.revokeObjectURL(currentDownloadUrl);
         document.body.removeChild(a);
       }
-      
+
       // copy download url function
       function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
-        let downloadUrl = `?version=${workflowObject.current_version}&name=${workflowObject.name}`;
-        downloadUrl =
-          `${window.location.origin}/api/workflow/download/${workflowObject.id}` +
-          encodeURIComponent(downloadUrl);
+        const baseUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}`;
+        const params = new URLSearchParams({
+          version: workflowObject.current_version,
+          name: workflowObject.name,
+        });
+        const downloadUrl = `${baseUrl}?${params.toString()}`;
         navigator.clipboard.writeText(downloadUrl).then(() => {
           modalTitle.innerText = "🎉 Tada!";
-          modalContent.innerHTML = `<div>The Workflow's URL has copied to your clipboard!</div><div>You can paste it import to your Dify directly.</div>`;
+          modalContent.innerHTML = `<div>The Workflow's URL has been copied to your clipboard!✌️</div><div>You can now paste and import it directly into your Dify.</div>`;
           modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
           modalContent.innerHTML += importStepImg;
-          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @${workflowObject.authorData.authorName} if you found it useful!</div>`;
+          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @<span class="font-semibold">${workflowObject.authorData.authorName}</span> if you found it useful!</div>`;
           modal.showModal();
           console.log("Download URL>>>", downloadUrl);
         });
@@ -274,7 +278,7 @@ const description =
         workflowName.innerText = workflowObject.name;
         workflowDescription.innerText = workflowObject.description;
         workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
-        workflowAuthorInfo.innerHTML = `<a class="link" href="//${workflowObject.authorData.socialLink}/">👉Contact the author</a>`;
+        workflowAuthorInfo.innerHTML = `Contact the author ➤  <span class="underline">${workflowObject.authorData.socialLink}</span>`;
         // Update the updated time
         updatedTime.innerText = `Updated: ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select

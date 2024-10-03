@@ -5,9 +5,12 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const { env, params, request } = context;
         const workflowId = params.workflow_id;
         const url = new URL(request.url);
-        const version = url.searchParams.get('version');
-        const workflowName = url.searchParams.get('name');
-        console.log("Download ID>>>", workflowId, "Download Version>>>", version)
+        // Decode the entire query string
+        const decodedSearch = decodeURIComponent(url.search);
+        const searchParams = new URLSearchParams(decodedSearch);
+        const version = searchParams.get('version');
+        const workflowName = searchParams.get('name');
+        console.log("Download ID>>>", workflowId, "Download Version>>>", version, "Download Name>>>", workflowName)
         const workflowResult = await env.D1.prepare(
             'SELECT file_content FROM yaml_versions WHERE yaml_file_id = ? AND version = ?'
         ).bind(workflowId, version).first();
@@ -16,7 +19,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             console.log("Workflow not found", workflowResult, "Version not found", version, "Workflow Name not found", workflowName);
             return new Response("Workflow not found", { status: 404 });
         }
-        
+
         const fileContentArrayBuffer = workflowResult.file_content as ArrayBuffer;
         const fileContentUint8Array = new Uint8Array(fileContentArrayBuffer);
         const fileContentDecoder = new TextDecoder("utf-8");
