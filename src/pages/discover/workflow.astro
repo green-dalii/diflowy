@@ -1,0 +1,348 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import Section from "../../components/sections/Section.astro";
+import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
+import { Icon } from "astro-icon/components";
+import "../../styles/globals.css";
+const description =
+  "You can view, import or download workflow you like to your Dify directly.";
+---
+
+<MainLayout
+  title="Workflow | Diflowy"
+  description="Where Dify workflows are stored"
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="Workflow" description={description} />
+      <div id="workflow" class="flex flex-col">
+        <div class="w-full">
+          <div class="h-96 sm:h-[600px]">
+            <ReactFlowPreview client:only="react" />
+          </div>
+          <div>
+            <small class="text-sm text-gray-400"
+              >* The above is for preview only; any changes will not affect the
+              file.</small
+            >
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          <div class="w-full">
+            <div class="flex flex-row space-x-4 items-center mt-10">
+              <div
+                id="workflowicon"
+                class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center"
+              >
+                ⏳
+              </div>
+              <h3 id="workflowname" class="">Loading...</h3>
+            </div>
+            <div class="flex flex-col space-y-2 mt-5">
+              <div id="author" class="text-sm">@Author</div>
+              <div id="authorInfo" class="text-xs italic">
+                Contact the author ➤
+              </div>
+            </div>
+            <div class="mt-5 grid grid-cols-2 items-center gap-4">
+              <div class="flex flex-row space-x-2 items-center">
+                <div class="text-xs">Version</div>
+                <select
+                  id="version"
+                  class="select select-bordered select-xs w-full max-w-xs"
+                >
+                  <option>Loading...</option>
+                </select>
+              </div>
+              <div id="updated_time" class="text-xs">
+                Last Updated: Loading...
+              </div>
+            </div>
+            <div id="tagsarea" class="mt-10"></div>
+            <div class="mt-20">
+              <h4>👁️ Before You Use</h4>
+              <ul
+                class="list-disc list-inside mt-2 text-xs text-gray-500 space-y-2"
+              >
+                <li>Please ensure the security of this workflow.</li>
+                <li>
+                  You might need to replace the LLM and API keys with your own
+                  in the workflow.
+                </li>
+                <li>
+                  Feel free to modify the workflow content to fit your needs.
+                </li>
+                <li>If you find it useful, remember to thank the author ❤️</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <h4 id="workflowname" class="mt-10">Description</h4>
+            <p
+              id="description"
+              class="text-sm text-gray-500 leading-relaxed mt-5"
+            >
+              Loading...
+            </p>
+          </div>
+        </div>
+        <!-- Button -->
+        <div
+          class="w-full sm:w-1/2 flex flex-col sm:flex-row items-center justify-end gap-4 mt-32"
+        >
+          <button
+            id="copyButton"
+            class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
+          >
+            <Icon name="import" class="text-2xl mr-1" />Import to your Dify
+          </button>
+          <button
+            id="downloadButton"
+            class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            ><Icon name="download" class="text-2xl mr-1" />Download</button
+          >
+        </div>
+      </div>
+    </Section>
+  </div>
+</MainLayout>
+
+<script>
+  import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
+  import { formatUpdateTime } from "../../utils/tools";
+
+  const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-4" />`;
+  interface WorkflowContentResponse {
+    id: string;
+    name: string;
+    description: string;
+    versions: string[];
+    current_version: string;
+    tags: string[];
+    icon: string;
+    authorData: WorkflowAuthor;
+    update_time: string;
+    file_content?: string;
+  }
+
+  interface WorkflowAuthor {
+    authorName: string;
+    socialLink?: string;
+  }
+
+  // Define the current workflow object
+  let currentWorkflowObject: WorkflowContentResponse;
+  // Define current download url
+  let currentDownloadUrl: string;
+
+  // Function for loading workflow from API
+  async function loadWorkflow(): Promise<WorkflowContentResponse> {
+    console.log("Executing loadWorkflow...");
+    const urlParams = new URLSearchParams(window.location.search);
+    const workflowId = urlParams.get("id") as string;
+    const url = new URL("/api/workflow", window.location.origin);
+    url.searchParams.append("workflowId", workflowId);
+
+    console.log("Getting workflow from:", url.toString());
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      console.error("Failed to fetch workflows");
+      throw new Error("Failed to fetch the workflow");
+    }
+    return (await response.json()) as WorkflowContentResponse;
+  }
+
+  // Function for changing workflow version
+  async function changeWorkflowVersion(version: string) {
+    console.log("Executing changeWorkflowVersion...");
+    const urlParams = new URLSearchParams(window.location.search);
+    const workflowId = urlParams.get("id") as string;
+    const url = new URL("/api/workflow", window.location.origin);
+    url.searchParams.append("workflowId", workflowId); // Append workflowId to the URL
+    url.searchParams.append("version", version); // Append version to the URL
+
+    console.log("Sending request to:", url.toString());
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      console.error("Failed to fetch the version of the workflow");
+      throw new Error("Failed to fetch the version of the workflow");
+    }
+    const data = await response.json();
+    return data;
+  }
+
+  // After all DOM is loaded
+  document.addEventListener("DOMContentLoaded", async (_) => {
+    console.log("DOMContentLoaded.");
+    // Get the modal element
+    const modal = document.getElementById("modal") as HTMLDialogElement;
+    const modalTitle = document.getElementById(
+      "modalTitle",
+    ) as HTMLHeadingElement;
+    const modalContent = document.getElementById(
+      "modalContent",
+    ) as HTMLDivElement;
+    // Get workflow from API
+    try {
+      // Get the elements in page
+      const workflowName = document.getElementById(
+        "workflowname",
+      ) as HTMLHeadingElement;
+      const workflowIcon = document.getElementById(
+        "workflowicon",
+      ) as HTMLImageElement;
+      const workflowDescription = document.getElementById(
+        "description",
+      ) as HTMLParagraphElement;
+      const workflowTags = document.getElementById(
+        "tagsarea",
+      ) as HTMLDivElement;
+      const workflowAuthor = document.getElementById(
+        "author",
+      ) as HTMLDivElement;
+      const workflowAuthorInfo = document.getElementById(
+        "authorInfo",
+      ) as HTMLDivElement;
+      const updatedTime = document.getElementById(
+        "updated_time",
+      ) as HTMLDivElement;
+      const version = document.getElementById(
+        "version",
+      ) as unknown as HTMLSelectElement;
+      // Get the buttons
+      const downloadButton = document.getElementById(
+        "downloadButton",
+      ) as HTMLButtonElement;
+      const copyButton = document.getElementById(
+        "copyButton",
+      ) as HTMLButtonElement;
+
+      // Download workflow function
+      async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+        }
+        const a = document.createElement("a") as HTMLAnchorElement;
+        const blob = new Blob([workflowObject.file_content as string], {
+          type: "text/yaml",
+        });
+        currentDownloadUrl = URL.createObjectURL(blob);
+        a.href = currentDownloadUrl;
+        a.download = `${workflowObject.name}_${workflowObject.current_version}.yml`;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(currentDownloadUrl);
+        document.body.removeChild(a);
+      }
+
+      // copy download url function
+      function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
+        const baseUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}`;
+        const params = new URLSearchParams({
+          version: workflowObject.current_version,
+          name: workflowObject.name,
+        });
+        const downloadUrl = `${baseUrl}?${params.toString()}`;
+        navigator.clipboard.writeText(downloadUrl).then(() => {
+          modalTitle.innerText = "🎉 Tada!";
+          modalContent.innerHTML = `<div>The Workflow's URL has been copied to your clipboard!✌️</div><div>You can now paste and import it directly into your Dify.</div>`;
+          modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
+          modalContent.innerHTML += importStepImg;
+          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @<span class="font-semibold">${workflowObject.authorData.authorName}</span> if you found it useful!</div>`;
+          modal.showModal();
+          console.log("Download URL>>>", downloadUrl);
+        });
+      }
+
+      // Add event listeners to buttons
+      downloadButton.addEventListener("click", (event: Event) => {
+        event.preventDefault();
+        if (currentWorkflowObject) {
+          downloadWorkflow(currentWorkflowObject);
+        }
+      });
+      copyButton.addEventListener("click", (event: Event) => {
+        event.preventDefault();
+        if (currentWorkflowObject) {
+          copyDownloadUrl(currentWorkflowObject);
+        }
+      });
+
+      // Function for updating workflow page
+      function updateWorkflow(workflowObject: WorkflowContentResponse) {
+        // Update the current workflow object
+        currentWorkflowObject = workflowObject;
+        // Update the workflow info
+        workflowIcon.innerText = workflowObject.icon;
+        workflowName.innerText = workflowObject.name;
+        workflowDescription.innerText = workflowObject.description;
+        workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
+        workflowAuthorInfo.innerHTML = `Contact the author ➤  <span class="underline">${workflowObject.authorData.socialLink}</span>`;
+        // Update the updated time
+        updatedTime.innerText = `Updated: ${formatUpdateTime(workflowObject.update_time)}`;
+        // Update the version select
+        version.innerHTML = workflowObject.versions
+          .map((version: string, index: number) => {
+            if (index === 0) {
+              return `<option value="${version}">${version} - latest</option>`;
+            } else {
+              return `<option value="${version}">${version}</option>`;
+            }
+          })
+          .join("");
+
+        // Update the tags
+        const tagsHTML = workflowObject.tags
+          .map(
+            (tag: string) =>
+              `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
+          )
+          .join("");
+        workflowTags.innerHTML = tagsHTML;
+        console.log("Workflow info updated.");
+
+        // Update the ReactFlow component
+        const { nodes, edges } = parseYamlToReactFlow(
+          workflowObject.file_content as string,
+        );
+
+        // Check if ReactFlow is ready
+        const checkAndUpdateReactFlow = () => {
+          if (typeof (window as any).updateReactFlow === "function") {
+            (window as any).updateReactFlow(nodes, edges);
+          } else {
+            console.log("updateReactFlow not ready, retrying...");
+            setTimeout(checkAndUpdateReactFlow, 100); // 每100ms检查一次
+          }
+        };
+        checkAndUpdateReactFlow();
+
+        // Set the current version
+        version.value = workflowObject.current_version;
+      }
+
+      // add event listener to version select
+      version.addEventListener("change", async (event: Event) => {
+        event.preventDefault();
+        const selectedVersion = version.value;
+        console.log("Selected version:", selectedVersion);
+        let newVersionWorkflow = (await changeWorkflowVersion(
+          selectedVersion,
+        )) as WorkflowContentResponse;
+        updateWorkflow(newVersionWorkflow);
+      });
+
+      // Load workflow from API and update the page when the page is loaded
+      console.log("First Call loadWorkflow...");
+      const workflow = (await loadWorkflow()) as WorkflowContentResponse;
+      updateWorkflow(workflow);
+    } catch (error) {
+      console.error("Error loading workflow:", error);
+      modalTitle.innerText = "⚠️ Error";
+      modalContent.innerText =
+        "Failed to fetch workflows. Please check your connection and try again.";
+      modal.showModal();
+    }
+  });
+</script>

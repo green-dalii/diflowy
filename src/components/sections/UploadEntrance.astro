@@ -1,0 +1,39 @@
+---
+import { Image } from "astro:assets";
+import Card from "../ui/Card.astro";
+import Section from "./Section.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+import propImg from "../../assets/pics/upload.svg";
+
+const description = "You can share your workflow inspiration and ideas with others";
+---
+
+<Section>
+  <div class="mt-[140px] mb-5">
+    <SectionTitle sectionTitle="Share" description={description} />
+    <Card>
+      <div
+        class="group flex bg-[#F3F3F3] dark:bg-[--darkbgoffset] rounded-3xl p-8 relative mb-[120px]"
+      >
+        <div class="w-full md:w-[40%] flex flex-col gap-[26px]">
+          <h2>Share Your<br>WorkFlow to<br>Everyone</h2>
+          <p>One for all, and all for one.</p>
+          <a href="/upload"
+            ><button class="btn-primary w-full sm:w-auto"
+              >Upload and Share</button
+            ></a
+          >
+        </div>
+        <picture
+          class="hidden md:flex absolute right-0 lg:right-0 top-0 h-[350px] items-center justify-center"
+        >
+          <Image
+            src={propImg}
+            alt="This is an illustration"
+            class="hidden md:flex lg:h-full lg:w-auto group-hover:scale-110 transition-all duration-300"
+          />
+        </picture>
+      </div>
+    </Card>
+  </div>
+</Section>

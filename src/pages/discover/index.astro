@@ -1,0 +1,135 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import Section from "../../components/sections/Section.astro";
+import Skeleton from "../../components/ui/Skeleton.astro";
+import "../../styles/globals.css";
+const description = "Find and import workflows to Dify immediately in Diflow.";
+const skeletonCount = 12;
+---
+
+<MainLayout
+  title="Discover | Diflowy"
+  description="Where Dify workflows are stored"
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle
+        sectionTitle="Discover workflows"
+        description={description}
+      />
+      <div
+        id="workflow-grid"
+        class="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-5"
+      >
+        {new Array(skeletonCount).fill(null).map((_) => <Skeleton />)}
+      </div>
+      <div class="mt-14 text-center">
+        <div class="join" id="pagination"></div>
+      </div>
+    </Section>
+  </div>
+</MainLayout>
+
+<script>
+  import {
+    skeleton,
+    updatePagination,
+    getTagsFromURL,
+    fetchWorkflows,
+  } from "../../utils/tools";
+  import type { Workflow } from "../../utils/tools";
+
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+
+  // update workflow
+  function updateWorkflowGrid(workflows: Workflow[]) {
+    const workflowGrid = document.getElementById(
+      "workflow-grid",
+    ) as HTMLDivElement;
+    workflowGrid.innerHTML = "";
+    workflows.forEach((workflow) => {
+      const workflowLink = document.createElement("a");
+      workflowLink.setAttribute("href", `/discover/workflow?id=${workflow.id}`);
+      const workflowElement = document.createElement("div");
+      let tags;
+      try {
+        tags = JSON.parse(workflow.tags);
+      } catch (error) {
+        console.error("Error parsing tags for workflow:", workflow.name, error);
+        tags = [];
+      }
+      const tagsHTML = tags
+        .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
+        .join("");
+
+      workflowElement.className =
+        "border dark:bg-[--darkbgoffset] dark:border-gray-500 shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52";
+      workflowElement.innerHTML = `
+      <div class="grid grid-cols-1 content-between h-full">
+        <div class="flex flex-row space-x-4 items-center">
+            <div class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center">${workflow.icon}</div>
+            <div class="flex-grow text-xl text-dark font-bold">${workflow.name}</div>
+        </div>
+        <div class="flex-1 space-y-4 py-1">
+            <div class="ml-16 space-y-3">
+                <div class="text-xs text-gray-500 line-clamp-2">${workflow.description}</div>
+                <div>${tagsHTML}</div>
+            </div>
+        </div>
+    </div>
+    </div>
+          `;
+      workflowLink.appendChild(workflowElement);
+      workflowGrid.appendChild(workflowLink);
+    });
+  }
+
+  // 加载指定页码的数据
+  async function loadPageData(page: number = 1) {
+    try {
+      // display skeleton
+      const workflowGrid = document.getElementById(
+        "workflow-grid",
+      ) as HTMLDivElement;
+      workflowGrid.innerHTML = "";
+      new Array(12).fill(null).map((_) => {
+        workflowGrid.innerHTML += skeleton();
+      });
+      const result = await fetchWorkflows(page, 12, getTagsFromURL()); // 默认每页12个
+      console.log("Workflows:", result.workflows);
+      console.log("Total:", result.total);
+      console.log("Page:", result.page);
+      console.log("Page Size:", result.pageSize);
+      console.log("Tags:", getTagsFromURL());
+
+      // 更新工作流网格
+      updateWorkflowGrid(result.workflows);
+
+      // 更新分页按钮
+      updatePagination(
+        result.total,
+        result.page,
+        result.pageSize,
+        loadPageData,
+      );
+    } catch (error) {
+      console.error("Error loading page data:", error);
+      modalTitle.innerText = "⚠️ Error";
+      modalContent.innerText =
+        "Failed to fetch workflows. Please check your connection and try again.";
+      modal.showModal();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPageData(1);
+  });
+</script>

@@ -8,11 +8,12 @@ export interface Env {
     D1: D1Database;
     GITHUB_ID: string;
     GITHUB_SECRET: string;
+    AUTH_SECRET: string;
 }
 
 export function initializeLucia(env: Env) {
     const adapter = new D1Adapter(env.D1, {
-        user: "user",
+        user: "users",
         session: "session"
     });
 

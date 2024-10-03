@@ -1,0 +1,49 @@
+---
+import { Image } from "astro:assets";
+
+import gob from "../../assets/icon8.svg";
+import wob from "../../assets/icon7.svg";
+import pob from "../../assets/icon6.svg";
+
+const { index, titleTop, img, alt, link } = Astro.props;
+---
+
+<div class="rounded-[45px] sm:px-0 sm:h-72">
+  <a href={link}>
+    <div
+      class=`group h-[350px] w-full sm:h-full gap-[10px] lg:gap-[20px] grid custom-grid lg:grid-cols-2 lg:grid-rows-1 p-8 rounded-3xl transition-all duration-300 ${index === 1 ? 'bg-white' : index === 2 ? 'bg-blue' : 'bg-dark text-white'} sm:hover:scale-105 transform sm:hover:shadow-lg ${index === 1 ? 'hover:bg-gradient-radial-at-bottom-center from-[#ffffff] to-[#e6e6e6]' : index === 2 ? 'hover:bg-gradient-radial-at-bottom-center from-[#eff8ff] to-[#a1e0ff]' : 'hover:bg-gradient-radial-at-bottom-center from-sky-500 to-dark text-white'}`
+    >
+      <h3 class=`flex flex-col col-span-2 lg:col-span-1`>
+        <span
+          class=`w-[fit-content] ${index === 1 ? 'greenhead' : index === 2 ? 'blackhead' : 'whitehead'} text-4xl`
+          >{titleTop}</span
+        >
+      </h3>
+      <picture
+        class="row-span-1 col-span-2 sm:col-span-1 order-1 lg:order-none lg:row-span-2 flex justify-center items-center"
+      >
+        <Image
+          src={img}
+          alt={alt}
+          class="h-auto w-3/4 sm:h-auto sm:w-full group-hover:scale-[1.2] transition-all duration-300 object-cover"
+        />
+      </picture>
+      <div class="sm:flex items-end hidden">
+        <div class="flex items-center gap-3">
+          <Image
+            src={index === 1 ? gob : index === 2 ? pob : wob}
+            alt={alt}
+            class="group-hover:rotate-45 transition-all duration-300"
+          />
+          <span class=`${index === 1 ? 'greenhead' : index === 2 ? 'blackhead' : 'whitehead'}`>Click Here</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+
+<style>
+  .custom-grid {
+    grid-template: auto auto;
+  }
+</style>

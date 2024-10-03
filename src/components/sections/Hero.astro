@@ -1,25 +1,34 @@
 ---
-import { Image } from "astro:assets";
-import HeroIlust from "../../assets/pics/hero-pic.png";
+// import { Image } from "astro:assets";
+// import HeroIlust from "../../assets/pics/hero-pic.png";
 import Section from "./Section.astro";
 import ReactFlowComponent from "../flow/ReactFlowComponent";
 ---
 
 <Section id="home">
   <div
-    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 mt-[135px]"
+    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 my-28"
   >
-    <div class="flex flex-col w-full lg:w-[66.5%] pt-20">
-      <h1>Share, Discover, Download in Diflowy!</h1>
+    <div class="flex flex-col w-full lg:w-[66.5%] sm:pt-20">
+      <h1
+        class="text-5xl md:text-6xl font-normal !leading-tight tracking-tight"
+      >
+        <span id="changing-word" class="inline-block font-bold text-dark">
+        </span><br />Dify Workflows in <span
+          class="font-bold underline decoration-wavy"
+          style="
+        text-decoration-skip-ink: none;
+        text-decoration-color: var(--blue);
+    "
+          >Diflowy</span
+        >
+      </h1>
     </div>
     <div class="row-span-1 md:row-span-3">
-      <!-- <Image src={HeroIlust} alt="Hero Ilustration" loading="eager" /> -->
-      <ReactFlowComponent client:load/>
+      <ReactFlowComponent client:load />
     </div>
-    <div class="w-full lg:w-[66.5%]">
-      <p class="my-[35px]">
-        Diflowy means Dify + Flow. Your Dify FlowHub
-      </p>
+    <div class="w-full lg:w-[66.5%] mt-5 sm:mt-20">
+      <!-- <p class="my-[35px] text-gray-500">Diflowy = Dify + Flow</p> -->
       <a href="/discover">
         <button class="btn-primary w-full md:w-auto">Discover Workflows</button>
       </a>
@@ -30,4 +39,45 @@ import ReactFlowComponent from "../flow/ReactFlowComponent";
   .grid-template {
     grid-template-rows: auto 1fr;
   }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+  }
 </style>
+<script>
+  const words = ["<Discover>", "<Share>", "<Download>"];
+  let currentIndex = 0;
+  const changingWord = document.getElementById("changing-word") as HTMLElement;
+
+  function changeWord() {
+    changingWord.style.opacity = "0";
+    changingWord.style.transform = "translateY(20px)";
+
+    setTimeout(() => {
+      changingWord.textContent = words[currentIndex];
+      changingWord.classList.add("fade-in-up");
+      changingWord.style.opacity = "1";
+      changingWord.style.transform = "none";
+
+      currentIndex = (currentIndex + 1) % words.length;
+
+      setTimeout(() => {
+        changingWord.classList.remove("fade-in-up");
+      }, 500);
+    }, 10);
+  }
+
+  setInterval(changeWord, 1500); // 每3秒更换一次词
+  changeWord(); // 初始调用以显示第一个词
+</script>

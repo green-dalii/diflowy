@@ -1,35 +1,71 @@
 import { useCallback, useState } from 'react';
-import { ReactFlow, applyEdgeChanges, applyNodeChanges, Controls, Background, MiniMap, Panel } from '@xyflow/react';
+import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
 const initialNodes = [
     {
         id: '1',
         type: 'input',
-        data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="dify.png" style={{maxHeight: "2em"}}/></div> },
-        position: { x: 130, y: 120 },
+        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>🔍 DISCOVER</div> },
+        position: { x: 100, y: 0 },
         justify: 'center',
         align: 'center',
+        sourcePosition: 'right',
+        targetPosition: 'left',
     },
-
     {
         id: '2',
         type: 'input',
-        // you can also pass a React component as a label
-        data: { label: <div>WorkFlow</div> },
-        position: { x: 270, y: 190 },
+        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>👐 SHARE</div> },
+        position: { x: 100, y: 50 },
+        justify: 'center',
+        align: 'center',
+        sourcePosition: 'right',
+        targetPosition: 'left',
     },
     {
         id: '3',
+        type: 'input',
+        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>🌐 DOWNLOAD</div> },
+        position: { x: 100, y: 100 },
+        justify: 'center',
+        align: 'center',
+        sourcePosition: 'right',
+        targetPosition: 'left',
+    },
+    {
+        id: '4',
+        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>🔀 WorkFlows</div> },
+        position: { x: 300, y: 50 },
+        sourcePosition: 'right',
+        targetPosition: 'left',
+    },
+    {
+        id: '5',
+        type: 'input',
+        data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="dify.png" style={{maxHeight: "2em"}}/></div> },
+        position: { x: 100, y: 150 },
+        justify: 'center',
+        align: 'center',
+        sourcePosition: 'right',
+        targetPosition: 'left',
+    },
+    {
+        id: '6',
         type: 'output',
         data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="brand.svg" style={{maxHeight: "2em"}}/></div> },
-        position: { x: 200, y: 300 },
+        position: { x: 500, y: 100 },
+        sourcePosition: 'right',
+        targetPosition: 'left',
     },
 ];
 
 const initialEdges = [
-    { id: 'e1-2', source: '1', target: '3', animated: true },
-    { id: 'e2-3', source: '2', target: '3', animated: true },
+    { id: 'e1-1', source: '1', target: '4', animated: true },
+    { id: 'e1-2', source: '2', target: '4', animated: true },
+    { id: 'e1-3', source: '3', target: '4', animated: true },
+    { id: 'e2-1', source: '4', target: '6', animated: true },
+    { id: 'e2-2', source: '5', target: '6', animated: true },
 ];
 
 const ReactFlowComponent = () => {
@@ -45,7 +81,7 @@ const ReactFlowComponent = () => {
         [setEdges],
     );
     return (
-        <div style={{ height: 500 }}>
+        <div className='h-56 sm:h-[30rem]'>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}

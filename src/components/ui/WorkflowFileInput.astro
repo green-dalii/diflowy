@@ -1,0 +1,75 @@
+---
+
+---
+
+<div
+  id="upload-container"
+  class="flex justify-center rounded-lg border border-dashed border-gray-900/25 dark:border-[--darkbgoffset] px-6 py-10"
+>
+  <div id="upload-prompt" class="text-center">
+    <svg
+      class="mx-auto h-12 w-12 text-gray-300"
+      width="13"
+      height="12"
+      viewBox="0 0 13 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-6 h-6 text-[#f79009]"
+      data-icon="Route"
+      aria-hidden="true"
+      ><g id="route-sep"
+        ><path
+          id="Icon"
+          d="M6.08303 2.5H6.30023C7.82386 2.5 8.58567 2.5 8.87485 2.77364C9.12483 3.01018 9.23561 3.35864 9.16812 3.69611C9.09004 4.08651 8.46809 4.52643 7.22418 5.40627L5.19189 6.84373C3.94799 7.72357 3.32603 8.16349 3.24795 8.55389C3.18046 8.89136 3.29124 9.23982 3.54122 9.47636C3.8304 9.75 4.59221 9.75 6.11584 9.75H6.58303"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path><path
+          id="Icon_2"
+          d="M2.83301 4C3.66143 4 4.33301 3.32843 4.33301 2.5C4.33301 1.67157 3.66143 1 2.83301 1C2.00458 1 1.33301 1.67157 1.33301 2.5C1.33301 3.32843 2.00458 4 2.83301 4Z"
+          fill="currentColor"></path><path
+          id="Icon_3"
+          d="M9.83301 11C10.6614 11 11.333 10.3284 11.333 9.5C11.333 8.67157 10.6614 8 9.83301 8C9.00458 8 8.33301 8.67157 8.33301 9.5C8.33301 10.3284 9.00458 11 9.83301 11Z"
+          fill="currentColor"></path></g
+      ></svg
+    >
+    <div class="mt-4 flex text-sm leading-6 text-gray-600">
+      <label
+        for="dsl-file"
+        class="relative cursor-pointer rounded-md bg-white dark:bg-[--darkbgoffset] font-semibold text-[--dark] focus-within:outline-none focus-within:ring-2 focus-within:[--dark] focus-within:ring-offset-2 hover:text-[--color-blue]"
+      >
+        <span>Click here to Upload</span>
+        <input
+          id="dsl-file"
+          name="dsl-file"
+          type="file"
+          class="sr-only"
+          accept=".yml,.yaml,application/yaml"
+        />
+      </label>
+      <p class="pl-1">or drag and drop</p>
+    </div>
+    <p id="fileIndicator" class="text-xs leading-5 text-gray-600">
+      Requirement: Dify DSL Workflow File(.yml)
+    </p>
+  </div>
+</div>
+
+<script>
+  const uploadContainer = document.getElementById(
+    "upload-container",
+  ) as HTMLElement;
+  // const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
+
+  // Add drag and drop event listeners
+  uploadContainer.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.add("bg-gray-100");
+  });
+
+  uploadContainer.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.remove("bg-gray-100");
+  });
+</script>

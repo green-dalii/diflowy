@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
-// import LoginButton from "./LoginButton.astro";
-// import { SignIn, SignOut } from 'auth-astro/components'
+import { Icon } from "astro-icon/components";
+import brand from "../../assets/brand.svg";
+import Modal from "./AlertModal.astro";
 
 const navLinks = [
   {
@@ -9,69 +10,38 @@ const navLinks = [
     href: "/discover",
   },
   {
-    name: "Upload",
-    href: "#services",
-  },
-  {
-    name: "My Flows",
-    href: "#cases",
+    name: "Share",
+    href: "/upload",
   },
   {
     name: "Blog",
-    href: "#testimonials",
+    href: "/blog",
   },
   {
-    name: "Contact",
-    href: "#contact",
+    name: "About",
+    href: "/about",
   },
 ];
-
-import bars from "../../assets/bars.svg";
-import brand from "../../assets/brand.svg";
 ---
-
+<!-- Navbar -->
 <div
-  class="bg-[#fff] fixed w-full top-0 z-10 py-[30px] h-auto flex justify-center"
+  class="fixed w-full top-0 z-10 py-3 px-5 h-auto flex items-center justify-center header lg:dark:bg-[#1c232aa7] dark:bg-[#1c232a] dark:border-[#3950668a]"
 >
   <nav
     aria-label="Main Navigation"
     role="navigation"
     class="w-full flex h-full items-center justify-between"
-    style="max-width: 1280px;"
   >
     <!-- Brand -->
-    <div class="pl-5 xl:pl-0 xl:flex-none">
+    <div class="xl:flex-none">
       <a href="/">
-        <Image src={brand} alt="Brand Logo" class="w-36 sm:w-[200px]" loading="eager" />
+        <Image
+          src={brand}
+          alt="Brand Logo"
+          class="w-32 sm:w-[6em]"
+          loading="eager"
+        />
       </a>
-    </div>
-
-    <!-- Nav Menu -->
-    <div
-      id="navmenu"
-      class="bg-[#fff] w-full absolute top-full z-10 xl:static xl:flex xl:flex-grow xl:items-center xl:justify-center overflow-hidden transition-height duration-500 h-0 xl:h-auto"
-    >
-      <!-- Nav Links -->
-      <ul class="xl:flex xl:flex-grow xl:justify-center xl:gap-10">
-        {
-          navLinks.map((link) => {
-            return (
-              <li class="mx-4 p-4 xl:mx-0 px-0">
-                <a id={link.name} href={link.href} class="block">
-                  {link.name}
-                </a>
-              </li>
-            );
-          })
-        }
-      </ul>
-
-      <!-- Login -->
-      <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col">
-        <button class="btn-secondary" id="login">Login / Sign up</button>
-        <!-- <LoginButton />
-        <SignIn provider="github" /> -->
-      </div>
     </div>
 
     <!-- Hamburger menu -->
@@ -81,13 +51,68 @@ import brand from "../../assets/brand.svg";
       aria-controls="navmenu"
       aria-expanded="false"
       id="menuButton"
-      class="w-12 h-12 xl:hidden cursor-pointer"
+      class="w-10 h-10 lg:hidden cursor-pointer contents"
     >
-      <Image src={bars} alt="hamburgerIcon" class="hamburgerIcon" />
+      <Icon name="bars">
     </button>
   </nav>
+  <!-- Nav Menu -->
+  <div
+    id="navmenu"
+    class="w-full px-5 lg:px-0 absolute top-full z-10 lg:static lg:flex lg:flex-grow lg:items-center lg:justify-center overflow-hidden duration-500 h-0 lg:h-full dropdowns dark:bg-[#1c232a] lg:dark:bg-transparent dark:border-[#3950668a]"
+  >
+    <!-- Nav Links -->
+    <ul
+      class="flex flex-col lg:flex-row lg:flex-grow lg:justify-center lg:gap-10"
+    >
+      {
+        navLinks.map((link) => {
+          return (
+            <li class="p-2 px-0">
+              <a
+                id={link.name}
+                href={link.href}
+                class="block text-base text-center dark:text-white hover:text-dark dark:hover:text-blue"
+              >
+                {link.name}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <!-- Login -->
+    <div class="inline-block w-full lg:w-auto">
+      <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
+        <button class="btn-secondary w-full xl:w-auto py-2" id="user-menu-button">Login</button>
+      </div>
+    </div>
+  </div>
+  <!-- User Dropdown menu -->
+  <div id="user-dropdown" class="hidden fixed z-50 top-44 right-1/4 sm:right-1/2 lg:right-4 lg:top-12 mt-2 w-40 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+    <div class="py-1 w-full" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+      <a href="/user" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" role="menuitem">
+        <div class="flex items-center">
+          <Icon name="user" />
+          <span class="ml-2">User Center</span>
+        </div>
+      </a>
+      <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" role="menuitem">
+        <div class="flex items-center">
+          <Icon name="logout" />
+          <span class="ml-2">Logout</span>
+        </div>
+      </a>
+    </div>
+  </div>
 </div>
+
+<!-- modal -->
+<Modal />
+
 <script>
+  // dropdown menu
   document.addEventListener("DOMContentLoaded", (_) => {
     const menuButton = document.getElementById("menuButton");
     const navMenu = document.getElementById("navmenu");
@@ -102,24 +127,15 @@ import brand from "../../assets/brand.svg";
         menuButton.setAttribute("aria-expanded", `${isMenuOpen}`);
 
         if (isMenuOpen) {
-          navMenu.style.height = `${navMenu.scrollHeight}px`;
+          navMenu.style.height = `${navMenu.scrollHeight + 20}px`;
         } else {
           navMenu.style.height = "0px";
         }
       });
 
-      navMenu.addEventListener("click", () => {
-        /* Close menu after using it */
-        if (isMenuOpen) {
-          isMenuOpen = false;
-          navMenu.style.height = "0px";
-          navMenu.classList.remove("h-auto");
-        }
-      });
-
       window.addEventListener("resize", () => {
         /* Resize cleanup screen state*/
-        if (window.innerWidth >= 1280) {
+        if (window.innerWidth >= 1024) {
           /* Add height if menu was closed and then resize happened */
           navMenu.style.height = "auto";
           navMenu.classList.remove("h-0");
@@ -131,24 +147,153 @@ import brand from "../../assets/brand.svg";
     }
   });
 </script>
-<!-- 
-  Use to highlight the active link in the navigation bar
-  Gotta test in dev and prod bc sometimes it doesn't work
----
-const pathname = new URL(Astro.request.url).pathname;
-const currentPath = pathname.slice(1); // remove the first "/"
----
+<script>
+  interface User {
+    username: string;
+  }
 
-<nav>
-  <a class={currentPath === "" ? "active" : ""} href="/">Home</a>
-  <a class={currentPath === "portfolio" ? "active" : ""} href="/portfolio">Portfolio</a>
-  <a class={currentPath === "posts" ? "active" : ""} href="/posts">Article</a>
-  <a class={currentPath === "about" ? "active" : ""} href="/about">About Me</a>
-  <a class={currentPath === "contact" ? "active" : ""} href="/contact">Contact Me</a>
-</nav>
--->
-<!-- <script>
-  const { signIn, signOut } = await import("auth-astro/client")
-  document.querySelector("#login").onclick = () => signIn("github")
-  document.querySelector("#logout").onclick = () => signOut()
-</script> -->
+  interface UserResponse {
+    user: User | null;
+  }
+
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+  // Get dropdown menu element
+  const userDropdown = document.getElementById("user-dropdown") as HTMLDivElement;
+  const userMenuButton = document.getElementById("user-menu-button") as HTMLButtonElement;
+  const logoutLink = document.getElementById("logout-link") as HTMLAnchorElement;
+
+  function toggleUserDropdown() {
+    userDropdown.classList.toggle("hidden");
+    if (!userDropdown.classList.contains("hidden")) {
+      const buttonRect = userMenuButton.getBoundingClientRect();
+      userDropdown.style.top = `${buttonRect.bottom + 4}px`;
+      userDropdown.style.right = `${window.innerWidth - buttonRect.right - 15}px`;
+    }
+  }
+
+  // Close dropdown when clicking outside
+  window.addEventListener("click", function(event) {
+    if (!userMenuButton.contains(event.target as Node) && !userDropdown.contains(event.target as Node)) {
+      userDropdown.classList.add("hidden");
+    }
+  });
+
+  // confirm to logout
+  function confirmLogout(event: MouseEvent) {
+    event.preventDefault();
+    modalTitle.innerText = "🤔 Logout?";
+    modalContent.innerText = "Would you like to logout from Diflowy?";
+    const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+    confirmBtn.textContent = "Logout";
+    confirmBtn.classList.add("btn-error");
+    confirmBtn.classList.remove("hidden");
+    confirmBtn.addEventListener("click", handleLogout);
+    modal.showModal();
+  }
+
+  // action to logout
+  async function handleLogout(event: MouseEvent) {
+    event.preventDefault();
+    try {
+      const response = await fetch("/api/logout", {
+        method: "POST",
+      });
+      if (response.ok) {
+        console.log("Logout successful");
+        sessionStorage.removeItem("username");
+        window.location.href = "/login";
+      } else {
+        console.error("Failed to log out, server returned an error.");
+      }
+    } catch (error) {
+      console.error("Failed to log out, network error:", error);
+    }
+  }
+
+  // load user from sessionStorage and update UI
+  async function loadUserFromStorage() {
+    const protectedContent = document.getElementById(
+      "protected-content",
+    ) as HTMLDivElement || null;
+    const notLogin = document.getElementById("not-login") as HTMLDivElement || null;
+    
+    try{
+      const username = sessionStorage.getItem("username");
+
+    if (username) {
+      console.log("Loaded username from sessionStorage:", username);
+      userMenuButton.textContent = username;
+      userMenuButton.addEventListener("click", toggleUserDropdown);
+      logoutLink.addEventListener("click", confirmLogout);
+      if (protectedContent) {
+        notLogin.style.display = "none";
+        protectedContent.style.display = "block";
+      }
+    } else {
+      console.log("No username found in sessionStorage, Call User API...");
+      const response = await fetch("/api/user");
+      if (response.status === 401) {
+        console.log("JWT is invalid");
+        sessionStorage.removeItem("username");
+        userMenuButton.textContent = "Login";
+        userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+        if(protectedContent && notLogin){
+          notLogin.style.display = "block";
+          protectedContent.style.display = "none";
+        }
+        // modalTitle.innerText = "😮 Opps...";
+        // modalContent.innerText = "Your login has expired, please login again!";
+        // const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+        // confirmBtn.textContent = "Login again";
+        // confirmBtn.classList.add("btn-error");
+        // confirmBtn.classList.remove("hidden");
+        // confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
+        // modal.showModal();
+        return;
+      }
+      const data: UserResponse = await response.json();
+      console.log("fetch user data>>>", data);
+
+      if (data.user) {
+        console.log("User found in server response");
+        sessionStorage.setItem("username", data.user.username);
+        userMenuButton.textContent = data.user.username;
+        userMenuButton.addEventListener("click", toggleUserDropdown);
+        logoutLink.addEventListener("click", confirmLogout);
+        if (protectedContent) {
+          notLogin.style.display = "none";
+          protectedContent.style.display = "block";
+        }
+      } else {
+        userMenuButton.textContent = "Login";
+        userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+        if(protectedContent && notLogin){
+          notLogin.style.display = "block";
+          protectedContent.style.display = "none";
+        }
+      }
+    }
+    }catch(error){
+      console.log("No user found in server response");
+      sessionStorage.removeItem("username");
+      userMenuButton.textContent = "Login";
+      // loginLink.setAttribute("href", "/login");
+      userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+      if(protectedContent && notLogin){
+        notLogin.style.display = "block";
+        protectedContent.style.display = "none";
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    loadUserFromStorage();
+  });
+</script>

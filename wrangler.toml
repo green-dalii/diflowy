@@ -14,7 +14,7 @@ database_name = "D1"
 
 [env.production.vars]
 AUTH_TRUST_HOST = "true"
-NODE_VERSION = "21.6.1"
+NODE_VERSION = "22.5.1"
 
 [[env.production.d1_databases]]
 database_id = "d0eb0e20-7dfc-4d37-834a-f68058fb8e3f"

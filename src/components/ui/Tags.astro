@@ -1,0 +1,88 @@
+---
+const tags = [
+	"Productivity",
+	"Assistant",
+	"Creative",
+	"Social Media",
+	"Finance & Business",
+	"Lifestyle & Health",
+	"Education",
+	"Entertainment",
+	"Others",
+];
+---
+
+<div class="relative block text-left sm:col-span-full">
+	<div>
+		<button
+			id="dropdownButton"
+			class="btn-secondary w-full px-4 py-2"
+			type="button"
+		>
+			Select Tags
+		</button>
+		<div
+			id="dropdownTags"
+			class="dropdown-menu hidden absolute z-10 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+		>
+			{
+				tags.map((item) => (
+					<label class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+						<input type="checkbox" class="mr-2" value={item} />
+						{item}
+					</label>
+				))
+			}
+		</div>
+	</div>
+	<div id="selectedTags" class="selected-tags"></div>
+</div>
+
+<script>
+	// Dropdown menu of Tags selector
+	const dropdownButton = document.getElementById("dropdownButton");
+	const dropdownTags = document.getElementById("dropdownTags");
+	const selectedTagsDiv = document.getElementById("selectedTags");
+	
+	if (dropdownButton && dropdownTags) {
+		dropdownButton.addEventListener("click", function (event: Event) {
+			event.stopPropagation();
+			dropdownTags.classList.toggle("hidden");
+		});
+
+		document.addEventListener("click", function (event: Event) {
+			const target = event.target as Node;
+			if (target !== dropdownButton && !dropdownTags.contains(target)) {
+				dropdownTags.classList.add("hidden");
+			}
+		});
+
+		dropdownTags.addEventListener("change", function (event: Event) {
+			const target = event.target as HTMLInputElement;
+			if (target && target.type === "checkbox") {
+				updateSelectedTags();
+			}
+		});
+
+		function updateSelectedTags() {
+			if (selectedTagsDiv && dropdownTags) {
+				selectedTagsDiv.innerHTML = "";
+				const checkboxes = dropdownTags.querySelectorAll(
+					"input[type='checkbox']:checked",
+				) as NodeListOf<HTMLInputElement>;
+				checkboxes.forEach((checkbox) => {
+					const tagValue = checkbox.value;
+					const tagElement = document.createElement("span");
+					tagElement.classList.add("tag");
+					tagElement.classList.add("text-sm");
+					tagElement.textContent = tagValue;
+					selectedTagsDiv.appendChild(tagElement);
+				});
+			}
+		}
+	} else {
+		console.error(
+			"Element with id 'dropdownButton' or 'dropdownMenu' not found.",
+		);
+	}
+</script>

@@ -1,6 +1,30 @@
-<html lang="en">
-	<body>
-		<h1>Sign in</h1>
-		<a href="/api/login/github">Sign in with GitHub</a>
-	</body>
-</html>
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+// import github from "../../assets/github.svg";
+// import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import Section from "../../components/sections/Section.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import "../../styles/globals.css";
+
+const description =
+  "You can login with your GitHub account. If you don't sign in, you can only discover and download others' workflows but can not upload your own.";
+---
+
+<MainLayout title="Login | Diflowy" description="Where Dify workflows are stored">
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="Login Diflowy" description={description} />
+      <div class="flex flex-col items-center justify-center my-32">
+        <a href="/api/login/github">
+          <button
+            class="btn-primary w-full md:w-auto inline-flex items-center gap-2"
+          >
+            <Icon name="github" class="text-4xl" />
+            <span>Continue with GitHub</span>
+          </button>
+        </a>
+      </div>
+    </Section>
+  </div>
+</MainLayout>

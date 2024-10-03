@@ -1,0 +1,103 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import DiscoverCard from "../ui/DiscoverCard.astro";
+import Section from "./Section.astro";
+
+import c1 from "../../assets/pics/card-pic1.svg";
+import c2 from "../../assets/pics/card-pic2.svg";
+import c3 from "../../assets/pics/card-pic3.svg";
+import c4 from "../../assets/pics/card-pic4.svg";
+import c5 from "../../assets/pics/card-pic5.svg";
+import c6 from "../../assets/pics/card-pic6.svg";
+import c7 from "../../assets/pics/card-pic7.svg";
+import c8 from "../../assets/pics/card-pic8.svg";
+import c9 from "../../assets/pics/card-pic9.svg";
+
+const cards = [
+  {
+    index: 1,
+    titleTop: "Productivity",
+    img: c1,
+    alt: "Productivity",
+    link: "/discover?tags=Productivity",
+  },
+  {
+    index: 2,
+    titleTop: "Assistant",
+    img: c2,
+    alt: "Assistant",
+    link: "/discover?tags=Assistant",
+  },
+  {
+    index: 3,
+    titleTop: "Creative",
+    img: c3,
+    alt: "Creative",
+    link: "/discover?tags=Creative",
+  },
+  {
+    index: 1,
+    titleTop: "Social Media",
+    img: c4,
+    alt: "Social Media",
+    link: "/discover?tags=Social Media",
+  },
+  {
+    index: 2,
+    titleTop: "Finance & Business",
+    img: c5,
+    alt: "Finance & Business",
+    link: "/discover?tags=Finance & Business",
+  },
+  {
+    index: 3,
+    titleTop: "Lifestyle & Health",
+    img: c6,
+    alt: "Lifestyle & Health",
+    link: "/discover?tags=Lifestyle & Health",
+  },
+  {
+    index: 1,
+    titleTop: "Education",
+    img: c7,
+    alt: "Education",
+    link: "/discover?tags=Education",
+  },
+  {
+    index: 2,
+    titleTop: "Entertainment",
+    img: c8,
+    alt: "Entertainment",
+    link: "/discover?tags=Entertainment",
+  },
+  {
+    index: 3,
+    titleTop: "Others",
+    img: c9,
+    alt: "Others",
+    link: "/discover?tags=Others",
+  },
+];
+
+const description =
+  "You can discover workflows by categories. Then you can Live Preview them in Diflowy.";
+---
+
+<Section>
+  <div class="mt-[140px] mb-5">
+    <SectionTitle sectionTitle="Discover" description={description} />
+    <div class="grid justify-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {
+        cards.map((card) => (
+          <DiscoverCard
+            index={card.index}
+            titleTop={card.titleTop}
+            img={card.img}
+            alt={card.alt}
+            link={card.link}
+          />
+        ))
+      }
+    </div>
+  </div>
+</Section>

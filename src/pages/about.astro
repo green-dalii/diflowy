@@ -1,0 +1,179 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import SectionTitle from "../components/ui/SectionTitle.astro";
+import Section from "../components/sections/Section.astro";
+import { Icon } from "astro-icon/components";
+import "../styles/globals.css";
+const description = "All Infomation about Diflowy";
+---
+
+<MainLayout
+  title="About | Diflowy"
+  description="Where Dify workflows are stored"
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="About Us" description={description} />
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="col-span-3 sm:col-span-1 text-3xl">Why Called Diflowy?</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
+          Difllowy means <span class="italic">Dify + Workflow</span>.
+          <br />We are a vibrant and Open-Source community dedicated to sharing
+          and discovering Dify workflows.
+          <br />We welcome all participation and contributions 👋
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-3xl">How to Cantact Us?</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
+          <ul class="list-disc space-y-2 list-inside font-light">
+            <li>
+              We welcome you to contact us by Email 👉 <span
+                class="italic underline font-medium">diflowy@greenerai.top</span
+              >
+            </li>
+            <li>
+              <div class="contents sm:inline-flex">
+                <span>All Diflowy's code is Open-Source on Github</span>
+                <span class="italic px-1"
+                  ><a
+                    href="https://github.com/green-dalii/diflowy"
+                    class="flex flex-row items-center font-medium link hover:text-dark"
+                    ><Icon
+                      name="github"
+                      class="text-lg mx-1"
+                    />green-dalii/diflow</a
+                  ></span
+                >
+              </div>
+            </li>
+            <li>
+              If you have any questions or feedback, join our <span
+                class="font-medium link hover:text-dark pl-1"
+                ><a href="https://github.com/green-dalii/diflowy/discussions"
+                  >💬 Github Discussions</a
+                ></span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-3xl">Thanks</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
+          <div class="mb-4">
+            Diflowy could not have been created without the support of the following projects:
+          </div>
+          <ul class="list-disc space-y-4 list-inside font-light text-xs">
+            <li>
+              <span
+                class="inline-block sm:inline-flex align-top sm:align-middle"
+              >
+                <a
+                  href="https://github.com/langgenius/dify"
+                  class="flex flex-row items-center font-medium link hover:text-dark mr-1"
+                  ><Icon name="github" class="mr-1 text-lg" />Dify</a
+                >
+                The Innovation Engine for GenAI Applications.
+              </span>
+            </li>
+            <li>
+              <span
+                class="inline-block sm:inline-flex align-top sm:align-middle"
+              >
+                <a
+                  href="https://github.com/langgenius/dify"
+                  class="flex flex-row items-center font-medium link hover:text-dark mr-1"
+                  ><Icon
+                    name="github"
+                    class="mr-1 text-lg"
+                  />Awesome-Dify-Workflow</a
+                >
+                Sharing some Dify workflows.
+              </span>
+            </li>
+            <li>
+              <a
+                href="https://dify101.com/"
+                class="items-center font-medium link hover:text-dark mr-1 after:content-['_↗']"
+                >Dify101</a
+              >
+              Dify tutorial: Unlock the power of Dify.ai.
+            </li>
+            <li>
+              <span
+                class="inline-block gap-1 sm:inline-flex align-top sm:align-middle"
+              >
+                <a
+                  href="https://astro.build/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >Astro</a
+                >
+                ,
+                <a
+                  href="https://tailwindcss.com/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >TailwindCSS</a
+                >
+                and
+                <a
+                  href="https://reactflow.dev/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >ReactFlow</a
+                >
+                for Website Development.
+              </span>
+            </li>
+            <li>
+              <a
+                href="https://www.cloudflare.com/"
+                class="items-center font-medium link mr-1 after:content-['_↗'] hover:text-dark"
+                >Cloudflare</a
+              >
+              for Website Hosting and Database Service.
+            </li>
+          </ul>
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-3xl">Future Work</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
+          <ul class="space-y-4 list-inside text-xs">
+            <li class="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                disabled
+                checked="checked"
+              />
+              <span>Launch Diflowy</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <input type="checkbox" class="checkbox checkbox-sm" disabled checked="checked" />
+              <span>Add workflow version control</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <input type="checkbox" class="checkbox checkbox-sm" disabled />
+              <span>Add search and filter function</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <input type="checkbox" class="checkbox checkbox-sm" disabled />
+              <span>Add i18n support</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <input type="checkbox" class="checkbox checkbox-sm" disabled />
+              <span>Apply official Dify workflow style</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <input type="checkbox" class="checkbox checkbox-sm" disabled />
+              <span
+                >Other suggestions welcome to post on <a
+                  class="link"
+                  href="https://github.com/green-dalii/diflowy/discussions"
+                  >Github Discussion</a
+                ></span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </Section>
+  </div>
+</MainLayout>

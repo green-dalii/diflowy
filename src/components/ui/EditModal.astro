@@ -1,0 +1,506 @@
+---
+import WorkflowFileInput from "./WorkflowFileInput.astro";
+import Tags from "./Tags.astro";
+import ReactFlowPreview from "../flow/ReactFlowPreview";
+---
+
+<dialog id="editModal" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box sm:w-11/12 sm:max-w-5xl">
+    <h3 id="editModalTitle" class="text-lg font-bold"></h3>
+    <div id="editModalContent" class="py-4 text-sm">
+      <!-- Edit Metadata Form -->
+      <form id="editMetaForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Column 1 -->
+        <div class="flex flex-col gap-2">
+          <div class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Workflow Name</span>
+            </div>
+            <input
+              id="editWorkflowName"
+              name="editWorkflowName"
+              type="text"
+              class="input input-bordered w-full"
+            />
+          </div>
+          <!-- Dropdown Tags -->
+          <Tags />
+          <div class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Author</span>
+            </div>
+            <input
+              id="editWorkflowAuthor"
+              name="editWorkflowAuthor"
+              type="text"
+              class="input input-bordered w-full"
+            />
+          </div>
+          <div class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Social Media / Contact Link</span>
+            </div>
+            <input
+              id="editWorkflowAuthorLink"
+              name="editWorkflowAuthorLink"
+              type="text"
+              class="input input-bordered w-full"
+            />
+          </div>
+        </div>
+        <!-- Column 2 -->
+        <div class="form-control w-full">
+          <div class="label">
+            <span class="label-text">Description</span>
+          </div>
+          <textarea
+            id="editWorkflowDescription"
+            name="editWorkflowDescription"
+            rows="15"
+            class="textarea textarea-bordered w-full"></textarea>
+        </div>
+      </form>
+      <!-- Update Version Form -->
+      <form id="updateForm" class="hidden grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- WorkFlow Update File Entrance-->
+        <div class="col-span-1 flex flex-col gap-1">
+          <div class="w-full">
+            <WorkflowFileInput />
+          </div>
+          <div>
+            <div class="label">
+              <span class="label-text">Workflow Name</span>
+            </div>
+            <input
+              id="updateWorkflowName"
+              name="updateWorkflowName"
+              type="text"
+              class="input input-bordered w-full"
+              disabled
+            />
+          </div>
+          <div>
+            <div class="label">
+              <span class="label-text">Original Latest Version</span>
+            </div>
+            <input
+              id="originalWorkflowVersion"
+              name="originalWorkflowVersion"
+              type="text"
+              class="input input-bordered w-full"
+              disabled
+            />
+          </div>
+          <!-- Version -->
+          <div>
+            <label for="version" class="text-sm font-medium leading-6"
+              >Update Version</label
+            >
+            <div class="w-full mt-2 flex rounded-md shadow-sm">
+              <span
+                class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm"
+              >
+                V
+              </span>
+              <input
+                type="number"
+                step="0.1"
+                min="0.1"
+                name="updateVersion"
+                id="updateVersionInput"
+                value="1.0"
+                class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
+                placeholder="1.0"
+              />
+            </div>
+            <p
+              id="editModalUpdateNote"
+              class="col-span-1 mt-1 text-xs leading-normal text-gray-400"
+            >
+            </p>
+          </div>
+        </div>
+        <div class="col-span-2 flex flex-col">
+          <div id="reactFlowPreview" class="h-[360px] sm:h-[500px]">
+            <ReactFlowPreview client:only="react" />
+          </div>
+          <div>
+            <small class="text-sm text-gray-400"
+              >* The above is for preview only; any changes will not affect the
+              file.</small
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button id="editConfirmBtn" class="hidden btn btn-success">Save</button>
+        <button id="updateConfirmBtn" class="hidden btn btn-success"
+          >Update Version</button
+        >
+        <button id="closeEditModalBtn" class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Process YAML ReactFlow Data
+  import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
+
+  // Utility functions
+  const showModal = (
+    title: string,
+    content: string,
+    showConfirmBtn: boolean = false,
+    btnText: string = "OK",
+    btnClass: string = "",
+  ) => {
+    modalTitle.innerText = title;
+    modalContent.innerText = content;
+    confirmBtn.classList.toggle("hidden", !showConfirmBtn);
+    confirmBtn.textContent = btnText;
+    confirmBtn.className = `btn ${btnClass}`;
+    modal.showModal();
+  };
+
+  const clearForm = (form: HTMLFormElement) => {
+    form.reset();
+    const selectedTagsTree = document.getElementById("selectedTags");
+    if (selectedTagsTree) selectedTagsTree.innerHTML = "";
+  };
+
+  const handleNetworkError = (error: Error) => {
+    console.error("Network error:", error);
+    showModal(
+      "😮 Oops...",
+      "Your network is unreachable. Please check your internet connection and try again.",
+    );
+  };
+
+  // Handle unauthorized access
+  const handleUnauthorized = () => {
+    showModal(
+      "😮 Oops...",
+      "Your login has expired, please login again!",
+      true,
+      "Login again",
+      "btn-error",
+    );
+    confirmBtn.addEventListener(
+      "click",
+      () => {
+        window.location.href = `/api/login/github?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+      },
+      { once: true },
+    );
+  };
+
+  // Validation function
+  const validateFormData = (formData: FormData): boolean => {
+    // Implement your validation logic here
+    // Return true if valid, false otherwise
+    return true; // Placeholder
+  };
+
+  // Close Edit Modal function
+  const closeEditModal = () => {
+    clearForm(editMetaForm);
+    clearForm(updateForm);
+    reactFlowPreview.classList.toggle("hidden", true);
+    editModal.close();
+  };
+
+
+  // Form submission handler
+  const handleFormSubmit = async (
+    event: Event,
+    form: HTMLFormElement,
+    url: string,
+    successMessage: string,
+  ) => {
+    event.preventDefault();
+    showModal("⏳ Processing...", "Uploading data...");
+
+    const formData = new FormData(form);
+
+    // Validate form data
+    if (!validateFormData(formData)) {
+      showModal("😮 Oops", "Please fill out all required fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch(url, { method: "POST", body: formData });
+
+      if (response.ok) {
+        showModal("🎉 Success!", successMessage);
+        clearForm(form);
+        (window as any).loadTableData(); // Reload the table data
+        editModal.close();
+      } else if (response.status === 401) {
+        handleUnauthorized();
+      } else {
+        throw new Error("Server error");
+      }
+    } catch (error) {
+      handleNetworkError(error as Error);
+    }
+  };
+
+  // Get the file input element
+  const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
+  const uploadContainer = document.getElementById(
+    "upload-container",
+  ) as HTMLElement;
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+  const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+  // Get form element
+  const editMetaForm = document.getElementById(
+    "editMetaForm",
+  ) as HTMLFormElement;
+  const updateForm = document.getElementById("updateForm") as HTMLFormElement;
+  // Get the element inside the edit modal
+  const editModalConfirmBtn = document.getElementById(
+    "editConfirmBtn",
+  ) as HTMLButtonElement;
+  const updateConfirmBtn = document.getElementById(
+    "updateConfirmBtn",
+  ) as HTMLButtonElement;
+  const closeEditModalBtn = document.getElementById(
+    "closeEditModalBtn",
+  ) as HTMLButtonElement;
+  const editModal = document.getElementById("editModal") as HTMLDialogElement;
+  const reactFlowPreview = document.getElementById(
+    "reactFlowPreview",
+  ) as HTMLDivElement;
+
+  // Function to handle file upload
+  function handleFile(event: Event | DragEvent) {
+    let file: File | undefined;
+    if ("dataTransfer" in event) {
+      // Drag and drop event
+      file = event.dataTransfer?.files[0];
+    } else if ("target" in event) {
+      // File input event
+      const target = event.target as HTMLInputElement;
+      file = target.files?.[0];
+    }
+
+    if (file) {
+      const fileIndicator = document.getElementById(
+        "fileIndicator",
+      ) as HTMLInputElement;
+      fileIndicator.innerHTML = `Selected File: <br>${file.name}`;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const target = e.target as FileReader;
+        const yamlContent = target.result as string;
+        try {
+          const { nodes, edges } = parseYamlToReactFlow(yamlContent);
+          // Update the ReactFlow component
+          if (typeof (window as any).updateReactFlow === "function") {
+            (window as any).updateReactFlow(nodes, edges);
+          } else {
+            console.error("updateReactFlow function not found");
+          }
+        } catch (error) {
+          console.error("Error parsing YAML file:", error);
+          modalTitle.innerText = "⚠️ Error";
+          modalContent.innerText =
+            "Unsupported file format. Please upload a valid Dify DSL file.";
+          modal.showModal();
+          dslfile.value = ""; // Clear the file input field
+        }
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  // Event listener for file input
+  if (dslfile) {
+    dslfile.addEventListener("change", function (event) {
+      if (event.target) {
+        handleFile(event);
+      }
+    });
+  }
+
+  // Event listener for drag and drop
+  uploadContainer.addEventListener("drop", (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadContainer.classList.remove("bg-gray-100");
+    const dragEvent = e as DragEvent;
+    if (dragEvent.dataTransfer && dragEvent.dataTransfer.files.length > 0) {
+      const file = dragEvent.dataTransfer.files[0];
+      if (file.name.endsWith(".yml") || file.name.endsWith(".yaml")) {
+        handleFile(e);
+      } else {
+        // alert("Please upload a Dify DSL file.");
+        modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "Unsupported file format. Please upload a valid Dify DSL file.";
+        modal.showModal();
+      }
+    }
+  });
+
+  // Upload Edit Meta Data of Workflow Form
+  async function handleEditMetaSubmit(event: Event) {
+    event.preventDefault();
+    // Show loading modal
+    showModal('⏳ Processing...', 'Uploading data...');
+    // Get workflowId
+    const workflowId = editMetaForm.dataset.workflowId as string;
+    // Get form data
+    const formData = new FormData(editMetaForm) as FormData;
+    const selectedTags = document.querySelectorAll(
+      ".tag",
+    ) as NodeListOf<HTMLElement>;
+    // Append data in formData
+    const editWorkflowName = document.getElementById(
+      "editWorkflowName",
+    ) as HTMLInputElement;
+    const editWorkflowDescription = document.getElementById(
+      "editWorkflowDescription",
+    ) as HTMLTextAreaElement;
+    const editWorkflowAuthor = document.getElementById(
+      "editWorkflowAuthor",
+    ) as HTMLInputElement;
+    const editWorkflowAuthorLink = document.getElementById(
+      "editWorkflowAuthorLink",
+    ) as HTMLInputElement;
+    formData.append("editWorkflowName", editWorkflowName.value);
+    formData.append("editWorkflowDescription", editWorkflowDescription.value);
+    formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
+    formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
+    // Check if all required fields are filled
+    if (
+      !formData.get("editWorkflowName") ||
+      !formData.get("editWorkflowDescription") ||
+      !formData.get("editWorkflowAuthor") ||
+      !formData.get("editWorkflowAuthorLink") ||
+      selectedTags.length === 0
+    ) {
+      showModal('😮 Oops', 'Please fill out all required fields.');
+      return;
+    }
+    // Add the selected tags to the form data
+    const selectedTagsTree = document.getElementById("selectedTags");
+    const tags: string[] = [];
+    selectedTags.forEach((tag) => {
+      tags.push(tag.textContent as string);
+    });
+    formData.append("tags", JSON.stringify(tags));
+    // Send form data to the server
+    try {
+      const response = await fetch(`/api/workflow/edit/${workflowId}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        console.log("Response>>>", response.json());
+        // close the edit modal
+        closeEditModal();
+        showModal('🎉 Success!', "Upload meta data successful!");
+        (window as any).loadTableData(); // Reload the table data
+      } else if (response.status === 401) {
+        // close the edit modal
+        closeEditModal();
+        handleUnauthorized();
+      } else {
+        // close the edit modal
+        closeEditModal();
+        showModal('😮 Oops...', 'Something went wrong in remote server. Please cantact us.');
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // close the edit modal
+      closeEditModal();
+      handleNetworkError(error as Error);
+    }
+  }
+
+  // Update Version of Workflow Form
+  async function handleUpdateSubmit(event: Event) {
+    event.preventDefault();
+    // Show loading modal
+    showModal('⏳ Processing...', 'Uploading data...');
+    // Get workflowId and workflowVersion
+    const workflowId = updateForm.dataset.workflowId as string;
+    const workflowVersion = updateForm.dataset.workflowVersion as string;
+    // Get form data
+    const formData = new FormData(updateForm) as FormData;
+    // Append data in formData
+    const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
+    const updateVersion = document.getElementById(
+      "updateVersionInput",
+    ) as HTMLInputElement;
+    // Check if all required fields are filled
+    if (dslfile.files && dslfile.files.length > 0 && updateVersion.value) {
+      if (Number(updateVersion.value) <= Number(workflowVersion)) {
+        // updateVersion is not greater than the original version
+        showModal('😮 Oops...', 'Please make sure that the update version is greater than the latest version of the original.');
+        return;
+      } else {
+        formData.append("dsl-file", dslfile.files[0]);
+        formData.append("updateVersion", updateVersion.value);
+        // Send form data to the server
+        try {
+          const response = await fetch(`/api/workflow/update/${workflowId}`, {
+            method: "POST",
+            body: formData,
+          });
+          if (response.ok) {
+            console.log("Response>>>", response.json());
+            // close the edit modal
+            closeEditModal();
+            showModal('🎉 Success!', "Upload new version successful!");
+            (window as any).loadTableData(); // Reload the table data
+          } else if (response.status === 401) {
+            // close the edit modal
+            closeEditModal();
+            handleUnauthorized();
+          } else {
+            // close the edit modal
+            closeEditModal();
+            showModal('😮 Oops...', 'Something went wrong in remote server. Please cantact us.');
+          }
+        } catch (error) {
+          console.error("Error uploading file:", error);
+          // close the edit modal
+          closeEditModal();
+          handleNetworkError(error as Error);
+        }
+      }
+    } else {
+      showModal('😮 Oops...', 'Please fill out all required fields.');
+      return;
+    }
+  }
+
+  // Add event listener to the document
+  document.addEventListener("DOMContentLoaded", () => {
+    // Add event listener to the confirm button
+    editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
+    // Add event listener to the form
+    updateConfirmBtn.addEventListener("click", handleUpdateSubmit);
+    // Add event listener to the close button
+    closeEditModalBtn.addEventListener("click", (event: Event) => {
+      event.preventDefault();
+      console.log("Edit Modal Close button clicked");
+      closeEditModal();
+    });
+  });
+</script>
