@@ -32,6 +32,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         const icon = formData.get('icon') as string;
         const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string });
         // Read the file content as binary data
+        console.log("Reading file content", dslFile, dslFile.name, typeof dslFile.arrayBuffer)
         const dslFileBuffer = await dslFile.arrayBuffer();
         const dslFileContent = new Uint8Array(dslFileBuffer);
         // generate workflow id

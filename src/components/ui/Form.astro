@@ -349,7 +349,7 @@ import Tags from "./Tags.astro";
       tags.push(tag.textContent as string);
     });
     formData.append("tags", JSON.stringify(tags));
-    // console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
+    console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
     // Send form data to the server
     try {
       const response = await fetch("/api/workflow/upload", {
