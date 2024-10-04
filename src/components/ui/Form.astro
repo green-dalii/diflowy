@@ -72,13 +72,13 @@ import Tags from "./Tags.astro";
             <label
               for="description"
               class="block text-sm font-medium leading-6"
-              >Description</label
+              >Description<small class="text-gray-400 ml-1">[Support Markdown]</small></label
             >
             <div class="mt-2">
               <textarea
                 id="description"
                 name="description"
-                rows="10"
+                rows="12"
                 class="textarea textarea-bordered w-full"
                 placeholder="Describe your workflow with a few key points, such as:
     - Introduction
@@ -88,7 +88,8 @@ import Tags from "./Tags.astro";
     - Dify Version Requirement
     - Sponsorship 
     - Copyright
-    - Others"
+    - Others
+    *Support Markdown*"
               ></textarea>
             </div>
           </div>

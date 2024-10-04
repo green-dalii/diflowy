@@ -5,7 +5,7 @@ import Section from "../../components/sections/Section.astro";
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import { Icon } from "astro-icon/components";
 import "../../styles/globals.css";
-import "../../styles/markdown.css"
+import "../../styles/markdown.css";
 const description =
   "You can view, import or download workflow you like to your Dify directly.";
 ---
@@ -84,7 +84,9 @@ const description =
           </div>
           <div>
             <h4 class="mt-10">Description</h4>
-            <article id="description" class="mt-5 markdown-body">Loading...</article>
+            <article id="description" class="mt-5 markdown-body">
+              Loading...
+            </article>
           </div>
         </div>
         <!-- Button -->
@@ -194,7 +196,7 @@ const description =
       ) as HTMLImageElement;
       const workflowDescription = document.getElementById(
         "description",
-      ) as HTMLPreElement;
+      ) as HTMLDivElement;
       const workflowTags = document.getElementById(
         "tagsarea",
       ) as HTMLDivElement;
@@ -276,8 +278,8 @@ const description =
         // Update the workflow info
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
-        workflowDescription.innerText = `${workflowObject.description}`;
-        workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
+        workflowDescription.innerText = workflowObject.description;
+        workflowAuthor.innerHTML = `Author ➤  <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact the author ➤  <span class="underline">${workflowObject.authorData.socialLink}</span>`;
         // Update the updated time
         updatedTime.innerText = `Updated: ${formatUpdateTime(workflowObject.update_time)}`;
@@ -348,17 +350,22 @@ const description =
 </script>
 <script type="module" src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
 ></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
-"></script>
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
+"
+></script>
 <script type="module">
-  marked.use({
-    pedantic: false,
-    gfm: true,
+  document.addEventListener("DOMContentLoaded", () => {
+    marked.use({
+      pedantic: false,
+      gfm: true,
+    });
+    const workflowDescription = document.getElementById("description");
+    if (workflowDescription) {
+      workflowDescription.innerHTML = marked.parse(
+        DOMPurify.sanitize(workflowDescription.innerText),
+      );
+    }
   });
-  const workflowDescription = document.getElementById("description");
-  if (workflowDescription) {
-    workflowDescription.innerHTML = marked.parse(
-      DOMPurify.sanitize(workflowDescription.innerHTML),
-    );
-  }
 </script>
