@@ -279,7 +279,7 @@ const description =
       });
 
       // Function for updating workflow page
-      async function updateWorkflow(workflowObject: WorkflowContentResponse) {
+      function updateWorkflow(workflowObject: WorkflowContentResponse) {
         // Update the current workflow object
         currentWorkflowObject = workflowObject;
         // Update the workflow info
@@ -287,7 +287,7 @@ const description =
         workflowName.innerText = workflowObject.name;
         // Update the description with Markdown formatting
         let markdownContent = marked.parse(workflowObject.description);
-        workflowDescription.innerHTML = await DOMPurify.sanitize(markdownContent);
+        workflowDescription.innerHTML = DOMPurify.sanitize(markdownContent) as string;
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
         // Update the updated time
