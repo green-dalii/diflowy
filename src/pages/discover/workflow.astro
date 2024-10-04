@@ -286,8 +286,9 @@ const description =
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
         // Update the description with Markdown formatting
-        let markdownContent = marked.parse(workflowObject.description);
+        let markdownContent = marked.parse(workflowObject.description, {async: false}) as string;
         workflowDescription.innerHTML = DOMPurify.sanitize(markdownContent) as string;
+        // Update the author info
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
         // Update the updated time
