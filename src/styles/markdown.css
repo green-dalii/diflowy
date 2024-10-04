@@ -78,7 +78,7 @@
       --fgColor-attention: #9a6700;
       --fgColor-danger: #d1242f;
       --fgColor-done: #8250df;
-      --bgColor-default: #ffffff;
+      --bgColor-default: transparent;
       --bgColor-muted: #f6f8fa;
       --bgColor-neutral-muted: #818b981f;
       --bgColor-attention-muted: #fff8c5;
@@ -130,7 +130,7 @@
     color: var(--fgColor-default);
     background-color: var(--bgColor-default);
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.7;
     word-wrap: break-word;
     scroll-behavior: auto !important;
@@ -428,7 +428,7 @@
   .markdown-body p {
     margin-top: 0;
     margin-bottom: 10px;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
   
   .markdown-body blockquote {
