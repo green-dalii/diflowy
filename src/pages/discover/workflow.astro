@@ -41,9 +41,14 @@ const description =
               <h3 id="workflowname" class="">Loading...</h3>
             </div>
             <div class="flex flex-col space-y-2 mt-5">
-              <div id="author" class="text-xs text-gray-400 font-medium">@Author</div>
-              <div id="authorInfo" class="text-xs text-gray-400 font-thin italic">
-                Contact Author‣ 
+              <div id="author" class="text-xs text-gray-400 font-medium">
+                @Author
+              </div>
+              <div
+                id="authorInfo"
+                class="text-xs text-gray-400 font-thin italic"
+              >
+                Contact Author‣
               </div>
             </div>
             <div class="mt-5 grid grid-cols-2 items-center gap-4">
@@ -61,12 +66,10 @@ const description =
               </div>
               <div class="flex flex-row items-center space-x-1">
                 <Icon name="update" class="text-sm" />
-                <div id="updated_time" class="text-xs">
-                  Updated Loading...
-                </div>
+                <div id="updated_time" class="text-xs">Updated Loading...</div>
               </div>
             </div>
-            <div id="tagsarea" class="mt-10"></div>
+            <div id="tagsarea" class="mt-5"></div>
             <div class="mt-20">
               <h4>👁️ Before You Use</h4>
               <ul
@@ -80,35 +83,35 @@ const description =
                   You might need to modify the workflow to fit your needs.
                 </li>
                 <li>
-                  If this workflow is being shared without the author's permission or copyright, please contact us
-                  immediately.
+                  If this workflow is being shared without the author's
+                  permission or copyright, please contact us immediately.
                 </li>
                 <li>If you find it useful, remember to thank the author!</li>
               </ul>
             </div>
+            <!-- Button -->
+            <div
+              class="w-full flex flex-col sm:flex-row items-center gap-4 mt-32"
+            >
+              <button
+                id="copyButton"
+                class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
+              >
+                <Icon name="import" class="text-2xl mr-1" />Import to Dify
+              </button>
+              <button
+                id="downloadButton"
+                class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                ><Icon name="download" class="text-2xl mr-1" />Download</button
+              >
+            </div>
           </div>
           <div>
-            <h4 class="mt-10 mb-5">Description</h4>
+            <h3 class="mt-10 mb-5">Description</h3>
             <article id="description" class="mt-5 markdown-body">
               Loading...
             </article>
           </div>
-        </div>
-        <!-- Button -->
-        <div
-          class="w-full sm:w-1/2 flex flex-col sm:flex-row items-center justify-end gap-4 mt-32"
-        >
-          <button
-            id="copyButton"
-            class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
-          >
-            <Icon name="import" class="text-2xl mr-1" />Import to your Dify
-          </button>
-          <button
-            id="downloadButton"
-            class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            ><Icon name="download" class="text-2xl mr-1" />Download</button
-          >
         </div>
       </div>
     </Section>
@@ -119,7 +122,7 @@ const description =
   import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
   import { formatUpdateTime } from "../../utils/tools";
   import { marked } from "marked";
-  import DOMPurify from 'isomorphic-dompurify';
+  import DOMPurify from "isomorphic-dompurify";
 
   const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-4" />`;
   interface WorkflowContentResponse {
@@ -286,8 +289,12 @@ const description =
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
         // Update the description with Markdown formatting
-        let markdownContent = marked.parse(workflowObject.description, {async: false}) as string;
-        workflowDescription.innerHTML = DOMPurify.sanitize(markdownContent) as string;
+        let markdownContent = marked.parse(workflowObject.description, {
+          async: false,
+        }) as string;
+        workflowDescription.innerHTML = DOMPurify.sanitize(
+          markdownContent,
+        ) as string;
         // Update the author info
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
