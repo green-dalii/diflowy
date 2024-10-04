@@ -5,6 +5,7 @@ import Section from "../../components/sections/Section.astro";
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import { Icon } from "astro-icon/components";
 import "../../styles/globals.css";
+import "../../styles/markdown.css";
 const description =
   "You can view, import or download workflow you like to your Dify directly.";
 ---
@@ -40,14 +41,17 @@ const description =
               <h3 id="workflowname" class="">Loading...</h3>
             </div>
             <div class="flex flex-col space-y-2 mt-5">
-              <div id="author" class="text-sm">@Author</div>
-              <div id="authorInfo" class="text-xs italic">
-                Contact the author ➤
+              <div id="author" class="text-xs text-gray-400 font-medium">@Author</div>
+              <div id="authorInfo" class="text-xs text-gray-400 font-thin italic">
+                Contact Author‣ 
               </div>
             </div>
             <div class="mt-5 grid grid-cols-2 items-center gap-4">
               <div class="flex flex-row space-x-2 items-center">
-                <div class="text-xs">Version</div>
+                <div class="flex flex-row items-center space-x-1">
+                  <Icon name="rocket" class="text-sm" />
+                  <div class="text-xs">Version</div>
+                </div>
                 <select
                   id="version"
                   class="select select-bordered select-xs w-full max-w-xs"
@@ -55,8 +59,11 @@ const description =
                   <option>Loading...</option>
                 </select>
               </div>
-              <div id="updated_time" class="text-xs">
-                Last Updated: Loading...
+              <div class="flex flex-row items-center space-x-1">
+                <Icon name="update" class="text-sm" />
+                <div id="updated_time" class="text-xs">
+                  Updated Loading...
+                </div>
               </div>
             </div>
             <div id="tagsarea" class="mt-10"></div>
@@ -65,30 +72,26 @@ const description =
               <ul
                 class="list-disc list-inside mt-2 text-xs text-gray-500 space-y-2"
               >
-                <li>Please ensure the security of this workflow.</li>
+                <li>Please check the security of the workflow.</li>
                 <li>
-                  You might need to replace the LLM and API keys with your own
-                  in the workflow.
+                  You might need to replace the LLM or API keys with yours.
                 </li>
                 <li>
-                  Feel free to modify the workflow content to fit your needs.
+                  You might need to modify the workflow to fit your needs.
                 </li>
                 <li>
-                  If sharing this workflow is unauthorized, please contact us
+                  If this workflow is being shared without the author's permission or copyright, please contact us
                   immediately.
                 </li>
-                <li>If you find it useful, remember to thank the author 🫡</li>
+                <li>If you find it useful, remember to thank the author!</li>
               </ul>
             </div>
           </div>
           <div>
-            <h4 id="workflowname" class="mt-10">Description</h4>
-            <p
-              id="description"
-              class="text-sm text-gray-500 leading-relaxed mt-5"
-            >
+            <h4 class="mt-10 mb-5">Description</h4>
+            <article id="description" class="mt-5 markdown-body">
               Loading...
-            </p>
+            </article>
           </div>
         </div>
         <!-- Button -->
@@ -115,6 +118,8 @@ const description =
 <script>
   import { parseYamlToReactFlow } from "../../components/flow/yamlParser";
   import { formatUpdateTime } from "../../utils/tools";
+  import marked from "marked";
+  import DOMPurify from 'isomorphic-dompurify';
 
   const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-4" />`;
   interface WorkflowContentResponse {
@@ -198,7 +203,7 @@ const description =
       ) as HTMLImageElement;
       const workflowDescription = document.getElementById(
         "description",
-      ) as HTMLParagraphElement;
+      ) as HTMLElement;
       const workflowTags = document.getElementById(
         "tagsarea",
       ) as HTMLDivElement;
@@ -280,11 +285,13 @@ const description =
         // Update the workflow info
         workflowIcon.innerText = workflowObject.icon;
         workflowName.innerText = workflowObject.name;
-        workflowDescription.innerText = workflowObject.description;
-        workflowAuthor.innerHTML = `Author: <span class="font-semibold">${workflowObject.authorData.authorName}</span>`;
-        workflowAuthorInfo.innerHTML = `Contact the author ➤  <span class="underline">${workflowObject.authorData.socialLink}</span>`;
+        // Update the description with Markdown formatting
+        let markdownContent = marked.parse(workflowObject.description);
+        workflowDescription.innerHTML = DOMPurify.sanitize(markdownContent);
+        workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
+        workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
         // Update the updated time
-        updatedTime.innerText = `Updated: ${formatUpdateTime(workflowObject.update_time)}`;
+        updatedTime.innerText = `Updated ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select
         version.innerHTML = workflowObject.versions
           .map((version: string, index: number) => {

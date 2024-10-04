@@ -72,13 +72,13 @@ import Tags from "./Tags.astro";
             <label
               for="description"
               class="block text-sm font-medium leading-6"
-              >Description</label
+              >Description<small class="text-gray-400 ml-1">[Support Markdown]</small></label
             >
             <div class="mt-2">
               <textarea
                 id="description"
                 name="description"
-                rows="10"
+                rows="12"
                 class="textarea textarea-bordered w-full"
                 placeholder="Describe your workflow with a few key points, such as:
     - Introduction
@@ -88,7 +88,8 @@ import Tags from "./Tags.astro";
     - Dify Version Requirement
     - Sponsorship 
     - Copyright
-    - Others"
+    - Others
+    *Support Markdown*"
               ></textarea>
             </div>
           </div>
@@ -349,7 +350,7 @@ import Tags from "./Tags.astro";
       tags.push(tag.textContent as string);
     });
     formData.append("tags", JSON.stringify(tags));
-    // console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
+    console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
     // Send form data to the server
     try {
       const response = await fetch("/api/workflow/upload", {
