@@ -37,7 +37,7 @@
         for="dsl-file"
         class="relative cursor-pointer rounded-md bg-white dark:bg-[--darkbgoffset] font-semibold text-[--dark] focus-within:outline-none focus-within:ring-2 focus-within:[--dark] focus-within:ring-offset-2 hover:text-[--color-blue]"
       >
-        <span>Click here to Upload</span>
+        <span>Click here to select</span>
         <input
           id="dsl-file"
           name="dsl-file"
@@ -46,10 +46,11 @@
           accept=".yml,.yaml,application/yaml"
         />
       </label>
-      <p class="pl-1">or drag and drop</p>
+      <p class="pl-1">or Drag in a file to upload</p>
     </div>
-    <p id="fileIndicator" class="text-xs leading-5 text-gray-600">
+    <p id="fileIndicator" class="text-xs leading-5 text-gray-600 mt-2">
       Requirement: Dify DSL Workflow File(.yml)
+      <br />Upload only one file at a time
     </p>
   </div>
 </div>

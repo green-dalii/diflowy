@@ -443,6 +443,7 @@
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 2em;
+    list-style-type: disc;
   }
   
   .markdown-body ol ol,

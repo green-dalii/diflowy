@@ -160,7 +160,8 @@
       cursor: pointer;
     }
     .dropdown-menu label:hover {
-      background-color: #a9a9a9;
+      background-color: var(--blue);
+      color: var(--dark);
     }
     .selected-tags {
       margin-top: 10px;
