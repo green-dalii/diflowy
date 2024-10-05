@@ -21,6 +21,10 @@ export interface YamlData {
           };
           sourcePosition: string;
           targetPosition: string;
+          width?: number;
+          height?: number;
+          zIndex?: number;
+          parentId?: string;
         }>;
         edges: Array<{
           id: string;
@@ -33,7 +37,9 @@ export interface YamlData {
   
   export function parseYamlToReactFlow(yamlContent: string): { nodes: any[]; edges: any[] } {
     const yamlData = jsyaml.load(yamlContent) as YamlData;
-    const nodes = yamlData.workflow.graph.nodes.map((node) => ({
+    const nodes = yamlData.workflow.graph.nodes
+    .filter((node) => node.data.type !== '')    // 过滤掉 type 为空的节点，比如标签节点
+    .map((node) => ({
       id: node.id,
       position: node.position,
       data: { 
@@ -41,10 +47,14 @@ export interface YamlData {
         description: node.data.desc,
         nodeType: node.data.type,
         model: node.data.model ? node.data.model.name : undefined,
+        width: node.width,
+        height: node.height,
+        zIndex: node.zIndex,
       },
       type: "custom",
       sourcePosition: node.sourcePosition,
       targetPosition: node.targetPosition,
+      parentId: node.parentId,
     }));
     const edges = yamlData.workflow.graph.edges.map((edge) => ({
       id: edge.id,

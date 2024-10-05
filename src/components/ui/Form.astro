@@ -9,16 +9,12 @@ import Tags from "./Tags.astro";
     <div class="sm:col-span-2 sm:col-start-1">
       <!-- Basic Info`` -->
       <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-xl font-semibold leading-7">
-          Workflow Information
-        </h2>
+        <h2 class="text-xl font-semibold leading-7">Workflow Information</h2>
         <!-- Basic info -->
         <div class="grid grid-cols-1 gap-2">
           <!-- WorkFlow File -->
           <div class="sm:col-span-full">
-            <label
-              for="dsl-file"
-              class="block text-sm font-medium leading-6"
+            <label for="dsl-file" class="block text-sm font-medium leading-6"
               >Upload your Dify Workflow file</label
             >
             <WorkflowFileInput />
@@ -27,8 +23,7 @@ import Tags from "./Tags.astro";
           <div class="sm:col-span-full">
             <label
               for="workflowname"
-              class="block text-sm font-medium leading-6"
-              >Workflow Name</label
+              class="block text-sm font-medium leading-6">Workflow Name</label
             >
             <div class="mt-2">
               <div class="flex items-center">
@@ -38,17 +33,21 @@ import Tags from "./Tags.astro";
                   name="workflowname"
                   id="workflowname"
                   autocomplete="workflowname"
-                  class="input input-bordered w-full max-w-xs"
-                  placeholder="Workflow Name",
+                  class="input input-bordered w-full"
+                  placeholder="Workflow Name"
                 />
               </div>
             </div>
           </div>
           <!-- Version -->
           <div class="sm:col-span-full">
-            <label for="version" class="block text-sm font-medium leading-6">Version Control</label>
+            <label for="version" class="block text-sm font-medium leading-6"
+              >Version Control</label
+            >
             <div class="mt-2 flex rounded-md shadow-sm">
-              <span class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm">
+              <span
+                class="inline-flex italic items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 dark:bg-[--darkbgoffset] text-gray-500 text-sm"
+              >
                 V
               </span>
               <input
@@ -58,21 +57,27 @@ import Tags from "./Tags.astro";
                 name="version"
                 id="version"
                 value="1.0"
-                class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
+                class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 bg-transparent sm:text-sm"
                 placeholder="1.0"
-              >
+              />
             </div>
             <p class="mt-1 text-xs leading-normal text-gray-400">
-              ⚠️ Note: This section is for uploading the initial version of your workflow. We recommend labeling it as <span class="font-semibold">v1.0</span>.
-              <br>For any future updates, you can visit the <a href="/user" class="link font-semibold hover:text-dark">► User Center</a> to upload newer versions.
+              ⚠️ Note: This section is for uploading the initial version of your
+              workflow. We recommend labeling it as <span class="font-semibold"
+                >v1.0</span
+              >.
+              <br />For any future updates, you can visit the <a
+                href="/user"
+                class="link font-semibold hover:text-dark">► User Center</a
+              > to upload newer versions.
             </p>
           </div>
           <!-- Description -->
           <div class="sm:col-span-full">
-            <label
-              for="description"
-              class="block text-sm font-medium leading-6"
-              >Description<small class="text-gray-400 ml-1">[Support Markdown]</small></label
+            <label for="description" class="block text-sm font-medium leading-6"
+              >Description<small class="text-gray-400 ml-1"
+                >[Support Markdown]</small
+              ></label
             >
             <div class="mt-2">
               <textarea
@@ -101,9 +106,7 @@ import Tags from "./Tags.astro";
       <div class="border-b border-gray-900/10 pb-12">
         <div class="mt-5 grid grid-cols-1">
           <div class="sm:col-span-full">
-            <label
-              for="author-name"
-              class="block text-sm font-medium leading-6"
+            <label for="author-name" class="block text-sm font-medium leading-6"
               >Author name</label
             >
             <div class="mt-2">
@@ -117,9 +120,7 @@ import Tags from "./Tags.astro";
             </div>
           </div>
           <div class="mt-4 sm:col-span-full">
-            <label
-              for="social-link"
-              class="block text-sm font-medium leading-6"
+            <label for="social-link" class="block text-sm font-medium leading-6"
               >Social Media / Contact Link</label
             >
             <div class="mt-2">
@@ -131,20 +132,18 @@ import Tags from "./Tags.astro";
               />
             </div>
             <div class="mt-1">
-              <p class="text-xs leading-5 text-gray-400">Please enter author's social account username or URL. <br>Include the social platform name after the account username. For example:</p>
-              <ul class="list-disc list-inside text-xs text-gray-400 break-all leading-5">
-                <li>
-                  @username(Twitter/Instagram/Tiktok/Github/LinkedIn)
-                </li>
-                <li>
-                  facebook.com/username
-                </li>
-                <li>
-                  http://website.com
-                </li>
-                <li>
-                  authorEmail@example.com
-                </li>
+              <p class="text-xs leading-5 text-gray-400">
+                Please enter author's social account username or URL. <br
+                />Include the social platform name after the account username.
+                For example:
+              </p>
+              <ul
+                class="list-disc list-inside text-xs text-gray-400 break-all leading-5"
+              >
+                <li>@username(Twitter/Instagram/Tiktok/Github/LinkedIn)</li>
+                <li>facebook.com/username</li>
+                <li>http://website.com</li>
+                <li>authorEmail@example.com</li>
               </ul>
             </div>
           </div>
@@ -152,18 +151,20 @@ import Tags from "./Tags.astro";
       </div>
       <!-- Notifications -->
       <div class="border-b border-gray-900/10 pb-4">
-        <h2 class="text-base font-semibold leading-7">
-          🔔 Notifications
-        </h2>
+        <h2 class="text-base font-semibold leading-7">🔔 Notifications</h2>
         <ul class="list-disc list-inside text-xs">
           <li class="leading-6 text-gray-600">
-            Please complete the above fields in detail for the benefit of others.
+            Please complete the above fields in detail for the benefit of
+            others.
           </li>
           <li class="leading-6 text-gray-600">
-            Please confirm that you are the author and willing to share this workflow, or that it is freely shareable, and provide complete author information.
+            Please confirm that you are the author and willing to share this
+            workflow, or that it is freely shareable, and provide complete
+            author information.
           </li>
           <li class="leading-6 text-gray-600">
-            Ensure there is no private information (API keys, environment variables, etc.) before uploading.
+            Ensure there is no private information (API keys, environment
+            variables, etc.) before uploading.
           </li>
         </ul>
       </div>
@@ -176,16 +177,18 @@ import Tags from "./Tags.astro";
         >
       </div>
     </div>
-    <div id="reactflow-preview" class="mt-8 sm:mt-0 sm:col-span-4 sm:col-start-3">
-      <h2 class="text-xl font-semibold leading-7">
-        Workflow Preview
-      </h2>
+    <div
+      id="reactflow-preview"
+      class="mt-8 sm:mt-0 sm:col-span-4 sm:col-start-3"
+    >
+      <h2 class="text-xl font-semibold leading-7">Workflow Preview</h2>
       <div class="w-full h-[500px] sm:h-[600px]">
         <ReactFlowPreview client:only="react" />
       </div>
       <div>
         <small class="text-sm text-gray-400"
-          >* The above is for preview only, any changes will not affect the file.</small
+          >* The above is for preview only, any changes will not affect the
+          file.</small
         >
       </div>
     </div>
@@ -196,7 +199,6 @@ import Tags from "./Tags.astro";
   /// <reference path="../../env.d.ts" />
   // Process YAML ReactFlow Data
   import { parseYamlToReactFlow, paresYamlToJSON } from "../flow/yamlParser.ts";
-  import * as emoji from "node-emoji";
   const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
   const uploadContainer = document.getElementById(
     "upload-container",
@@ -232,9 +234,11 @@ import Tags from "./Tags.astro";
       ) as HTMLTextAreaElement;
       const workflow_icon = document.getElementById(
         "workflowIcon",
+      ) as HTMLDivElement;
+      const fileIndicator = document.getElementById(
+        "fileIndicator",
       ) as HTMLInputElement;
-      const fileIndicator = document.getElementById("fileIndicator") as HTMLInputElement;
-      fileIndicator.innerHTML = `Selected File: <br>${file.name}`
+      fileIndicator.innerHTML = `Selected File: <br><span class="font-semibold text-base">${file.name}</span>`;
       const reader = new FileReader();
       reader.onload = function (e) {
         const target = e.target as FileReader;
@@ -243,8 +247,7 @@ import Tags from "./Tags.astro";
           const yamlData = paresYamlToJSON(yamlContent);
           workflow_name.value = yamlData.app.name;
           description.value = yamlData.app.description;
-          workflow_icon.innerText =
-            (emoji.get(yamlData.app.icon) as string) || "😃";
+          workflow_icon.innerText = yamlData.app.icon || "😃";
           // console.log("yamlData loaded");
           const { nodes, edges } = parseYamlToReactFlow(yamlContent);
           // Update the ReactFlow component
@@ -309,6 +312,12 @@ import Tags from "./Tags.astro";
     "modalContent",
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+  // Get the file indicator
+  const fileIndicator = document.getElementById(
+    "fileIndicator",
+  ) as HTMLInputElement;
+  // Get the file input
+  const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
 
   // Upload Form
   const form = document.getElementById("uploadForm") as HTMLFormElement;
@@ -332,72 +341,90 @@ import Tags from "./Tags.astro";
       !formData.get("social-link") ||
       selectedTags.length === 0
     ) {
-      // alert("Please fill out all required fields.");
       modalTitle.innerText = "😮 Opps";
       modalContent.innerText = "Please fill out all required fields.";
       modal.showModal();
       return;
-    }
-    // Add Icon to form data
-    const workflow_icon = document.getElementById(
-      "workflowIcon",
-    ) as HTMLInputElement;
-    formData.append("icon", workflow_icon.innerText);
-    // Add the selected tags to the form data
-    const selectedTagsTree = document.getElementById("selectedTags");
-    const tags: string[] = [];
-    selectedTags.forEach((tag) => {
-      tags.push(tag.textContent as string);
-    });
-    formData.append("tags", JSON.stringify(tags));
-    console.log("FormData>>>", formData.get("tags"), formData.get("dsl-file"));
-    // Send form data to the server
-    try {
-      const response = await fetch("/api/workflow/upload", {
-        method: "POST",
-        body: formData,
+    } else {
+      // Required fields are filled, proceed with form submission
+      // Add Icon to form data
+      const workflow_icon = document.getElementById(
+        "workflowIcon",
+      ) as HTMLInputElement;
+      formData.append("icon", workflow_icon.innerText);
+      // Add the selected tags to the form data
+      const selectedTagsTree = document.getElementById("selectedTags");
+      const tags: string[] = [];
+      selectedTags.forEach((tag) => {
+        tags.push(tag.textContent as string);
       });
-      if (response.ok) {
-        console.log("Response>>>", response.json());
-        // alert("Upload successful!");
-        modalTitle.innerText = "🎉 Tada!";
-        modalContent.innerText = "Upload successful!";
-        confirmBtn.classList.toggle("hidden", true);
-        modal.showModal();
-        // Clear the form
-        form.reset();
-        // Clear the selected tags
-        selectedTagsTree!.innerHTML = "";
-      } else if (response.status === 401) {
-        // alert("Before you upload, please login first.");
-        modalTitle.innerText = "😮 Opps...";
-        modalContent.innerText = "Your login has expired, please login again!";
-        confirmBtn.textContent = "Login again";
-        confirmBtn.classList.toggle("btn-error", true);
-        confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.addEventListener("click", (event: Event) => {
-          event.preventDefault();
-          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+      formData.append("tags", JSON.stringify(tags));
+      console.log(
+        "FormData>>>",
+        formData.get("tags"),
+        formData.get("dsl-file"),
+      );
+      // Send form data to the server
+      try {
+        const response = await fetch("/api/workflow/upload", {
+          method: "POST",
+          body: formData,
         });
-        modal.showModal();
-      } else {
+        if (response.ok) {
+          console.log("Response>>>", response.json());
+          // alert("Upload successful!");
+          modalTitle.innerText = "🎉 Tada!";
+          modalContent.innerText = "Upload successful!";
+          confirmBtn.classList.toggle("hidden", true);
+          modal.showModal();
+          // Reset the fileIndicator
+          fileIndicator.innerText = "Requirement: Dify DSL Workflow File(.yml)";
+          // Reset the workflow icon
+          workflow_icon.innerText = "🫣";
+          // Clear the form
+          form.reset();
+          // Clear the file input
+          dslfile.value = "";
+          // Clear the selected tags
+          selectedTagsTree!.innerHTML = "";
+        } else if (response.status === 401) {
+          // alert("Before you upload, please login first.");
+          modalTitle.innerText = "😮 Opps...";
+          modalContent.innerText =
+            "Your login has expired, please login again!";
+          confirmBtn.textContent = "Login again";
+          confirmBtn.classList.toggle("btn-error", true);
+          confirmBtn.classList.toggle("hidden", false);
+          confirmBtn.addEventListener("click", (event: Event) => {
+            event.preventDefault();
+            window.location.href =
+              "/api/login/github?redirect=" +
+              encodeURIComponent(
+                window.location.pathname + window.location.search,
+              );
+          });
+          modal.showModal();
+        } else {
+          // alert(
+          //   "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top",
+          // );
+          modalTitle.innerText = "😮 Opps...";
+          confirmBtn.classList.toggle("hidden", true);
+          modalContent.innerText =
+            "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
+          modal.showModal();
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
         // alert(
-        //   "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top",
+        //   "Your network is unreachable. Please check your internet connection and try again.",
         // );
         modalTitle.innerText = "😮 Opps...";
         confirmBtn.classList.toggle("hidden", true);
-        modalContent.innerText = "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
+        modalContent.innerText =
+          "Your network is unreachable. Please check your internet connection and try again.";
         modal.showModal();
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      // alert(
-      //   "Your network is unreachable. Please check your internet connection and try again.",
-      // );
-      modalTitle.innerText = "😮 Opps...";
-      confirmBtn.classList.toggle("hidden", true);
-      modalContent.innerText = "Your network is unreachable. Please check your internet connection and try again.";
-      modal.showModal();
     }
   }
   // Add event listener to the form
