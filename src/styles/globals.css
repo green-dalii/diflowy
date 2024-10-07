@@ -66,9 +66,9 @@
 
     @media screen and (min-width: 1024px) {
       .header {
-        backdrop-filter: saturate(180%) blur(20px);
-        background-color: rgba(255, 255, 255, 0.7);
-        /* border-color: rgba(215, 215, 215, 0.7); */
+        backdrop-filter: saturate(60%) blur(20px);
+        background-color: #ffffff1a;
+        border-color: rgba(215, 215, 215, 0.2);
         border-bottom-width: thin;
       }
     }

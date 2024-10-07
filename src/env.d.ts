@@ -10,6 +10,13 @@ declare namespace App {
 declare module globalThis {
 	interface Window {
 		updateReactFlow?: (nodes: any[], edges: any[]) => void;
+		Color4Bg: {
+			AmbientLightBg: new (options: {
+				dom: string;
+				colors: string[];
+				loop: boolean;
+			}) => any;
+		};
 	}
 }
 

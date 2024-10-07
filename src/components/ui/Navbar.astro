@@ -25,7 +25,7 @@ const navLinks = [
 ---
 <!-- Navbar -->
 <div
-  class="fixed w-full top-0 z-10 py-3 px-5 h-auto flex items-center justify-center header lg:dark:bg-[#1c232aa7] dark:bg-[#1c232a] dark:border-[#3950668a]"
+  class="fixed w-full top-0 z-10 py-3 px-5 h-auto flex items-center justify-center header lg:dark:bg-[#1c232a6b] dark:bg-[#1c232a] dark:border-[#39506669]"
 >
   <nav
     aria-label="Main Navigation"
@@ -72,7 +72,7 @@ const navLinks = [
               <a
                 id={link.name}
                 href={link.href}
-                class="block text-base text-center dark:text-white hover:text-dark dark:hover:text-blue"
+                class="block text-base text-center text-dark hover:text-black dark:text-white dark:hover:text-blue"
               >
                 {link.name}
               </a>
@@ -85,7 +85,7 @@ const navLinks = [
     <!-- Login -->
     <div class="inline-block w-full lg:w-auto">
       <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
-        <button class="btn-secondary w-full xl:w-auto py-2" id="user-menu-button">Login</button>
+        <button class="btn-secondary w-full xl:w-auto py-2 text-dark border-dark dark:text-white dark:border-white" id="user-menu-button">Login</button>
       </div>
     </div>
   </div>
