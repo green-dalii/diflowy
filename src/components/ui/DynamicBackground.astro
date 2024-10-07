@@ -1,0 +1,26 @@
+<div id="box" class="absolute inset-0 -z-10"></div>
+
+<script>
+    import "../../utils/AmbientLightBg.min.js";
+    document.addEventListener("DOMContentLoaded", () => {
+        if (
+            typeof (window as any).Color4Bg !== "undefined" &&
+            (window as any).Color4Bg.AmbientLightBg
+        ) {
+            let colorbg = new (window as any).Color4Bg.AmbientLightBg({
+                dom: "box",
+                colors: [
+                    "#007FFE",
+                    "#3099FE",
+                    "#60B2FE",
+                    "#90CCFE",
+                    "#C0E5FE",
+                    "#F0FFFE",
+                ],
+                loop: true,
+            });
+        } else {
+            console.error("Color4Bg is not available");
+        }
+    });
+</script>
