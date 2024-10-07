@@ -82,11 +82,11 @@ import ReactFlowComponent from "../flow/ReactFlowComponent";
   setInterval(changeWord, 1500); // change every 1.5 seconds
   changeWord();
 </script>
-<script src="../../utils/AmbientLightBg.min.js"></script>
-<script>
+<script type="module">
+  import { AmbientLightBg } from "/jsm/AmbientLightBg.module.js"
   document.addEventListener('DOMContentLoaded', () => {
-    if (typeof (window as any).Color4Bg !== 'undefined' && (window as any).Color4Bg.AmbientLightBg) {
-      let colorbg = new (window as any).Color4Bg.AmbientLightBg({
+    if (AmbientLightBg) {
+      let colorbg = new AmbientLightBg({
         dom: "box",
         colors: ["#007FFE","#3099FE","#60B2FE","#90CCFE","#C0E5FE","#F0FFFE"],
         loop: true
