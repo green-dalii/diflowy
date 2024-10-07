@@ -1,6 +1,6 @@
 # Diflowy
 
-> Share, Discover, Download Dify Workflows
+> Explore, Share, Download Dify Workflows in Diflowy.
 
 ### [🌐 Visit Now → Diflowy](https://diflowy.greenerai.top/)
 
