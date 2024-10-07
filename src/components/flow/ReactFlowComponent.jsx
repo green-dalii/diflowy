@@ -50,7 +50,7 @@ const initialNodes = [
     {
         id: '5',
         type: 'custom',
-        data: { label: <div><img src="dify.png" alt="difyLogo" style={{maxHeight: "1.8em"}}/></div>, icon: '🤩' },
+        data: { label: <div><img src="dify.png" alt="difyLogo" style={{maxHeight: "1.8em"}}/></div>, icon: '⭐️' },
         position: { x: 320, y: 140 },
         justify: 'center',
         align: 'center',
@@ -60,8 +60,8 @@ const initialNodes = [
     {
         id: '6',
         type: 'custom',
-        data: { label: <div><img src="brand.svg" alt="diflowyLogo" style={{maxHeight: "1.8em", minWidth: "5.5em"}}/></div>, icon: '⭐️' },
-        position: { x: 560, y: 110 },
+        data: { label: <div><img src="brand.svg" alt="diflowyLogo" style={{maxHeight: "1.8em", minWidth: "5.5em"}}/></div>, icon: '🤩' },
+        position: { x: 560, y: 70 },
         sourcePosition: 'right',
         targetPosition: 'left',
     },
