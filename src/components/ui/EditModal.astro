@@ -21,6 +21,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
               name="editWorkflowName"
               type="text"
               class="input input-bordered w-full"
+              required="required"
             />
           </div>
           <!-- Dropdown Tags -->
@@ -34,6 +35,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
               name="editWorkflowAuthor"
               type="text"
               class="input input-bordered w-full"
+              required="required"
             />
           </div>
           <div class="form-control w-full">
@@ -45,6 +47,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
               name="editWorkflowAuthorLink"
               type="text"
               class="input input-bordered w-full"
+              required="required"
             />
           </div>
         </div>
@@ -57,7 +60,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
             id="editWorkflowDescription"
             name="editWorkflowDescription"
             rows="15"
-            class="textarea textarea-bordered w-full"></textarea>
+            class="textarea textarea-bordered w-full"
+            required="required"
+          ></textarea>
         </div>
       </form>
       <!-- Update Version Form -->
@@ -111,6 +116,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
                 value="1.0"
                 class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 sm:text-sm"
                 placeholder="1.0"
+                required="required"
               />
             </div>
             <p
