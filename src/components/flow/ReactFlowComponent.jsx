@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import '../../styles/workflowLangding.css'
 import CustomNode from './CustomNode_Landing';
 
 const nodeTypes = {
