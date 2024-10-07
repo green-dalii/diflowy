@@ -32,7 +32,7 @@ const links = [
             <a href="/">
               <Image
                 src={Logo}
-                class="w-36 sm:w-40"
+                class="w-28 sm:w-30"
                 alt="Logo for Diflowy"
               />
             </a>
@@ -41,7 +41,7 @@ const links = [
             {
               links.map((link) => {
                 return (
-                  <li class="text-center">
+                  <li class="text-center text-sm">
                     <a class="hover:underline" href={link.href}>
                       {link.name}
                     </a>
@@ -57,7 +57,7 @@ const links = [
                   <li>
                     <a href={logo.link} target="_blank">
                       <picture>
-                        <Icon name={logo.name} class="text-4xl" />
+                        <Icon name={logo.name} class="text-3xl" />
                       </picture>
                     </a>
                   </li>
@@ -71,10 +71,10 @@ const links = [
           <div
             class="flex text-center lg:text-start flex-col w-full lg:w-[30%]"
           >
-            <h4 class="mb-5">Contact us:</h4>
+            <h4 class="mb-5 text-sm">Contact us:</h4>
             <div class="flex flex-col justify-between gap-2">
-              <span class="text-sm"> Email: diflowy@greenerai.top</span>
-              <a href="https://github.com/green-dalii/diflowy/discussions" class="text-sm">
+              <span class="text-xs"> Email: diflowy@greenerai.top</span>
+              <a href="https://github.com/green-dalii/diflowy/discussions" class="text-xs">
                 Github Discussion
               </a>
             </div>
@@ -86,7 +86,7 @@ const links = [
       <div
         class="flex flex-col lg:flex-row justify-center mt-4 text-sm text-center md:justify-between md:mt-0"
       >
-        <span>© 2024 GreenerAI </span>
+        <span class="text-xs">© 2024 GreenerAI </span>
       </div>
     </div>
   </div>

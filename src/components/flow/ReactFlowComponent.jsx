@@ -1,12 +1,17 @@
 import { useCallback, useState } from 'react';
 import { ReactFlow, applyEdgeChanges, applyNodeChanges, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import CustomNode from './CustomNode_Landing';
+
+const nodeTypes = {
+    custom: CustomNode,
+};
 
 const initialNodes = [
     {
         id: '1',
-        type: 'input',
-        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>🔍 DISCOVER</div> },
+        type: 'custom',
+        data: { label: 'DISCOVER', icon: '🔍' },
         position: { x: 100, y: 0 },
         justify: 'center',
         align: 'center',
@@ -15,9 +20,9 @@ const initialNodes = [
     },
     {
         id: '2',
-        type: 'input',
-        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>👐 SHARE</div> },
-        position: { x: 100, y: 50 },
+        type: 'custom',
+        data: { label: 'SHARE', icon: '👐' },
+        position: { x: 100, y: 70 },
         justify: 'center',
         align: 'center',
         sourcePosition: 'right',
@@ -25,9 +30,9 @@ const initialNodes = [
     },
     {
         id: '3',
-        type: 'input',
-        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>🌐 DOWNLOAD</div> },
-        position: { x: 100, y: 100 },
+        type: 'custom',
+        data: { label: 'DOWNLOAD', icon: '📥' },
+        position: { x: 100, y: 140 },
         justify: 'center',
         align: 'center',
         sourcePosition: 'right',
@@ -35,16 +40,17 @@ const initialNodes = [
     },
     {
         id: '4',
-        data: { label: <div style={{color:"#086aa9", fontWeight: "bold"}}>🔀 WorkFlows</div> },
-        position: { x: 300, y: 50 },
+        type: 'custom',
+        data: { label: 'WORKFLOWS', icon: '🔀' },
+        position: { x: 320, y: 70 },
         sourcePosition: 'right',
         targetPosition: 'left',
     },
     {
         id: '5',
-        type: 'input',
-        data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="dify.png" style={{maxHeight: "2em"}}/></div> },
-        position: { x: 100, y: 150 },
+        type: 'custom',
+        data: { label: <div><img src="dify.png" alt="difyLogo" style={{maxHeight: "1.8em"}}/></div>, icon: '🤩' },
+        position: { x: 320, y: 140 },
         justify: 'center',
         align: 'center',
         sourcePosition: 'right',
@@ -52,9 +58,9 @@ const initialNodes = [
     },
     {
         id: '6',
-        type: 'output',
-        data: { label: <div style={{display:"flex", justifyContent:"center"}}><img src="brand.svg" style={{maxHeight: "2em"}}/></div> },
-        position: { x: 500, y: 100 },
+        type: 'custom',
+        data: { label: <div><img src="brand.svg" alt="diflowyLogo" style={{maxHeight: "1.8em", minWidth: "5.5em"}}/></div>, icon: '⭐️' },
+        position: { x: 560, y: 110 },
         sourcePosition: 'right',
         targetPosition: 'left',
     },
@@ -89,6 +95,7 @@ const ReactFlowComponent = () => {
                 onEdgesChange={onEdgesChange}
                 zoomOnScroll={false}
                 panOnDrag={false}
+                nodeTypes={nodeTypes}
                 fitView >
                 <Background />
             </ReactFlow>

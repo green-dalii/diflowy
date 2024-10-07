@@ -6,8 +6,9 @@ import ReactFlowComponent from "../flow/ReactFlowComponent";
 ---
 
 <Section id="home">
+  <div id="box" class="absolute inset-0 -z-10"></div>
   <div
-    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 my-28"
+    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 mt-44 mb-28"
   >
     <div class="flex flex-col w-full lg:w-[66.5%] sm:pt-20">
       <h1
@@ -78,6 +79,20 @@ import ReactFlowComponent from "../flow/ReactFlowComponent";
     }, 10);
   }
 
-  setInterval(changeWord, 1500); // 每3秒更换一次词
-  changeWord(); // 初始调用以显示第一个词
+  setInterval(changeWord, 1500); // change every 1.5 seconds
+  changeWord();
+</script>
+<script src="../../utils/AmbientLightBg.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof (window as any).Color4Bg !== 'undefined' && (window as any).Color4Bg.AmbientLightBg) {
+      let colorbg = new (window as any).Color4Bg.AmbientLightBg({
+        dom: "box",
+        colors: ["#007FFE","#3099FE","#60B2FE","#90CCFE","#C0E5FE","#F0FFFE"],
+        loop: true
+      });
+    } else {
+      console.error('Color4Bg is not available');
+    }
+  });
 </script>
