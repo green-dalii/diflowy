@@ -12,7 +12,7 @@ const initialNodes = [
     {
         id: '1',
         type: 'custom',
-        data: { label: 'DISCOVER', icon: '🔍' },
+        data: { label: 'EXPLORE', icon: '🔍' },
         position: { x: 100, y: 0 },
         justify: 'center',
         align: 'center',
