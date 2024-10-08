@@ -14,7 +14,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         <div class="flex flex-col gap-2">
           <div class="form-control w-full">
             <div class="label">
-              <span class="label-text">Workflow Name</span>
+              <span class="label-text">Workflow Name<sup class="ml-1 text-red-500">*</sup></span>
             </div>
             <input
               id="editWorkflowName"
@@ -28,7 +28,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           <Tags />
           <div class="form-control w-full">
             <div class="label">
-              <span class="label-text">Author</span>
+              <span class="label-text">Author<sup class="ml-1 text-red-500">*</sup></span>
             </div>
             <input
               id="editWorkflowAuthor"
@@ -40,7 +40,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           </div>
           <div class="form-control w-full">
             <div class="label">
-              <span class="label-text">Social Media / Contact Link</span>
+              <span class="label-text">Social Media / Contact Link<sup class="ml-1 text-red-500">*</sup></span>
             </div>
             <input
               id="editWorkflowAuthorLink"
@@ -54,7 +54,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         <!-- Column 2 -->
         <div class="form-control w-full">
           <div class="label">
-            <span class="label-text">Description<small class="text-gray-400 ml-1">[Support Markdown]</small></span>
+            <span class="label-text">Description<sup class="ml-1 text-red-500">*</sup><small class="text-gray-400 ml-1">[Markdown is supported]</small></span>
           </div>
           <textarea
             id="editWorkflowDescription"
@@ -99,7 +99,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           <!-- Version -->
           <div>
             <label for="version" class="text-sm font-medium leading-6"
-              >Update Version</label
+              >Update Version<sup class="ml-1 text-red-500">*</sup></label
             >
             <div class="w-full mt-2 flex rounded-md shadow-sm">
               <span

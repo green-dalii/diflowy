@@ -1,0 +1,175 @@
+---
+import { Image } from "astro:assets";
+import SectionTitle from "../ui/SectionTitle.astro";
+import Section from "./Section.astro";
+import Card from "../ui/Card.astro";
+import propImg from "../../assets/pics/more.svg";
+---
+
+<Section id="contact">
+  <div class="mt-20 relative">
+    <SectionTitle
+      sectionTitle="Learn More"
+      description="Here you can learn more about Dify Workflow."
+    />
+    <Card>
+      <div
+        class="group flex bg-[#F3F3F3] dark:bg-[--darkbgoffset] rounded-3xl p-8 relative mb-[120px]"
+      >
+        <div class="flex flex-col w-full">
+          <div class="w-1/2">
+            <h4 class="text-2xl font-semibold">
+              New to Diflowy or want to learn more about Dify, here’s a quick guide!
+            </h4>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-8 mt-12 mb-10">
+            <div
+              class="flex text-center sm:text-start flex-col w-full lg:w-[25%]"
+            >
+              <h4 class="mb-4 text-base font-semibold">⭐️ Dify Basic</h4>
+              <div class="flex flex-col justify-between gap-2">
+                <a
+                  href="https://docs.dify.ai/"
+                  aria-label="Dify Basic"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  What is Dify?
+                </a>
+                <a
+                  href="https://docs.dify.ai/learn-more/extended-reading/what-is-llmops"
+                  aria-label="What is LLMOps"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  What is LLMOps?
+                </a>
+                <a
+                  href="https://cloud.dify.ai/"
+                  aria-label="Dify Cloud"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  Run Dify on Cloud Now!
+                </a>
+                <a
+                  href="https://docs.dify.ai/getting-started/install-self-hosted/docker-compose"
+                  aria-label="Install Dify with Docker"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  Deploy Dify with Docker
+                </a>
+              </div>
+            </div>
+            <div
+              class="flex text-center sm:text-start flex-col w-full lg:w-[25%]"
+            >
+              <h4 class="mb-4 text-base font-semibold">⭐️⭐️ Dify Advanced</h4>
+              <div class="flex flex-col justify-between gap-2">
+                <a
+                  href="https://docs.dify.ai/guides/workflow"
+                  aria-label="Dify Workflow"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  What is Dify Workflow?
+                </a>
+                <a
+                  href="https://docs.dify.ai/guides/workflow/node"
+                  aria-label="Dify Workflow Node"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  All nodes in Workflow
+                </a>
+                <a
+                  href="https://docs.dify.ai/guides/workflow/orchestrate-node"
+                  aria-label="Orchestrate Node"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  How to Orchestrate Nodes
+                </a>
+                <a
+                  href="https://docs.dify.ai/guides/knowledge-base"
+                  aria-label="Orchestrate Node"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  RAG in Dify
+                </a>
+              </div>
+            </div>
+            <div
+              class="flex text-center sm:text-start flex-col w-full lg:w-[25%]"
+            >
+              <h4 class="mb-4 text-base font-semibold">🔗 Reference Links</h4>
+              <div class="flex flex-col justify-between gap-2">
+                <a
+                  href="https://www.youtube.com/channel/UC2JZCsZSOudXA08cMMRCL9g"
+                  aria-label="Dify Youtube"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  Dify Youtube Channel
+                </a>
+                <a
+                  href="https://github.com/langgenius/dify"
+                  aria-label="Dify Youtube"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  Dify GitHub
+                </a>
+                <a
+                  href="https://x.com/dify_ai"
+                  aria-label="Dify X"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  Dify 𝕏(Twitter)
+                </a>
+                <a
+                  href="https://dify101.com/"
+                  aria-label="Dify101"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  Dify101
+                </a>
+                <a
+                  href="https://github.com/svcvit/Awesome-Dify-Workflow"
+                  aria-label="Awesome-Dify-Workflow"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  Awesome-Dify-Workflow
+                </a>
+                <a
+                  href="https://difyshare.com/"
+                  aria-label="DifyShare"
+                  target="_blank"
+                  class="text-xs hover:link"
+                >
+                  DifyShare
+                </a>
+              </div>
+            </div>
+            <div class="hidden lg:block text-center w-full lg:w-[25%]">
+              <picture
+              class="absolute right-0 lg:right-0 top-6 h-[300px] items-center justify-center"
+            >
+              <Image
+                src={propImg}
+                alt="This is an illustration"
+                class="hidden md:flex lg:h-full lg:w-auto group-hover:scale-110 transition-all duration-300"
+              />
+            </picture>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  </div>
+</Section>
