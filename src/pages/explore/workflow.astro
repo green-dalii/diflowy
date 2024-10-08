@@ -315,7 +315,7 @@ const description =
         const tagsHTML = workflowObject.tags
           .map(
             (tag: string) =>
-              `<a href="${window.location.origin}/discover?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
+              `<a href="${window.location.origin}/explore?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
           )
           .join("");
         workflowTags.innerHTML = tagsHTML;

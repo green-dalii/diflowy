@@ -45,10 +45,12 @@ Diflowy的诞生离不开以下项目的支持:
 - [Astro](https://astro.build/): The web framework for content-driven websites
 - [TailwindCSS](https://tailwindcss.com/): Rapidly build modern websites without ever leaving your HTML.
 - [ReactFlow](https://reactflow.dev/): Wire Your Ideas with React Flow
+- [Color4bg.JS](https://github.com/winterx/color4bg.js): Super easily generate dynamic, abstract, and visually stunning background images for your web pages based on WebGL and JavaScript.
 - [Cloudflare](https://www.cloudflare.com): Powered by Cloudflare Pages and Cloudflare D1 Database
 - This Website is inspired by project: [vasquez-esteban/Kreativ-Software](https://github.com/vasquez-esteban/kreativ-software)
-- [Awesome-Dify-Workflow](https://github.com/svcvit/Awesome-Dify-Workflow)
-- [Dify101](https://dify101.com/)
+- [Awesome-Dify-Workflow](https://github.com/svcvit/Awesome-Dify-Workflow): Sharing some Dify workflows.
+- [Dify101](https://dify101.com/): Dify tutorial: Unlock the power of Dify.ai.
+
 
 ## 🎉 开始探索吧!
 

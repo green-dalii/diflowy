@@ -46,10 +46,11 @@ Diflowyは以下のプロジェクトのサポートなしでは実現できま�
 - [Astro](https://astro.build/): コンテンツ駆動型ウェブサイトのためのウェブフレームワーク
 - [TailwindCSS](https://tailwindcss.com/): HTMLを離れることなく、現代的なウェブサイトを高速に構築
 - [ReactFlow](https://reactflow.dev/): React Flowであなたのアイデアを形にする
+- [Color4bg.JS](https://github.com/winterx/color4bg.js): WebGL と JavaScript を使用して、動的で抽象的で、視覚的に印象的な背景画像を簡単に生成します
 - [Cloudflare](https://www.cloudflare.com): Cloudflare PagesとCloudflare D1データベースを活用
 - 本ウェブサイトは以下のプロジェクトにインスピレーションを受けています: [vasquez-esteban/Kreativ-Software](https://github.com/vasquez-esteban/kreativ-software)
-- [Awesome-Dify-Workflow](https://github.com/svcvit/Awesome-Dify-Workflow)
-- [Dify101](https://dify101.com/)
+- [Awesome-Dify-Workflow](https://github.com/svcvit/Awesome-Dify-Workflow): いくつかのDifyのワークフローを共有します
+- [Dify101](https://dify101.com/): Difyチュートリアル: Dify.aiの力を最大限に引き出します
 
 ## 🎉 さあ、始めましょう！
 

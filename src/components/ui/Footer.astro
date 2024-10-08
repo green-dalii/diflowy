@@ -8,11 +8,13 @@ import Logo from "../../assets/logo-alt.svg";
 import { Icon } from "astro-icon/components";
 
 const logos = [
+  { name: "twitter", link: "https://x.com/myGreenerDalii" },
+  { name: "discord", link: "https://discord.gg/7RgtPfg98d" },
   { name: "github", link: "https://github.com/green-dalii/diflowy" },
 ];
 
 const links = [
-  { name: "Explore", href: "/discover" },
+  { name: "Explore", href: "/explore" },
   { name: "Share", href: "/upload" },
   { name: "Blog", href: "/blog" },
   { name: "About", href: "/about" },
@@ -32,7 +34,7 @@ const links = [
             <a href="/">
               <Image
                 src={Logo}
-                class="w-28 sm:w-30"
+                class="h-10 sm:w-36"
                 alt="Logo for Diflowy"
               />
             </a>
@@ -41,7 +43,7 @@ const links = [
             {
               links.map((link) => {
                 return (
-                  <li class="text-center text-sm">
+                  <li class="text-center text-base font-medium">
                     <a class="hover:underline" href={link.href}>
                       {link.name}
                     </a>
@@ -67,15 +69,51 @@ const links = [
           </ul>
         </div>
 
-        <div class="flex flex-col lg:flex-row mt-12 mb-10">
+        <div class="flex flex-col lg:flex-row gap-8 mt-12 mb-10">
           <div
             class="flex text-center lg:text-start flex-col w-full lg:w-[30%]"
           >
-            <h4 class="mb-5 text-sm">Contact us:</h4>
+            <h4 class="mb-4 text-sm font-semibold">Contact us</h4>
             <div class="flex flex-col justify-between gap-2">
-              <span class="text-xs"> Email: diflowy@greenerai.top</span>
-              <a href="https://github.com/green-dalii/diflowy/discussions" class="text-xs">
+              <a href="https://github.com/green-dalii/diflowy/discussions" aria-label="Github Discussion" target="_blank" class="text-xs hover:link">
                 Github Discussion
+              </a>
+              <span class="text-xs"> Email: diflowy@greenerai.top</span>
+              <span class="text-xs">Design by <a href="https://greenerdalii.top" aria-label="Greener-Dalii Studio" target="_blank" class="text-xs hover:link">Greener-Dalii Studio</a></span>
+            </div>
+          </div>
+          <div
+            class="flex text-center lg:text-start flex-col w-full lg:w-[30%]"
+          >
+            <h4 class="mb-4 text-sm font-semibold">Dify Official</h4>
+            <div class="flex flex-col justify-between gap-2">
+              <a href="https://dify.ai/" aria-label="Dify.AI" target="_blank" class="text-xs hover:link">
+                Dify.AI
+              </a>
+              <a href="https://cloud.dify.ai/" aria-label="Dify Cloud" target="_blank" class="text-xs hover:link">
+                Dify Cloud
+              </a>
+              <a href="https://docs.dify.ai/" aria-label="Dify Docs" target="_blank" class="text-xs hover:link">
+                Dify Docs
+              </a>
+              <a href="https://dify.ai/blog" aria-label="Dify Blog" target="_blank" class="text-xs hover:link">
+                Dify Blog
+              </a>
+            </div>
+          </div>
+          <div
+            class="flex text-center lg:text-start flex-col w-full lg:w-[30%]"
+          >
+            <h4 class="mb-4 text-sm font-semibold">Resources</h4>
+            <div class="flex flex-col justify-between gap-2">
+              <a href="https://dify101.com/" aria-label="Dify101" target="_blank" class="text-xs hover:link">
+                Dify101
+              </a>
+              <a href="https://github.com/svcvit/Awesome-Dify-Workflow" aria-label="Awesome-Dify-Workflow" target="_blank" class="text-xs hover:link">
+                Awesome-Dify-Workflow
+              </a>
+              <a href="https://difyshare.com/" aria-label="DifyShare" target="_blank" class="text-xs hover:link">
+                DifyShare
               </a>
             </div>
           </div>
