@@ -16,12 +16,12 @@ function CustomNode({ data }) {
       <Handle
         type="target"
         position={Position.Left}
-        className="!h-4 !bg-sky-500 rounded"
+        className="!h-4 !bg-sky-500 !rounded"
       />
       <Handle
         type="source"
         position={Position.Right}
-        className="!h-4 !bg-sky-500 rounded"
+        className="!h-4 !bg-sky-500 !rounded"
       />
     </div>
   );

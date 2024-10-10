@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import Card from "../ui/Card.astro";
+import Section from "./Section.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+
+import feature1 from "../../assets/pics/feature1.svg";
+import feature2 from "../../assets/pics/feature2.svg";
+import feature3 from "../../assets/pics/feature3.svg";
+
+const cards = [
+  {
+    title: "Instant Overview",
+    icon: "view",
+    description: "Real-time preview of Workflow structures in Diflowy.",
+    pic: feature1,
+  },
+  {
+    title: "Versions Management",
+    icon: "version",
+    description: "Support for Workflow version management.",
+    pic: feature2,
+  },
+  {
+    title: "Quick Import",
+    icon: "lightning",
+    description: "One-click import to Dify",
+    pic: feature3,
+  },
+];
+---
+
+<Section id="features">
+  <div class="mt-40 mb-5">
+    <SectionTitle
+      sectionTitle="Features"
+      description="Explore Real-Life Examples of Our Proven Digital Marketing Success through Our Case Studies"
+    />
+    <div class="flex flex-col lg:flex-row justify-between gap-5">
+      {
+        cards.map((card) => (
+          <Card>
+            <div class="group flex p-8 w-full h-full bg-[#F3F3F3] dark:bg-[--darkbgoffset] rounded-3xl hover:shadow-lg transition-all duration-300">
+              <div class="flex flex-col sm:flex-row lg:flex-col justify-between gap-2 w-full">
+                <div class="flex flex-col gap-2 w-full">
+                  <div class="flex flex-row gap-1">
+                    <Icon name={card.icon} size={24} />
+                    <p class="font-semibold text-xl sm:text-lg">{card.title}</p>
+                  </div>
+                  <p class="text-xs">{card.description}</p>
+                </div>
+                <picture class="w-full flex justify-end">
+                  <Image
+                    src={card.pic}
+                    alt="feature"
+                    class="w-full h-full sm:w-2/3 lg:w-full group-hover:scale-[1.1] transition-all duration-300 object-cover"
+                  />
+                </picture>
+              </div>
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</Section>
