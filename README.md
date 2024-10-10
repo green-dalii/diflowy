@@ -53,3 +53,12 @@ Diflowy wouldn't be possible without the support of:
 ## 🎉 Let's Create!
 
 We hope you enjoy being part of Diflowy as much as we do. Let's build something amazing together!
+
+## 🗺️ Roadmap
+
+- [x] Launch Diflowy
+- [x] Version Management Support
+- [ ] i18n Support
+- [ ] AI Summarization for Workflows
+- [ ] Search and Filter Workflows
+- [ ] Apply Dify Official Workflow Style
