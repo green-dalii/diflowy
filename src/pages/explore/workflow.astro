@@ -50,6 +50,12 @@ const description =
               >
                 Contact Author‣
               </div>
+              <div
+                id="isPrivate"
+                class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full"
+              >
+                🌐 Public / 🔒 Private-Hosted
+              </div>
             </div>
             <div class="mt-5 grid grid-cols-2 items-center gap-4">
               <div class="flex flex-row space-x-2 items-center">
@@ -133,6 +139,7 @@ const description =
     current_version: string;
     tags: string[];
     icon: string;
+    isPrivate: number;
     authorData: WorkflowAuthor;
     update_time: string;
     file_content?: string;
@@ -229,6 +236,7 @@ const description =
       const copyButton = document.getElementById(
         "copyButton",
       ) as HTMLButtonElement;
+      const isPrivate = document.getElementById("isPrivate") as HTMLDivElement
 
       // Download workflow function
       async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
@@ -298,6 +306,8 @@ const description =
         // Update the author info
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
+        // Update isPrivate
+        isPrivate.innerText = `${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}`
         // Update the updated time
         updatedTime.innerText = `Updated ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select

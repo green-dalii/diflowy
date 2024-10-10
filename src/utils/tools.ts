@@ -2,6 +2,7 @@ export interface Workflow {
     id: string;
     name: string;
     icon: string;
+    isPrivate: number;
     description: string;
     tags: string;
     latestVersion: string;
@@ -124,11 +125,13 @@ export async function fetchWorkflows(
     pageSize: number = 12,
     tags: string[] = [],
     myflow: string = "no",
+    isPrivate: string = "no"
 ): Promise<GetWorkflowsResponse> {
     const url = new URL("/api/workflow/filter", window.location.origin);
     url.searchParams.append("page", page.toString());
     url.searchParams.append("pageSize", pageSize.toString());
     url.searchParams.append("myflow", myflow);
+    url.searchParams.append("isPrivate", isPrivate);
     tags.forEach((tag) => url.searchParams.append("tags", tag));
     console.log("Fetching workflows from:", url.toString());
     const response = await fetch(url.toString());

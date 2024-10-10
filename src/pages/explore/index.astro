@@ -1,10 +1,11 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
+import UploadEntranceBelow from "../../components/sections/UploadEntranceBelow.astro";
 import Section from "../../components/sections/Section.astro";
 import Skeleton from "../../components/ui/Skeleton.astro";
 import "../../styles/globals.css";
-const description = "Find and import workflows to Dify immediately in Diflow.";
+const description = "Explore and import workflows to Dify immediately in Diflow.";
 const skeletonCount = 12;
 ---
 
@@ -29,6 +30,7 @@ const skeletonCount = 12;
       </div>
     </Section>
   </div>
+  <UploadEntranceBelow />
 </MainLayout>
 
 <script>
