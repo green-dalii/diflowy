@@ -34,7 +34,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     const getCookieValue = (name: string) => cookies.match(new RegExp(`${name}=([^;]+)`))?.[1] ?? null;
     const storedCodeVerifier = getCookieValue(`${provider}_code_verifier`);
 
-    console.log("redirect cookie>>>", redirectCookie, "redirectUrl>>>", redirectUrl)
+    console.log("Provider>>>", provider, "redirect cookie>>>", redirectCookie, "redirectUrl>>>", redirectUrl, "storedCodeVerifier>>>", storedCodeVerifier, "storedState>>>", storedState)
 
     if (!code || !state || !storedState || state !== storedState) {
       console.log("Invalid request parameters")
@@ -90,17 +90,20 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     } 
     // 当OAuth认证为Google时
     else if (provider === "google") {
+      console.log("OAuth from  Google...")
       const google = initializeGoogle(context.env);
       if (!storedCodeVerifier) {
         return new Response("Missing code verifier", { status: 400 });
       }
       try {
         const tokens = await google.validateAuthorizationCode(code, storedCodeVerifier);
+        console.log("token from  Google>>>", tokens)
         const googleUserResponse = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
           headers: {
             "Authorization": `Bearer ${tokens.accessToken}`
           }
         });
+        console.log("googleUserResponse>>>", googleUserResponse)
         const googleUser: GoogleUser = await googleUserResponse.json();
 
         const { results } = await context.env.D1.prepare(

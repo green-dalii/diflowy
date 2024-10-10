@@ -13,7 +13,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     });
     const requestUrl = new URL(context.request.url)
     const redirect = requestUrl.searchParams.get("redirect") || "/";
-
+    console.log("Login/Google redirect>>>", redirect)
     const stateCookie = `google_oauth_state=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
     const codeVerifierCookie = `google_code_verifier=${codeVerifier}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
     const redirectCookie = `auth_redirect=${encodeURIComponent(redirect)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`;
@@ -27,7 +27,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     response.headers.append("Set-Cookie", stateCookie);
     response.headers.append("Set-Cookie", codeVerifierCookie);
     response.headers.append("Set-Cookie", redirectCookie);
-
+    console.log("Google OAuth Will Response URL>>>", googleAuthURL.toString())
     return response;
   } catch (error) {
     console.error("Error during Google OAuth:", error);

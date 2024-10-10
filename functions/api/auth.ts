@@ -47,7 +47,7 @@ export function initializeGitHub(env: Env) {
 }
 
 export function initializeGoogle(env: Env) {
-    return new Google(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, "https://diflowy.greenerai.top/api/auth/callback/google");
+    return new Google(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, "https://diflowy.greenerai.top");
 }
 
 // 定义用户属性接口
