@@ -73,7 +73,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             if (whereClause) {
                 whereClause += ` AND is_private = ?`;
             } else {
-                whereClause = `WHERE AND is_private = ?`;
+                whereClause = `WHERE is_private = ?`;
             }
             bindings.unshift(1);
         } else if (isPrivate === "no") {
@@ -87,10 +87,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         } else {
             console.log("Requesting public and private")
         }
+        console.log("Query whereClause is down>>>>", whereClause, "Bingdings>>>", bindings)
         // 查询分页数据
         const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;
         const workflowsResult = await env.D1.prepare(workflowsQuery).bind(...bindings).all();
-        // console.log("workflowsResult>>>", workflowsResult);
+        console.log("workflowsResult>>>", workflowsResult);
 
         // 查询总数
         const countQuery = `SELECT COUNT(*) as count FROM yaml_files ${whereClause}`;

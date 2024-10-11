@@ -58,7 +58,8 @@ We hope you enjoy being part of Diflowy as much as we do. Let's build something 
 
 - [x] Launch Diflowy
 - [x] Version Management Support
-- [ ] Google OAuth Login(Have Developed, Auditing by Google...)
+- [x] Private-Hosted Mode for workflows
+- [ ] Login with Google OAuth and Email
 - [ ] i18n Support
 - [ ] AI Summarization for Workflows
 - [ ] Search and Filter Workflows

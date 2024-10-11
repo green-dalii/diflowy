@@ -9,18 +9,17 @@ const description = "All Infomation about Diflowy";
 
 <MainLayout
   title="About | Diflowy"
-  description="Where Dify workflows are stored"
+  description="Explore, Share, Download Dify Workflows in Diflowy"
 >
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="About Us" description={description} />
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="col-span-3 sm:col-span-1 text-2xl">Why Called Diflowy?</div>
-        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
-          Difllowy means <span class="italic">Dify + Workflow</span>.
-          <br />We are a vibrant and Open-Source community dedicated to sharing
-          and exploring Dify workflows.
-          <br />We welcome all participation and contributions 👋
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose w-full xl:w-2/3">
+          <p>Difllowy means <span class="font-semibold italic underline decoration-wavy">Dify + Workflow</span>.</p>
+          <p>We are a vibrant and Open-Source community dedicated to the exploration, sharing, hosting, and downloading of Dify.Al workflows.</p>
+          <p>We welcome all participation and contributions 👋</p>
         </div>
         <div class="divider col-span-3"></div>
         <div class="col-span-3 sm:col-span-1 text-2xl">How to Cantact Us?</div>
@@ -156,8 +155,12 @@ const description = "All Infomation about Diflowy";
               <span>Add workflow version management</span>
             </li>
             <li class="flex items-center space-x-2">
+              <input type="checkbox" class="checkbox checkbox-sm" disabled checked="checked" />
+              <span>Add Private-Hosted Mode for workflows</span>
+            </li>
+            <li class="flex items-center space-x-2">
               <input type="checkbox" class="checkbox checkbox-sm" disabled />
-              <span>Add Google OAuth Login(Developing...)</span>
+              <span>Add login with Google OAuth and Email</span>
             </li>
             <li class="flex items-center space-x-2">
               <input type="checkbox" class="checkbox checkbox-sm" disabled />
