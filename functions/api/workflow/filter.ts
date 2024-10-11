@@ -32,7 +32,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     // Check if the request is for a specific user's workflows or all workflows
     const isMyFlow = url.searchParams.get('myflow') === 'yes';
     // Check if the request is for private
-    const isPrivate = url.searchParams.get('isPrivate') === 'yes';
+    const isPrivate = url.searchParams.get('isPrivate');
     console.log("page>>>", page, "pagesize>>>", pageSize, "tags>>>", tags, "isMyFlow>>>", isMyFlow, "isPrivate>>>", isPrivate)
     try {
         // 计算偏移量
@@ -67,30 +67,25 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             bindings.unshift(payload.id);
         }
         // 检查是否为私有工作流
-        if (isPrivate){
+        if (isMyFlow && isPrivate === "yes"){
+            console.log("Requesting private....")
             // 如果为个人私有
-            const cookie = request.headers.get('cookie');
-            const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
-            if (!jwt) {
-                return new Response(JSON.stringify({ user: null }), {
-                    headers: { 'Content-Type': 'application/json' },
-                    status: 401,
-                });
-            }
-            const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
             if (whereClause) {
-                whereClause += ` AND user_id = ? AND is_private = ?`;
+                whereClause += ` AND is_private = ?`;
             } else {
-                whereClause = `WHERE user_id = ? AND is_private = ?`;
+                whereClause = `WHERE AND is_private = ?`;
             }
-            bindings.unshift(payload.id, 1);
-        } else {
+            bindings.unshift(1);
+        } else if (isPrivate === "no") {
+            console.log("Requesting public....")
             if (whereClause) {
                 whereClause += ` AND is_private = ?`;
             } else {
                 whereClause = `WHERE is_private = ?`;
             }
             bindings.unshift(0);
+        } else {
+            console.log("Requesting public and private")
         }
         // 查询分页数据
         const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;
