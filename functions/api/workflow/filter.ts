@@ -39,14 +39,14 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const offset = (page - 1) * pageSize;
         // 构建筛选条件
         let whereClause = '';
-        const bindings: any[] = [pageSize, offset]; // 为查询绑定参数初始化数组
+        const bindings: any[] = []; // 为查询绑定参数初始化数组
         // 检查是否有标签参数，并且构建筛选条件
         if (tags.length > 0) {
             // 使用 LIKE 创建筛选条件
             const likeClauses = tags.map(_tag => `tags LIKE ?`).join(' OR ');
             whereClause = `WHERE ${likeClauses}`;
             // 为每个标签添加匹配绑定
-            tags.forEach(tag => bindings.unshift(`%${tag}%`));
+            tags.forEach(tag => bindings.push(`%${tag}%`));
         }
         // 检查是否需要筛选特定用户的工作流
         if (isMyFlow) {
@@ -64,7 +64,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             } else {
                 whereClause = `WHERE user_id = ?`;
             }
-            bindings.unshift(payload.id);
+            bindings.push(payload.id);
         }
         // 检查是否为私有工作流
         if (isMyFlow && isPrivate === "yes"){
@@ -75,7 +75,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             } else {
                 whereClause = `WHERE is_private = ?`;
             }
-            bindings.unshift(1);
+            bindings.push(1);
         } else if (isPrivate === "no") {
             console.log("Requesting public....")
             if (whereClause) {
@@ -83,10 +83,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             } else {
                 whereClause = `WHERE is_private = ?`;
             }
-            bindings.unshift(0);
+            bindings.push(0);
         } else {
             console.log("Requesting public and private")
         }
+
+        // 添加分页参数
+        bindings.push(pageSize, offset);  // 分页参数应该在最后
         console.log("Query whereClause is down>>>>", whereClause, "Bingdings>>>", bindings)
         // 查询分页数据
         const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;
