@@ -33,8 +33,11 @@ const skeletonCount = 10;
             <tr>
               <th class="text-wrap hidden sm:table-cell sm:w-1/12">No.</th>
               <th class="text-wrap w-3/12 sm:w-3/12">Workflow Name</th>
-              <th class="text-wrap hidden sm:table-cell sm:w-2/12"
+              <th class="text-wrap hidden sm:table-cell sm:w-1/12"
                 >Latest Version</th
+              >
+              <th class="text-wrap hidden sm:table-cell sm:w-1/12"
+                >Private-Hosted</th
               >
               <th class="text-wrap w-3/12 sm:w-2/12">Metadata</th>
               <th class="text-wrap w-3/12 sm:w-2/12">Update Version</th>
@@ -48,7 +51,8 @@ const skeletonCount = 10;
                 <tr>
                   <td class="hidden sm:table-cell sm:w-1/12">...</td>
                   <td class="w-6/12 sm:3/12">Loading...</td>
-                  <td class="hidden sm:table-cell sm:w-2/12">...</td>
+                  <td class="hidden sm:table-cell sm:w-1/12">...</td>
+                  <td class="hidden sm:table-cell sm:w-1/12">...</td>
                   <td class="w-2/12">...</td>
                   <td class="w-2/12">...</td>
                   <td class="w-2/12">...</td>
@@ -118,7 +122,8 @@ const skeletonCount = 10;
       row.innerHTML = `
         <td class="hidden sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
         <td class="w-3/12 sm:3/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
-        <td class="hidden sm:table-cell sm:w-2/12">${workflow.latestVersion}</td>
+        <td class="hidden sm:table-cell sm:w-1/12">${workflow.latestVersion}</td>
+        <td class="hidden sm:table-cell sm:w-1/12">${workflow.isPrivate === 0 ? "Public" : "Private"}</td>
         <td class="w-3/12 sm:w-2/12">
             <button class="btn w-full btn-outline btn-sm btn-info edit" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">
               📝 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}">Edit</span>
