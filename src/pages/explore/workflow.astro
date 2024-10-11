@@ -211,6 +211,7 @@ const description =
     const modalContent = document.getElementById(
       "modalContent",
     ) as HTMLDivElement;
+    const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
     // Get workflow from API
     try {
       // Get the elements in page
@@ -379,17 +380,26 @@ const description =
       console.error("Error loading workflow:", error);
       if ((error as Error).message === "Forbidden") {
         modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
           "This is a Private-Hosted workflow, You are forbidden to view it.";
         modal.showModal();
       } else if ((error as Error).message === "Expired") {
         modalTitle.innerText = "😮 Opps...";
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.add("btn-error");
+        confirmBtn.classList.remove("hidden");
+        confirmBtn.addEventListener("click", (event: Event) => {
+          event.preventDefault();
+          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+        });
         modalContent.innerText =
           "This is a Private-Hosted workflow. Your login has expired, please login again!";
         modal.showModal();
       }
       else {
         modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
           "Failed to fetch workflows. Please check your connection and try again.";
         modal.showModal();

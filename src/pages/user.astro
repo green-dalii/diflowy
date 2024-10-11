@@ -320,7 +320,7 @@ const skeletonCount = 10;
         ) as HTMLButtonElement;
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.add("btn-error");
-        confirmBtn.classList.remove("hidden");
+        confirmBtn.classList.toggle("hidden", false);
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
           window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
@@ -329,6 +329,7 @@ const skeletonCount = 10;
       } else {
         console.error("Error loading page data:", error);
         modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
           "Failed to fetch workflows. Please check your connection and try again.";
         modal.showModal();
