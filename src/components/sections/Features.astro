@@ -8,18 +8,19 @@ import SectionTitle from "../ui/SectionTitle.astro";
 import feature1 from "../../assets/pics/feature1.svg";
 import feature2 from "../../assets/pics/feature2.svg";
 import feature3 from "../../assets/pics/feature3.svg";
+import feature4 from "../../assets/pics/feature4.svg";
 
 const cards = [
   {
     title: "Instant Overview",
     icon: "view",
-    description: "Real-time preview of Workflow structures in Diflowy.",
+    description: "Real-time preview of Workflow structures in Diflowy",
     pic: feature1,
   },
   {
     title: "Versions Management",
     icon: "version",
-    description: "Support for Workflow version management.",
+    description: "Support version management for Workflows",
     pic: feature2,
   },
   {
@@ -28,6 +29,12 @@ const cards = [
     description: "One-click import to Dify",
     pic: feature3,
   },
+  {
+    title: "Private-Hosted Mode",
+    icon: "security",
+    description: "Using Private-Hosted Mode to manage your private workflows with all features, keeping your Dify clean and organized.",
+    pic: feature4,
+  },
 ];
 ---
 
@@ -35,7 +42,7 @@ const cards = [
   <div class="mt-40 mb-5">
     <SectionTitle
       sectionTitle="Features"
-      description="Explore Real-Life Examples of Our Proven Digital Marketing Success through Our Case Studies"
+      description="Amazing features in Diflowy"
     />
     <div class="flex flex-col lg:flex-row justify-between gap-5">
       {

@@ -31,6 +31,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         const tags = formData.get('tags') as string;
         const icon = formData.get('icon') as string;
         const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string });
+        const isPrivate = formData.get('isPrivate') || false;
+        console.log("isPrivate>>>", isPrivate)
+        const is_private = isPrivate === "on" ? 1 : 0 || 0;
         // Read the file content as binary data
         console.log("Reading file content", dslFile, dslFile.name, typeof dslFile.arrayBuffer)
         const dslFileBuffer = await dslFile.arrayBuffer();
@@ -42,8 +45,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // Insert data into Cloudflare D1
         console.log("Inserting data into Cloudflare D1")
         const insertQuery = await context.env.D1.prepare(
-            "INSERT INTO yaml_files (id, user_id, filename, description, latest_version, tags, author_data, icon) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-        ).bind(fileId, payload.id, workflowName, description, version, tags, author, icon).run();
+            "INSERT INTO yaml_files (id, user_id, filename, description, latest_version, tags, author_data, icon, is_private) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        ).bind(fileId, payload.id, workflowName, description, version, tags, author, icon, is_private).run();
         console.log("Insert Workflow Query Result>>>", insertQuery);
         // Insert version data into Cloudflare D1
         const insertVersionQuery = await context.env.D1.prepare(

@@ -31,7 +31,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     const tags = url.searchParams.getAll('tags');
     // Check if the request is for a specific user's workflows or all workflows
     const isMyFlow = url.searchParams.get('myflow') === 'yes';
-    console.log("page>>>", page, "pagesize>>>", pageSize, "tags>>>", tags, "isMyFlow>>>", isMyFlow)
+    // Check if the request is for private
+    const isPrivate = url.searchParams.get('isPrivate') === 'yes';
+    console.log("page>>>", page, "pagesize>>>", pageSize, "tags>>>", tags, "isMyFlow>>>", isMyFlow, "isPrivate>>>", isPrivate)
     try {
         // 计算偏移量
         const offset = (page - 1) * pageSize;
@@ -64,6 +66,32 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             }
             bindings.unshift(payload.id);
         }
+        // 检查是否为私有工作流
+        if (isPrivate){
+            // 如果为个人私有
+            const cookie = request.headers.get('cookie');
+            const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
+            if (!jwt) {
+                return new Response(JSON.stringify({ user: null }), {
+                    headers: { 'Content-Type': 'application/json' },
+                    status: 401,
+                });
+            }
+            const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
+            if (whereClause) {
+                whereClause += ` AND user_id = ? AND is_private = ?`;
+            } else {
+                whereClause = `WHERE user_id = ? AND is_private = ?`;
+            }
+            bindings.unshift(payload.id, 1);
+        } else {
+            if (whereClause) {
+                whereClause += ` AND is_private = ?`;
+            } else {
+                whereClause = `WHERE is_private = ?`;
+            }
+            bindings.unshift(0);
+        }
         // 查询分页数据
         const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;
         const workflowsResult = await env.D1.prepare(workflowsQuery).bind(...bindings).all();
@@ -80,6 +108,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             description: row.description,
             tags: row.tags,
             icon: row.icon,
+            isPrivate: row.is_private,
             latestVersion: row.latest_version,
             authorData: row.author_data
         }));

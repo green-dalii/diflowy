@@ -1,13 +1,15 @@
 import { Lucia } from "lucia";
 import { D1Adapter } from "@lucia-auth/adapter-sqlite";
 import { D1Database } from "@cloudflare/workers-types";
-import { GitHub } from "arctic";
+import { GitHub, Google } from "arctic";
 
 // 定义环境变量数据结构
 export interface Env {
     D1: D1Database;
     GITHUB_ID: string;
     GITHUB_SECRET: string;
+    GOOGLE_CLIENT_ID: string;
+    GOOGLE_CLIENT_SECRET: string;
     AUTH_SECRET: string;
 }
 
@@ -27,6 +29,7 @@ export function initializeLucia(env: Env) {
             return {
                 // attributes has the type of DatabaseUserAttributes
                 githubId: attributes.github_id,
+                googleId: attributes.google_id,
                 username: attributes.username
             };
         }
@@ -43,9 +46,14 @@ export function initializeGitHub(env: Env) {
     );
 }
 
+export function initializeGoogle(env: Env) {
+    return new Google(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, "https://diflowy.greenerai.top/api/auth/callback/google");
+}
+
 // 定义用户属性接口
 interface DatabaseUserAttributes {
-    github_id: number;
+    github_id?: number;
+    google_id?: number;
     username: string;
 }
 
