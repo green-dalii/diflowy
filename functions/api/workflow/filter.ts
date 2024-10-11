@@ -68,6 +68,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         }
         // 检查是否为私有工作流
         if (isPrivate){
+            // 如果为个人私有
             const cookie = request.headers.get('cookie');
             const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
             if (!jwt) {
@@ -83,6 +84,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 whereClause = `WHERE user_id = ? AND is_private = ?`;
             }
             bindings.unshift(payload.id, 1);
+        } else {
+            if (whereClause) {
+                whereClause += ` AND is_private = ?`;
+            } else {
+                whereClause = `WHERE is_private = ?`;
+            }
+            bindings.unshift(0);
         }
         // 查询分页数据
         const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;

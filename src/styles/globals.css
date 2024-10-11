@@ -137,6 +137,10 @@
       @apply bg-white text-black transform scale-105;
     }
 
+    .btn-disabled {
+      @apply bg-gray-300 text-white rounded-lg px-6 py-4;
+    }
+
     .greenhead {
       @apply text-black rounded-[7px] px-[7px];
     }

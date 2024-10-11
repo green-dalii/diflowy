@@ -33,7 +33,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string });
         const isPrivate = formData.get('isPrivate') || false;
         console.log("isPrivate>>>", isPrivate)
-        const is_private = isPrivate === "yes" ? 1 : 0 || 0;
+        const is_private = isPrivate === "on" ? 1 : 0 || 0;
         // Read the file content as binary data
         console.log("Reading file content", dslFile, dslFile.name, typeof dslFile.arrayBuffer)
         const dslFileBuffer = await dslFile.arrayBuffer();
