@@ -40,11 +40,13 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             const tags = formData.get('tags') as string;
             const description = formData.get('editWorkflowDescription') as string;
             const author = JSON.stringify({ "authorName": formData.get("editWorkflowAuthor") as string, "socialLink": formData.get("editWorkflowAuthorLink") as string });
+            const isPrivate = formData.get('isPrivate') || false;
+            const is_private = isPrivate === "on" ? 1 : 0 || 0;
             // Update the workflow's meta data
             console.log("Updating workflow's meta data")
             const updateQuery = await context.env.D1.prepare(
-                "UPDATE yaml_files SET filename = ?, description = ?, tags = ?, author_data = ? WHERE id = ?"
-            ).bind(workflowName, description, tags, author, workflowId).run();
+                "UPDATE yaml_files SET filename = ?, description = ?, tags = ?, author_data = ?, is_private = ? WHERE id = ?"
+            ).bind(workflowName, description, tags, author, is_private, workflowId).run();
             console.log("Update Workflow Query Result>>>", updateQuery);
             // Return the reponse
             return new Response(JSON.stringify({ res: 'Edit Meta Data Success' }), {

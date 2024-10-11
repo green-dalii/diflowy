@@ -38,13 +38,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         }
         // 判断是否为Private-Hosted文件
         const isPrivate = workflowResult.is_private;
-        if (isPrivate === 0) {
+        console.log("isPrivate>>>", typeof(isPrivate), isPrivate, isPrivate === 1)
+        if (isPrivate === 1) {
             // 如果为私密文件
             console.log("Request Private file....")
             try {
                 const cookie = request.headers.get('cookie');
                 const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
                 if (!jwt) {
+                    console.log("User Not Login.")
                     return new Response(JSON.stringify({ user: null }), {
                         headers: { 'Content-Type': 'application/json' },
                         status: 401,
@@ -52,10 +54,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 }
                 const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
                 if(payload.id != workflowResult.user_id){
-                    console.log("Private Deny!!")
-                    return new Response(JSON.stringify({ error: "JWT Expired" }), {
+                    console.log("Private Deny!!", payload.id, workflowResult.user_id)
+                    return new Response(JSON.stringify({ error: "Forbidden" }), {
                         headers: { 'Content-Type': 'application/json' },
-                        status: 401,
+                        status: 403,
                     });
                 }
             } catch (error) {

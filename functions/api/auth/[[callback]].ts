@@ -16,6 +16,17 @@ interface GoogleUser {
   name: string;
 }
 
+interface JWTPayload {
+  [key: string]: any;
+}
+
+interface UserJWTPayload extends JWTPayload {
+  id: string;
+  username: string;
+  provider: 'github' | 'google';
+  providerId: string;
+}
+
 export const onRequestGet: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context): Promise<Response> => {
   try {
     // const lucia = initializeLucia(context.env);
@@ -41,8 +52,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
       return new Response("Invalid request parameters", { status: 400 });
     }
 
-    let userId: string;
-    let userName: string = "";
+    let userPayload: UserJWTPayload;
 
     // 当OAuth认证为Github时
     if (provider === "github") {
@@ -66,18 +76,30 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
         // 如果数据库中存在用户
         if (existingUser) {
           console.log("Github User exists>>>", existingUser.id, "Username>>>", githubUser.login)
-          userId = existingUser.id as string;
-          userName = existingUser.username as string;
+          // userId = existingUser.id as string;
+          // userName = existingUser.username as string;
+          userPayload = {
+            id: existingUser.id as string,
+            username: existingUser.username as string,
+            provider: 'github',
+            providerId: githubUser.id.toString()
+          };
         }
         // 如果为新用户
         else {
           console.log("User does not exist")
-          userId = generateIdFromEntropySize(10); // 生成新的用户 ID
+          const userId = generateIdFromEntropySize(10); // 生成新的用户 ID
           console.log("New User ID>>>", userId, "Prepare to write to database...")
           // 插入新用户
           await context.env.D1.prepare(
             "INSERT INTO users (id, github_id, username) VALUES (?, ?, ?)"
           ).bind(userId, githubUser.id, githubUser.login).run();
+          userPayload = {
+            id: userId,
+            username: githubUser.login,
+            provider: 'github',
+            providerId: githubUser.id.toString()
+          };
           console.log("New User created")
         }
       } catch (e) {
@@ -113,16 +135,25 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
 
         if (existingUser) {
           console.log("Google User exists>>>", existingUser.id, "Username>>>", googleUser.name)
-          userId = existingUser.id as string;
-          userName = existingUser.username as string;
+          userPayload = {
+            id: existingUser.id as string,
+            username: existingUser.username as string,
+            provider: 'google',
+            providerId: googleUser.id
+          };
         } else {
           console.log("User does not exist")
-          userId = generateIdFromEntropySize(10);
+          const userId = generateIdFromEntropySize(10);
           console.log("New User ID>>>", userId, "Prepare to write to database...")
-          userName = googleUser.name || googleUser.email.split("@")[0];
+          userPayload = {
+            id: userId,
+            username: googleUser.name || googleUser.email.split("@")[0],
+            provider: 'google',
+            providerId: googleUser.id
+          };
           await context.env.D1.prepare(
             "INSERT INTO users (id, google_id, username, email) VALUES (?, ?, ?, ?)"
-          ).bind(userId, googleUser.id, userName, googleUser.email).run();
+          ).bind(userId, googleUser.id, userPayload.username, googleUser.email).run();
           console.log("New User created")
         }
       } catch (e) {
@@ -137,7 +168,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     }
 
     // 创建 JWT
-    const token = await createJWT({ id: userId, username: userName }, context.env.AUTH_SECRET);
+    const token = await createJWT(userPayload, context.env.AUTH_SECRET);
     // 设置响应头
     const cookie = `auth_token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`;
     const response = new Response(null, {
