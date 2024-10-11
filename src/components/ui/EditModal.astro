@@ -2,6 +2,7 @@
 import WorkflowFileInput from "./WorkflowFileInput.astro";
 import Tags from "./Tags.astro";
 import ReactFlowPreview from "../flow/ReactFlowPreview";
+import Alert from "./Alert.astro";
 ---
 
 <dialog id="editModal" class="modal modal-bottom sm:modal-middle">
@@ -14,7 +15,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         <div class="flex flex-col gap-2">
           <div class="form-control w-full">
             <div class="label">
-              <span class="label-text">Workflow Name<sup class="ml-1 text-red-500">*</sup></span>
+              <span class="label-text"
+                >Workflow Name<sup class="ml-1 text-red-500">*</sup></span
+              >
             </div>
             <input
               id="editWorkflowName"
@@ -28,7 +31,9 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           <Tags />
           <div class="form-control w-full">
             <div class="label">
-              <span class="label-text">Author<sup class="ml-1 text-red-500">*</sup></span>
+              <span class="label-text"
+                >Author<sup class="ml-1 text-red-500">*</sup></span
+              >
             </div>
             <input
               id="editWorkflowAuthor"
@@ -40,7 +45,11 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           </div>
           <div class="form-control w-full">
             <div class="label">
-              <span class="label-text">Social Media / Contact Link<sup class="ml-1 text-red-500">*</sup></span>
+              <span class="label-text"
+                >Social Media / Contact Link<sup class="ml-1 text-red-500"
+                  >*</sup
+                ></span
+              >
             </div>
             <input
               id="editWorkflowAuthorLink"
@@ -50,19 +59,52 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
               required="required"
             />
           </div>
+          <!-- Public / Private -->
+          <div class="pb-4">
+            <label for="public" class="block text-sm font-medium leading-6"
+              >Public or Private-Hosted</label
+            >
+            <div class="mt-2">
+              <div class="flex flex-row items-center gap-2 mb-2">
+                <p class="ml-2 text-xs font-semibold">
+                  🌐 Public<span class="text-gray-400 font-normal"
+                    >(Default)</span>
+                </p>
+                <input
+                  id="private"
+                  type="checkbox"
+                  name="isPrivate"
+                  class="toggle toggle-sm toggle-warning"
+                />
+                <p class="ml-2 text-xs font-semibold">🔒 Private-Hosted</p>
+              </div>
+              <Alert
+                id="public-alert"
+                message="Your workflow will be publicly accessible in Diflowy. So everyone can appreciate your contributions 😄"
+              />
+              <Alert
+                id="private-alert"
+                type="alert-warning hidden"
+                message="It is visible only to you. So you can manage all your workflows privately using Diflowy's version control 📂"
+              />
+            </div>
+          </div>
         </div>
         <!-- Column 2 -->
         <div class="form-control w-full">
           <div class="label">
-            <span class="label-text">Description<sup class="ml-1 text-red-500">*</sup><small class="text-gray-400 ml-1">[Markdown is supported]</small></span>
+            <span class="label-text"
+              >Description<sup class="ml-1 text-red-500">*</sup><small
+                class="text-gray-400 ml-1">[Markdown is supported]</small
+              ></span
+            >
           </div>
           <textarea
             id="editWorkflowDescription"
             name="editWorkflowDescription"
             rows="15"
             class="textarea textarea-bordered w-full"
-            required="required"
-          ></textarea>
+            required="required"></textarea>
         </div>
       </form>
       <!-- Update Version Form -->
@@ -219,7 +261,6 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     editModal.close();
   };
 
-
   // Form submission handler
   const handleFormSubmit = async (
     event: Event,
@@ -366,7 +407,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   async function handleEditMetaSubmit(event: Event) {
     event.preventDefault();
     // Show loading modal
-    showModal('⏳ Processing...', 'Uploading data...');
+    showModal("⏳ Processing...", "Uploading data...");
     // Get workflowId
     const workflowId = editMetaForm.dataset.workflowId as string;
     // Get form data
@@ -387,10 +428,12 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     const editWorkflowAuthorLink = document.getElementById(
       "editWorkflowAuthorLink",
     ) as HTMLInputElement;
+    const privateToggle = document.getElementById("private") as HTMLInputElement;
     formData.append("editWorkflowName", editWorkflowName.value);
     formData.append("editWorkflowDescription", editWorkflowDescription.value);
     formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
     formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
+    formData.append("isPrivate", privateToggle.value)
     // Check if all required fields are filled
     if (
       !formData.get("editWorkflowName") ||
@@ -399,7 +442,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       !formData.get("editWorkflowAuthorLink") ||
       selectedTags.length === 0
     ) {
-      showModal('😮 Oops', 'Please fill out all required fields.');
+      showModal("😮 Oops", "Please fill out all required fields.");
       return;
     }
     // Add the selected tags to the form data
@@ -419,7 +462,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         console.log("Response>>>", response.json());
         // close the edit modal
         closeEditModal();
-        showModal('🎉 Success!', "Upload meta data successful!");
+        showModal("🎉 Success!", "Upload meta data successful!");
         (window as any).loadTableData(); // Reload the table data
       } else if (response.status === 401) {
         // close the edit modal
@@ -428,7 +471,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
       } else {
         // close the edit modal
         closeEditModal();
-        showModal('😮 Oops...', 'Something went wrong in remote server. Please cantact us.');
+        showModal(
+          "😮 Oops...",
+          "Something went wrong in remote server. Please cantact us.",
+        );
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -442,7 +488,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
   async function handleUpdateSubmit(event: Event) {
     event.preventDefault();
     // Show loading modal
-    showModal('⏳ Processing...', 'Uploading data...');
+    showModal("⏳ Processing...", "Uploading data...");
     // Get workflowId and workflowVersion
     const workflowId = updateForm.dataset.workflowId as string;
     const workflowVersion = updateForm.dataset.workflowVersion as string;
@@ -457,7 +503,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
     if (dslfile.files && dslfile.files.length > 0 && updateVersion.value) {
       if (Number(updateVersion.value) <= Number(workflowVersion)) {
         // updateVersion is not greater than the original version
-        showModal('😮 Oops...', 'Please make sure that the update version is greater than the latest version of the original.');
+        showModal(
+          "😮 Oops...",
+          "Please make sure that the update version is greater than the latest version of the original.",
+        );
         return;
       } else {
         formData.append("dsl-file", dslfile.files[0]);
@@ -472,7 +521,7 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
             console.log("Response>>>", response.json());
             // close the edit modal
             closeEditModal();
-            showModal('🎉 Success!', "Upload new version successful!");
+            showModal("🎉 Success!", "Upload new version successful!");
             (window as any).loadTableData(); // Reload the table data
           } else if (response.status === 401) {
             // close the edit modal
@@ -481,7 +530,10 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
           } else {
             // close the edit modal
             closeEditModal();
-            showModal('😮 Oops...', 'Something went wrong in remote server. Please cantact us.');
+            showModal(
+              "😮 Oops...",
+              "Something went wrong in remote server. Please cantact us.",
+            );
           }
         } catch (error) {
           console.error("Error uploading file:", error);
@@ -491,13 +543,35 @@ import ReactFlowPreview from "../flow/ReactFlowPreview";
         }
       }
     } else {
-      showModal('😮 Oops...', 'Please fill out all required fields.');
+      showModal("😮 Oops...", "Please fill out all required fields.");
       return;
     }
   }
 
   // Add event listener to the document
   document.addEventListener("DOMContentLoaded", () => {
+    // Get private toggle input
+    const privateToggle = document.getElementById("private") as HTMLInputElement;
+    // Get public alert
+    const publicAlert = document.getElementById("public-alert") as HTMLDivElement;
+    // Get private alert
+    const privateAlert = document.getElementById(
+      "private-alert",
+    ) as HTMLDivElement;
+    // Add event listner to private toggle
+    privateToggle.addEventListener("change", () => {
+      if (privateToggle.checked) {
+        privateToggle.value = "on"
+        console.log("Private");
+        privateAlert.classList.toggle("hidden", false);
+        publicAlert.classList.toggle("hidden", true);
+      } else {
+        privateToggle.value = "off"
+        console.log("Public");
+        privateAlert.classList.toggle("hidden", true);
+        publicAlert.classList.toggle("hidden", false);
+      }
+    });
     // Add event listener to the confirm button
     editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
     // Add event listener to the form

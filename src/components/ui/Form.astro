@@ -493,11 +493,13 @@ import Alert from "./Alert.astro";
     // Add event listner to private toggle
     privateToggle.addEventListener("change", () => {
       if (privateToggle.checked) {
-        console.log("Private");
+        privateToggle.value = "on"
+        console.log("Private", privateToggle.value);
         privateAlert.classList.toggle("hidden", false);
         publicAlert.classList.toggle("hidden", true);
       } else {
-        console.log("Public");
+        privateToggle.value = "off"
+        console.log("Public", privateToggle.value);
         privateAlert.classList.toggle("hidden", true);
         publicAlert.classList.toggle("hidden", false);
       }
