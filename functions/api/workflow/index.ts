@@ -1,4 +1,6 @@
 import type { Env } from '../auth';
+import * as jose from 'jose'
+import { jwtVerify } from 'jose';
 
 interface Workflow {
     id: string;
@@ -34,6 +36,44 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 headers: { 'Content-Type': 'application/json' }
             });
         }
+        // 判断是否为Private-Hosted文件
+        const isPrivate = workflowResult.is_private;
+        if (isPrivate === 0) {
+            // 如果为私密文件
+            console.log("Request Private file....")
+            try {
+                const cookie = request.headers.get('cookie');
+                const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
+                if (!jwt) {
+                    return new Response(JSON.stringify({ user: null }), {
+                        headers: { 'Content-Type': 'application/json' },
+                        status: 401,
+                    });
+                }
+                const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
+                if(payload.id != workflowResult.user_id){
+                    console.log("Private Deny!!")
+                    return new Response(JSON.stringify({ error: "JWT Expired" }), {
+                        headers: { 'Content-Type': 'application/json' },
+                        status: 401,
+                    });
+                }
+            } catch (error) {
+                console.error("Error in Get Filter Workflows Request>>>>", error)
+                if (error instanceof jose.errors.JOSEError) {
+                    console.error("JWT Expired", error);
+                    return new Response(JSON.stringify({ error: "JWT Expired" }), {
+                        headers: { 'Content-Type': 'application/json' },
+                        status: 401,
+                    });
+                } else {
+                    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+                        status: 500,
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                }
+            }
+        }
         console.log("Workflow Found...")
         // 查询Workflow所有版本
         const versionsQuery = `SELECT version FROM yaml_versions WHERE yaml_file_id =?`;
@@ -48,9 +88,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         });
         // 若未指定版本默认返回最新版本的 workflow
         let queryVersion = ""
-        if(!workflowVersion){
+        if (!workflowVersion) {
             queryVersion = workflowResult.latest_version as string;
-        }else{
+        } else {
             queryVersion = workflowVersion;
         };
         const versionQuery = `SELECT * FROM yaml_versions WHERE yaml_file_id =? AND version =?`;
