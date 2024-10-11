@@ -38,7 +38,9 @@ const description =
               >
                 ⏳
               </div>
-              <h3 id="workflowname" class="break-all text-pretty">Loading...</h3>
+              <h3 id="workflowname" class="break-all text-pretty">
+                Loading...
+              </h3>
             </div>
             <div class="flex flex-col space-y-2 mt-5">
               <div id="author" class="text-xs text-gray-400 font-medium">
@@ -165,7 +167,14 @@ const description =
 
     console.log("Getting workflow from:", url.toString());
     const response = await fetch(url.toString());
-    if (!response.ok) {
+    if (response.status === 403) {
+      console.error("Forbidden to fetch workflows");
+      throw new Error("Forbidden");
+    } else if (response.status === 401) {
+      console.error("JWT Expired");
+      throw new Error("Expired");
+    }
+    else if (!response.ok) {
       console.error("Failed to fetch workflows");
       throw new Error("Failed to fetch the workflow");
     }
@@ -236,7 +245,7 @@ const description =
       const copyButton = document.getElementById(
         "copyButton",
       ) as HTMLButtonElement;
-      const isPrivate = document.getElementById("isPrivate") as HTMLDivElement
+      const isPrivate = document.getElementById("isPrivate") as HTMLDivElement;
 
       // Download workflow function
       async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
@@ -307,7 +316,7 @@ const description =
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
         // Update isPrivate
-        isPrivate.innerText = `${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}`
+        isPrivate.innerText = `${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}`;
         // Update the updated time
         updatedTime.innerText = `Updated ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select
@@ -368,10 +377,23 @@ const description =
       updateWorkflow(workflow);
     } catch (error) {
       console.error("Error loading workflow:", error);
-      modalTitle.innerText = "⚠️ Error";
-      modalContent.innerText =
-        "Failed to fetch workflows. Please check your connection and try again.";
-      modal.showModal();
+      if ((error as Error).message === "Forbidden") {
+        modalTitle.innerText = "⚠️ Error";
+        modalContent.innerText =
+          "This is a Private-Hosted workflow, You are forbidden to view it.";
+        modal.showModal();
+      } else if ((error as Error).message === "Expired") {
+        modalTitle.innerText = "😮 Opps...";
+        modalContent.innerText =
+          "This is a Private-Hosted workflow. Your login has expired, please login again!";
+        modal.showModal();
+      }
+      else {
+        modalTitle.innerText = "⚠️ Error";
+        modalContent.innerText =
+          "Failed to fetch workflows. Please check your connection and try again.";
+        modal.showModal();
+      }
     }
   });
 </script>
