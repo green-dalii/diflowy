@@ -46,7 +46,7 @@ const skeletonCount = 12;
       </div>
       <div
         id="result-indicator"
-        class="py-64 hidden text-center text-sm text-gray-500"
+        class="py-20 sm:py-64 hidden text-center text-gray-500"
       >
       </div>
       <div class="mt-14 text-center">
@@ -117,8 +117,7 @@ const skeletonCount = 12;
         .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
         .join("");
       // fill workflow element
-      workflowElement.className =
-        `border ${workflow.isPrivate != 0 ? "border-amber-400" : "dark:border-gray-500"} dark:bg-[--darkbgoffset] shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52`;
+      workflowElement.className = `border ${workflow.isPrivate != 0 ? "border-amber-400" : "dark:border-gray-500"} dark:bg-[--darkbgoffset] shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52`;
       workflowElement.innerHTML = `
       <div class="grid grid-cols-1 content-between h-full">
         <div class="flex flex-row space-x-4 items-start">
@@ -127,7 +126,7 @@ const skeletonCount = 12;
         </div>
         <div class="flex-1 space-y-4 py-1">
             <div class="ml-16 space-y-3">
-                <div class="text-xs text-gray-500 line-clamp-2 whitespace-pre-line">${workflow.description.slice(0,100)}</div>
+                <div class="text-xs text-gray-500 line-clamp-2 whitespace-pre-line">${workflow.description.slice(0, 100)}</div>
                 <div>${tagsHTML}</div>
             </div>
         </div>
@@ -184,8 +183,9 @@ const skeletonCount = 12;
       console.error("Error loading page data:", error);
       // Clear workflow grid
       workflowGrid.innerHTML = "";
-      resultIndicator.innerHTML =
-        "No results meet the conditions. Try other options.😵";
+      resultIndicator.innerHTML = `<p class="text-sm">😵 Ooops..</p>
+        <p class="text-sm">No results meet the conditions.</p> 
+        <p class="text-sm">Click <a href="/upload" class="link font-semibold hover:text-dark">Upload</a> or go to the <a href="/user" class="link font-semibold hover:text-dark">User Center</a> to manage your workflows.</p>`;
       resultIndicator.classList.toggle("hidden", false);
       if ((error as Error).message === "Forbidden") {
         modalTitle.innerText = "⚠️ Error";
@@ -199,12 +199,15 @@ const skeletonCount = 12;
         privateHostedMode.disabled = true;
         privateAlert.classList.toggle("hidden", true);
         publicAlert.classList.toggle("hidden", false);
-        modalTitle.innerText = "😮 Opps...";
+        modalTitle.innerText = "😮 Oops...";
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
-          "Before enter the Private-Hosted Mode, you should login first to verify your identity.";
+          "Before enter the Private-Hosted Mode, you should login first to verify your identity. 2 seconds later, it will automatically redirect to the Login page.";
         modal.showModal();
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
       } else {
         modalTitle.innerText = "⚠️ Error";
         modalContent.innerText =

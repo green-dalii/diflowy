@@ -385,7 +385,7 @@ const description =
           "This is other user's private workflow. You do not have access rights.";
         modal.showModal();
       } else if ((error as Error).message === "JWT Expired") {
-        modalTitle.innerText = "😮 Opps...";
+        modalTitle.innerText = "😮 Oops...";
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.toggle("btn-error", true);
         confirmBtn.classList.toggle("hidden", false);

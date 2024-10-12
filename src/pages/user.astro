@@ -332,7 +332,7 @@ const skeletonCount = 10;
     } catch (error) {
       if ((error as Error).message === "JWT Expired") {
         sessionStorage.removeItem("username");
-        modalTitle.innerText = "😮 Opps...";
+        modalTitle.innerText = "😮 Oops...";
         modalContent.innerText = "Your login has expired, please login again!";
         const confirmBtn = document.getElementById(
           "confirmBtn",

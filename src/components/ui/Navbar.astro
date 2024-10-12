@@ -248,14 +248,6 @@ const navLinks = [
           notLogin.style.display = "block";
           protectedContent.style.display = "none";
         }
-        // modalTitle.innerText = "😮 Opps...";
-        // modalContent.innerText = "Your login has expired, please login again!";
-        // const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
-        // confirmBtn.textContent = "Login again";
-        // confirmBtn.classList.add("btn-error");
-        // confirmBtn.classList.remove("hidden");
-        // confirmBtn.setAttribute("onclick", "window.location.href='/api/login/github'");
-        // modal.showModal();
         return;
       }
       const data: UserResponse = await response.json();

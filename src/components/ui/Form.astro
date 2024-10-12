@@ -373,7 +373,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
       !formData.get("social-link") ||
       selectedTags.length === 0
     ) {
-      modalTitle.innerText = "😮 Opps";
+      modalTitle.innerText = "😮 Oops";
       modalContent.innerText = "Please fill out all required fields.";
       modal.showModal();
       return;
@@ -421,7 +421,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           selectedTagsTree!.innerHTML = "";
         } else if (response.status === 401) {
           sessionStorage.removeItem("username");
-          modalTitle.innerText = "😮 Opps...";
+          modalTitle.innerText = "😮 Oops...";
           modalContent.innerText =
             "Your login has expired, please login again!";
           confirmBtn.textContent = "Login again";
@@ -440,7 +440,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           // alert(
           //   "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top",
           // );
-          modalTitle.innerText = "😮 Opps...";
+          modalTitle.innerText = "😮 Oops...";
           confirmBtn.classList.toggle("hidden", true);
           modalContent.innerText =
             "An error occurred while uploading the file. Please try again or contact us with email: diflowy@greenerai.top";
@@ -451,7 +451,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
         // alert(
         //   "Your network is unreachable. Please check your internet connection and try again.",
         // );
-        modalTitle.innerText = "😮 Opps...";
+        modalTitle.innerText = "😮 Oops...";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
           "Your network is unreachable. Please check your internet connection and try again.";
@@ -462,21 +462,6 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
 
   // When DOM Loaded
   document.addEventListener("DOMContentLoaded", () => {
-    // // Add event listner to private toggle
-    // privateToggle.addEventListener("change", () => {
-    //   if (privateToggle.checked) {
-    //     privateToggle.value = "on"
-    //     console.log("Private", privateToggle.value);
-    //     privateAlert.classList.toggle("hidden", false);
-    //     publicAlert.classList.toggle("hidden", true);
-    //   } else {
-    //     privateToggle.value = "off"
-    //     console.log("Public", privateToggle.value);
-    //     privateAlert.classList.toggle("hidden", true);
-    //     publicAlert.classList.toggle("hidden", false);
-    //   }
-    // });
-
     // Add event listener to the form
     form.addEventListener("submit", handleSubmit);
   });
