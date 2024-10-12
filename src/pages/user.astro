@@ -330,14 +330,15 @@ const skeletonCount = 10;
         }
       });
     } catch (error) {
-      if (error instanceof JWTError) {
+      if ((error as Error).message === "JWT Expired") {
+        sessionStorage.removeItem("username");
         modalTitle.innerText = "😮 Opps...";
         modalContent.innerText = "Your login has expired, please login again!";
         const confirmBtn = document.getElementById(
           "confirmBtn",
         ) as HTMLButtonElement;
         confirmBtn.textContent = "Login again";
-        confirmBtn.classList.add("btn-error");
+        confirmBtn.classList.toggle("btn-error", true);
         confirmBtn.classList.toggle("hidden", false);
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();

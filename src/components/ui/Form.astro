@@ -420,7 +420,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           // Clear the selected tags
           selectedTagsTree!.innerHTML = "";
         } else if (response.status === 401) {
-          // alert("Before you upload, please login first.");
+          sessionStorage.removeItem("username");
           modalTitle.innerText = "😮 Opps...";
           modalContent.innerText =
             "Your login has expired, please login again!";

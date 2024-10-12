@@ -23,7 +23,7 @@ const skeletonCount = 12;
       />
       <!-- Toolbar -->
       <div
-        class="flex flex-row items-center justify-between mt-10 mb-2"
+        class="flex flex-row items-center justify-between mt-10 mb-8"
         id="workflow-toolbar"
       >
         <div class="w-full">
@@ -118,12 +118,12 @@ const skeletonCount = 12;
         .join("");
       // fill workflow element
       workflowElement.className =
-        `border ${workflow.isPrivate != 0 ? "border-amber-400" : ""} dark:bg-[--darkbgoffset] dark:border-gray-500 shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52`;
+        `border ${workflow.isPrivate != 0 ? "border-amber-400" : "dark:border-gray-500"} dark:bg-[--darkbgoffset] shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52`;
       workflowElement.innerHTML = `
       <div class="grid grid-cols-1 content-between h-full">
-        <div class="flex flex-row space-x-4 items-center">
+        <div class="flex flex-row space-x-4 items-start">
             <div class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center">${workflow.icon}</div>
-            <div class="flex-grow text-xl text-dark font-bold">${workflow.name}</div>
+            <div class="flex-grow text-xl break-words line-clamp-3 text-dark font-bold ">${workflow.name}</div>
         </div>
         <div class="flex-1 space-y-4 py-1">
             <div class="ml-16 space-y-3">
@@ -194,6 +194,7 @@ const skeletonCount = 12;
           "This is other user's private workflow. You do not have access rights.";
         modal.showModal();
       } else if ((error as Error).message === "JWT Expired") {
+        sessionStorage.removeItem("username");
         privateHostedMode.checked = false;
         privateHostedMode.disabled = true;
         privateAlert.classList.toggle("hidden", true);
