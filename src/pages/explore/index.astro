@@ -203,11 +203,11 @@ const skeletonCount = 12;
         confirmBtn.textContent = "Login again";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
-          "Before enter the Private-Hosted Mode, you should login first to verify your identity. 2 seconds later, it will automatically redirect to the Login page.";
+          "Before enter the Private-Hosted mode, you should login first. 3 seconds later, it will automatically redirect to the Login page.";
         modal.showModal();
         setTimeout(() => {
           window.location.href = "/login";
-        }, 2000);
+        }, 3000);
       } else {
         modalTitle.innerText = "⚠️ Error";
         modalContent.innerText =

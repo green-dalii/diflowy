@@ -52,11 +52,13 @@ const description =
               >
                 Contact Author‣
               </div>
-              <div
-                id="isPrivate"
-                class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full"
-              >
-                🌐 Public / 🔒 Private-Hosted
+              <div id="metaInfo" class="flex fexl-row gap-2">
+                <div
+                  id="isPrivate"
+                  class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full"
+                >
+                  🌐 Public / 🔒 Private-Hosted
+                </div>
               </div>
             </div>
             <div class="mt-5 grid grid-cols-2 items-center gap-4">
@@ -173,8 +175,7 @@ const description =
     } else if (response.status === 401) {
       console.error("JWT Expired");
       throw new Error("JWT Expired");
-    }
-    else if (!response.ok) {
+    } else if (!response.ok) {
       console.error("Failed to fetch workflows");
       throw new Error("Failed to fetch the workflow");
     }
@@ -202,7 +203,6 @@ const description =
 
   // After all DOM is loaded
   document.addEventListener("DOMContentLoaded", async (_) => {
-    console.log("DOMContentLoaded.");
     // Get the modal element
     const modal = document.getElementById("modal") as HTMLDialogElement;
     const modalTitle = document.getElementById(
@@ -211,7 +211,9 @@ const description =
     const modalContent = document.getElementById(
       "modalContent",
     ) as HTMLDivElement;
-    const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+    const confirmBtn = document.getElementById(
+      "confirmBtn",
+    ) as HTMLButtonElement;
     // Get workflow from API
     try {
       // Get the elements in page
@@ -247,6 +249,7 @@ const description =
         "copyButton",
       ) as HTMLButtonElement;
       const isPrivate = document.getElementById("isPrivate") as HTMLDivElement;
+      const metaInfo = document.getElementById("metaInfo") as HTMLDivElement;
 
       // Download workflow function
       async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
@@ -342,9 +345,15 @@ const description =
         console.log("Workflow info updated.");
 
         // Update the ReactFlow component
-        const { nodes, edges } = parseYamlToReactFlow(
+        const { nodes, edges, usedModal } = parseYamlToReactFlow(
           workflowObject.file_content as string,
         );
+
+        // Update llm metadata
+        console.log("LLM>>>>", usedModal);
+        usedModal.map((name: string) => {
+          metaInfo.innerHTML += `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${name}</div>`;
+        });
 
         // Check if ReactFlow is ready
         const checkAndUpdateReactFlow = () => {
@@ -391,13 +400,16 @@ const description =
         confirmBtn.classList.toggle("hidden", false);
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
-          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href =
+            "/api/login/github?redirect=" +
+            encodeURIComponent(
+              window.location.pathname + window.location.search,
+            );
         });
         modalContent.innerText =
           "This is a Private-Hosted workflow. Your login has expired, please login to verify its ownership.";
         modal.showModal();
-      }
-      else {
+      } else {
         modalTitle.innerText = "⚠️ Error";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
