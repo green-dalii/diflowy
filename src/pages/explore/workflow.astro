@@ -172,7 +172,7 @@ const description =
       throw new Error("Forbidden");
     } else if (response.status === 401) {
       console.error("JWT Expired");
-      throw new Error("Expired");
+      throw new Error("JWT Expired");
     }
     else if (!response.ok) {
       console.error("Failed to fetch workflows");
@@ -382,19 +382,19 @@ const description =
         modalTitle.innerText = "⚠️ Error";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
-          "This is a Private-Hosted workflow, You are forbidden to view it.";
+          "This is other user's private workflow. You do not have access rights.";
         modal.showModal();
-      } else if ((error as Error).message === "Expired") {
+      } else if ((error as Error).message === "JWT Expired") {
         modalTitle.innerText = "😮 Opps...";
         confirmBtn.textContent = "Login again";
-        confirmBtn.classList.add("btn-error");
-        confirmBtn.classList.remove("hidden");
+        confirmBtn.classList.toggle("btn-error", true);
+        confirmBtn.classList.toggle("hidden", false);
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
           window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
         });
         modalContent.innerText =
-          "This is a Private-Hosted workflow. Your login has expired, please login again!";
+          "This is a Private-Hosted workflow. Your login has expired, please login to verify its ownership.";
         modal.showModal();
       }
       else {

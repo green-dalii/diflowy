@@ -19,6 +19,21 @@ const links = [
   { name: "Blog", href: "/blog" },
   { name: "About", href: "/about" },
 ];
+
+const difyOffical = [
+  { name: "Dify.AI", link: "https://dify.ai/" },
+  { name: "Dify Cloud", link: "https://cloud.dify.ai/" },
+  { name: "Dify Docs", link: "https://docs.dify.ai/" },
+  { name: "Dify Blog", link: "https://dify.ai/blog" },
+];
+
+const resources = [
+  { name: "Dify101", link: "https://dify101.com/" },
+  {
+    name: "Awesome-Dify-Workflow",
+    link: "https://github.com/svcvit/Awesome-Dify-Workflow",
+  },
+];
 ---
 
 <section class="sm:px-5 pt-60">
@@ -32,11 +47,7 @@ const links = [
         >
           <picture>
             <a href="/">
-              <Image
-                src={Logo}
-                class="h-10 sm:w-36"
-                alt="Logo for Diflowy"
-              />
+              <Image src={Logo} class="h-10 sm:w-36" alt="Logo for Diflowy" />
             </a>
           </picture>
           <ul class="flex flex-col sm:flex-row gap-5">
@@ -70,72 +81,80 @@ const links = [
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 mt-12 mb-10">
-          <div
-            class="flex text-center lg:text-start flex-col w-full lg:w-1/3"
-          >
+          <div class="flex text-center lg:text-start flex-col w-full lg:w-1/3">
             <h4 class="mb-4 text-sm font-semibold">Contact us</h4>
             <div class="flex flex-col justify-between gap-2">
               <div class="text-xs">
-                <a href="https://github.com/green-dalii/diflowy/discussions" aria-label="Github Discussion" target="_blank" class="hover:link">
+                <a
+                  href="https://github.com/green-dalii/diflowy/discussions"
+                  aria-label="Github Discussion"
+                  target="_blank"
+                  class="hover:link"
+                >
                   Github Discussion
                 </a>
               </div>
-              <div class="text-xs"> Email: diflowy@greenerai.top</div>
-              <div class="text-xs">Design by <a href="https://greenerdalii.top" aria-label="Greener-Dalii Studio" target="_blank" class="hover:link">Greener-Dalii Studio</a></div>
+              <div class="text-xs">Email: diflowy@greenerai.top</div>
               <div class="text-xs">
-                <a href="/login/privacy" aria-label="Github Discussion" target="_blank" class="hover:link">
+                Design by <a
+                  href="https://greenerdalii.top"
+                  aria-label="Greener-Dalii Studio"
+                  target="_blank"
+                  class="hover:link">Greener-Dalii Studio</a
+                >
+              </div>
+              <div class="text-xs">
+                <a
+                  href="/login/privacy"
+                  aria-label="Github Discussion"
+                  target="_blank"
+                  class="hover:link"
+                >
                   Privacy Policy
                 </a>
               </div>
             </div>
           </div>
-          <div
-            class="flex text-center lg:text-start flex-col w-full lg:w-1/3"
-          >
+          <div class="flex text-center lg:text-start flex-col w-full lg:w-1/3">
             <h4 class="mb-4 text-sm font-semibold">Dify Official</h4>
             <div class="flex flex-col justify-between gap-2">
-              <div class="text-xs">
-                <a href="https://dify.ai/" aria-label="Dify.AI" target="_blank" class="hover:link">
-                  Dify.AI
-                </a>
-              </div>
-              <div class="text-xs">
-                <a href="https://cloud.dify.ai/" aria-label="Dify Cloud" target="_blank" class="hover:link">
-                  Dify Cloud
-                </a>
-              </div>
-              <div class="text-xs">
-                <a href="https://docs.dify.ai/" aria-label="Dify Docs" target="_blank" class="hover:link">
-                  Dify Docs
-                </a>
-              </div>
-              <div class="text-xs">
-                <a href="https://dify.ai/blog" aria-label="Dify Blog" target="_blank" class="hover:link">
-                  Dify Blog
-                </a>
-              </div>
+              {
+                difyOffical.map((link) => {
+                  return (
+                    <div class="text-xs">
+                      <a
+                        href={link.link}
+                        aria-label={link.name}
+                        target="_blank"
+                        class="hover:link"
+                      >
+                        {link.name}
+                      </a>
+                    </div>
+                  );
+                })
+              }
             </div>
           </div>
-          <div
-            class="flex text-center lg:text-start flex-col w-full lg:w-1/3"
-          >
+          <div class="flex text-center lg:text-start flex-col w-full lg:w-1/3">
             <h4 class="mb-4 text-sm font-semibold">Resources</h4>
             <div class="flex flex-col justify-between gap-2">
-              <div class="text-xs">
-                <a href="https://dify101.com/" aria-label="Dify101" target="_blank" class="hover:link">
-                  Dify101
-                </a>
-              </div>
-              <div class="text-xs">
-                <a href="https://github.com/svcvit/Awesome-Dify-Workflow" aria-label="Awesome-Dify-Workflow" target="_blank" class="hover:link">
-                  Awesome-Dify-Workflow
-                </a>
-              </div>
-              <div class="text-xs">
-                <a href="https://difyshare.com/" aria-label="DifyShare" target="_blank" class="hover:link">
-                  DifyShare
-                </a>
-              </div>
+              {
+                resources.map((link) => {
+                  return (
+                    <div class="text-xs">
+                      <a
+                        href={link.link}
+                        aria-label={link.name}
+                        target="_blank"
+                        class="hover:link"
+                      >
+                        {link.name}
+                      </a>
+                    </div>
+                  );
+                })
+              }
             </div>
           </div>
         </div>

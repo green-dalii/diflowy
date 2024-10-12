@@ -4,8 +4,10 @@ import SectionTitle from "../../components/ui/SectionTitle.astro";
 import UploadEntranceBelow from "../../components/sections/UploadEntranceBelow.astro";
 import Section from "../../components/sections/Section.astro";
 import Skeleton from "../../components/ui/Skeleton.astro";
+import PrivateHostedToogle from "../../components/ui/PrivateHostedToogle.astro";
 import "../../styles/globals.css";
-const description = "Explore and import workflows to Dify immediately in Diflow.";
+const description =
+  "Explore and import workflows to Dify immediately in Diflow.";
 const skeletonCount = 12;
 ---
 
@@ -19,11 +21,33 @@ const skeletonCount = 12;
         sectionTitle="Explore workflows"
         description={description}
       />
+      <!-- Toolbar -->
+      <div
+        class="flex flex-row items-center justify-between mt-10 mb-2"
+        id="workflow-toolbar"
+      >
+        <div class="w-full">
+          <PrivateHostedToogle
+            isTitled={true}
+            title="Private-Hosted Mode"
+            flexDirection="row"
+            disable={false}
+            publicAlertMsg="In Public Mode, all public workflows are available for everyone. When not logged in, you can only explore in this mode."
+            privateAlertMsg="In Private-Hosted Mode, Diflowy will become your personal Dify file manager. Only your own private workflows are available to you and others can't see them."
+          />
+        </div>
+      </div>
+      <!-- WorkFlow grid -->
       <div
         id="workflow-grid"
         class="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-5"
       >
         {new Array(skeletonCount).fill(null).map((_) => <Skeleton />)}
+      </div>
+      <div
+        id="result-indicator"
+        class="p-64 hidden text-center text-sm text-gray-500"
+      >
       </div>
       <div class="mt-14 text-center">
         <div class="join" id="pagination"></div>
@@ -50,9 +74,23 @@ const skeletonCount = 12;
   const modalContent = document.getElementById(
     "modalContent",
   ) as HTMLDivElement;
+  const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+  // get workflow grid element
+  const workflowGrid = document.getElementById(
+    "workflow-grid",
+  ) as HTMLDivElement;
+  // get result-indicator element
+  const resultIndicator = document.getElementById(
+    "result-indicator",
+  ) as HTMLDivElement;
+  // get private-hosted mode element
+  const privateHostedMode = document.getElementById(
+    "private",
+  ) as HTMLInputElement;
 
   // update workflow
   function updateWorkflowGrid(workflows: Workflow[]) {
+    // get workflow grid element
     const workflowGrid = document.getElementById(
       "workflow-grid",
     ) as HTMLDivElement;
@@ -68,10 +106,11 @@ const skeletonCount = 12;
         console.error("Error parsing tags for workflow:", workflow.name, error);
         tags = [];
       }
+      // fill tags
       const tagsHTML = tags
         .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
         .join("");
-
+      // fill workflow element
       workflowElement.className =
         "border dark:bg-[--darkbgoffset] dark:border-gray-500 shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52";
       workflowElement.innerHTML = `
@@ -94,44 +133,82 @@ const skeletonCount = 12;
     });
   }
 
-  // 加载指定页码的数据
+  // load data in specific page number
   async function loadPageData(page: number = 1) {
     try {
       // display skeleton
-      const workflowGrid = document.getElementById(
-        "workflow-grid",
-      ) as HTMLDivElement;
       workflowGrid.innerHTML = "";
       new Array(12).fill(null).map((_) => {
         workflowGrid.innerHTML += skeleton();
       });
-      const result = await fetchWorkflows(page, 12, getTagsFromURL()); // 默认每页12个
-      console.log("Workflows:", result.workflows);
+      let result;
+      // judge if mode is private or not
+      if (privateHostedMode.checked) {
+        // private hosted mode
+        result = await fetchWorkflows(page, 12, getTagsFromURL(), "yes", "yes");
+      } else {
+        // public hosted mode
+        result = await fetchWorkflows(page, 12, getTagsFromURL(), "no", "no");
+      }
+      // console.log("Workflows:", result.workflows);
       console.log("Total:", result.total);
       console.log("Page:", result.page);
       console.log("Page Size:", result.pageSize);
       console.log("Tags:", getTagsFromURL());
-
-      // 更新工作流网格
-      updateWorkflowGrid(result.workflows);
-
-      // 更新分页按钮
-      updatePagination(
-        result.total,
-        result.page,
-        result.pageSize,
-        loadPageData,
-      );
+      // if result is 0
+      if (result.total === 0) {
+        workflowGrid.innerHTML = "";
+        resultIndicator.innerHTML =
+          "No results meet the conditions. Try other options.😵";
+        resultIndicator.classList.toggle("hidden", false);
+        return;
+      } else {
+        // 更新工作流网格
+        updateWorkflowGrid(result.workflows);
+        // 更新分页按钮
+        updatePagination(
+          result.total,
+          result.page,
+          result.pageSize,
+          loadPageData,
+        );
+        return;
+      }
     } catch (error) {
       console.error("Error loading page data:", error);
-      modalTitle.innerText = "⚠️ Error";
-      modalContent.innerText =
-        "Failed to fetch workflows. Please check your connection and try again.";
-      modal.showModal();
+      // Clear workflow grid
+      workflowGrid.innerHTML = "";
+      resultIndicator.innerHTML =
+        "No results meet the conditions. Try other options.😵";
+      resultIndicator.classList.toggle("hidden", false);
+      if ((error as Error).message === "Forbidden") {
+        modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "This is other user's private workflow. You do not have access rights.";
+        modal.showModal();
+      } else if ((error as Error).message === "JWT Expired") {
+        privateHostedMode.checked = false;
+        privateHostedMode.disabled = true;
+        modalTitle.innerText = "😮 Opps...";
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "This is a Private-Hosted workflow. Your login has expired, please login to verify its ownership.";
+        modal.showModal();
+      } else {
+        modalTitle.innerText = "⚠️ Error";
+        modalContent.innerText =
+          "Failed to fetch workflows. Please check your connection and try again.";
+        modal.showModal();
+      }
     }
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     loadPageData(1);
+    privateHostedMode.addEventListener("change", () => {
+      loadPageData(1);
+    })
   });
 </script>

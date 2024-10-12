@@ -2,7 +2,8 @@
 import WorkflowFileInput from "./WorkflowFileInput.astro";
 import Tags from "./Tags.astro";
 import ReactFlowPreview from "../flow/ReactFlowPreview";
-import Alert from "./Alert.astro";
+// import Alert from "./Alert.astro";
+import PrivateHostedToogle from "./PrivateHostedToogle.astro";
 ---
 
 <dialog id="editModal" class="modal modal-bottom sm:modal-middle">
@@ -60,34 +61,8 @@ import Alert from "./Alert.astro";
             />
           </div>
           <!-- Public / Private -->
-          <div class="pb-4">
-            <label for="public" class="block text-sm font-medium leading-6"
-              >Public or Private-Hosted</label
-            >
-            <div class="mt-2">
-              <div class="flex flex-row items-center gap-2 mb-2">
-                <p class="ml-2 text-xs font-semibold">
-                  🌐 Public<span class="text-gray-400 font-normal"
-                    >(Default)</span>
-                </p>
-                <input
-                  id="private"
-                  type="checkbox"
-                  name="isPrivate"
-                  class="toggle toggle-sm toggle-warning"
-                />
-                <p class="ml-2 text-xs font-semibold">🔒 Private-Hosted</p>
-              </div>
-              <Alert
-                id="public-alert"
-                message="Your workflow will be publicly accessible in Diflowy. So everyone can appreciate your contributions 😄"
-              />
-              <Alert
-                id="private-alert"
-                type="alert-warning hidden"
-                message="It is visible only to you. So you can manage all your workflows privately using Diflowy's version control 📂"
-              />
-            </div>
+          <div class="pt-4">
+            <PrivateHostedToogle isTitled={true} />
           </div>
         </div>
         <!-- Column 2 -->
@@ -550,28 +525,6 @@ import Alert from "./Alert.astro";
 
   // Add event listener to the document
   document.addEventListener("DOMContentLoaded", () => {
-    // Get private toggle input
-    const privateToggle = document.getElementById("private") as HTMLInputElement;
-    // Get public alert
-    const publicAlert = document.getElementById("public-alert") as HTMLDivElement;
-    // Get private alert
-    const privateAlert = document.getElementById(
-      "private-alert",
-    ) as HTMLDivElement;
-    // Add event listner to private toggle
-    privateToggle.addEventListener("change", () => {
-      if (privateToggle.checked) {
-        privateToggle.value = "on"
-        console.log("Private");
-        privateAlert.classList.toggle("hidden", false);
-        publicAlert.classList.toggle("hidden", true);
-      } else {
-        privateToggle.value = "off"
-        console.log("Public");
-        privateAlert.classList.toggle("hidden", true);
-        publicAlert.classList.toggle("hidden", false);
-      }
-    });
     // Add event listener to the confirm button
     editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
     // Add event listener to the form

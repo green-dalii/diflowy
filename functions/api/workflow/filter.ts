@@ -67,7 +67,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             bindings.push(payload.id);
         }
         // 检查是否为私有工作流
-        if (isMyFlow && isPrivate === "yes"){
+        if (isMyFlow && isPrivate === "yes") {
             console.log("Requesting private....")
             // 如果为个人私有
             if (whereClause) {
@@ -76,6 +76,12 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 whereClause = `WHERE is_private = ?`;
             }
             bindings.push(1);
+        } else if (!isMyFlow && isPrivate === "yes") {
+            console.log("Private Deny!!")
+            return new Response(JSON.stringify({ error: "Forbidden" }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 403,
+            });
         } else if (isPrivate === "no") {
             console.log("Requesting public....")
             if (whereClause) {

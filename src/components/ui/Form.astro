@@ -2,7 +2,8 @@
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import WorkflowFileInput from "./WorkflowFileInput.astro";
 import Tags from "./Tags.astro";
-import Alert from "./Alert.astro";
+// import Alert from "./Alert.astro";
+import PrivateHostedToogle from "./PrivateHostedToogle.astro";
 ---
 
 <form id="uploadForm">
@@ -176,29 +177,8 @@ import Alert from "./Alert.astro";
           </div>
         </div>
         <!-- Public / Private -->
-        <div class="pb-4">
-          <label for="public" class="block text-sm font-medium leading-6">Public or Private-Hosted</label>
-          <div class="mt-2">
-            <div class="flex flex-row items-center gap-2 mb-2">
-              <p class="ml-2 text-xs font-semibold">🌐 Public<span class="text-gray-400 font-normal">(Default)</span></p>
-              <input
-                id="private"
-                type="checkbox"
-                name="isPrivate"
-                class="toggle toggle-sm toggle-warning"
-              />
-              <p class="ml-2 text-xs font-semibold">🔒 Private-Hosted</p>
-            </div>
-            <Alert
-              id="public-alert"
-              message="Your workflow will be publicly accessible in Diflowy. So everyone can appreciate your contributions 😄"
-            />
-            <Alert
-              id="private-alert"
-              type="alert-warning hidden"
-              message="It is visible only to you. So you can manage all your workflows privately using Diflowy's version control 📂"
-            />
-          </div>
+        <div class="my-4">
+          <PrivateHostedToogle isTitled={true} />
         </div>
         <!-- Notifications -->
         <div class="border-b border-gray-900/10 pt-8 pb-4">
@@ -370,14 +350,6 @@ import Alert from "./Alert.astro";
   ) as HTMLInputElement;
   // Get the file input
   const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
-  // Get private toggle input
-  const privateToggle = document.getElementById("private") as HTMLInputElement;
-  // Get public alert
-  const publicAlert = document.getElementById("public-alert") as HTMLDivElement;
-  // Get private alert
-  const privateAlert = document.getElementById(
-    "private-alert",
-  ) as HTMLDivElement;
 
   // Upload Form
   const form = document.getElementById("uploadForm") as HTMLFormElement;
@@ -490,20 +462,20 @@ import Alert from "./Alert.astro";
 
   // When DOM Loaded
   document.addEventListener("DOMContentLoaded", () => {
-    // Add event listner to private toggle
-    privateToggle.addEventListener("change", () => {
-      if (privateToggle.checked) {
-        privateToggle.value = "on"
-        console.log("Private", privateToggle.value);
-        privateAlert.classList.toggle("hidden", false);
-        publicAlert.classList.toggle("hidden", true);
-      } else {
-        privateToggle.value = "off"
-        console.log("Public", privateToggle.value);
-        privateAlert.classList.toggle("hidden", true);
-        publicAlert.classList.toggle("hidden", false);
-      }
-    });
+    // // Add event listner to private toggle
+    // privateToggle.addEventListener("change", () => {
+    //   if (privateToggle.checked) {
+    //     privateToggle.value = "on"
+    //     console.log("Private", privateToggle.value);
+    //     privateAlert.classList.toggle("hidden", false);
+    //     publicAlert.classList.toggle("hidden", true);
+    //   } else {
+    //     privateToggle.value = "off"
+    //     console.log("Public", privateToggle.value);
+    //     privateAlert.classList.toggle("hidden", true);
+    //     publicAlert.classList.toggle("hidden", false);
+    //   }
+    // });
 
     // Add event listener to the form
     form.addEventListener("submit", handleSubmit);
