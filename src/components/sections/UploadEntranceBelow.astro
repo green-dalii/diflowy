@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Card from "../ui/Card.astro";
 import Section from "./Section.astro";
 import { t } from "i18next";
+import { localizePath } from "astro-i18next";
 import propImg from "../../assets/pics/upload.svg";
 ---
 
@@ -17,7 +18,7 @@ import propImg from "../../assets/pics/upload.svg";
             <h2>{t("explorepage.uploadtitle")}</h2>
             <p>{t("explorepage.uploadtext1")}
             <br />{t("explorepage.uploadtext2")}</p>
-            <a href="/upload"
+            <a href={localizePath("/upload")}
               ><button class="btn-primary w-full sm:w-auto"
                 >{t("explorepage.uploadbtn")}</button
               ></a
