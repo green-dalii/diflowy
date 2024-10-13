@@ -5,6 +5,7 @@ import Section from "./Section.astro";
 import SectionTitle from "../ui/SectionTitle.astro";
 import propImg from "../../assets/pics/upload.svg";
 import { t } from "i18next";
+import { localizePath } from "astro-i18next";
 
 const description = t("share.description");
 ---
@@ -19,7 +20,7 @@ const description = t("share.description");
         <div class="w-full sm:w-7/12 md:w-1/3 flex flex-col gap-[26px]">
           <h2>{t("share.sharetitle")}</h2>
           <p>{t("share.belowtitle")}</p>
-          <a href="/upload"
+          <a href={localizePath("/upload")}
             ><button class="btn-primary w-full sm:w-auto"
               >{t("share.uploadWorkflow")}</button
             ></a

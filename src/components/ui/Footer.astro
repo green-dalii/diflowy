@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Logo from "../../assets/logo-alt.svg";
 import { Icon } from "astro-icon/components";
 import { t } from "i18next";
+import { localizePath } from "astro-i18next";
 
 const logos = [
   { name: "twitter", link: "https://x.com/myGreenerDalii" },
@@ -11,10 +12,10 @@ const logos = [
 ];
 
 const links = [
-  { name: t("navbar.explore"), href: "/explore" },
-  { name: t("navbar.share"), href: "/upload" },
-  { name: t("navbar.blog"), href: "/blog" },
-  { name: t("navbar.about"), href: "/about" },
+  { name: t("navbar.explore"), href: localizePath("/explore") },
+  { name: t("navbar.share"), href: localizePath("/upload") },
+  { name: t("navbar.blog"), href: localizePath("/blog") },
+  { name: t("navbar.about"), href: localizePath("/about") },
 ];
 
 const difyOffical = [

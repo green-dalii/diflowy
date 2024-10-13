@@ -3,6 +3,6 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "types": ["@cloudflare/workers-types"]
+    "types": ["@cloudflare/workers-types", "./src/types/astro-i18next"],
   },
 }

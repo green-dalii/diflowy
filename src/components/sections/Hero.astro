@@ -3,8 +3,8 @@
 // import HeroIlust from "../../assets/pics/hero-pic.png";
 import Section from "./Section.astro";
 import ReactFlowComponent from "../flow/ReactFlowComponent";
-import i18next, { t, changeLanguage } from "i18next";
-import { Trans, HeadHrefLangs } from "astro-i18next/components";
+import { t } from "i18next";
+import { localizePath } from "astro-i18next";
 
 const translations = {
   explore: t("hero.explore"),
@@ -39,7 +39,7 @@ const translations = {
     </div>
     <div class="w-full lg:w-[66.5%] mt-5 sm:mt-20">
       <!-- <p class="my-[35px] text-gray-500">Diflowy = Dify + Flow</p> -->
-      <a href="/explore">
+      <a href={localizePath("/explore")}>
         <button class="btn-primary w-full md:w-auto">{t("hero.exploreWorkflows")}</button>
       </a>
     </div>

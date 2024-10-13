@@ -5,6 +5,7 @@ import brand from "../../assets/brand.svg";
 import Modal from "./AlertModal.astro";
 import i18next, { t, changeLanguage } from "i18next";
 import { Trans, HeadHrefLangs } from "astro-i18next/components";
+import { localizePath } from "astro-i18next";
 import { LanguageSelector } from "astro-i18next/components";
 
 const translations = {
@@ -16,19 +17,19 @@ const translations = {
 const navLinks = [
   {
     name: t("navbar.explore"),
-    href: "/explore",
+    href: localizePath("/explore"),
   },
   {
     name: t("navbar.share"),
-    href: "/upload",
+    href: localizePath("/upload"),
   },
   {
     name: t("navbar.blog"),
-    href: "/blog",
+    href: localizePath("/blog"),
   },
   {
     name: t("navbar.about"),
-    href: "/about",
+    href: localizePath("/about"),
   },
 ];
 ---
@@ -43,7 +44,7 @@ const navLinks = [
   >
     <!-- Brand -->
     <div class="xl:flex-none">
-      <a href="/">
+      <a href={localizePath("/")}>
         <Image
           src={brand}
           alt="Brand Logo"
@@ -92,7 +93,7 @@ const navLinks = [
     </ul>
     <!-- Language Selector -->
     <div class="flex items-center justify-center py-4 lg:py-0 lg:mr-4">
-      <LanguageSelector showFlag={true} class="bg-transparent text-base text-center text-dark hover:text-black dark:text-white dark:hover:text-blue" />
+      <LanguageSelector id="langSelect" showFlag={true} class="bg-transparent text-base text-center text-dark hover:text-black dark:text-white dark:hover:text-blue" />
     </div>
 
     <!-- Login -->
@@ -105,7 +106,7 @@ const navLinks = [
   <!-- User Dropdown menu -->
   <div id="user-dropdown" class="hidden fixed z-50 top-44 right-1/4 sm:right-1/2 lg:right-4 lg:top-12 mt-2 w-40 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
     <div class="py-1 w-full" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
-      <a href="/user" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" role="menuitem">
+      <a href={localizePath("/user")} class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" role="menuitem">
         <div class="flex items-center">
           <Icon name="user" />
           <span class="ml-2">{t("navbar.usercenter")}</span>

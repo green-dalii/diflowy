@@ -3,6 +3,7 @@ import SectionTitle from "../ui/SectionTitle.astro";
 import DiscoverCard from "../ui/DiscoverCard.astro";
 import Section from "./Section.astro";
 import { t } from "i18next";
+import { localizePath } from "astro-i18next";
 
 import c1 from "../../assets/pics/card-pic1.svg";
 import c2 from "../../assets/pics/card-pic2.svg";
@@ -20,63 +21,63 @@ const cards = [
     titleTop: t("explore.productivity"),
     img: c1,
     alt: t("explore.productivity"),
-    link: "/explore?tags=Productivity",
+    link: localizePath("/explore?tags=Productivity"),
   },
   {
     index: 2,
     titleTop: t("explore.assistant"),
     img: c2,
     alt: t("explore.assistant"),
-    link: "/explore?tags=Assistant",
+    link: localizePath("/explore?tags=Assistant"),
   },
   {
     index: 3,
     titleTop: t("explore.creative"),
     img: c3,
     alt: t("explore.creative"),
-    link: "/explore?tags=Creative",
+    link: localizePath("/explore?tags=Creative"),
   },
   {
     index: 1,
     titleTop: t("explore.socialmedia"),
     img: c4,
     alt: t("explore.socialmedia"),
-    link: "/explore?tags=Social Media",
+    link: localizePath("/explore?tags=Social Media"),
   },
   {
     index: 2,
     titleTop: t("explore.financebusiness"),
     img: c5,
     alt: t("explore.financebusiness"),
-    link: "/explore?tags=Finance & Business",
+    link: localizePath("/explore?tags=Finance & Business"),
   },
   {
     index: 3,
     titleTop: t("explore.lifestylehealth"),
     img: c6,
     alt: t("lifestylehealth"),
-    link: "/explore?tags=Lifestyle & Health",
+    link: localizePath("/explore?tags=Lifestyle & Health"),
   },
   {
     index: 1,
     titleTop: t("explore.education"),
     img: c7,
     alt: t("explore.education"),
-    link: "/explore?tags=Education",
+    link: localizePath("/explore?tags=Education"),
   },
   {
     index: 2,
     titleTop: t("explore.entertainment"),
     img: c8,
     alt: t("explore.entertainment"),
-    link: "/explore?tags=Entertainment",
+    link: localizePath("/explore?tags=Entertainment"),
   },
   {
     index: 3,
     titleTop: t("explore.others"),
     img: c9,
     alt: t("explore.others"),
-    link: "/explore?tags=Others",
+    link: localizePath("/explore?tags=Others"),
   },
 ];
 

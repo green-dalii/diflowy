@@ -4,7 +4,7 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import Form from "../../components/ui/Form.astro";
-// import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
+import { localizePath } from "astro-i18next";
 import "../../styles/globals.css";
 
 changeLanguage("ja");
@@ -24,7 +24,7 @@ const description = t("uploadpage.description");
           <p class="text-xs mb-5">
             {t("uploadpage.loginhint")}
           </p>
-          <a id="login-link" href="/login"
+          <a id="login-link" href={localizePath("/login")}
             ><button class="btn-tertiary w-full xl:w-auto py-2 text-sm" id="login"
               >{t("uploadpage.loginbtn")}<br><small>{t("uploadpage.recommended")}</small></button
             >

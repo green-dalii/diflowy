@@ -80,7 +80,7 @@ const description = t("workflow.description");
             </div>
             <div id="tagsarea" class="mt-5"></div>
             <div class="mt-20">
-              <h4>👁️ Before You Use</h4>
+              <h4>{t("workflow.before")}</h4>
               <ul
                 class="list-disc list-inside mt-2 text-xs text-gray-500 space-y-2"
               >
@@ -208,6 +208,9 @@ const description = t("workflow.description");
 
   // After all DOM is loaded
   document.addEventListener("DOMContentLoaded", async (_) => {
+    // disable language select due to URL params lost bug
+    const langSelect = document.getElementById("langSelect") as unknown as HTMLSelectElement;
+    langSelect.disabled = true;
     // Get the modal element
     const modal = document.getElementById("modal") as HTMLDialogElement;
     const modalTitle = document.getElementById(
