@@ -1,4 +1,5 @@
 ---
+import { changeLanguage, t } from "i18next";
 import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import UploadEntranceBelow from "../../components/sections/UploadEntranceBelow.astro";
@@ -6,19 +7,21 @@ import Section from "../../components/sections/Section.astro";
 import Skeleton from "../../components/ui/Skeleton.astro";
 import PrivateHostedToogle from "../../components/ui/PrivateHostedToogle.astro";
 import "../../styles/globals.css";
-const description =
-  "Explore and import workflows to Dify immediately in Diflow.";
+
+changeLanguage("en");
+
+const description = t("explorepage.description");
 const skeletonCount = 12;
 ---
 
 <MainLayout
-  title="Explore | Diflowy"
-  description="Explore, Share, Download Dify Workflows in Diflowy"
+  title={t("site.explore")}
+  description={t("site.description")}
 >
   <div class="mt-48">
     <Section>
       <SectionTitle
-        sectionTitle="Explore workflows"
+        sectionTitle={t("explorepage.title")}
         description={description}
       />
       <!-- Toolbar -->
@@ -29,11 +32,11 @@ const skeletonCount = 12;
         <div class="w-full">
           <PrivateHostedToogle
             isTitled={true}
-            title="Private-Hosted Mode"
+            title={t("explorepage.modetitle")}
             flexDirection="row"
             disable={false}
-            publicAlertMsg="In Public Mode, all public workflows are available for everyone. When not logged in, you can only explore in this mode."
-            privateAlertMsg="In Private-Hosted Mode, Diflowy will become your personal Dify file manager. Only your own private workflows are available to you and others can't see them."
+            publicAlertMsg={t("explorepage.publicmsg")}
+            privateAlertMsg={t("explorepage.privatemsg")}
           />
         </div>
       </div>

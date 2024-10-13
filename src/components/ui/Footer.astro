@@ -1,11 +1,8 @@
 ---
 import { Image } from "astro:assets";
-// import Facebook from "../../assets/facebook.svg";
-// import Linkedin from "../../assets/linkedin.svg";
 import Logo from "../../assets/logo-alt.svg";
-// import Twitter from "../../assets/twitter.svg";
-// import ShortForm from "../ui/ShortForm.astro";
 import { Icon } from "astro-icon/components";
+import { t } from "i18next";
 
 const logos = [
   { name: "twitter", link: "https://x.com/myGreenerDalii" },
@@ -14,10 +11,10 @@ const logos = [
 ];
 
 const links = [
-  { name: "Explore", href: "/explore" },
-  { name: "Share", href: "/upload" },
-  { name: "Blog", href: "/blog" },
-  { name: "About", href: "/about" },
+  { name: t("navbar.explore"), href: "/explore" },
+  { name: t("navbar.share"), href: "/upload" },
+  { name: t("navbar.blog"), href: "/blog" },
+  { name: t("navbar.about"), href: "/about" },
 ];
 
 const difyOffical = [
@@ -82,7 +79,7 @@ const resources = [
 
         <div class="flex flex-col lg:flex-row gap-8 mt-12 mb-10">
           <div class="flex text-center lg:text-start flex-col w-full lg:w-1/3">
-            <h4 class="mb-4 text-sm font-semibold">Contact us</h4>
+            <h4 class="mb-4 text-sm font-semibold">{t("navbar.contactus")}</h4>
             <div class="flex flex-col justify-between gap-2">
               <div class="text-xs">
                 <a
@@ -106,17 +103,17 @@ const resources = [
               <div class="text-xs">
                 <a
                   href="/login/privacy"
-                  aria-label="Github Discussion"
+                  aria-label="Privacy Policy"
                   target="_blank"
                   class="hover:link"
                 >
-                  Privacy Policy
+                  {t("navbar.privacypolicy")}
                 </a>
               </div>
             </div>
           </div>
           <div class="flex text-center lg:text-start flex-col w-full lg:w-1/3">
-            <h4 class="mb-4 text-sm font-semibold">Dify Official</h4>
+            <h4 class="mb-4 text-sm font-semibold">{t("navbar.difyofficial")}</h4>
             <div class="flex flex-col justify-between gap-2">
               {
                 difyOffical.map((link) => {
@@ -137,7 +134,7 @@ const resources = [
             </div>
           </div>
           <div class="flex text-center lg:text-start flex-col w-full lg:w-1/3">
-            <h4 class="mb-4 text-sm font-semibold">Resources</h4>
+            <h4 class="mb-4 text-sm font-semibold">{t("navbar.resources")}</h4>
             <div class="flex flex-col justify-between gap-2">
               {
                 resources.map((link) => {

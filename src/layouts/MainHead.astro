@@ -1,5 +1,6 @@
 ---
 import Seo from "../components/seo/Seo.astro";
+import { Trans, HeadHrefLangs } from "astro-i18next/components";
 
 // Pass the contents to create SEO for the page
 const { title, description, image, frontmatter, robots } = Astro.props;
@@ -8,16 +9,14 @@ const { title, description, image, frontmatter, robots } = Astro.props;
 <head>
   <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <!-- iOS 
-  <link rel="apple-touch-icon" sizes="256x256" href="/path/to/your/icon.png" />
-  -->
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="apple-touch-icon" sizes="256x256" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
 
   <title>{title}</title>
   <meta name="description" content={description} />
-
+  <HeadHrefLangs />
   <Seo
     {title}
     {description}

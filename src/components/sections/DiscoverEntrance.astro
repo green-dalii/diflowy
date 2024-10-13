@@ -2,6 +2,7 @@
 import SectionTitle from "../ui/SectionTitle.astro";
 import DiscoverCard from "../ui/DiscoverCard.astro";
 import Section from "./Section.astro";
+import { t } from "i18next";
 
 import c1 from "../../assets/pics/card-pic1.svg";
 import c2 from "../../assets/pics/card-pic2.svg";
@@ -16,76 +17,75 @@ import c9 from "../../assets/pics/card-pic9.svg";
 const cards = [
   {
     index: 1,
-    titleTop: "Productivity",
+    titleTop: t("explore.productivity"),
     img: c1,
-    alt: "Productivity",
+    alt: t("explore.productivity"),
     link: "/explore?tags=Productivity",
   },
   {
     index: 2,
-    titleTop: "Assistant",
+    titleTop: t("explore.assistant"),
     img: c2,
-    alt: "Assistant",
+    alt: t("explore.assistant"),
     link: "/explore?tags=Assistant",
   },
   {
     index: 3,
-    titleTop: "Creative",
+    titleTop: t("explore.creative"),
     img: c3,
-    alt: "Creative",
+    alt: t("explore.creative"),
     link: "/explore?tags=Creative",
   },
   {
     index: 1,
-    titleTop: "Social Media",
+    titleTop: t("explore.socialmedia"),
     img: c4,
-    alt: "Social Media",
+    alt: t("explore.socialmedia"),
     link: "/explore?tags=Social Media",
   },
   {
     index: 2,
-    titleTop: "Finance & Business",
+    titleTop: t("explore.financebusiness"),
     img: c5,
-    alt: "Finance & Business",
+    alt: t("explore.financebusiness"),
     link: "/explore?tags=Finance & Business",
   },
   {
     index: 3,
-    titleTop: "Lifestyle & Health",
+    titleTop: t("explore.lifestylehealth"),
     img: c6,
-    alt: "Lifestyle & Health",
+    alt: t("lifestylehealth"),
     link: "/explore?tags=Lifestyle & Health",
   },
   {
     index: 1,
-    titleTop: "Education",
+    titleTop: t("explore.education"),
     img: c7,
-    alt: "Education",
+    alt: t("explore.education"),
     link: "/explore?tags=Education",
   },
   {
     index: 2,
-    titleTop: "Entertainment",
+    titleTop: t("explore.entertainment"),
     img: c8,
-    alt: "Entertainment",
+    alt: t("explore.entertainment"),
     link: "/explore?tags=Entertainment",
   },
   {
     index: 3,
-    titleTop: "Others",
+    titleTop: t("explore.others"),
     img: c9,
-    alt: "Others",
+    alt: t("explore.others"),
     link: "/explore?tags=Others",
   },
 ];
 
-const description =
-  "You can explore workflows by categories. Then you can Live Preview and Import them to Dify in Diflowy.";
+const description = t("explore.description")
 ---
 
 <Section>
   <div class="mt-64 mb-5">
-    <SectionTitle sectionTitle="Explore" description={description} />
+    <SectionTitle sectionTitle={t("navbar.explore")} description={description} />
     <div class="grid justify-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-10">
       {
         cards.map((card) => (

@@ -3,22 +3,31 @@ import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import brand from "../../assets/brand.svg";
 import Modal from "./AlertModal.astro";
+import i18next, { t, changeLanguage } from "i18next";
+import { Trans, HeadHrefLangs } from "astro-i18next/components";
+import { LanguageSelector } from "astro-i18next/components";
+
+const translations = {
+  login: t("navbar.login"),
+  logout: t("navbar.logout"),
+  userCenter: t("navbar.usercenter"),
+};
 
 const navLinks = [
   {
-    name: "Explore",
+    name: t("navbar.explore"),
     href: "/explore",
   },
   {
-    name: "Share",
+    name: t("navbar.share"),
     href: "/upload",
   },
   {
-    name: "Blog",
+    name: t("navbar.blog"),
     href: "/blog",
   },
   {
-    name: "About",
+    name: t("navbar.about"),
     href: "/about",
   },
 ];
@@ -81,11 +90,15 @@ const navLinks = [
         })
       }
     </ul>
+    <!-- Language Selector -->
+    <div class="flex items-center justify-center py-4 lg:py-0 lg:mr-4">
+      <LanguageSelector showFlag={true} class="bg-transparent text-base text-center text-dark hover:text-black dark:text-white dark:hover:text-blue" />
+    </div>
 
     <!-- Login -->
     <div class="inline-block w-full lg:w-auto">
       <div class="flex xl:flex-row xl:items-center xl:gap-4 flex-col xl:ml-4">
-        <button class="btn-secondary w-full xl:w-auto py-2 text-dark border-dark dark:text-white dark:border-white" id="user-menu-button">Login</button>
+        <button class="btn-secondary w-full xl:w-auto py-2 text-dark border-dark dark:text-white dark:border-white" id="user-menu-button">{t("navbar.login")}</button>
       </div>
     </div>
   </div>
@@ -95,19 +108,20 @@ const navLinks = [
       <a href="/user" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" role="menuitem">
         <div class="flex items-center">
           <Icon name="user" />
-          <span class="ml-2">User Center</span>
+          <span class="ml-2">{t("navbar.usercenter")}</span>
         </div>
       </a>
       <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700" role="menuitem">
         <div class="flex items-center">
           <Icon name="logout" />
-          <span class="ml-2">Logout</span>
+          <span class="ml-2">{t("navbar.logout")}</span>
         </div>
       </a>
     </div>
   </div>
 </div>
-
+<!-- Translations -->
+<div id="navtranslations" class="hidden" data-translations={JSON.stringify(translations)}></div>
 <!-- modal -->
 <Modal />
 
@@ -155,7 +169,9 @@ const navLinks = [
   interface UserResponse {
     user: User | null;
   }
-
+  // Get translations data
+  const translationsElement = document.getElementById('navtranslations') as HTMLDivElement;
+  const translations = JSON.parse(translationsElement.dataset.translations as string);
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
   const modalTitle = document.getElementById(
@@ -191,7 +207,7 @@ const navLinks = [
     modalTitle.innerText = "🤔 Logout?";
     modalContent.innerText = "Would you like to logout from Diflowy?";
     const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
-    confirmBtn.textContent = "Logout";
+    confirmBtn.textContent = translations.logout;
     confirmBtn.classList.add("btn-error");
     confirmBtn.classList.remove("hidden");
     confirmBtn.addEventListener("click", handleLogout);
@@ -242,7 +258,7 @@ const navLinks = [
       if (response.status === 401) {
         console.log("JWT is invalid");
         sessionStorage.removeItem("username");
-        userMenuButton.textContent = "Login";
+        userMenuButton.textContent = translations.login;
         userMenuButton.setAttribute("onclick", "window.location.href='/login'")
         if(protectedContent && notLogin){
           notLogin.style.display = "block";
@@ -264,7 +280,7 @@ const navLinks = [
           protectedContent.style.display = "block";
         }
       } else {
-        userMenuButton.textContent = "Login";
+        userMenuButton.textContent = translations.login;
         userMenuButton.setAttribute("onclick", "window.location.href='/login'")
         if(protectedContent && notLogin){
           notLogin.style.display = "block";
@@ -275,7 +291,7 @@ const navLinks = [
     }catch(error){
       console.log("No user found in server response");
       sessionStorage.removeItem("username");
-      userMenuButton.textContent = "Login";
+      userMenuButton.textContent = translations.login;
       // loginLink.setAttribute("href", "/login");
       userMenuButton.setAttribute("onclick", "window.location.href='/login'")
       if(protectedContent && notLogin){

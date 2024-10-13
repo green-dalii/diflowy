@@ -1,0 +1,28 @@
+# robots.txt for example.com
+# This file specifies rules for web robots
+# For more information, see https://www.robotstxt.org/
+
+# Allow all robots access to the entire site
+User-agent: *
+Disallow:
+
+# Disallow access to admin and login pages
+Disallow: /login/
+
+# Disallow access to API endpoints
+Disallow: /api/
+
+# Allow access to static files
+Allow: /static/
+
+# Prevent indexing of temporary pages
+Disallow: /temp/
+
+# Prevent indexing of pages ending in .tmp
+Disallow: /*.tmp
+
+# Prevent indexing of pages that are under construction
+Disallow: /under-construction/
+
+# Specify the sitemap location
+Sitemap: https://diflowy.greenerai.top/sitemap-index.xml

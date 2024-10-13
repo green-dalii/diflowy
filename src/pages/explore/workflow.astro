@@ -1,4 +1,5 @@
 ---
+import { changeLanguage, t } from "i18next";
 import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
@@ -6,14 +7,13 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import { Icon } from "astro-icon/components";
 import "../../styles/globals.css";
 import "../../styles/markdown.css";
-const description =
-  "You can view, import or download workflow you like to your Dify directly.";
+
+changeLanguage("en");
+
+const description = t("workflow.description");
 ---
 
-<MainLayout
-  title="Workflow | Diflowy"
-  description="Explore, Share, Download Dify Workflows in Diflowy"
->
+<MainLayout title={t("site.workflow")} description={t("site.ddescription")}>
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="Workflow" description={description} />
@@ -24,8 +24,7 @@ const description =
           </div>
           <div>
             <small class="text-sm text-gray-400"
-              >* The above is for preview only, any changes will not affect the
-              file.</small
+              >{t("uploadpage.previewhint")}</small
             >
           </div>
         </div>
@@ -52,7 +51,7 @@ const description =
               >
                 Contact Author‣
               </div>
-              <div id="metaInfo" class="flex fexl-row gap-2">
+              <div id="metaInfo" class="flex flex-wrap gap-2">
                 <div
                   id="isPrivate"
                   class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full"
@@ -65,7 +64,7 @@ const description =
               <div class="flex flex-row space-x-2 items-center">
                 <div class="flex flex-row items-center space-x-1">
                   <Icon name="rocket" class="text-sm" />
-                  <div class="text-xs">Version</div>
+                  <div class="text-xs break-keep text-nowrap">{t("workflow.version")}</div>
                 </div>
                 <select
                   id="version"
@@ -85,39 +84,45 @@ const description =
               <ul
                 class="list-disc list-inside mt-2 text-xs text-gray-500 space-y-2"
               >
-                <li>Please check the security of the workflow.</li>
-                <li>
-                  You might need to replace the LLM or API keys with yours.
-                </li>
-                <li>
-                  You might need to modify the workflow to fit your needs.
-                </li>
-                <li>
-                  If this workflow is being shared without the author's
-                  permission or copyright, please contact us immediately.
-                </li>
-                <li>If you find it useful, remember to thank the author!</li>
+                <li>{t("workflow.b1")}</li>
+                <li>{t("workflow.b2")}</li>
+                <li>{t("workflow.b3")}</li>
+                <li>{t("workflow.b4")}</li>
+                <li>{t("workflow.b5")}</li>
               </ul>
             </div>
             <!-- Button -->
             <div
-              class="w-full flex flex-col sm:flex-row items-center gap-4 mt-32"
+              class="w-full grid grid-cols-1 sm:grid-cols-2 items-center gap-4 mt-32"
             >
               <button
                 id="copyButton"
-                class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2"
+                class="flex w-full justify-center items-center btn bg-blue hover:bg-sky-300 px-3 py-2 text-sm text-black font-semibold focus-visible:outline focus-visible:outline-2"
               >
-                <Icon name="import" class="text-2xl mr-1" />Import to Dify
+                <Icon name="import" class="text-2xl mr-1" />{t("workflow.btn1")}
               </button>
               <button
                 id="downloadButton"
-                class="flex w-full justify-center items-center btn-tertiary px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                ><Icon name="download" class="text-2xl mr-1" />Download</button
+                class="flex w-full justify-center items-center btn bg-dark hover:bg-sky-600 px-3 py-2 text-sm text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                ><Icon name="download" class="text-2xl mr-1" />{t("workflow.btn2")}</button
+              >
+              <button
+                id="likeButton"
+                class="flex w-full justify-center items-center btn btn-disabled bg-red-400 hover:bg-red-500 px-3 py-2 text-sm text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                ><Icon
+                  name="like"
+                  class="text-xl mr-1"
+                />{t("workflow.btn3")}</button
+              >
+              <button
+                id="shareButton"
+                class="flex w-full justify-center items-center btn btn-neutral px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                ><Icon name="share" class="text-xl mr-1" />{t("workflow.btn4")}</button
               >
             </div>
           </div>
           <div>
-            <h3 class="mt-10 mb-5">Description</h3>
+            <h3 class="mt-10 mb-5">{t("uploadpage.des")}</h3>
             <article id="description" class="mt-5 markdown-body">
               Loading...
             </article>
@@ -248,6 +253,12 @@ const description =
       const copyButton = document.getElementById(
         "copyButton",
       ) as HTMLButtonElement;
+      const likeButton = document.getElementById(
+        "likeButton",
+      ) as HTMLButtonElement;
+      const shareButton = document.getElementById(
+        "shareButton",
+      ) as HTMLButtonElement;
       const isPrivate = document.getElementById("isPrivate") as HTMLDivElement;
       const metaInfo = document.getElementById("metaInfo") as HTMLDivElement;
 
@@ -278,7 +289,8 @@ const description =
         });
         const downloadUrl = `${baseUrl}?${params.toString()}`;
         navigator.clipboard.writeText(downloadUrl).then(() => {
-          modalTitle.innerText = "🎉 Tada!";
+          modalTitle.innerText =
+            "🎉 Copied! Paste and import it to your Dify Now!";
           modalContent.innerHTML = `<div>The Workflow's URL has been copied to your clipboard!✌️</div><div>You can now paste and import it directly into your Dify.</div>`;
           modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
           modalContent.innerHTML += importStepImg;
@@ -300,6 +312,21 @@ const description =
         if (currentWorkflowObject) {
           copyDownloadUrl(currentWorkflowObject);
         }
+      });
+      likeButton.addEventListener("click", async (event: Event) => {
+        console.log("Executing likeButton...");
+        event.preventDefault();
+      });
+      shareButton.addEventListener("click", async (event: Event) => {
+        console.log("Executing shareButton...", window.location.href);
+        event.preventDefault();
+        const shareUrl = window.location.href;
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          modalTitle.innerText = "🎉 Copied!";
+          modalContent.innerHTML = `<div>The link to this page has been copied to the clipboard.</div> <div>You can share the link 🔗 whit your friends.</div>`;
+          modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${shareUrl}</div>`;
+          modal.showModal();
+        });
       });
 
       // Function for updating workflow page
@@ -352,7 +379,7 @@ const description =
         // Update llm metadata
         console.log("LLM>>>>", usedModal);
         usedModal.map((name: string) => {
-          metaInfo.innerHTML += `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${name}</div>`;
+          metaInfo.innerHTML += `<div class="w-max text-xs text-gray-600 dark:text-gray-400 border bg-transparent py-1 px-2 rounded-full">${name}</div>`;
         });
 
         // Check if ReactFlow is ready

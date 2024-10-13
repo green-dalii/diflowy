@@ -1,28 +1,32 @@
 ---
+import { changeLanguage, t } from "i18next";
 import MainLayout from "../layouts/MainLayout.astro";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
 import EditModal from "../components/ui/EditModal.astro";
 import "../styles/globals.css";
-const description = "In User Center you can manage your Dify workflows.";
+
+changeLanguage("en");
+
+const description = t("user.description");
 const skeletonCount = 10;
 ---
 
 <MainLayout
-  title="Blog | Diflowy"
-  description="Where Dify workflows are stored"
+  title={t("site.user")}
+  description={t("site.description")}
 >
   <div class="mt-48">
     <Section>
-      <SectionTitle sectionTitle="User Center" description={description} />
+      <SectionTitle sectionTitle={t("user.title")} description={description} />
       <div class="sm:grid sm:grid-cols-6 mt-40">
         <div id="not-login" class="sm:col-start-3 sm:col-span-2 text-center">
           <p class="text-sm mb-5">
-            Please Login before entering the User Center.
+            {t("user.before")}
           </p>
           <a id="login-link" href="/login"
             ><button class="btn-tertiary w-full xl:w-auto py-2" id="login"
-              >🔐 Login</button
+              >{t("user.loginbtn")}</button
             >
           </a>
         </div>
@@ -31,17 +35,13 @@ const skeletonCount = 10;
         <table class="table table-fixed w-full">
           <thead>
             <tr>
-              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12">No.</th>
-              <th class="text-wrap text-xs w-3/12 sm:w-3/12">Workflow Name</th>
-              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12"
-                >Latest Version</th
-              >
-              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12"
-                >Private-Hosted</th
-              >
-              <th class="text-wrap text-xs w-3/12 sm:w-2/12">Metadata</th>
-              <th class="text-wrap text-xs w-3/12 sm:w-2/12">Update Version</th>
-              <th class="text-wrap text-xs w-3/12 sm:w-2/12">Delete</th>
+              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12">{t("user.No")}</th>
+              <th class="text-wrap text-xs w-3/12 sm:w-3/12">{t("uploadpage.name")}</th>
+              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12">{t("user.lv")}</th>
+              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12">{t("user.hm")}</th>
+              <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.meta")}</th>
+              <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.update")}</th>
+              <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.delete")}</th>
             </tr>
           </thead>
           <tbody id="workflowTable">

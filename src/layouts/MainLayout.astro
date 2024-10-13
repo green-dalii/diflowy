@@ -2,11 +2,13 @@
 import Footer from "../components/ui/Footer.astro";
 import Navbar from "../components/ui/Navbar.astro";
 import MainHead from "./MainHead.astro";
+import i18next from "i18next";
+
 
 const { ...props } = Astro.props;
 ---
 
-<html lang="en">
+<html lang={i18next.language}>
   <MainHead {...props} />
   <style>
     html.lenis {

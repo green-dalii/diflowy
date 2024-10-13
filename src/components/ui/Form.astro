@@ -2,7 +2,7 @@
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import WorkflowFileInput from "./WorkflowFileInput.astro";
 import Tags from "./Tags.astro";
-// import Alert from "./Alert.astro";
+import i18next, { t, changeLanguage } from "i18next";
 import PrivateHostedToogle from "./PrivateHostedToogle.astro";
 ---
 
@@ -11,13 +11,13 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
     <div class="sm:col-span-2 sm:col-start-1">
       <!-- Basic Info`` -->
       <div class="pb-12">
-        <h2 class="text-xl font-semibold leading-7">Workflow Information</h2>
+        <h2 class="text-xl font-semibold leading-7">{t("uploadpage.workflowinfo")}</h2>
         <!-- Basic info -->
         <div class="grid grid-cols-1 gap-2">
           <!-- WorkFlow File -->
           <div class="sm:col-span-full">
             <label for="dsl-file" class="block text-sm font-medium leading-6"
-              >Upload your Dify Workflow file</label
+              >{t("uploadpage.uploadfile")}</label
             >
             <WorkflowFileInput />
           </div>
@@ -26,7 +26,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
             <label
               for="workflowname"
               class="block text-sm font-medium leading-6"
-              >Workflow Name<sup class="ml-1 text-red-500">*</sup></label
+              >{t("uploadpage.name")}<sup class="ml-1 text-red-500">*</sup></label
             >
             <div class="mt-2">
               <div class="flex items-center">
@@ -46,7 +46,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           <!-- Version -->
           <div class="sm:col-span-full">
             <label for="version" class="block text-sm font-medium leading-6"
-              >Version Control<sup class="ml-1 text-red-500">*</sup></label
+              >{t("uploadpage.version")}<sup class="ml-1 text-red-500">*</sup></label
             >
             <div class="mt-2 flex rounded-md shadow-sm">
               <span
@@ -93,7 +93,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
               <label
                 for="description"
                 class="block text-sm font-medium leading-6"
-                >Description<sup class="ml-1 text-red-500">*</sup><small
+                >{t("uploadpage.des")}<sup class="ml-1 text-red-500">*</sup><small
                   class="text-gray-400 ml-1">[Markdown is supported]</small
                 ></label
               >
@@ -128,7 +128,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
               <label
                 for="author-name"
                 class="block text-sm font-medium leading-6"
-                >Author name<sup class="ml-1 text-red-500">*</sup></label
+                >{t("uploadpage.authorname")}<sup class="ml-1 text-red-500">*</sup></label
               >
               <div class="mt-2">
                 <input
@@ -145,7 +145,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
               <label
                 for="social-link"
                 class="block text-sm font-medium leading-6"
-                >Social Media / Contact Link<sup class="ml-1 text-red-500"
+                >{t("uploadpage.authorlink")}<sup class="ml-1 text-red-500"
                   >*</sup
                 ></label
               >
@@ -182,20 +182,16 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
         </div>
         <!-- Notifications -->
         <div class="border-b border-gray-900/10 pt-8 pb-4">
-          <h2 class="text-base font-semibold leading-7">🔔 Notifications</h2>
+          <h2 class="text-base font-semibold leading-7">{t("uploadpage.notifytitle")}</h2>
           <ul class="list-disc list-inside text-xs">
             <li class="leading-6 text-gray-600">
-              Please complete the above fields in detail for the benefit of
-              others.
+              {t("uploadpage.notify1")}
             </li>
             <li class="leading-6 text-gray-600">
-              Please confirm that you are the author and willing to share this
-              workflow, or that it is freely shareable, and provide complete
-              author information.
+              {t("uploadpage.notify2")}
             </li>
             <li class="leading-6 text-gray-600">
-              Ensure there is no private information (API keys, environment
-              variables, etc.) before uploading.
+              {t("uploadpage.notify3")}
             </li>
           </ul>
         </div>
@@ -204,7 +200,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           <button
             type="submit"
             class="btn-tertiary w-full px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >Upload</button
+            >{t("uploadpage.uploadbtn")}</button
           >
         </div>
       </div>
@@ -213,14 +209,13 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
       id="reactflow-preview"
       class="mt-8 sm:mt-0 sm:col-span-4 sm:col-start-3"
     >
-      <h2 class="text-xl font-semibold leading-7">Workflow Preview</h2>
+      <h2 class="text-xl font-semibold leading-7">{t("uploadpage.previewtitle")}</h2>
       <div class="w-full h-[500px] sm:h-[600px]">
         <ReactFlowPreview client:only="react" />
       </div>
       <div>
         <small class="text-sm text-gray-400"
-          >* The above is for preview only, any changes will not affect the
-          file.</small
+          >{t("uploadpage.previewhint")}</small
         >
       </div>
     </div>

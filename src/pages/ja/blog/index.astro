@@ -1,0 +1,23 @@
+---
+import { changeLanguage } from "i18next";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import Section from "../../../components/sections/Section.astro";
+import "../../../styles/globals.css";
+
+changeLanguage("ja");
+
+const description = "We welcome your contributions on any Dify Workflow tips, tricks, case studies, and experiences to help the community.";
+---
+
+<MainLayout
+  title="Blog | Diflowy"
+  description="Explore, Share, Download Dify Workflows in Diflowy"
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="Our Blogs" description={description} />
+      <div class="flex flex-col items-center justify-center mt-32">Coming Soon...</div>
+    </Section>
+  </div>
+</MainLayout>

@@ -1,13 +1,14 @@
 ---
+import { changeLanguage } from "i18next";
 import MainLayout from "../../layouts/MainLayout.astro";
 import Section from "../../components/sections/Section.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import "../../styles/globals.css";
 import "../../styles/markdown.css";
 
-const description =
-  "Diflowy respects your privacy. This Privacy Policy explains how we collect, use, share, and protect your information when you use our services.";
+changeLanguage("en");
 
+const description = "Diflowy respects your privacy. This Privacy Policy explains how we collect, use, share, and protect your information when you use our services.";
 const privacy = `
 ## Information We Collect
 

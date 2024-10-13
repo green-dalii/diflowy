@@ -1,0 +1,195 @@
+---
+import { changeLanguage, t } from "i18next";
+import MainLayout from "../../layouts/MainLayout.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import Section from "../../components/sections/Section.astro";
+import { Icon } from "astro-icon/components";
+import "../../styles/globals.css";
+
+changeLanguage("ja");
+
+const roadmap = [
+    { description: t("aboutpage.rm1"), checked: true },
+    {
+        description: t("aboutpage.rm2"),
+        checked: true,
+    },
+    {
+        description: t("aboutpage.rm3"),
+        checked: true,
+    },
+    { description: t("aboutpage.rm4"), checked: true },
+    { description: t("aboutpage.rm5"), checked: false },
+    { description: t("aboutpage.rm6"), checked: false },
+    { description: t("aboutpage.rm7"), checked: false },
+    { description: t("aboutpage.rm8"), checked: false },
+    {
+        description: t("aboutpage.rm9"),
+        checked: false,
+    },
+];
+---
+
+<MainLayout
+  title={t("site.about")}
+  description={t("site.description")}
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle={t("aboutpage.title")} description="" />
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.why")}</div>
+        <div
+          class="col-span-3 sm:col-span-2 text-sm leading-loose w-full xl:w-2/3"
+        >
+          <p>
+            {t("aboutpage.means")}<span
+              class="font-semibold italic underline decoration-wavy"
+              >Dify + Workflow</span
+            >.
+          </p>
+          <p>{t("aboutpage.text1")}</p>
+          <p>{t("aboutpage.text2")}</p>
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.how")}</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
+          <ul class="list-disc space-y-2 list-inside font-light">
+            <li>
+              {t("aboutpage.how1")}<span
+                class="italic underline font-medium">diflowy@greenerai.top</span
+              >
+            </li>
+            <li>
+              <div class="contents sm:inline-flex">
+                <span>{t("aboutpage.how2")}</span>
+                <span class="italic px-1"
+                  ><a
+                    href="https://github.com/green-dalii/diflowy"
+                    class="flex flex-row items-center font-medium link hover:text-dark"
+                    ><Icon
+                      name="github"
+                      class="text-lg mx-1"
+                    />green-dalii/diflow</a
+                  ></span
+                >
+              </div>
+            </li>
+            <li>
+              {t("aboutpage.how3")}<span
+                class="font-medium link hover:text-dark pl-1"
+                ><a href="https://github.com/green-dalii/diflowy/discussions"
+                  >💬 Github Discussions</a
+                ></span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.thanks")}</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
+          <div class="mb-4">
+            Diflowy could not have been created without the support of the
+            following projects:
+          </div>
+          <ul class="list-disc space-y-4 list-inside font-light text-xs">
+            <li>
+              <span
+                class="inline-block sm:inline-flex align-top sm:align-middle"
+              >
+                <a
+                  href="https://github.com/langgenius/dify"
+                  class="flex flex-row items-center font-medium link hover:text-dark mr-1"
+                  ><Icon name="github" class="mr-1 text-lg" />Dify</a
+                >
+                The Innovation Engine for GenAI Applications.
+              </span>
+            </li>
+            <li>
+              <span
+                class="inline-block sm:inline-flex align-top sm:align-middle"
+              >
+                <a
+                  href="https://github.com/svcvit/Awesome-Dify-Workflow"
+                  class="flex flex-row items-center font-medium link hover:text-dark mr-1"
+                  ><Icon
+                    name="github"
+                    class="mr-1 text-lg"
+                  />Awesome-Dify-Workflow</a
+                >
+                Sharing some Dify workflows.
+              </span>
+            </li>
+            <li>
+              <a
+                href="https://dify101.com/"
+                class="items-center font-medium link hover:text-dark mr-1 after:content-['_↗']"
+                >Dify101</a
+              >
+              Dify tutorial: Unlock the power of Dify.ai.
+            </li>
+            <li>
+              <span
+                class="inline-flex flex-wrap gap-1 sm:inline-flex align-top sm:align-middle"
+              >
+                <a
+                  href="https://astro.build/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >Astro</a
+                >
+                ,
+                <a
+                  href="https://tailwindcss.com/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >TailwindCSS</a
+                >
+                ,
+                <a
+                  href="https://reactflow.dev/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >ReactFlow</a
+                >
+                and
+                <a
+                  href="https://color4bg.com/"
+                  class="flex flex-row items-center font-medium link after:content-['_↗'] hover:text-dark"
+                  >Color4Bg</a
+                >
+                for Website Development.
+              </span>
+            </li>
+            <li>
+              <a
+                href="https://www.cloudflare.com/"
+                class="items-center font-medium link mr-1 after:content-['_↗'] hover:text-dark"
+                >Cloudflare</a
+              >
+              for Website Hosting and Database Service.
+            </li>
+          </ul>
+        </div>
+        <div class="divider col-span-3"></div>
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.rp")}</div>
+        <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
+          <ul class="space-y-4 list-inside text-xs">
+            {
+              roadmap.map((item) => {
+                return (
+                  <li class="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      class="checkbox checkbox-sm"
+                      disabled
+                      checked={item.checked}
+                    />
+                    <span>{item.description}</span>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+      </div>
+    </Section>
+  </div>
+</MainLayout>

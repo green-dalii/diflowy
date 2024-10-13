@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-
+import { t } from "i18next";
 import gob from "../../assets/icon8.svg";
 import wob from "../../assets/icon7.svg";
 import pob from "../../assets/icon6.svg";
@@ -35,7 +35,7 @@ const { index, titleTop, img, alt, link } = Astro.props;
             alt={alt}
             class="group-hover:rotate-45 transition-all duration-300"
           />
-          <span class=`${index === 1 ? 'greenhead' : index === 2 ? 'blackhead' : 'whitehead'}`>Click Here</span>
+          <span class=`${index === 1 ? 'greenhead' : index === 2 ? 'blackhead' : 'whitehead'}`>{t("explore.clickhere")}</span>
         </div>
       </div>
     </div>

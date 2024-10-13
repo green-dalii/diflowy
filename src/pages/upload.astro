@@ -1,4 +1,5 @@
 ---
+import { changeLanguage, t } from "i18next";
 import MainLayout from "../layouts/MainLayout.astro";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
@@ -6,32 +7,34 @@ import Form from "../components/ui/Form.astro";
 // import ReactFlowPreview from "../components/flow/ReactFlowPreview";
 import "../styles/globals.css";
 
-const description = "Upload your workflows to Diflowy, you can publish your workflows to everyone, or make them private for your private-hosted use.";
+changeLanguage("en");
+
+const description = t("uploadpage.description");
 ---
 
-<MainLayout title="Share | Diflowy" description="Explore, Share, Download Dify Workflows in Diflowy">
+<MainLayout title={"site.upload"} description={t("site.description")}>
   <div class="mt-48">
     <Section>
       <SectionTitle
-        sectionTitle="Share Your Workflows"
+        sectionTitle={t("uploadpage.title")}
         description={description}
       />
       <div class="grid grid-cols-1 sm:grid-cols-4 mt-40">
         <div id="not-login" class="sm:col-start-2 sm:col-span-2 text-center">
           <p class="text-xs mb-5">
-            To ensure security, you need to Login before uploading.
+            {t("uploadpage.loginhint")}
           </p>
           <a id="login-link" href="/login"
             ><button class="btn-tertiary w-full xl:w-auto py-2 text-sm" id="login"
-              >🔐 Login and Upload<br><small>(Recommended)</small></button
+              >{t("uploadpage.loginbtn")}<br><small>{t("uploadpage.recommended")}</small></button
             >
           </a>
           <p class="mt-16 text-xs mb-5">
-            Alternatively, you can also fill out the form below, then it will be audited and uploaded later by administrator.
+            {t("uploadpage.fillhint")}
           </p>
           <a id="form-link" href="https://nvrpmz0g7oy.feishu.cn/share/base/form/shrcnvn7YIMGM0TCs1gMJQgoGvc">
             <button class="btn-tertiary w-full xl:w-auto py-2 text-sm"
-              >📝 Fill Workflow Form</button
+              >{t("uploadpage.fillbtn")}</button
             >
           </a>
         </div>

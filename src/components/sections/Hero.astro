@@ -3,27 +3,36 @@
 // import HeroIlust from "../../assets/pics/hero-pic.png";
 import Section from "./Section.astro";
 import ReactFlowComponent from "../flow/ReactFlowComponent";
+import i18next, { t, changeLanguage } from "i18next";
+import { Trans, HeadHrefLangs } from "astro-i18next/components";
+
+const translations = {
+  explore: t("hero.explore"),
+  share: t("hero.share"),
+  download: t("hero.download"),
+  host: t("hero.host")
+};
 ---
 
 <Section id="home">
   <div id="box" class="absolute inset-0 -z-10"></div>
   <div
-    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 mt-44 mb-28"
+    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 pt-28 sm:pt-44 pb-28"
   >
-    <div class="flex flex-col w-full lg:w-[66.5%] sm:pt-20">
-      <h1
-        class="text-5xl md:text-6xl font-normal !leading-tight tracking-tight"
-      >
-        <span id="changing-word" class="inline-block font-bold text-dark">
-        </span><br />Dify Workflows in <span
-          class="font-bold underline decoration-wavy"
-          style="
-        text-decoration-skip-ink: none;
-        text-decoration-color: var(--blue);
-    "
-          >Diflowy</span
+    <div class="flex flex-col w-full sm:w-[55%] lg:w-[70%] sm:pt-20">
+        <div
+          class="text-5xl md:text-6xl font-normal !leading-tight tracking-tight"
         >
-      </h1>
+          <div id="changing-word" class="inline-block font-bold text-dark whitespace-pre-wrap"></div>
+          <div>{t("hero.difyin")}&nbsp;<span
+            class="font-bold underline decoration-wavy"
+            style="
+          text-decoration-skip-ink: none;
+          text-decoration-color: var(--blue);
+      "
+            >Diflowy</span>
+          </div>
+      </div>
     </div>
     <div class="row-span-1 md:row-span-3">
       <ReactFlowComponent client:load />
@@ -31,11 +40,14 @@ import ReactFlowComponent from "../flow/ReactFlowComponent";
     <div class="w-full lg:w-[66.5%] mt-5 sm:mt-20">
       <!-- <p class="my-[35px] text-gray-500">Diflowy = Dify + Flow</p> -->
       <a href="/explore">
-        <button class="btn-primary w-full md:w-auto">Explore Workflows</button>
+        <button class="btn-primary w-full md:w-auto">{t("hero.exploreWorkflows")}</button>
       </a>
     </div>
   </div>
 </Section>
+<!-- Translations -->
+<div id="translations" class="hidden" data-translations={JSON.stringify(translations)}></div>
+
 <style>
   .grid-template {
     grid-template-rows: auto 1fr;
@@ -56,17 +68,21 @@ import ReactFlowComponent from "../flow/ReactFlowComponent";
     animation: fadeInUp 0.5s ease-out;
   }
 </style>
+
 <script>
-  const words = ["<Explore>", "<Share>", "<Download>"];
+  // Get translations data
+  const translationsElement = document.getElementById('translations') as HTMLDivElement;
+  const translations = JSON.parse(translationsElement.dataset.translations as string);
+  const words = [translations.explore, translations.share, translations.download, translations.host];
   let currentIndex = 0;
-  const changingWord = document.getElementById("changing-word") as HTMLElement;
+  const changingWord = document.getElementById("changing-word") as HTMLDivElement;
 
   function changeWord() {
     changingWord.style.opacity = "0";
     changingWord.style.transform = "translateY(20px)";
 
     setTimeout(() => {
-      changingWord.textContent = words[currentIndex];
+      changingWord.innerText = words[currentIndex];
       changingWord.classList.add("fade-in-up");
       changingWord.style.opacity = "1";
       changingWord.style.transform = "none";

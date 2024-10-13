@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import Card from "../ui/Card.astro";
 import Section from "./Section.astro";
-import SectionTitle from "../ui/SectionTitle.astro";
+import { t } from "i18next";
 import propImg from "../../assets/pics/upload.svg";
 ---
 
@@ -14,12 +14,12 @@ import propImg from "../../assets/pics/upload.svg";
       >
         <div class="flex flex-col sm:flex-row">
           <div class="w-full sm:w-[40%] flex flex-col gap-[26px]">
-            <h2>Didn't find<br>what you want?</h2>
-            <p>Feel free to upload and share them with everyone.
-            <br />Or you can upload in Private-Hosted mode to make your Dify clean and organized.</p>
+            <h2>{t("explorepage.uploadtitle")}</h2>
+            <p>{t("explorepage.uploadtext1")}
+            <br />{t("explorepage.uploadtext2")}</p>
             <a href="/upload"
               ><button class="btn-primary w-full sm:w-auto"
-                >Upload WorkFlow</button
+                >{t("explorepage.uploadbtn")}</button
               ></a
             >
           </div>

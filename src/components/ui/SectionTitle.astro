@@ -2,8 +2,8 @@
 const { sectionTitle, description } = Astro.props;
 ---
 
-<div class="flex flex-col items-center gap-10 mb-20 sm:flex-row">
-  <h2 class="text-5xl text-center sm:text-left">{sectionTitle}</h2>
+<div class="flex flex-col flex-wrap items-center gap-10 mb-20 sm:flex-row">
+  <h2 class="text-5xl text-center sm:text-left break-keep shrink-0">{sectionTitle}</h2>
   <p class="w-auto text-center sm:text-left sm:w-[580px]">
     {description}
   </p>

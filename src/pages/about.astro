@@ -1,38 +1,68 @@
 ---
+import { changeLanguage, t } from "i18next";
 import MainLayout from "../layouts/MainLayout.astro";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
 import { Icon } from "astro-icon/components";
 import "../styles/globals.css";
-const description = "All Infomation about Diflowy";
+
+changeLanguage("en");
+
+const roadmap = [
+    { description: t("aboutpage.rm1"), checked: true },
+    {
+        description: t("aboutpage.rm2"),
+        checked: true,
+    },
+    {
+        description: t("aboutpage.rm3"),
+        checked: true,
+    },
+    { description: t("aboutpage.rm4"), checked: true },
+    { description: t("aboutpage.rm5"), checked: false },
+    { description: t("aboutpage.rm6"), checked: false },
+    { description: t("aboutpage.rm7"), checked: false },
+    { description: t("aboutpage.rm8"), checked: false },
+    {
+        description: t("aboutpage.rm9"),
+        checked: false,
+    },
+];
 ---
 
 <MainLayout
-  title="About | Diflowy"
-  description="Explore, Share, Download Dify Workflows in Diflowy"
+  title={t("site.about")}
+  description={t("site.description")}
 >
   <div class="mt-48">
     <Section>
-      <SectionTitle sectionTitle="About Us" description={description} />
+      <SectionTitle sectionTitle={t("aboutpage.title")} description="" />
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="col-span-3 sm:col-span-1 text-2xl">Why Called Diflowy?</div>
-        <div class="col-span-3 sm:col-span-2 text-sm leading-loose w-full xl:w-2/3">
-          <p>Difllowy means <span class="font-semibold italic underline decoration-wavy">Dify + Workflow</span>.</p>
-          <p>We are a vibrant and Open-Source community dedicated to the exploration, sharing, hosting, and downloading of Dify.Al workflows.</p>
-          <p>We welcome all participation and contributions 👋</p>
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.why")}</div>
+        <div
+          class="col-span-3 sm:col-span-2 text-sm leading-loose w-full xl:w-2/3"
+        >
+          <p>
+            {t("aboutpage.means")}<span
+              class="font-semibold italic underline decoration-wavy"
+              >Dify + Workflow</span
+            >.
+          </p>
+          <p>{t("aboutpage.text1")}</p>
+          <p>{t("aboutpage.text2")}</p>
         </div>
         <div class="divider col-span-3"></div>
-        <div class="col-span-3 sm:col-span-1 text-2xl">How to Cantact Us?</div>
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.how")}</div>
         <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
           <ul class="list-disc space-y-2 list-inside font-light">
             <li>
-              We welcome you to contact us by Email 👉 <span
+              {t("aboutpage.how1")}<span
                 class="italic underline font-medium">diflowy@greenerai.top</span
               >
             </li>
             <li>
               <div class="contents sm:inline-flex">
-                <span>All Diflowy's code is Open-Source on Github</span>
+                <span>{t("aboutpage.how2")}</span>
                 <span class="italic px-1"
                   ><a
                     href="https://github.com/green-dalii/diflowy"
@@ -46,7 +76,7 @@ const description = "All Infomation about Diflowy";
               </div>
             </li>
             <li>
-              If you have any questions or feedback, join our <span
+              {t("aboutpage.how3")}<span
                 class="font-medium link hover:text-dark pl-1"
                 ><a href="https://github.com/green-dalii/diflowy/discussions"
                   >💬 Github Discussions</a
@@ -56,10 +86,11 @@ const description = "All Infomation about Diflowy";
           </ul>
         </div>
         <div class="divider col-span-3"></div>
-        <div class="col-span-3 sm:col-span-1 text-2xl">Thanks</div>
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.thanks")}</div>
         <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
           <div class="mb-4">
-            Diflowy could not have been created without the support of the following projects:
+            Diflowy could not have been created without the support of the
+            following projects:
           </div>
           <ul class="list-disc space-y-4 list-inside font-light text-xs">
             <li>
@@ -138,56 +169,24 @@ const description = "All Infomation about Diflowy";
           </ul>
         </div>
         <div class="divider col-span-3"></div>
-        <div class="col-span-3 sm:col-span-1 text-2xl">Future Work</div>
+        <div class="col-span-3 sm:col-span-1 text-2xl">{t("aboutpage.rp")}</div>
         <div class="col-span-3 sm:col-span-2 text-sm leading-loose">
           <ul class="space-y-4 list-inside text-xs">
-            <li class="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                class="checkbox checkbox-sm"
-                disabled
-                checked="checked"
-              />
-              <span>Launch Diflowy</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled checked="checked" />
-              <span>Add workflow version management</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled checked="checked" />
-              <span>Add Private-Hosted Mode for workflows</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled />
-              <span>Add login with Google OAuth and Email</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled />
-              <span>Add i18n support</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled />
-              <span>Add AI Summarization for Workflows</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled />
-              <span>Add search and filter function</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled />
-              <span>Apply official Dify workflow style</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <input type="checkbox" class="checkbox checkbox-sm" disabled />
-              <span
-                >Other suggestions welcome to post on <a
-                  class="link"
-                  href="https://github.com/green-dalii/diflowy/discussions"
-                  >Github Discussion</a
-                ></span
-              >
-            </li>
+            {
+              roadmap.map((item) => {
+                return (
+                  <li class="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      class="checkbox checkbox-sm"
+                      disabled
+                      checked={item.checked}
+                    />
+                    <span>{item.description}</span>
+                  </li>
+                );
+              })
+            }
           </ul>
         </div>
       </div>

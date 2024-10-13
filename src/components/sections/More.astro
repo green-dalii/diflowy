@@ -3,35 +3,36 @@ import { Image } from "astro:assets";
 import SectionTitle from "../ui/SectionTitle.astro";
 import Section from "./Section.astro";
 import Card from "../ui/Card.astro";
+import { t } from "i18next";
 import propImg from "../../assets/pics/more.svg";
 
 const difyBasic = [
-  { name: "What is Dify?", link: "https://docs.dify.ai/" },
+  { name: t("more.whatdify"), link: "https://docs.dify.ai/" },
   {
-    name: "What is LLMOps?",
+    name: t("more.whatllmops"),
     link: "https://docs.dify.ai/learn-more/extended-reading/what-is-llmops",
   },
-  { name: "Run Dify on Cloud Now!", link: "https://cloud.dify.ai/" },
+  { name: t("more.difycloud"), link: "https://cloud.dify.ai/" },
   {
-    name: "Deploy Dify Locally with Docker",
+    name: t("more.difydocker"),
     link: "https://docs.dify.ai/getting-started/install-self-hosted/docker-compose",
   },
 ];
 
 const difyAdvanced = [
   {
-    name: "What is Dify Workflow?",
+    name: t("more.whatworkflow"),
     link: "https://docs.dify.ai/guides/workflow",
   },
   {
-    name: "All nodes in Workflow",
+    name: t("more.whatnodes"),
     link: "https://docs.dify.ai/guides/workflow/node",
   },
   {
-    name: "How to Orchestrate Nodes?",
+    name: t("more.howorchestrate"),
     link: "https://docs.dify.ai/guides/workflow/orchestrate-node",
   },
-  { name: "RAG in Dify", link: "https://docs.dify.ai/guides/knowledge-base" },
+  { name: t("more.rag"), link: "https://docs.dify.ai/guides/knowledge-base" },
 ];
 
 const references = [
@@ -53,8 +54,8 @@ const references = [
 <Section id="more">
   <div class="mt-40 relative">
     <SectionTitle
-      sectionTitle="Learn More"
-      description="New to Diflowy or want to learn more about Dify, here’s a quick guide!"
+      sectionTitle={t("more.more")}
+      description={t("more.description")}
     />
     <Card>
       <div
@@ -65,7 +66,7 @@ const references = [
             <div
               class="flex text-center sm:text-start flex-col w-full lg:w-[25%]"
             >
-              <h4 class="mb-4 text-lg font-semibold">⭐️ Dify Basic</h4>
+              <h4 class="mb-4 text-lg font-semibold">{t("more.basic")}</h4>
               <div class="flex flex-col justify-between gap-2">
                 {
                   difyBasic.map((link) => {
@@ -88,7 +89,7 @@ const references = [
             <div
               class="flex text-center sm:text-start flex-col w-full lg:w-[25%]"
             >
-              <h4 class="mb-4 text-lg font-semibold">⭐️⭐️ Dify Advanced</h4>
+              <h4 class="mb-4 text-lg font-semibold">{t("more.advanced")}</h4>
               <div class="flex flex-col justify-between gap-2">
                 {
                   difyAdvanced.map((link) => {
@@ -111,7 +112,7 @@ const references = [
             <div
               class="flex text-center sm:text-start flex-col w-full lg:w-[25%]"
             >
-              <h4 class="mb-4 text-lg font-semibold">🔗 Reference Links</h4>
+              <h4 class="mb-4 text-lg font-semibold">{t("more.link")}</h4>
               <div class="flex flex-col justify-between gap-2">
                 {
                   references.map((link) => {

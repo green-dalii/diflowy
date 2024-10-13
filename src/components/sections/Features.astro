@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 import Card from "../ui/Card.astro";
 import Section from "./Section.astro";
 import SectionTitle from "../ui/SectionTitle.astro";
+import { t } from "i18next";
 
 import feature1 from "../../assets/pics/feature1.svg";
 import feature2 from "../../assets/pics/feature2.svg";
@@ -12,27 +13,27 @@ import feature4 from "../../assets/pics/feature4.svg";
 
 const cards = [
   {
-    title: "Instant Overview",
+    title: t("feature.instant"),
     icon: "view",
-    description: "Real-time preview of Workflow structures in Diflowy",
+    description: t("feature.instantDes"),
     pic: feature1,
   },
   {
-    title: "Versions Management",
+    title: t("feature.version"),
     icon: "version",
-    description: "Support version management for workflows",
+    description: t("feature.versionDes"),
     pic: feature2,
   },
   {
-    title: "Quick Import",
+    title: t("feature.import"),
     icon: "lightning",
-    description: "One-click import to Dify",
+    description: t("feature.importDes"),
     pic: feature3,
   },
   {
-    title: "Private-Hosted Mode",
+    title: t("feature.private"),
     icon: "security",
-    description: "Using Private-Hosted Mode to manage your private workflows with all features, keeping your Dify clean and organized.",
+    description: t("feature.privateDes"),
     pic: feature4,
   },
 ];
@@ -41,8 +42,8 @@ const cards = [
 <Section id="features">
   <div class="mt-40 mb-5">
     <SectionTitle
-      sectionTitle="Features"
-      description="Amazing features in Diflowy"
+      sectionTitle={t("feature.features")}
+      description={t("feature.description")}
     />
     <div class="flex flex-col lg:flex-row justify-between gap-5">
       {

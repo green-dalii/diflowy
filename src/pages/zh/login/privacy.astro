@@ -1,0 +1,75 @@
+---
+import { changeLanguage } from "i18next";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Section from "../../../components/sections/Section.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import "../../../styles/globals.css";
+import "../../../styles/markdown.css";
+
+changeLanguage("zh");
+
+const description = "Diflowy respects your privacy. This Privacy Policy explains how we collect, use, share, and protect your information when you use our services.";
+const privacy = `
+## Information We Collect
+
+When you use our service, we may collect the following information:
+
+- **Github or Google Account ID and Email Address**: We use this information to verify your identity and provide you with personalized services.
+
+## How We Use Your Information
+
+We use the information we collect for the following purposes:
+
+- **Authentication**: We use your Google Account ID and email address / Github Username to verify your identity and ensure you have authorized access to our services.
+- **Personalization**: We may use your email address to provide you with a personalized experience.
+
+## How We Share Your Information
+
+We do not share your personal information with any third parties, except as required by law or to protect our legal rights.   
+
+## Data Storage and Security
+
+We take reasonable security measures to protect your information from unauthorized access, disclosure, use, modification, or destruction.
+
+## Your Rights
+
+You have the right to:
+
+- Access your information: You may request access to the information we have stored about you.
+- Modify your information: You can modify your personal information through your Google account settings.
+- Delete your information: You can request that we delete your account and associated information.
+
+## Contact Us
+
+If you have any questions about our privacy policy, please contact us at diflowy@greenerai.top.`;
+---
+
+<MainLayout
+  title="Privacy Policy | Diflowy"
+  description="Explore, Share, Download Dify Workflows in Diflowy"
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="Privacy Policy" description={description} />
+      <div class="flex flex-col items-center justify-center mt-32">
+        <article id="privacy" class="markdown-body">
+          {privacy}
+        </article>
+      </div>
+    </Section>
+  </div>
+</MainLayout>
+
+<script>
+  import { marked } from "marked";
+  import DOMPurify from "isomorphic-dompurify";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const privacy = document.getElementById("privacy") as HTMLElement;
+
+    let markdownContent = marked.parse(privacy.innerHTML, {
+      async: false,
+    }) as string;
+    privacy.innerHTML = DOMPurify.sanitize(markdownContent) as string;
+  });
+</script>
