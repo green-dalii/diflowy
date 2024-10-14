@@ -1,6 +1,8 @@
 # Diflowy
 
-> Dify Workflows的分享、发现和下载平台
+![Diflowy](og_cn.jpg)
+
+> Dify Workflows的分享、发现、下载和托管平台
 
 ### [🌐 立刻访问 → Diflowy](https://diflowy.greenerai.top/)
 

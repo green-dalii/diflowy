@@ -1,6 +1,8 @@
 # Diflowy
 
-> Explore, Share, Download Dify Workflows in Diflowy.
+![Diflowy](og_en.jpg)
+
+> Explore, Share, Download, Host Dify Workflows in Diflowy.
 
 ### [🌐 Visit Now → Diflowy](https://diflowy.greenerai.top/)
 
@@ -21,7 +23,6 @@ Diflowy is a vibrant community platform for Dify workflows where you can:
 - 📦 **Quick Import**: Support one-click import via URL to Dify.AI, providing a smooth experience
 - 🔒 **Support Private Hosting Mode**: Serve as your personal Workflow file manager, maintaining a clean and organized Dify list
 - 👥 **User-Driven**: A Workflow knowledge base contributed to and benefited from by users
-- 📚 **Rich Collection**: Browse a vast library of community-created workflows
 - 🔔 **Dynamic Updates**: Stay updated with the latest trends in Dify Workflow
 
 ## 🌍 Community

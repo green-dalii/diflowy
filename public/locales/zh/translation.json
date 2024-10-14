@@ -21,7 +21,7 @@
         "privacypolicy": "隐私政策",
         "contactus": "联系我们",
         "difyofficial": "Dify 官方",
-        "resources": "资源链接"
+        "resources": "友情链接"
     },
     "hero": {
         "exploreWorkflows": "探索 Workflows",
@@ -59,8 +59,8 @@
         "versionDes": "支持工作流的版本管理",
         "import": "快速导入",
         "importDes": "一键导入到 Dify",
-        "private": "私有模式",
-        "privateDes": "使用私有模式管理您的私人工作流，同时保留所有功能，使您的 Dify 干净整洁"
+        "private": "私有托管模式",
+        "privateDes": "使用私有托管模式管理您的私人工作流，同时保留所有功能，使您的 Dify 干净整洁"
     },
     "more": {
         "more": "了解更多",
