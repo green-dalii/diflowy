@@ -1,0 +1,51 @@
+---
+import { changeLanguage, t } from "i18next";
+import MainLayout from "../../layouts/MainLayout.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import Section from "../../components/sections/Section.astro";
+import Form from "../../components/ui/Form.astro";
+import { localizePath } from "astro-i18next";
+import "../../styles/globals.css";
+
+changeLanguage("es");
+
+const description = t("uploadpage.description");
+---
+
+<MainLayout title={"site.upload"} description={t("site.description")}>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle
+        sectionTitle={t("uploadpage.title")}
+        description={description}
+      />
+      <div class="grid grid-cols-1 sm:grid-cols-4 mt-40">
+        <div id="not-login" class="sm:col-start-2 sm:col-span-2 text-center">
+          <p class="text-xs mb-5">
+            {t("uploadpage.loginhint")}
+          </p>
+          <a id="login-link" href={localizePath("/login")}
+            ><button class="btn-tertiary w-full xl:w-auto py-2 text-sm" id="login"
+              >{t("uploadpage.loginbtn")}<br><small>{t("uploadpage.recommended")}</small></button
+            >
+          </a>
+          <p class="mt-16 text-xs mb-5">
+            {t("uploadpage.fillhint")}
+          </p>
+          <a id="form-link" href="https://nvrpmz0g7oy.feishu.cn/share/base/form/shrcnvn7YIMGM0TCs1gMJQgoGvc">
+            <button class="btn-tertiary w-full xl:w-auto py-2 text-sm"
+              >{t("uploadpage.fillbtn")}</button
+            >
+          </a>
+        </div>
+      </div>
+      <div id="protected-content" style="display: none;">
+        <div class="">
+          <!-- Add Form -->
+          <Form />
+        </div>
+      </div>
+    </Section>
+  </div>
+</MainLayout>
+

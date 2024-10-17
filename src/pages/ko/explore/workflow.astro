@@ -1,0 +1,451 @@
+---
+import { changeLanguage, t } from "i18next";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import Section from "../../../components/sections/Section.astro";
+import ReactFlowPreview from "../../../components/flow/ReactFlowPreview";
+import { Icon } from "astro-icon/components";
+import "../../../styles/globals.css";
+import "../../../styles/markdown.css";
+
+changeLanguage("ko");
+
+const description = t("workflow.description");
+---
+
+<MainLayout title={t("site.workflow")} description={t("site.ddescription")}>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle sectionTitle="Workflow" description={description} />
+      <div id="workflow" class="flex flex-col">
+        <div class="w-full">
+          <div class="h-96 sm:h-[600px]">
+            <ReactFlowPreview client:only="react" />
+          </div>
+          <div>
+            <small class="text-sm text-gray-400"
+              >{t("uploadpage.previewhint")}</small
+            >
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-16">
+          <div class="w-full">
+            <div class="flex flex-row space-x-4 items-center mt-10">
+              <div
+                id="workflowicon"
+                class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center"
+              >
+                ⏳
+              </div>
+              <h3 id="workflowname" class="break-all text-pretty">
+                Loading...
+              </h3>
+            </div>
+            <div class="flex flex-col space-y-2 mt-5">
+              <div id="author" class="text-xs text-gray-400 font-medium">
+                @Author
+              </div>
+              <div
+                id="authorInfo"
+                class="text-xs text-gray-400 font-thin italic"
+              >
+                Contact Author‣
+              </div>
+              <div id="metaInfo" class="flex flex-wrap gap-2">
+                <div
+                  id="isPrivate"
+                  class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full"
+                >
+                  🌐 Public / 🔒 Private-Hosted
+                </div>
+              </div>
+            </div>
+            <div class="mt-5 grid grid-cols-2 items-center gap-4">
+              <div class="flex flex-row space-x-2 items-center">
+                <div class="flex flex-row items-center space-x-1">
+                  <Icon name="rocket" class="text-sm" />
+                  <div class="text-xs break-keep text-nowrap">{t("workflow.version")}</div>
+                </div>
+                <select
+                  id="version"
+                  class="select select-bordered select-xs w-full max-w-xs"
+                >
+                  <option>Loading...</option>
+                </select>
+              </div>
+              <div class="flex flex-row items-center space-x-1">
+                <Icon name="update" class="text-sm" />
+                <div id="updated_time" class="text-xs">Updated Loading...</div>
+              </div>
+            </div>
+            <div id="tagsarea" class="mt-5"></div>
+            <div class="mt-20">
+              <h4>{t("workflow.before")}</h4>
+              <ul
+                class="list-disc list-inside mt-2 text-xs text-gray-500 space-y-2"
+              >
+                <li>{t("workflow.b1")}</li>
+                <li>{t("workflow.b2")}</li>
+                <li>{t("workflow.b3")}</li>
+                <li>{t("workflow.b4")}</li>
+                <li>{t("workflow.b5")}</li>
+              </ul>
+            </div>
+            <!-- Button -->
+            <div
+              class="w-full grid grid-cols-1 sm:grid-cols-2 items-center gap-4 mt-32"
+            >
+              <button
+                id="copyButton"
+                class="flex w-full justify-center items-center btn bg-blue hover:bg-sky-300 px-3 py-2 text-sm text-black font-semibold focus-visible:outline focus-visible:outline-2"
+              >
+                <Icon name="import" class="text-2xl mr-1" />{t("workflow.btn1")}
+              </button>
+              <button
+                id="downloadButton"
+                class="flex w-full justify-center items-center btn bg-dark hover:bg-sky-600 px-3 py-2 text-sm text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                ><Icon name="download" class="text-2xl mr-1" />{t("workflow.btn2")}</button
+              >
+              <button
+                id="likeButton"
+                class="flex w-full justify-center items-center btn btn-disabled bg-red-400 hover:bg-red-500 px-3 py-2 text-sm text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                ><Icon
+                  name="like"
+                  class="text-xl mr-1"
+                />{t("workflow.btn3")}</button
+              >
+              <button
+                id="shareButton"
+                class="flex w-full justify-center items-center btn btn-neutral px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                ><Icon name="share" class="text-xl mr-1" />{t("workflow.btn4")}</button
+              >
+            </div>
+          </div>
+          <div>
+            <h3 class="mt-10 mb-5">{t("uploadpage.des")}</h3>
+            <article id="description" class="mt-5 markdown-body">
+              Loading...
+            </article>
+          </div>
+        </div>
+      </div>
+    </Section>
+  </div>
+</MainLayout>
+
+<script>
+  import { parseYamlToReactFlow } from "../../../components/flow/yamlParser";
+  import { formatUpdateTime } from "../../../utils/tools";
+  import { marked } from "marked";
+  import DOMPurify from "isomorphic-dompurify";
+
+  const importStepImg = `<img src="${window.location.origin}/importStep.webp" class="w-full object-cover rounded-lg my-4" />`;
+  interface WorkflowContentResponse {
+    id: string;
+    name: string;
+    description: string;
+    versions: string[];
+    current_version: string;
+    tags: string[];
+    icon: string;
+    isPrivate: number;
+    authorData: WorkflowAuthor;
+    update_time: string;
+    file_content?: string;
+  }
+
+  interface WorkflowAuthor {
+    authorName: string;
+    socialLink?: string;
+  }
+
+  // Define the current workflow object
+  let currentWorkflowObject: WorkflowContentResponse;
+  // Define current download url
+  let currentDownloadUrl: string;
+
+  // Function for loading workflow from API
+  async function loadWorkflow(): Promise<WorkflowContentResponse> {
+    console.log("Executing loadWorkflow...");
+    const urlParams = new URLSearchParams(window.location.search);
+    const workflowId = urlParams.get("id") as string;
+    const url = new URL("/api/workflow", window.location.origin);
+    url.searchParams.append("workflowId", workflowId);
+
+    console.log("Getting workflow from:", url.toString());
+    const response = await fetch(url.toString());
+    if (response.status === 403) {
+      console.error("Forbidden to fetch workflows");
+      throw new Error("Forbidden");
+    } else if (response.status === 401) {
+      console.error("JWT Expired");
+      throw new Error("JWT Expired");
+    } else if (!response.ok) {
+      console.error("Failed to fetch workflows");
+      throw new Error("Failed to fetch the workflow");
+    }
+    return (await response.json()) as WorkflowContentResponse;
+  }
+
+  // Function for changing workflow version
+  async function changeWorkflowVersion(version: string) {
+    console.log("Executing changeWorkflowVersion...");
+    const urlParams = new URLSearchParams(window.location.search);
+    const workflowId = urlParams.get("id") as string;
+    const url = new URL("/api/workflow", window.location.origin);
+    url.searchParams.append("workflowId", workflowId); // Append workflowId to the URL
+    url.searchParams.append("version", version); // Append version to the URL
+
+    console.log("Sending request to:", url.toString());
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      console.error("Failed to fetch the version of the workflow");
+      throw new Error("Failed to fetch the version of the workflow");
+    }
+    const data = await response.json();
+    return data;
+  }
+
+  // After all DOM is loaded
+  document.addEventListener("DOMContentLoaded", async (_) => {
+    // disable language select due to URL params lost bug
+    const langSelect = document.getElementById("langSelect") as unknown as HTMLSelectElement;
+    langSelect.disabled = true;
+    // Get the modal element
+    const modal = document.getElementById("modal") as HTMLDialogElement;
+    const modalTitle = document.getElementById(
+      "modalTitle",
+    ) as HTMLHeadingElement;
+    const modalContent = document.getElementById(
+      "modalContent",
+    ) as HTMLDivElement;
+    const confirmBtn = document.getElementById(
+      "confirmBtn",
+    ) as HTMLButtonElement;
+    // Get workflow from API
+    try {
+      // Get the elements in page
+      const workflowName = document.getElementById(
+        "workflowname",
+      ) as HTMLHeadingElement;
+      const workflowIcon = document.getElementById(
+        "workflowicon",
+      ) as HTMLImageElement;
+      const workflowDescription = document.getElementById(
+        "description",
+      ) as HTMLElement;
+      const workflowTags = document.getElementById(
+        "tagsarea",
+      ) as HTMLDivElement;
+      const workflowAuthor = document.getElementById(
+        "author",
+      ) as HTMLDivElement;
+      const workflowAuthorInfo = document.getElementById(
+        "authorInfo",
+      ) as HTMLDivElement;
+      const updatedTime = document.getElementById(
+        "updated_time",
+      ) as HTMLDivElement;
+      const version = document.getElementById(
+        "version",
+      ) as unknown as HTMLSelectElement;
+      // Get the buttons
+      const downloadButton = document.getElementById(
+        "downloadButton",
+      ) as HTMLButtonElement;
+      const copyButton = document.getElementById(
+        "copyButton",
+      ) as HTMLButtonElement;
+      const likeButton = document.getElementById(
+        "likeButton",
+      ) as HTMLButtonElement;
+      const shareButton = document.getElementById(
+        "shareButton",
+      ) as HTMLButtonElement;
+      const isPrivate = document.getElementById("isPrivate") as HTMLDivElement;
+      const metaInfo = document.getElementById("metaInfo") as HTMLDivElement;
+
+      // Download workflow function
+      async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+        }
+        const a = document.createElement("a") as HTMLAnchorElement;
+        const blob = new Blob([workflowObject.file_content as string], {
+          type: "text/yaml",
+        });
+        currentDownloadUrl = URL.createObjectURL(blob);
+        a.href = currentDownloadUrl;
+        a.download = `${workflowObject.name}_${workflowObject.current_version}.yml`;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(currentDownloadUrl);
+        document.body.removeChild(a);
+      }
+
+      // copy download url function
+      function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
+        const baseUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}`;
+        const params = new URLSearchParams({
+          version: workflowObject.current_version,
+          name: workflowObject.name,
+        });
+        const downloadUrl = `${baseUrl}?${params.toString()}`;
+        navigator.clipboard.writeText(downloadUrl).then(() => {
+          modalTitle.innerText =
+            "🎉 Copied! Paste and import it to your Dify Now!";
+          modalContent.innerHTML = `<div>The Workflow's URL has been copied to your clipboard!✌️</div><div>You can now paste and import it directly into your Dify.</div>`;
+          modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${downloadUrl}</div>`;
+          modalContent.innerHTML += importStepImg;
+          modalContent.innerHTML += `<div class="text-xs">👋 Don't forget to thank the author @<span class="font-semibold">${workflowObject.authorData.authorName}</span> if you found it useful!</div>`;
+          modal.showModal();
+          console.log("Download URL>>>", downloadUrl);
+        });
+      }
+
+      // Add event listeners to buttons
+      downloadButton.addEventListener("click", (event: Event) => {
+        event.preventDefault();
+        if (currentWorkflowObject) {
+          downloadWorkflow(currentWorkflowObject);
+        }
+      });
+      copyButton.addEventListener("click", (event: Event) => {
+        event.preventDefault();
+        if (currentWorkflowObject) {
+          copyDownloadUrl(currentWorkflowObject);
+        }
+      });
+      likeButton.addEventListener("click", async (event: Event) => {
+        console.log("Executing likeButton...");
+        event.preventDefault();
+      });
+      shareButton.addEventListener("click", async (event: Event) => {
+        console.log("Executing shareButton...", window.location.href);
+        event.preventDefault();
+        const shareUrl = window.location.href;
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          modalTitle.innerText = "🎉 Copied!";
+          modalContent.innerHTML = `<div>The link to this page has been copied to the clipboard.</div> <div>You can share the link 🔗 whit your friends.</div>`;
+          modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${shareUrl}</div>`;
+          modal.showModal();
+        });
+      });
+
+      // Function for updating workflow page
+      function updateWorkflow(workflowObject: WorkflowContentResponse) {
+        // Update the current workflow object
+        currentWorkflowObject = workflowObject;
+        // Update the workflow info
+        workflowIcon.innerText = workflowObject.icon;
+        workflowName.innerText = workflowObject.name;
+        // Update the description with Markdown formatting
+        let markdownContent = marked.parse(workflowObject.description, {
+          async: false,
+        }) as string;
+        workflowDescription.innerHTML = DOMPurify.sanitize(
+          markdownContent,
+        ) as string;
+        // Update the author info
+        workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
+        workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
+        // Update isPrivate
+        isPrivate.innerText = `${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}`;
+        // Update the updated time
+        updatedTime.innerText = `Updated ${formatUpdateTime(workflowObject.update_time)}`;
+        // Update the version select
+        version.innerHTML = workflowObject.versions
+          .map((version: string, index: number) => {
+            if (index === 0) {
+              return `<option value="${version}">${version} - latest</option>`;
+            } else {
+              return `<option value="${version}">${version}</option>`;
+            }
+          })
+          .join("");
+
+        // Update the tags
+        const tagsHTML = workflowObject.tags
+          .map(
+            (tag: string) =>
+              `<a href="${window.location.origin}/explore?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
+          )
+          .join("");
+        workflowTags.innerHTML = tagsHTML;
+        console.log("Workflow info updated.");
+
+        // Update the ReactFlow component
+        const { nodes, edges, usedModal } = parseYamlToReactFlow(
+          workflowObject.file_content as string,
+        );
+
+        // Update llm metadata
+        console.log("LLM>>>>", usedModal);
+        usedModal.map((name: string) => {
+          metaInfo.innerHTML += `<div class="w-max text-xs text-gray-600 dark:text-gray-400 border bg-transparent py-1 px-2 rounded-full">${name}</div>`;
+        });
+
+        // Check if ReactFlow is ready
+        const checkAndUpdateReactFlow = () => {
+          if (typeof (window as any).updateReactFlow === "function") {
+            (window as any).updateReactFlow(nodes, edges);
+          } else {
+            console.log("updateReactFlow not ready, retrying...");
+            setTimeout(checkAndUpdateReactFlow, 100); // 每100ms检查一次
+          }
+        };
+        checkAndUpdateReactFlow();
+
+        // Set the current version
+        version.value = workflowObject.current_version;
+      }
+
+      // add event listener to version select
+      version.addEventListener("change", async (event: Event) => {
+        event.preventDefault();
+        const selectedVersion = version.value;
+        console.log("Selected version:", selectedVersion);
+        let newVersionWorkflow = (await changeWorkflowVersion(
+          selectedVersion,
+        )) as WorkflowContentResponse;
+        updateWorkflow(newVersionWorkflow);
+      });
+
+      // Load workflow from API and update the page when the page is loaded
+      console.log("First Call loadWorkflow...");
+      const workflow = (await loadWorkflow()) as WorkflowContentResponse;
+      updateWorkflow(workflow);
+    } catch (error) {
+      console.error("Error loading workflow:", error);
+      if ((error as Error).message === "Forbidden") {
+        modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "This is other user's private workflow. You do not have access rights.";
+        modal.showModal();
+      } else if ((error as Error).message === "JWT Expired") {
+        modalTitle.innerText = "😮 Oops...";
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.toggle("btn-error", true);
+        confirmBtn.classList.toggle("hidden", false);
+        confirmBtn.addEventListener("click", (event: Event) => {
+          event.preventDefault();
+          window.location.href =
+            "/api/login/github?redirect=" +
+            encodeURIComponent(
+              window.location.pathname + window.location.search,
+            );
+        });
+        modalContent.innerText =
+          "This is a Private-Hosted workflow. Your login has expired, please login to verify its ownership.";
+        modal.showModal();
+      } else {
+        modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "Failed to fetch workflows. Please check your connection and try again.";
+        modal.showModal();
+      }
+    }
+  });
+</script>

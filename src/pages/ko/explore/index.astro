@@ -1,0 +1,229 @@
+---
+import { changeLanguage, t } from "i18next";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import UploadEntranceBelow from "../../../components/sections/UploadEntranceBelow.astro";
+import Section from "../../../components/sections/Section.astro";
+import Skeleton from "../../../components/ui/Skeleton.astro";
+import PrivateHostedToogle from "../../../components/ui/PrivateHostedToogle.astro";
+import "../../../styles/globals.css";
+
+changeLanguage("ko");
+
+const description = t("explorepage.description");
+const skeletonCount = 12;
+---
+
+<MainLayout
+  title={t("site.explore")}
+  description={t("site.description")}
+>
+  <div class="mt-48">
+    <Section>
+      <SectionTitle
+        sectionTitle={t("explorepage.title")}
+        description={description}
+      />
+      <!-- Toolbar -->
+      <div
+        class="flex flex-row items-center justify-between mt-10 mb-8"
+        id="workflow-toolbar"
+      >
+        <div class="w-full">
+          <PrivateHostedToogle
+            isTitled={true}
+            title={t("explorepage.modetitle")}
+            flexDirection="row"
+            disable={false}
+            publicAlertMsg={t("explorepage.publicmsg")}
+            privateAlertMsg={t("explorepage.privatemsg")}
+          />
+        </div>
+      </div>
+      <!-- WorkFlow grid -->
+      <div
+        id="workflow-grid"
+        class="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-5"
+      >
+        {new Array(skeletonCount).fill(null).map((_) => <Skeleton />)}
+      </div>
+      <div
+        id="result-indicator"
+        class="py-20 sm:py-64 hidden text-center text-gray-500"
+      >
+      </div>
+      <div class="mt-14 text-center">
+        <div class="join" id="pagination"></div>
+      </div>
+    </Section>
+  </div>
+  <UploadEntranceBelow />
+</MainLayout>
+
+<script>
+  import {
+    skeleton,
+    updatePagination,
+    getTagsFromURL,
+    fetchWorkflows,
+  } from "../../../utils/tools";
+  import type { Workflow } from "../../../utils/tools";
+
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+  const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+  // get workflow grid element
+  const workflowGrid = document.getElementById(
+    "workflow-grid",
+  ) as HTMLDivElement;
+  // get result-indicator element
+  const resultIndicator = document.getElementById(
+    "result-indicator",
+  ) as HTMLDivElement;
+  // get private-hosted mode element
+  const privateHostedMode = document.getElementById(
+    "private",
+  ) as HTMLInputElement;
+  // Get public alert
+  const publicAlert = document.getElementById("public-alert") as HTMLDivElement;
+  // Get private alert
+  const privateAlert = document.getElementById(
+    "private-alert",
+  ) as HTMLDivElement;
+
+  // update workflow
+  function updateWorkflowGrid(workflows: Workflow[]) {
+    // get workflow grid element
+    const workflowGrid = document.getElementById(
+      "workflow-grid",
+    ) as HTMLDivElement;
+    workflowGrid.innerHTML = "";
+    workflows.forEach((workflow) => {
+      const workflowLink = document.createElement("a");
+      workflowLink.setAttribute("href", `/explore/workflow?id=${workflow.id}`);
+      const workflowElement = document.createElement("div");
+      let tags;
+      try {
+        tags = JSON.parse(workflow.tags);
+      } catch (error) {
+        console.error("Error parsing tags for workflow:", workflow.name, error);
+        tags = [];
+      }
+      // fill tags
+      const tagsHTML = tags
+        .map((tag: string) => `<span class="tag text-[0.5rem]">${tag}</span>`)
+        .join("");
+      // fill workflow element
+      workflowElement.className = `border ${workflow.isPrivate != 0 ? "border-amber-400" : "dark:border-gray-500"} dark:bg-[--darkbgoffset] shadow-sm hover:shadow-lg rounded-3xl p-4 w-full mx-auto h-52`;
+      workflowElement.innerHTML = `
+      <div class="grid grid-cols-1 content-between h-full">
+        <div class="flex flex-row space-x-4 items-start">
+            <div class="flex-none rounded-full bg-blue h-12 w-12 text-3xl text-center content-center">${workflow.icon}</div>
+            <div class="flex-grow text-xl break-words line-clamp-3 text-dark font-bold ">${workflow.name}</div>
+        </div>
+        <div class="flex-1 space-y-4 py-1">
+            <div class="ml-16 space-y-3">
+                <div class="text-xs text-gray-500 line-clamp-2 whitespace-pre-line">${workflow.description.slice(0, 100)}</div>
+                <div>${tagsHTML}</div>
+            </div>
+        </div>
+    </div>
+    </div>
+          `;
+      workflowLink.appendChild(workflowElement);
+      workflowGrid.appendChild(workflowLink);
+    });
+  }
+
+  // load data in specific page number
+  async function loadPageData(page: number = 1) {
+    try {
+      // display skeleton
+      workflowGrid.innerHTML = "";
+      new Array(12).fill(null).map((_) => {
+        workflowGrid.innerHTML += skeleton();
+      });
+      let result;
+      // judge if mode is private or not
+      if (privateHostedMode.checked) {
+        // private hosted mode
+        result = await fetchWorkflows(page, 12, getTagsFromURL(), "yes", "yes");
+      } else {
+        // public hosted mode
+        result = await fetchWorkflows(page, 12, getTagsFromURL(), "no", "no");
+      }
+      // console.log("Workflows:", result.workflows);
+      console.log("Total:", result.total);
+      console.log("Page:", result.page);
+      console.log("Page Size:", result.pageSize);
+      console.log("Tags:", getTagsFromURL());
+      // if result is 0
+      if (result.total === 0) {
+        workflowGrid.innerHTML = "";
+        resultIndicator.innerHTML =
+          "No results meet the conditions. Try other options.😵";
+        resultIndicator.classList.toggle("hidden", false);
+        return;
+      } else {
+        // 更新工作流网格
+        updateWorkflowGrid(result.workflows);
+        // 更新分页按钮
+        updatePagination(
+          result.total,
+          result.page,
+          result.pageSize,
+          loadPageData,
+        );
+        return;
+      }
+    } catch (error) {
+      console.error("Error loading page data:", error);
+      // Clear workflow grid
+      workflowGrid.innerHTML = "";
+      resultIndicator.innerHTML = `<p class="text-sm">😵 Ooops..</p>
+        <p class="text-sm">No results meet the conditions.</p> 
+        <p class="text-sm">Click <a href="/upload" class="link font-semibold hover:text-dark">Upload</a> or go to the <a href="/user" class="link font-semibold hover:text-dark">User Center</a> to manage your workflows.</p>`;
+      resultIndicator.classList.toggle("hidden", false);
+      if ((error as Error).message === "Forbidden") {
+        modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "This is other user's private workflow. You do not have access rights.";
+        modal.showModal();
+      } else if ((error as Error).message === "JWT Expired") {
+        sessionStorage.removeItem("username");
+        privateHostedMode.checked = false;
+        privateHostedMode.disabled = true;
+        privateAlert.classList.toggle("hidden", true);
+        publicAlert.classList.toggle("hidden", false);
+        modalTitle.innerText = "😮 Oops...";
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "Before enter the Private-Hosted mode, you should login first. 3 seconds later, it will automatically redirect to the Login page.";
+        modal.showModal();
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 3000);
+      } else {
+        modalTitle.innerText = "⚠️ Error";
+        modalContent.innerText =
+          "Failed to fetch workflows. Please check your connection and try again.";
+        modal.showModal();
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPageData(1);
+    privateHostedMode.addEventListener("change", () => {
+      loadPageData(1);
+    });
+  });
+</script>
