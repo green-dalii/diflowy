@@ -7,7 +7,7 @@ User-agent: *
 Disallow:
 
 # Disallow access to admin and login pages
-Disallow: /login/index
+# Disallow: /login/index
 
 # Allow access to Privacy Policy
 Allow: /login/privacy
