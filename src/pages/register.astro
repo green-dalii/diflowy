@@ -23,49 +23,49 @@ const description = t("register.description");
           <form id="register-form" class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
               <label for="email" class="text-sm font-medium"
-                >{t("login.email")}</label
+                >{t("login.email")}<sup class="ml-1 text-red-500">*</sup></label
               >
               <input
                 type="email"
                 id="email"
                 class="input input-bordered w-full"
-                placeholder="Comming soon..."
+                placeholder="Enter your email, it will be used when you login"
                 required
               />
             </div>
             <div class="flex flex-col gap-2">
               <label for="username" class="text-sm font-medium"
-                >{t("register.username")}</label
+                >{t("register.username")}<sup class="ml-1 text-red-500">*</sup></label
               >
               <input
                 type="text"
                 id="username"
                 class="input input-bordered w-full"
-                placeholder="Comming soon..."
+                placeholder="It will be displayed on your profile"
                 required
               />
             </div>
             <div class="flex flex-col gap-2">
               <label for="password" class="text-sm font-medium"
-                >{t("login.password")}</label
+                >{t("login.password")}<sup class="ml-1 text-red-500">*</sup></label
               >
               <input
                 type="password"
                 id="password"
                 class="input input-bordered w-full"
-                placeholder="Comming soon..."
+                placeholder="Enter your password"
                 required
               />
             </div>
             <div class="flex flex-col gap-2">
               <label for="confirm-password" class="text-sm font-medium"
-                >{t("register.confirm")}</label
+                >{t("register.confirm")}<sup class="ml-1 text-red-500">*</sup></label
               >
               <input
                 type="password"
                 id="confirm-password"
                 class="input input-bordered w-full"
-                placeholder="Comming soon..."
+                placeholder="Enter your password again"
                 required
               />
             </div>
@@ -124,15 +124,55 @@ const description = t("register.description");
       const form = document.getElementById("register-form") as HTMLFormElement;
       // Get email and password input elements
       const emailInput = document.getElementById("email") as HTMLInputElement;
+      const usernameInput = document.getElementById("username") as HTMLInputElement;
       const passwordInput = document.getElementById(
         "password",
       ) as HTMLInputElement;
+      const confirmPasswordInput = document.getElementById(
+        "confirm-password",
+      ) as HTMLInputElement;
+      // Get email from URL params and fill it to email input
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get("email");
+      if (email) {
+        emailInput.value = email;
+      }
       // Add event listener to form submit event
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        // Get form data
+        // check email is valid
+        if (!emailInput.value.includes("@")) {
+          modalTitle.textContent = "Error";
+          modalContent.textContent = "Invalid email";
+          modal.showModal();
+          return;
+        }
+        // check username is valid
+        if (usernameInput.value.length < 3) {
+          modalTitle.textContent = "Error";
+          modalContent.textContent = "Username must be at least 3 characters";
+          modal.showModal();
+          return;
+        }
+        // check password is at least 8 characters and includes number and letters
+        const regex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
+        if (!regex.test(passwordInput.value)) {
+          modalTitle.textContent = "Error";
+          modalContent.textContent = "Password must be at least 8 characters and includes number and letters";
+          modal.showModal();
+          return;
+        }
+        // verify password and confirm password
+        if (passwordInput.value!== confirmPasswordInput.value) {
+          modalTitle.textContent = "Error";
+          modalContent.textContent = "Passwords do not match";
+          modal.showModal();
+          return;
+        }
+        // Append form data
         const formData = new FormData(form);
         formData.append("email", emailInput.value);
+        formData.append("username", usernameInput.value);
         formData.append("password", passwordInput.value);
         // Send form data to server
         const response = await fetch("/api/register", {

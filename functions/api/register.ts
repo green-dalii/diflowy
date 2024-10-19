@@ -9,18 +9,22 @@ import type { Env } from "./auth";
 interface RegisterRequestBody {
   email: string;
   password: string;
-  username?: string;
+  username: string;
 }
 
 export const onRequestPost: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context): Promise<Response> => {
   try {
+    const { request } = context;
     // 解析请求体
-    const body: RegisterRequestBody = await context.request.json();
-    const { email, password, username } = body;
+    const formData = await request.formData();
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    const username = formData.get('username') as string;
+    console.log("Register email>>>", email)
 
     // 基本验证
     if (!email || !password) {
-      return new Response(JSON.stringify({ error: "Email and password are required" }), {
+      return new Response(JSON.stringify({ message: "Email and password are required", success: false }), {
         status: 400,
         headers: { "Content-Type": "application/json" }
       });
@@ -29,7 +33,7 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
     // 验证邮箱格式
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return new Response(JSON.stringify({ error: "Invalid email format" }), {
+      return new Response(JSON.stringify({ message: "Invalid email format", success: false }), {
         status: 400,
         headers: { "Content-Type": "application/json" }
       });
@@ -39,7 +43,8 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordRegex.test(password)) {
       return new Response(JSON.stringify({ 
-        error: "Password must be at least 8 characters long and contain both letters and numbers" 
+        message: "Password must be at least 8 characters long and contain both letters and numbers", 
+        success: false 
       }), {
         status: 400,
         headers: { "Content-Type": "application/json" }
@@ -52,7 +57,7 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
     ).bind(email).all();
 
     if (results.length > 0) {
-      return new Response(JSON.stringify({ error: "Email already registered" }), {
+      return new Response(JSON.stringify({ message: "Email already registered", success: false }), {
         status: 400,
         headers: { "Content-Type": "application/json" }
       });

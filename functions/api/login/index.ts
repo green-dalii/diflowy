@@ -12,10 +12,12 @@ interface LoginRequestBody {
 
 export const onRequestPost: (context: EventContext<Env, any, Record<string, unknown>>) => Promise<Response> = async (context): Promise<Response> => {
   try {
+    const { request } = context;
     // 解析请求体
-    const body: LoginRequestBody = await context.request.json();
-    console.log("Login body>>>", body)
-    const { email, password } = body;
+    const formData = await request.formData();
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    console.log("Login email>>>", email)
 
     // 基本验证
     if (!email || !password) {

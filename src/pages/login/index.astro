@@ -50,7 +50,7 @@ const description = t("login.description");
                 type="email"
                 id="email"
                 class="input input-bordered w-full"
-                placeholder="Comming soon..."
+                placeholder="Enter your email, it will be used when you login"
                 required
               />
             </div>
@@ -62,7 +62,6 @@ const description = t("login.description");
                 type="password"
                 id="password"
                 class="input input-bordered w-full"
-                placeholder="Comming soon..."
                 required
               />
             </div>
@@ -151,7 +150,7 @@ const description = t("login.description");
             modalContent.textContent = "No user found with this email, please register first";
             modal.showModal();
             setTimeout(() => {
-            window.location.href = "/register/";
+            window.location.href = "/register/?email=" + emailInput.value;
           }, 2000);
             return;
           }
