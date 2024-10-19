@@ -3,6 +3,7 @@
         "title": "Diflowy - 探索、分享、下載、託管您的 Dify 工作流",
         "description": "探索、分享、下載、託管您的 Dify 工作流，盡在 Diflowy",
         "login": "登入 | Diflowy",
+        "register": "註冊 | Diflowy",
         "explore": "探索 | Diflowy",
         "upload": "上傳 | Diflowy",
         "about": "關於我們, Diflowy",
@@ -90,6 +91,13 @@
         "principle2": "的原則，僅存儲用於用戶身份驗證所需的必要信息。",
         "more": "更多詳情請參見"
     },
+    "register": {
+        "title": "註冊 Diflowy",
+        "description": "註冊后您可體驗到 Diflowy 的全部功能",
+        "emailregister": "使用 Email 註冊",
+        "username": "使用者名",
+        "confirm": "確認密碼"
+    },
     "explorepage": {
         "title": "探索工作流",
         "description": "在 Diflow 中立即探索並導入工作流到 Dify。",
@@ -142,7 +150,7 @@
         "rm2": "v0.1.0，添加工作流版本管理功能",
         "rm3": "v0.1.1，為工作流添加私有託管模式",
         "rm4": "v0.1.2，添加 i18n 多語言支持 （目前支持英、中、日三語）",
-        "rm5": "實現 Google OAuth 和 Email 登入",
+        "rm5": "v0.1.3，實現 Google OAuth 和 Email 登入",
         "rm6": "為工作流添加 AI 總結功能",
         "rm7": "添加搜索和篩選功能",
         "rm8": "應用官方 Dify 工作流樣式",

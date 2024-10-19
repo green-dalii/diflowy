@@ -91,6 +91,7 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
     // 设置cookie
     const response = new Response(JSON.stringify({ 
       success: true, 
+      message: "Registration successful",
       user: { 
         id: userId, 
         username: finalUsername, 

@@ -3,6 +3,7 @@
         "title": "Diflowy - Dify 워크플로우 탐색, 공유, 다운로드, 호스팅",
         "description": "Dify 워크플로우를 탐색, 공유, 다운로드, 호스팅, Diflowy에서 가능",
         "login": "로그인 | Diflowy",
+        "register": "등록하기 | Diflowy",
         "explore": "탐색 | Diflowy",
         "upload": "공유 | Diflowy",
         "about": "Diflowy 소개 | Diflowy",
@@ -90,6 +91,13 @@
         "principle2": "의 원칙을 따르며, 사용자 인증을 위해 필요한 정보만 저장합니다.",
         "more": "자세한 내용은 참조해주세요"
     },
+    "register": {
+        "title": "등록하기 Diflowy",
+        "description": "등록하여 Diflowy 의 모든 기능을 사용하세요.",
+        "emailregister": "이메일로 등록하기",
+        "username": "사용자 이름",
+        "confirm": "비밀번호 확인"
+    },
     "explorepage": {
         "title": "워크플로우 탐색",
         "description": "Dify에 워크플로우를 즉시 탐색하고 올릴 수 있습니다",
@@ -142,7 +150,7 @@
         "rm2": "v0.1.0, Workflow 버전 관리 기능 추가",
         "rm3": "v0.1.1, Workflow에 프라이빗 호스팅 모드 추가",
         "rm4": "v0.1.2, i18n 다국어 지원 추가 (현재 영어, 중국어, 일본어 지원)",
-        "rm5": "Google OAuth 및 이메일 로그인 구현",
+        "rm5": "v0.1.3, Google OAuth 및 이메일 로그인 구현",
         "rm6": "Workflow에 AI 요약 기능 추가",
         "rm7": "검색 및 필터링 기능 추가",
         "rm8": "공식 Dify Workflow 스타일 적용",

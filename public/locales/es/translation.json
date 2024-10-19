@@ -3,6 +3,7 @@
         "title": "Diflowy - Explora, comparte, descarga, aloja tus Workflows de Dify",
         "description": "Explora, comparte, descarga, aloja tus Workflows de Dify, todo en Diflowy",
         "login": "Iniciar sesión | Diflowy",
+        "register": "Regístrese en | Diflowy",
         "explore": "Explorar | Diflowy",
         "upload": "Compartir | Diflowy",
         "about": "Acerca de nosotros | Diflowy",
@@ -90,6 +91,13 @@
         "principle2": "De acuerdo con este principio, sólo se almacena la información necesaria para la autenticación del usuario.",
         "more": "Más información aquí"
     },
+    "register": {
+        "title": "Regístrese en Diflowy",
+        "description": "Regístrate para disfrutar de todas las funciones de Diflowy.",
+        "emailregister": "Registrarse con Email",
+        "username": "Nombre de usuario",
+        "confirm": "Confirmar contraseña"
+    },
     "explorepage": {
         "title": "Explora Workflows",
         "description": "Explora y sube Workflows a Dify inmediatamente en Diflowy",
@@ -142,7 +150,7 @@
         "rm2": "v0.1.0, añadido la función de gestión de versiones del Workflow",
         "rm3": "v0.1.1, añadido el modo de alojamiento privado para Workflows",
         "rm4": "v0.1.2, añadida la función de soporte multilingüe i18n (actualmente se admite inglés, chino, japonés)",
-        "rm5": "Implementación de autenticación OAuth de Google y inicio de sesión por Email",
+        "rm5": "v0.1.3, Implementación de autenticación OAuth de Google y inicio de sesión por Email",
         "rm6": "Añadida la función de resumen de AI para Workflows",
         "rm7": "Añadida la función de búsqueda y filtrado",
         "rm8": "Aplicación del estilo oficial de Workflow de Dify",

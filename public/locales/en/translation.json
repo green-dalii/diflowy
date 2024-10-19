@@ -150,7 +150,7 @@
         "rm2": "Add workflow version management feature in v0.1.0",
         "rm3": "Add Private-Hosted Mode for workflows in v0.1.1",
         "rm4": "Add i18n support (EN, CN, JA) in v0.1.2",
-        "rm5": "Implemente Google OAuth and email login",
+        "rm5": "Implemente Google OAuth and email login in v0.1.3",
         "rm6": "Add AI Summarization for Workflows",
         "rm7": "Add search and filter functionality",
         "rm8": "Apply official Dify workflow style",

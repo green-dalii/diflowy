@@ -3,6 +3,7 @@
         "title": "Diflowy - Explorar, Compartilhar, Baixar, Hospedar seus Fluxos de Trabalho Dify",
         "description": "Explorar, Compartilhar, Baixar, Hospedar seus Fluxos de Trabalho Dify, tudo em Diflowy",
         "login": "Login | Diflowy",
+        "register": "Registo | Diflowy",
         "explore": "Explorar | Diflowy",
         "upload": "Subir | Diflowy",
         "about": "Sobre Nós | Diflowy",
@@ -90,6 +91,13 @@
         "principle2": "armazenamos apenas as informações necessárias para a autenticação do usuário.",
         "more": "Para mais detalhes, consulte"
     },
+    "register": {
+        "title": "Registar Diflowy",
+        "description": "Registe-se para obter todas as funcionalidades do Diflowy.",
+        "emailregister": "Registrar com Email",
+        "username": "Nome de Usuário",
+        "confirm": "Confirmar a palavra-passe"
+    },
     "explorepage": {
         "title": "Explorar Workflows",
         "description": "Explore e importe Workflows para o Dify imediatamente em Diflowy",
@@ -142,7 +150,7 @@
         "rm2": "v0.1.0, adição do recurso de gerenciamento de versões de Workflow",
         "rm3": "v0.1.1, adição do modo de hospedagem privada para Workflows",
         "rm4": "v0.1.2, adição do suporte para i18n multilíngue (atualmente suporta inglês, chinês e japonês)",
-        "rm5": "Implementação do Login Google OAuth e Email",
+        "rm5": "v0.1.3, Implementação do Login Google OAuth e Email",
         "rm6": "Adição da função de resumo por IA a Workflows",
         "rm7": "Adição de funções de pesquisa e filtragem",
         "rm8": "Aplicação do estilo oficial do Workflow Dify",

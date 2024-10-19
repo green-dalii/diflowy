@@ -3,6 +3,7 @@
         "title": "Diflowy - Dify ワークフローの探索、共有、ダウンロード",
         "description": "Dify ワークフローを Diflowy で探索、共有、ダウンロード、ホストできます",
         "login": "ログイン | Diflowy",
+        "register": "登録 | Diflowy",
         "explore": "探索 | Diflowy",
         "upload": "共有 | Diflowy",
         "about": "私たちについて | Diflowy",
@@ -90,6 +91,13 @@
         "principle2": "の原則に従い、ユーザー認証に必要な最小限の情報のみを保存します。",
         "more": "詳細は"
     },
+    "register": {
+        "title": "Diflowyの登録",
+        "description": "Diflowyの全機能を利用するには会員登録が必要です。",
+        "emailregister": "Eメール登録",
+        "username": "ユーザー名",
+        "confirm": "パスワードの確認"
+    },
     "explorepage": {
         "title": "Workflows を探す",
         "description": "Diflow で簡単に Workflows を探して Dify にインポートできます。",
@@ -142,7 +150,7 @@
         "rm2": "v0.1.0，Workflowのバージョン管理機能を追加",
         "rm3": "v0.1.1，Workflowにプライベートホスティングモードを追加",
         "rm4": "v0.1.2，i18n多言語サポートを追加（現在英語、中国語、日本語に対応）",
-        "rm5": "Google OAuthとEmailログインを導入",
+        "rm5": "v0.1.3，Google OAuthとEmailログインを導入",
         "rm6": "WorkflowにAI要約機能を追加",
         "rm7": "検索とフィルタリング機能を追加",
         "rm8": "公式Dify Workflowスタイルを適用",

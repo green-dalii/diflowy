@@ -29,7 +29,7 @@ const description = t("register.description");
                 type="email"
                 id="email"
                 class="input input-bordered w-full"
-                placeholder="Enter your email, it will be used when you login"
+                placeholder="Email will be used when you login"
                 required
               />
             </div>
@@ -142,14 +142,14 @@ const description = t("register.description");
         event.preventDefault();
         // check email is valid
         if (!emailInput.value.includes("@")) {
-          modalTitle.textContent = "Error";
+          modalTitle.textContent = "😮 Oops...";
           modalContent.textContent = "Invalid email";
           modal.showModal();
           return;
         }
         // check username is valid
         if (usernameInput.value.length < 3) {
-          modalTitle.textContent = "Error";
+          modalTitle.textContent = "😮 Oops...";
           modalContent.textContent = "Username must be at least 3 characters";
           modal.showModal();
           return;
@@ -157,14 +157,14 @@ const description = t("register.description");
         // check password is at least 8 characters and includes number and letters
         const regex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
         if (!regex.test(passwordInput.value)) {
-          modalTitle.textContent = "Error";
+          modalTitle.textContent = "😮 Oops...";
           modalContent.textContent = "Password must be at least 8 characters and includes number and letters";
           modal.showModal();
           return;
         }
         // verify password and confirm password
         if (passwordInput.value!== confirmPasswordInput.value) {
-          modalTitle.textContent = "Error";
+          modalTitle.textContent = "😮 Oops...";
           modalContent.textContent = "Passwords do not match";
           modal.showModal();
           return;
@@ -184,21 +184,12 @@ const description = t("register.description");
         // Check if response is successful
         if (!response.ok) {
           console.error("Error in register:", data);
-          if (data.message === "Invalid email or password") {
-            modalTitle.textContent = "Error";
-            modalContent.textContent = "Invalid email or password";
+          if (data.message === "Email already registered") {
+            modalTitle.textContent = "😮 Oops...";
+            modalContent.textContent = "Email already registered, please login";
             modal.showModal();
             return;
-          } else if (data.message === "No user found with this email") {
-            modalTitle.textContent = "Error";
-            modalContent.textContent =
-              "No user found with this email, please register first";
-            modal.showModal();
-            setTimeout(() => {
-              window.location.href = "/register/";
-            }, 2000);
-            return;
-          }
+          } 
           // Show error message
           modalTitle.textContent = "Error";
           modalContent.textContent = data.message;
@@ -206,12 +197,12 @@ const description = t("register.description");
           return;
         } else {
           // Show success message
-          modalTitle.textContent = "Success";
-          modalContent.textContent = data.message;
+          modalTitle.textContent = "🎉 Success!";
+          modalContent.textContent = "You have successfully registered, please login";
           modal.showModal();
           // Redirect to home page
           setTimeout(() => {
-            window.location.href = "/";
+            window.location.href = "/login/";
           }, 1000);
         }
       });

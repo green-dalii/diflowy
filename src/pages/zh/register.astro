@@ -6,60 +6,66 @@ import SectionTitle from "../../components/ui/SectionTitle.astro";
 import { t, changeLanguage } from "i18next";
 import "../../styles/globals.css";
 
-changeLanguage("en");
+changeLanguage("zh");
 
-const description = t("login.description");
+const description = t("register.description");
 ---
 
-<MainLayout title={t("site.login")} description={t("site.description")}>
+<MainLayout title={t("site.register")} description={t("site.description")}>
   <div class="mt-48">
     <Section>
-      <SectionTitle sectionTitle={t("login.title")} description={description} />
+      <SectionTitle
+        sectionTitle={t("register.title")}
+        description={description}
+      />
       <div class="flex flex-col items-center justify-center my-32">
-        <div class="pb-4 w-full sm:w-72">
-          <a href="/api/login/github">
-            <button
-              class="btn-primary w-full inline-flex justify-center items-center gap-2"
-            >
-              <Icon name="github" class="text-3xl" />
-              <span class="text-sm">{t("login.githublogin")}</span>
-            </button>
-          </a>
-        </div>
-        <div class="pb-4 w-full sm:w-72">
-          <a href="/api/login/google">
-          <button
-            class="btn-primary w-full inline-flex justify-center items-center gap-2"
-          >
-            <Icon name="google" class="text-3xl" />
-            <span class="text-sm">{t("login.googlelogin")}</span>
-          </button>
-          </a>
-        </div>
-        <div class="w-full sm:w-1/3">
-          <div class="divider my-10 text-sm">OR</div>
-        </div>
         <div class="w-full sm:w-72">
-          <form id="login-form" class="flex flex-col gap-4">
+          <form id="register-form" class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
               <label for="email" class="text-sm font-medium"
-                >{t("login.email")}</label
+                >{t("login.email")}<sup class="ml-1 text-red-500">*</sup></label
               >
               <input
                 type="email"
                 id="email"
                 class="input input-bordered w-full"
+                placeholder="Email will be used when you login"
+                required
+              />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="username" class="text-sm font-medium"
+                >{t("register.username")}<sup class="ml-1 text-red-500">*</sup></label
+              >
+              <input
+                type="text"
+                id="username"
+                class="input input-bordered w-full"
+                placeholder="It will be displayed on your profile"
                 required
               />
             </div>
             <div class="flex flex-col gap-2">
               <label for="password" class="text-sm font-medium"
-                >{t("login.password")}</label
+                >{t("login.password")}<sup class="ml-1 text-red-500">*</sup></label
               >
               <input
                 type="password"
                 id="password"
                 class="input input-bordered w-full"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="confirm-password" class="text-sm font-medium"
+                >{t("register.confirm")}<sup class="ml-1 text-red-500">*</sup></label
+              >
+              <input
+                type="password"
+                id="confirm-password"
+                class="input input-bordered w-full"
+                placeholder="Enter your password again"
                 required
               />
             </div>
@@ -68,7 +74,7 @@ const description = t("login.description");
               class="btn-primary w-full md:w-auto flex items-center gap-2 text-sm justify-center"
             >
               <Icon name="login" class="text-3xl" /><span
-                >{t("login.emaillogin")}</span
+                >{t("register.emailregister")}</span
               >
             </button>
           </form>
@@ -115,21 +121,61 @@ const description = t("login.description");
   document.addEventListener("DOMContentLoaded", () => {
     try {
       // Get form element
-      const form = document.getElementById("login-form") as HTMLFormElement;
+      const form = document.getElementById("register-form") as HTMLFormElement;
       // Get email and password input elements
       const emailInput = document.getElementById("email") as HTMLInputElement;
+      const usernameInput = document.getElementById("username") as HTMLInputElement;
       const passwordInput = document.getElementById(
         "password",
       ) as HTMLInputElement;
+      const confirmPasswordInput = document.getElementById(
+        "confirm-password",
+      ) as HTMLInputElement;
+      // Get email from URL params and fill it to email input
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get("email");
+      if (email) {
+        emailInput.value = email;
+      }
       // Add event listener to form submit event
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        // Get form data
+        // check email is valid
+        if (!emailInput.value.includes("@")) {
+          modalTitle.textContent = "😮 Oops...";
+          modalContent.textContent = "Invalid email";
+          modal.showModal();
+          return;
+        }
+        // check username is valid
+        if (usernameInput.value.length < 3) {
+          modalTitle.textContent = "😮 Oops...";
+          modalContent.textContent = "Username must be at least 3 characters";
+          modal.showModal();
+          return;
+        }
+        // check password is at least 8 characters and includes number and letters
+        const regex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
+        if (!regex.test(passwordInput.value)) {
+          modalTitle.textContent = "😮 Oops...";
+          modalContent.textContent = "Password must be at least 8 characters and includes number and letters";
+          modal.showModal();
+          return;
+        }
+        // verify password and confirm password
+        if (passwordInput.value!== confirmPasswordInput.value) {
+          modalTitle.textContent = "😮 Oops...";
+          modalContent.textContent = "Passwords do not match";
+          modal.showModal();
+          return;
+        }
+        // Append form data
         const formData = new FormData(form);
         formData.append("email", emailInput.value);
+        formData.append("username", usernameInput.value);
         formData.append("password", passwordInput.value);
         // Send form data to server
-        const response = await fetch("/api/login", {
+        const response = await fetch("/api/register", {
           method: "POST",
           body: formData,
         });
@@ -137,41 +183,32 @@ const description = t("login.description");
         const data = (await response.json()) as LoginResponseBody;
         // Check if response is successful
         if (!response.ok) {
-          console.error("Error in login:", data);
-          if (data.message === "Invalid email or password") {
+          console.error("Error in register:", data);
+          if (data.message === "Email already registered") {
             modalTitle.textContent = "😮 Oops...";
-            modalContent.textContent = "Invalid email or password, please try again";
+            modalContent.textContent = "Email already registered, please login";
             modal.showModal();
             return;
-          } else if (data.message === "No user found with this email") {
-            modalTitle.textContent = "😮 Oops...";
-            modalContent.textContent =
-              "No user found with this email, please register first";
-            modal.showModal();
-            setTimeout(() => {
-              window.location.href = "/register/?email=" + emailInput.value;
-            }, 2000);
-            return;
-          }
+          } 
           // Show error message
-          modalTitle.textContent = "😮 Oops...";
+          modalTitle.textContent = "Error";
           modalContent.textContent = data.message;
           modal.showModal();
           return;
         } else {
           // Show success message
           modalTitle.textContent = "🎉 Success!";
-          modalContent.textContent = "You are now logged in! Redirecting to home page...";
+          modalContent.textContent = "You have successfully registered, please login";
           modal.showModal();
           // Redirect to home page
           setTimeout(() => {
-            window.location.href = "/";
+            window.location.href = "/login/";
           }, 1000);
         }
       });
     } catch (error) {
       console.error("Error in login:", error);
-      modalTitle.textContent = "😮 Oops...";
+      modalTitle.textContent = "Error";
       modalContent.textContent = "Something went wrong";
       modal.showModal();
     }
