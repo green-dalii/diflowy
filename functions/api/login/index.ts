@@ -14,11 +14,12 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
   try {
     // 解析请求体
     const body: LoginRequestBody = await context.request.json();
+    console.log("Login body>>>", body)
     const { email, password } = body;
 
     // 基本验证
     if (!email || !password) {
-      return new Response(JSON.stringify({ error: "Email and password are required" }), {
+      return new Response(JSON.stringify({ message: "Email and password are required", success: false }), {
         status: 400,
         headers: { "Content-Type": "application/json" }
       });
@@ -30,7 +31,7 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
     ).bind(email).all();
 
     if (results.length === 0) {
-      return new Response(JSON.stringify({ error: "Invalid email or password" }), {
+      return new Response(JSON.stringify({ message: "No user found with this email", success: false }), {
         status: 401,
         headers: { "Content-Type": "application/json" }
       });
@@ -42,7 +43,7 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
     const isPasswordValid = await bcrypt.compare(password, user.password_hash as string);
 
     if (!isPasswordValid) {
-      return new Response(JSON.stringify({ error: "Invalid email or password" }), {
+      return new Response(JSON.stringify({ message: "Invalid email or password", success: false }), {
         status: 401,
         headers: { "Content-Type": "application/json" }
       });
@@ -78,7 +79,7 @@ export const onRequestPost: (context: EventContext<Env, any, Record<string, unkn
 
   } catch (e) {
     console.error("Error in login:", e);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+    return new Response(JSON.stringify({ message: "Internal Server Error", success: false }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
     });

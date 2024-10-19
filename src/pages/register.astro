@@ -1,47 +1,26 @@
 ---
-import MainLayout from "../../layouts/MainLayout.astro";
+import MainLayout from "../layouts/MainLayout.astro";
 import { Icon } from "astro-icon/components";
-import Section from "../../components/sections/Section.astro";
-import SectionTitle from "../../components/ui/SectionTitle.astro";
+import Section from "../components/sections/Section.astro";
+import SectionTitle from "../components/ui/SectionTitle.astro";
 import { t, changeLanguage } from "i18next";
-import "../../styles/globals.css";
+import "../styles/globals.css";
 
 changeLanguage("en");
 
-const description = t("login.description");
+const description = t("register.description");
 ---
 
-<MainLayout title={t("site.login")} description={t("site.description")}>
+<MainLayout title={t("site.register")} description={t("site.description")}>
   <div class="mt-48">
     <Section>
-      <SectionTitle sectionTitle={t("login.title")} description={description} />
+      <SectionTitle
+        sectionTitle={t("register.title")}
+        description={description}
+      />
       <div class="flex flex-col items-center justify-center my-32">
-        <div class="pb-4 w-full sm:w-72">
-          <a href="/api/login/github">
-            <button
-              class="btn-primary w-full inline-flex justify-center items-center gap-2"
-            >
-              <Icon name="github" class="text-3xl" />
-              <span class="text-sm">{t("login.githublogin")}</span>
-            </button>
-          </a>
-        </div>
-        <div class="pb-4 w-full sm:w-72">
-          <!-- <a href="/api/login/google"> -->
-          <button
-            class="btn btn-disabled cursor-not-allowed w-full inline-flex justify-center items-center gap-2"
-            disabled
-          >
-            <Icon name="google" class="text-3xl" />
-            <span class="text-sm">{t("login.googlelogin")}</span>
-          </button>
-          <!-- </a> -->
-        </div>
-        <div class="w-full sm:w-1/3">
-          <div class="divider my-10 text-sm">OR</div>
-        </div>
         <div class="w-full sm:w-72">
-          <form id="login-form" class="flex flex-col gap-4">
+          <form id="register-form" class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
               <label for="email" class="text-sm font-medium"
                 >{t("login.email")}</label
@@ -49,6 +28,18 @@ const description = t("login.description");
               <input
                 type="email"
                 id="email"
+                class="input input-bordered w-full"
+                placeholder="Comming soon..."
+                required
+              />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="username" class="text-sm font-medium"
+                >{t("register.username")}</label
+              >
+              <input
+                type="text"
+                id="username"
                 class="input input-bordered w-full"
                 placeholder="Comming soon..."
                 required
@@ -66,12 +57,24 @@ const description = t("login.description");
                 required
               />
             </div>
+            <div class="flex flex-col gap-2">
+              <label for="confirm-password" class="text-sm font-medium"
+                >{t("register.confirm")}</label
+              >
+              <input
+                type="password"
+                id="confirm-password"
+                class="input input-bordered w-full"
+                placeholder="Comming soon..."
+                required
+              />
+            </div>
             <button
               type="submit"
               class="btn-primary w-full md:w-auto flex items-center gap-2 text-sm justify-center"
             >
               <Icon name="login" class="text-3xl" /><span
-                >{t("login.emaillogin")}<br />[Comming soon]</span
+                >{t("register.emailregister")}</span
               >
             </button>
           </form>
@@ -118,7 +121,7 @@ const description = t("login.description");
   document.addEventListener("DOMContentLoaded", () => {
     try {
       // Get form element
-      const form = document.getElementById("login-form") as HTMLFormElement;
+      const form = document.getElementById("register-form") as HTMLFormElement;
       // Get email and password input elements
       const emailInput = document.getElementById("email") as HTMLInputElement;
       const passwordInput = document.getElementById(
@@ -132,7 +135,7 @@ const description = t("login.description");
         formData.append("email", emailInput.value);
         formData.append("password", passwordInput.value);
         // Send form data to server
-        const response = await fetch("/api/login", {
+        const response = await fetch("/api/register", {
           method: "POST",
           body: formData,
         });
@@ -140,7 +143,7 @@ const description = t("login.description");
         const data = (await response.json()) as LoginResponseBody;
         // Check if response is successful
         if (!response.ok) {
-          console.error("Error in login:", data);
+          console.error("Error in register:", data);
           if (data.message === "Invalid email or password") {
             modalTitle.textContent = "Error";
             modalContent.textContent = "Invalid email or password";
@@ -148,11 +151,12 @@ const description = t("login.description");
             return;
           } else if (data.message === "No user found with this email") {
             modalTitle.textContent = "Error";
-            modalContent.textContent = "No user found with this email, please register first";
+            modalContent.textContent =
+              "No user found with this email, please register first";
             modal.showModal();
             setTimeout(() => {
-            window.location.href = "/register/";
-          }, 2000);
+              window.location.href = "/register/";
+            }, 2000);
             return;
           }
           // Show error message

@@ -3,6 +3,7 @@
         "title": "Diflowy - Explore, Share, Download Dify Workflows in Diflowy",
         "description": "Explore, Share, Download, Host Dify workflow in Diflowy.",
         "login": "Login | Diflowy",
+        "register": "Register | Diflowy",
         "explore": "Explore | Diflowy",
         "upload": "Share | Diflowy",
         "about": "About | Diflowy",
@@ -89,6 +90,13 @@
         "mininecessity": "Minimal Necessity",
         "principle2": ", storing only the limited information required for user identity verification.",
         "more": "For more details, see the "
+    },
+    "register": {
+        "title": "Register Diflowy",
+        "description": "Register to get the full features of Diflowy.",
+        "emailregister": "Register with Email",
+        "username": "Username",
+        "confirm": "Confirm Password"
     },
     "explorepage": {
         "title": "Explore Workflows",
