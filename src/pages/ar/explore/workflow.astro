@@ -375,10 +375,11 @@ const description = t("workflow.description");
         console.log("Workflow info updated.");
 
         // Update the ReactFlow component
-        const { nodes, edges, usedModal } = parseYamlToReactFlow(
+        const { nodes, edges, usedModal, flowMode } = parseYamlToReactFlow(
           workflowObject.file_content as string,
         );
-
+        // Update flow mode
+        metaInfo.innerHTML = `<div class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${flowMode}</div>`;
         // Update llm metadata
         console.log("LLM>>>>", usedModal);
         usedModal.map((name: string) => {

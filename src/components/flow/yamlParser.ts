@@ -5,6 +5,7 @@ export interface YamlData {
       name: string;
       description: string;
       icon: string;
+      mode: string;
     };
     workflow: {
       graph: {
@@ -35,7 +36,7 @@ export interface YamlData {
     };
   }
   
-  export function parseYamlToReactFlow(yamlContent: string): { nodes: any[]; edges: any[]; usedModal: string[] } {
+  export function parseYamlToReactFlow(yamlContent: string): { nodes: any[]; edges: any[]; usedModal: string[], flowMode: string } {
     const yamlData = jsyaml.load(yamlContent) as YamlData;
     // Extract nodes data
     const nodes = yamlData.workflow.graph.nodes
@@ -70,7 +71,10 @@ export interface YamlData {
         .filter(node => node.data.model)
         .map(node => node.data.model ? node.data.model.name : undefined)
     )) as string[];
-    return { nodes, edges, usedModal };
+    // Extract flow mode
+    const flowMode = yamlData.app.mode as string;
+    // Return the parsed data
+    return { nodes, edges, usedModal, flowMode };
   }
 
   export function paresYamlToJSON(yamlContent: string): any {

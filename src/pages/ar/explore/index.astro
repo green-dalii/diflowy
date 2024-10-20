@@ -106,7 +106,7 @@ const skeletonCount = 12;
     workflowGrid.innerHTML = "";
     workflows.forEach((workflow) => {
       const workflowLink = document.createElement("a");
-      workflowLink.setAttribute("href", `/explore/workflow?id=${workflow.id}`);
+      workflowLink.setAttribute("href", `/ar/explore/workflow?id=${workflow.id}`);
       const workflowElement = document.createElement("div");
       let tags;
       try {
