@@ -342,7 +342,7 @@ const skeletonCount = 10;
         confirmBtn.classList.toggle("hidden", false);
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
-          window.location.href = "/api/login/github?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href = "/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
         });
         modal.showModal();
       } else {

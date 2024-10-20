@@ -379,7 +379,7 @@ const description = t("workflow.description");
           workflowObject.file_content as string,
         );
         // Update flow mode
-        metaInfo.innerHTML = `<div class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${flowMode}</div>`;
+        metaInfo.innerHTML += `<div class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${flowMode}</div>`;
         // Update llm metadata
         console.log("LLM>>>>", usedModal);
         usedModal.map((name: string) => {
@@ -432,7 +432,7 @@ const description = t("workflow.description");
         confirmBtn.addEventListener("click", (event: Event) => {
           event.preventDefault();
           window.location.href =
-            "/api/login/github?redirect=" +
+            "/login?redirect=" +
             encodeURIComponent(
               window.location.pathname + window.location.search,
             );

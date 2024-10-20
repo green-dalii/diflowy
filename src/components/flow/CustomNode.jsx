@@ -21,7 +21,7 @@ const nodeIcon = new Map([
 
 function CustomNode({ data }) {
   return (
-    <div className="px-4 py-2 border-2 border-stone-300 shadow-sm rounded-2xl bg-[#ffffff] hover:bg-slate-50 active:bg-slate-200 hover:shadow-xl active:shadow-lg active:ring" style={{ minWidth: data.width, minHeight: data.height, zIndex: data.zIndex, }}>
+    <div className="px-4 py-2 border-2 border-stone-300 shadow-sm rounded-3xl bg-[#ffffff] hover:bg-slate-50 active:bg-slate-200 hover:shadow-xl active:shadow-lg active:ring" style={{ minWidth: data.width, minHeight: data.height, zIndex: data.zIndex, }}>
       <div className="flex">
         <div className="rounded-full w-12 h-12 flex justify-center text-3xl items-center bg-slate-100">
           {nodeIcon.get(data.nodeType) || '●'}

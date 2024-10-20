@@ -215,7 +215,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
     confirmBtn.addEventListener(
       "click",
       () => {
-        window.location.href = `/api/login/github?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
       },
       { once: true },
     );
