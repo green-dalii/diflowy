@@ -172,7 +172,7 @@
     },
     "user": {
         "title": "用户中心",
-        "description": "在用户中心，您可以轻松管理您的 Dify Workflows。",
+        "description": "在用户中心，您可以轻松管理您托管的 Dify Workflows。",
         "before": "进入用户中心前请先登录。",
         "loginbtn": "🔐 登录",
         "No": "编号",

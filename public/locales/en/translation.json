@@ -172,7 +172,7 @@
     },
     "user": {
         "title": "User Center",
-        "description": "In User Center you can manage your Dify workflows.",
+        "description": "In User Center you can manage your hosted Dify workflows.",
         "before": "Please Login before entering the User Center.",
         "loginbtn": "🔐 Login",
         "No": "No.",
