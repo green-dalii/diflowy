@@ -1,37 +1,50 @@
 ---
-// import { Image } from "astro:assets";
-// import HeroIlust from "../../assets/pics/hero-pic.png";
+import { Image } from "astro:assets";
 import Section from "./Section.astro";
 import ReactFlowComponent from "../flow/ReactFlowComponent";
 import { t } from "i18next";
 import { localizePath } from "astro-i18next";
+import background from "../../assets/pics/background.jpg";
 
 const translations = {
   explore: t("hero.explore"),
   share: t("hero.share"),
   download: t("hero.download"),
-  host: t("hero.host")
+  host: t("hero.host"),
 };
 ---
 
 <Section id="home">
   <div id="box" class="absolute inset-0 -z-10"></div>
+  <div id="static" class="hidden absolute inset-0 -z-20">
+    <Image
+      src={background}
+      alt="Background"
+      class="object-cover w-full h-full"
+    />
+  </div>
   <div
     class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 pt-28 sm:pt-44 pb-28"
   >
     <div class="flex flex-col w-full sm:w-[55%] lg:w-[70%] sm:pt-20">
+      <div
+        class="text-5xl md:text-6xl font-normal !leading-tight tracking-tight"
+      >
         <div
-          class="text-5xl md:text-6xl font-normal !leading-tight tracking-tight"
+          id="changing-word"
+          class="inline-block font-bold text-dark whitespace-pre-wrap"
         >
-          <div id="changing-word" class="inline-block font-bold text-dark whitespace-pre-wrap"></div>
-          <div>{t("hero.difyin")}&nbsp;<span
+        </div>
+        <div>
+          {t("hero.difyin")}&nbsp;<span
             class="font-bold underline decoration-wavy"
             style="
           text-decoration-skip-ink: none;
           text-decoration-color: var(--blue);
       "
-            >Diflowy</span>
-          </div>
+            >Diflowy</span
+          >
+        </div>
       </div>
     </div>
     <div class="row-span-1 md:row-span-3">
@@ -40,13 +53,20 @@ const translations = {
     <div class="w-full lg:w-[66.5%] mt-5 sm:mt-20">
       <!-- <p class="my-[35px] text-gray-500">Diflowy = Dify + Flow</p> -->
       <a href={localizePath("/explore")}>
-        <button class="btn-primary w-full md:w-auto">{t("hero.exploreWorkflows")}</button>
+        <button class="btn-primary w-full md:w-auto"
+          >{t("hero.exploreWorkflows")}</button
+        >
       </a>
     </div>
   </div>
 </Section>
 <!-- Translations -->
-<div id="translations" class="hidden" data-translations={JSON.stringify(translations)}></div>
+<div
+  id="translations"
+  class="hidden"
+  data-translations={JSON.stringify(translations)}
+>
+</div>
 
 <style>
   .grid-template {
@@ -71,11 +91,22 @@ const translations = {
 
 <script>
   // Get translations data
-  const translationsElement = document.getElementById('translations') as HTMLDivElement;
-  const translations = JSON.parse(translationsElement.dataset.translations as string);
-  const words = [translations.explore, translations.share, translations.download, translations.host];
+  const translationsElement = document.getElementById(
+    "translations",
+  ) as HTMLDivElement;
+  const translations = JSON.parse(
+    translationsElement.dataset.translations as string,
+  );
+  const words = [
+    translations.explore,
+    translations.share,
+    translations.download,
+    translations.host,
+  ];
   let currentIndex = 0;
-  const changingWord = document.getElementById("changing-word") as HTMLDivElement;
+  const changingWord = document.getElementById(
+    "changing-word",
+  ) as HTMLDivElement;
 
   function changeWord() {
     changingWord.style.opacity = "0";
@@ -99,16 +130,31 @@ const translations = {
   changeWord();
 </script>
 <script type="module">
-  import { AmbientLightBg } from "/jsm/AmbientLightBg.module.js"
-  document.addEventListener('DOMContentLoaded', () => {
-    if (AmbientLightBg) {
-      let colorbg = new AmbientLightBg({
-        dom: "box",
-        colors: ["#007FFE","#3099FE","#60B2FE","#90CCFE","#C0E5FE","#F0FFFE"],
-        loop: true
-      });
+  import { AmbientLightBg } from "/jsm/AmbientLightBg.module.js";
+  const staticBackground = document.getElementById("static");
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  document.addEventListener("DOMContentLoaded", () => {
+    if (!isMobile) {
+      if (AmbientLightBg) {
+        let colorbg = new AmbientLightBg({
+          dom: "box",
+          colors: [
+            "#007FFE",
+            "#3099FE",
+            "#60B2FE",
+            "#90CCFE",
+            "#C0E5FE",
+            "#F0FFFE",
+          ],
+          loop: true,
+        });
+        staticBackground.classList.toggle("hidden", true);
+      } else {
+        console.error("Color4Bg is not available");
+        staticBackground.classList.toggle("hidden", false);
+      }
     } else {
-      console.error('Color4Bg is not available');
+      staticBackground.classList.toggle("hidden", false);
     }
   });
 </script>
