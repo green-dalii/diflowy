@@ -119,7 +119,12 @@ const skeletonCount = 10;
       row.classList.add("hover");
       row.id = `${workflow.id}`;
       const tagsBase64 = btoa(JSON.stringify(workflow.tags));
-      const descriptionBase64 = btoa(workflow.description);
+      // encode base64
+      const encoder = new TextEncoder();
+      const descriptionBase64 = btoa(
+        encoder.encode(workflow.description).toString(),
+      );
+      // const descriptionBase64 = btoa(workflow.description);
       row.innerHTML = `
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
         <td class="w-3/12 text-xs sm:3/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
@@ -226,7 +231,10 @@ const skeletonCount = 10;
           const selectedTags = JSON.parse(
             atob(target.dataset.workflowTags as string),
           ) as string;
-          const description = atob(target.dataset.workflowDescription as string);
+          // Decode base64
+          const descriptionBytes = atob(target.dataset.workflowDescription as string);
+          const decoder = new TextDecoder();
+          const description = decoder.decode(new Uint8Array(descriptionBytes.length).map((_, i) => descriptionBytes.charCodeAt(i)));
           const selectedTagsObject = JSON.parse(selectedTags) as string[];
           // Get private toggle input
           const privateToggle = document.getElementById("private") as HTMLInputElement;
