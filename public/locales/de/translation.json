@@ -26,10 +26,10 @@
     },
     "hero": {
         "exploreWorkflows": "Entdecken Sie Workflows",
-        "explore": "",
-        "share": "",
-        "download": "",
-        "host": "",
+        "explore": "<Entdecken>",
+        "share": "<Teilen>",
+        "download": "<Herunterladen>",
+        "host": "<Hosten>",
         "difyin": "Dify Workflows sind hier"
     },
     "explore": {

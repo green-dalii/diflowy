@@ -22,7 +22,7 @@
   :root {
     --blue: #cae9f8;
     --black: rgb(15, 27, 49);
-    --dark: #086aa9;
+    --dark: #007fe6;
     --white: #f3f3f3;
     --darkbg: #1c232a;
     --darkbgoffset:#313f4e;
@@ -114,11 +114,11 @@
 
   @layer components {
     .btn-primary {
-      @apply bg-dark text-white rounded-lg px-6 py-4 transition-all duration-200;
+      @apply bg-dark text-white rounded-lg px-6 py-4 transition-all duration-200 font-medium;
     }
 
     .btn-primary:hover {
-      @apply bg-gradient-radial-at-bottom-center from-[#eefaff] via-[#83d4fc] to-[#58ACD6] shadow-[0_10px_25px_0px_rgba(131,212,252,0.6)] text-black transform scale-105;
+      @apply bg-gradient-radial-at-bottom-center from-[#d1f0ff] via-[#99dbff] to-[#65baff] shadow-[0_10px_25px_0px_rgba(131,212,252,0.6)] text-black transform scale-105;
     }
 
     .btn-secondary {

@@ -26,11 +26,11 @@
     },
     "hero": {
         "exploreWorkflows": "Esplora Workflows",
-        "explore": "",
-        "share": "",
-        "download": "",
-        "host": "",
-        "difyin": "Dify Workflows su Diflowy"
+        "explore": "<Esplora>",
+        "share": "<Condividi>",
+        "download": "<Scarica>",
+        "host": "<Host>",
+        "difyin": "Dify Workflows su"
     },
     "explore": {
         "description": "Cerca Workflows per categoria, quindi visualizzali online o importali nella tua Dify",

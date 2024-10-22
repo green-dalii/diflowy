@@ -9,7 +9,7 @@ function CustomNode({ data }) {
           {data.icon}
         </div>
         <div className="ml-4 content-center">
-          <div className="text-sky-700 text-base font-semibold">{data.label}</div>
+          <div className="text-sky-500 text-base font-semibold">{data.label}</div>
         </div>
       </div>
 
