@@ -49,12 +49,12 @@ const cards = [
       {
         cards.map((card) => (
           <Card>
-            <div class="group flex p-8 w-full h-full bg-[#F3F3F3] dark:bg-[--darkbgoffset] rounded-3xl hover:shadow-lg transition-all duration-300">
+            <div class="group flex p-8 w-full h-full bg-white dark:bg-[--darkbgoffset] rounded-3xl hover:shadow-lg transition-all duration-300">
               <div class="flex flex-col sm:flex-row lg:flex-col justify-between gap-2 w-full">
                 <div class="flex flex-col gap-2 w-full">
                   <div class="flex flex-row gap-1">
                     <Icon name={card.icon} size={24} />
-                    <p class="font-semibold text-xl sm:text-lg">{card.title}</p>
+                    <p class="font-semibold text-xl">{card.title}</p>
                   </div>
                   <p class="text-xs">{card.description}</p>
                 </div>

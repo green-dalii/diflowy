@@ -1,14 +1,35 @@
 ---
+import { t } from "i18next";
+
 const slides = [
-  { index: 1, name: "John Johnson", description: "Marketing dierector at XYZ" },
-  { index: 2, name: "Ana Banana", description: "Marketing dierector at XYZ" },
+  {
+    index: 1,
+    name: t("reviews.name1"),
+    description: t("reviews.description1"),
+    content: t("reviews.content1"),
+    ref: t("reviews.ref1"),
+  },
+  {
+    index: 2,
+    name: t("reviews.name2"),
+    description: t("reviews.description2"),
+    content: t("reviews.content2"),
+    ref: t("reviews.ref2"),
+  },
   {
     index: 3,
-    name: "Camilo Corintio",
-    description: "Marketing dierector at XYZ",
+    name: t("reviews.name3"),
+    description: t("reviews.description3"),
+    content: t("reviews.content3"),
+    ref: t("reviews.ref3"),
   },
-  { index: 4, name: "Karla Kaz", description: "Marketing dierector at XYZ" },
-  { index: 5, name: "Johanna Jana", description: "Marketing dierector at XYZ" },
+  {
+    index: 4,
+    name: t("reviews.name4"),
+    description: t("reviews.description4"),
+    content: t("reviews.content4"),
+    ref: t("reviews.ref4"),
+  }
 ];
 ---
 
@@ -16,14 +37,14 @@ const slides = [
   id="ProjectSlider"
   class="swiper mt-10"
   style={{
-    "--swiper-pagination-color": "var(--green)",
+    "--swiper-pagination-color": "var(--dark)",
     "--swiper-pagination-bullet-inactive-color": "#fff",
     "--swiper-pagination-bullet-inactive-opacity": "1",
-    "--swiper-pagination-bullet-size": "19px",
+    "--swiper-pagination-bullet-size": "12px",
     "--swiper-pagination-bullet-horizontal-gap": "10px",
   }}
 >
-  <div class="swiper-wrapper mt-[84px] mb-[124px]" data-cursor="swipe">
+  <div class="swiper-wrapper mt-6 mb-10" data-cursor="swipe">
     {
       slides.map((slide) => (
         <div
@@ -31,39 +52,33 @@ const slides = [
           role="group"
           aria-label={`${slide.index} / ${slides.length}`}
         >
-          <div class="flex flex-col justify-center items-center py-[48px] px-6 sm:px-[52px]">
-            <p class="bubble">
-              "We have been working with Positivus for the past year and have
-              seen a significant increase in website traffic and leads as a
-              result of their efforts. The team is professional, responsive, and
-              truly cares about the success of our business. We highly recommend
-              Positivus to any company looking to grow their online presence."
-            </p>
+          <div class="flex flex-col justify-center items-center py-6 sm:py-10 px-8 sm:px-12">
+            <p class="bubble text-xs sm:text-sm font-medium leading-7 text-ellipsis sm:leading-6 px-8 py-6 sm:px-16 sm:py-12 italic whitespace-pre-wrap hover:shadow-lg">{slide.content}</p>
           </div>
           <div class="w-full px-10 sm:px-20 ">
-            <div class="text-green font-medium">{slide.name}</div>
-            <div>{slide.description}</div>
+            <a href={slide.ref} class="hover:link text-dark font-medium">{slide.name}</a>
+            <div class="text-xs text-black dark:text-white">{slide.description}</div>
           </div>
         </div>
       ))
     }
   </div>
-  <div class="flex justify-around lg:justify-center mb-[68px] lg:gap-[189px]">
-    <div class="swiper-button-prev w-7 h-7 sm:w-10 sm:h-10">
+  <div class="flex justify-around lg:justify-center mb-10 lg:gap-40">
+    <div class="swiper-button-prev w-4 h-4 sm:w-6 sm:h-6 text-dark">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
         ><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
         <path
-          fill="#ffffff"
+          fill="currentColor"
           d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
         ></path></svg
       >
     </div>
     <div class="swiper-pagination"></div>
-    <div class="swiper-button-next w-7 h-7 sm:w-10 sm:h-10 rotate-180">
+    <div class="swiper-button-next w-4 h-4 sm:w-6 sm:h-6 rotate-180 text-dark">
       <svg xmlns="http://www.w3.org/2000/svg " viewBox="0 0 448 512"
         ><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
         <path
-          fill="#ffffff"
+          fill="currentColor"
           d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
         ></path></svg
       >
@@ -92,11 +107,11 @@ const slides = [
     },
     loop: true,
     autoplay: false,
-    grabCursor: false,
+    grabCursor: true,
     mousewheel: false,
     slidesPerView: 2,
     centeredSlides: true,
-    spaceBetween: 50,
+    spaceBetween: 25,
     breakpoints: {
       1024: {
         slidesPerView: 2,
@@ -110,29 +125,20 @@ const slides = [
 <style>
   .bubble {
     position: relative;
-    padding: 8%;
     background-color: var(--dark);
     color: var(--white);
-    border-radius: 45px;
-    border: 1px solid var(--green);
+    border-radius: 35px;
+    /* height: 24em; */
+    max-height: max-content;
   }
   .bubble:after {
     content: "";
     position: absolute;
-    bottom: -20px; /* Adjust this value to move the arrow up or down */
+    bottom: -30px; /* Adjust this value to move the arrow up or down */
     left: 50px; /* Adjust this value to move the arrow left or right */
     border-width: 22px; /* Adjust this value to change the size of the arrow */
     border-style: solid;
     border-color: var(--dark) transparent transparent var(--dark);
-  }
-  .bubble:before {
-    content: "";
-    position: absolute;
-    bottom: -40px; /* This should be 2px more than the bottom value of .bubble:after */
-    left: 48px; /* This should be 1px less than the left value of .bubble:after */
-    border-width: 20px; /* Adjust this to match the border-width of .bubble:after */
-    border-style: solid;
-    border-color: var(--green) transparent transparent var(--green);
   }
   .swiper-wrapper {
     position: relative;

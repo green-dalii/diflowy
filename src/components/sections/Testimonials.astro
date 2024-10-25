@@ -2,15 +2,17 @@
 import SectionTitle from "../ui/SectionTitle.astro";
 import SwiperSlider from "../ui/SwiperSlider.astro";
 import Section from "./Section.astro";
+import { t } from "i18next";
+const descrption = t("reviews.description")
 ---
 
 <Section id="testimonials">
-  <div class="mt-20">
+  <div class="mt-40">
     <SectionTitle
-      sectionTitle="Testimonials"
-      description="Hear from Our Satisfied Clients: Read Our Testimonials to Learn More about Our Digital Marketing Services"
+      sectionTitle={t("reviews.title")}
+      description={descrption}
     />
-    <div class="rounded-[45px] bg-dark mb-[150px] text-white">
+    <div class="rounded-[45px] bg-white dark:bg-[--darkbgoffset] text-white">
       <SwiperSlider />
     </div>
   </div>

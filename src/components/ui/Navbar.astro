@@ -12,6 +12,7 @@ const translations = {
   login: t("navbar.login"),
   logout: t("navbar.logout"),
   userCenter: t("navbar.usercenter"),
+  loginURL: localizePath("/login")
 };
 
 const navLinks = [
@@ -22,6 +23,10 @@ const navLinks = [
   {
     name: t("navbar.share"),
     href: localizePath("/upload"),
+  },
+  {
+    name: t("navbar.host"),
+    href: localizePath("/user"),
   },
   {
     name: t("navbar.blog"),
@@ -163,6 +168,7 @@ const navLinks = [
   });
 </script>
 <script>
+  
   interface User {
     username: string;
   }
@@ -260,7 +266,7 @@ const navLinks = [
         console.log("JWT is invalid");
         sessionStorage.removeItem("username");
         userMenuButton.textContent = translations.login;
-        userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+        userMenuButton.setAttribute("onclick", `window.location.href="${translations.loginURL}"`)
         if(protectedContent && notLogin){
           notLogin.style.display = "block";
           protectedContent.style.display = "none";
@@ -282,7 +288,7 @@ const navLinks = [
         }
       } else {
         userMenuButton.textContent = translations.login;
-        userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+        userMenuButton.setAttribute("onclick", `window.location.href="${translations.loginURL}"`)
         if(protectedContent && notLogin){
           notLogin.style.display = "block";
           protectedContent.style.display = "none";
@@ -294,7 +300,7 @@ const navLinks = [
       sessionStorage.removeItem("username");
       userMenuButton.textContent = translations.login;
       // loginLink.setAttribute("href", "/login");
-      userMenuButton.setAttribute("onclick", "window.location.href='/login'")
+      userMenuButton.setAttribute("onclick", `window.location.href="${translations.loginURL}"`)
       if(protectedContent && notLogin){
         notLogin.style.display = "block";
         protectedContent.style.display = "none";

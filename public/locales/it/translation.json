@@ -17,6 +17,7 @@
         "usercenter": "Centro utente",
         "explore": "Esplora",
         "share": "Condividi",
+        "host": "Ospita",
         "blog": "Blog",
         "about": "Chi siamo",
         "privacypolicy": "Politica sulla privacy",
@@ -29,7 +30,7 @@
         "explore": "<Esplora>",
         "share": "<Condividi>",
         "download": "<Scarica>",
-        "host": "<Host>",
+        "host": "<Ospita>",
         "difyin": "Dify Workflows su"
     },
     "explore": {
@@ -62,6 +63,26 @@
         "importDes": "Importazione in un solo clic sulla tua Dify",
         "private": "Host privato",
         "privateDes": "Utilizza la modalità di hosting privato per organizzare i tuoi workflow privati, mantenendo tutte le funzionalità e un ambiente Dify ordinato"
+    },
+    "reviews": {
+        "title": "Opinioni degli utenti",
+        "description": "Ecco i feedback reali degli utenti della comunità Diflowy, sentitevi liberi di condividere la nostra comunità sui social media!",
+        "name1": "@木内翔大",
+        "description1": "Rappresentante di @SHIFT AI",
+        "content1": "Se vuoi ottimizzare la creazione di flussi di lavoro su Dify, 'Diflowy' è da controllare. Piattaforma comunità per i flussi di lavoro Dify, dove puoi condividere flussi di lavoro e imparare da come altri utenti stanno creando i loro flussi di lavoro. Importazione diretta su Dify e gestione delle versioni anche possibili. Con l'aumento dei casi d'uso in futuro, sembra che sarà molto utile, con grande aspettativa",
+        "ref1": "https://x.com/shota7180/status/1843977336003436591",
+        "name2": "@そら ☁️ Dify 自動化オタク",
+        "description2": "Vincitore del primo concorso Dify Japan | Ingegnere AI generativa | Sviluppo di sistemi AI per aziende",
+        "content2": "Cos'è questo?!?! Ho trovato un sito interessante che sta pubblicando flussi di lavoro di Dify!!! Metterò qualcosa di interessante nei commenti, dai un'occhiata",
+        "ref2": "https://x.com/sora19ai/status/1843743715887898830",
+        "name3": "@てつ@Dify×副業×英語",
+        "description3": "Attualmente, sto sfidando l'avvio di un'attività utilizzando al massimo Dify",
+        "content3": "C'è qualcuno su Discord di http://Dify.AI che sta introducendo 'Diflowy' e sembra interessante✨https://diflowy.greenerai.top Anche le idee per i flussi di lavoro sono utili e, per chi come me non è ancora bravo, copiare i flussi di lavoro di chi è bravo è molto utile (lo stesso vale per gli esempi in 'Explore' di Dify)😄",
+        "ref3": "https://x.com/baAiEiNe/status/1843661679156179446",
+        "name4": "@そら ☁️ Dify 自動化オタク",
+        "description4": "Vincitore del primo concorso Dify Japan | Ingegnere AI generativa | Sviluppo di sistemi AI per aziende",
+        "content4": "Buone notizie per gli utenti di Dify. Il 'sito interessante che pubblica flussi di lavoro di Dify' è stato aggiornato!!!🎉✅ Supporto per il giapponese✅ Caricamento dei propri flussi di lavoro✅ Caricamento dei flussi di lavoro in modalità privata",
+        "ref4": "https://x.com/sora19ai/status/1845884062164308462"
     },
     "more": {
         "more": "Scopri di più",

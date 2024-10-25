@@ -4,7 +4,6 @@ import Navbar from "../components/ui/Navbar.astro";
 import MainHead from "./MainHead.astro";
 import i18next from "i18next";
 
-
 const { ...props } = Astro.props;
 ---
 
@@ -33,6 +32,23 @@ const { ...props } = Astro.props;
     </main>
   </body>
 </html>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setDocumentDirection();
+  });
+
+  function setDocumentDirection() {
+    const pathPrefix = "/ar";
+    if (window.location.pathname.startsWith(pathPrefix)) {
+      document.documentElement.dir = "rtl";
+    } else {
+      document.documentElement.dir = "ltr";
+    }
+  }
+</script>
 <!-- Cloudflare Web Analytics -->
-<script type="module" src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "94c3b9290009489fb3a79d942819c12f"}'></script>
+<script
+  type="module"
+  src="https://static.cloudflareinsights.com/beacon.min.js"
+  data-cf-beacon='{"token": "94c3b9290009489fb3a79d942819c12f"}'></script>
 <!-- End Cloudflare Web Analytics -->

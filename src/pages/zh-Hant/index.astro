@@ -7,7 +7,7 @@ import More from "../../components/sections/More.astro";
 import Features from "../../components/sections/Features.astro";
 // import Sponsors from "../../components/sections/Sponsors.astro";
 // import Team from "../../components/sections/Team.astro";
-// import Testimonials from "../../components/sections/Testimonials.astro";
+import Testimonials from "../../components/sections/Testimonials.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 import i18next, { t, changeLanguage } from "i18next";
 import { Trans, HeadHrefLangs } from "astro-i18next/components";
@@ -24,5 +24,6 @@ changeLanguage("zh-Hant");
   <DiscoverEntrance />
   <UploadEntrance />
   <Features />
+  <Testimonials />
   <More />
 </MainLayout>

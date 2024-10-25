@@ -17,6 +17,7 @@
         "usercenter": "User Center",
         "explore": "Explore",
         "share": "Share",
+        "host": "Host",
         "blog": "Blog",
         "about": "About",
         "privacypolicy": "Privacy Policy",
@@ -33,7 +34,7 @@
         "difyin": "Dify Workflows in"
     },
     "explore": {
-        "description": "You can explore workflows by categories. Then you can Live Preview and Import them to Dify in Diflowy.",
+        "description": "You can explore Dify Workflows by categories. Then you can Live Preview and Import them to Dify in Diflowy.",
         "productivity": "Productivity",
         "assistant": "Assistant",
         "creative": "Creative",
@@ -46,22 +47,42 @@
         "clickhere": "Click Here"
     },
     "share": {
-        "description": "You can share your workflow inspiration with others or just keep your workflows private in Private-Hosted mode.",
+        "description": "You can share your Dify Workflows inspiration with others or just keep your Dify Workflows private in Private-Hosted mode.",
         "sharetitle": "Share Your WorkFlow Or Make It Private-Hosted",
-        "belowtitle": "Whether sharing workflows publicly or keeping them privately, you can take advantage of Diflowy's useful features below.",
+        "belowtitle": "Whether sharing Dify Workflows publicly or keeping them privately, you can take advantage of Diflowy's useful features below.",
         "uploadWorkflow": "Upload Workflow"
     },
     "feature": {
         "features": "Features",
         "description": "Amazing features in Diflowy",
         "instant": "Instant Overview",
-        "instantDes": "Real-time preview of Workflow structures in Diflowy",
+        "instantDes": "Real-time preview of Dify Workflow structures in Diflowy",
         "version": "Versions Management",
-        "versionDes": "Support version management for workflows",
+        "versionDes": "Support version management for Dify Workflows",
         "import": "Quick Import",
-        "importDes": "One-click import to Dify",
+        "importDes": "One-click import workflows to Dify",
         "private": "Private-Hosted Mode",
-        "privateDes": "Using Private-Hosted Mode to manage your private workflows with all features, keeping your Dify clean and organized"
+        "privateDes": "Using Private-Hosted Mode to manage your private Dify Workflows with all features, keeping your Dify clean and organized"
+    },
+    "reviews": {
+        "title": "Testimonials",
+        "description": "Here is real feedback from Diflowy community users, feel free to share our community on social media!",
+        "name1": "@木内翔大",
+        "description1": "@SHIFT AI representative",
+        "content1": "If you're looking to streamline workflow creation with Dify, 'Diflowy' is a must-check.\nIt's a community platform for Dify workflows, where you can share workflows and learn how other users create them. \nDirect import into Dify and version management are also possible. As more cases emerge, it will likely prove to be quite useful and highly anticipated.",
+        "ref1": "https://x.com/shota7180/status/1843977336003436591",
+        "name2": "@そら ☁️ Dify 自動化オタク",
+        "description2": "Winner of the 1st Dify Japan Contest | Generative AI Engineer | AI System Development for Corporations",
+        "content2": "What is this! I found an interesting site where Dify workflows are being published! \nI'll post something interesting in the replies, so check it out",
+        "ref2": "https://x.com/sora19ai/status/1843743715887898830",
+        "name3": "@てつ@Dify×副業×英語",
+        "description3": "Currently challenging to start a business fully utilizing Dify",
+        "content3": "There's someone introducing 'Diflowy' on Discord's http://Dify.AI, which is interesting✨\nhttps://diflowy.greenerai.top. \nThe workflow ideas are also helpful, and for those like me who are not yet proficient, copying the workflows of skilled users is a great learning experience (same as the samples in Dify's 'Explore')😄",
+        "ref3": "https://x.com/baAiEiNe/status/1843661679156179446",
+        "name4": "@そら ☁️ Dify 自動化オタク",
+        "description4": "Winner of the 1st Dify Japan Contest | Generative AI Engineer | AI System Development for Corporations",
+        "content4": "Good news for Dify users. The 'interesting site where Dify workflows are being published' has been updated!🎉\n✅ Japanese support\n✅ Upload your own workflows\n✅ Upload workflows in private mode",
+        "ref4": "https://x.com/sora19ai/status/1845884062164308462"
     },
     "more": {
         "more": "Learn More",
@@ -74,13 +95,13 @@
         "difycloud": "Run Dify on Cloud Now!",
         "difydocker": "Deploy Dify Locally with Docker",
         "whatworkflow": "What is Dify Workflow?",
-        "whatnodes": "All nodes in Workflow",
-        "howorchestrate": "How to Orchestrate Nodes?",
+        "whatnodes": "All nodes in Dify Workflow",
+        "howorchestrate": "How to Orchestrate Dify Worfklow Nodes?",
         "rag": "RAG in Dify"
     },
     "login": {
         "title": "Login Diflowy",
-        "description": "Once you log in to Diflowy, you can not only explore existing workflows but also upload, manage, and host your own. Whether public or private, Diflowy will help you handle all your workflows efficiently.",
+        "description": "Once you log in to Diflowy, you can not only explore existing Dify Workflows but also upload, manage, and host your own. Whether public or private, Diflowy will help you handle all your Dify Workflows efficiently.",
         "githublogin": "Login with GitHub",
         "googlelogin": "Login with Google",
         "email": "Email",
@@ -100,10 +121,10 @@
     },
     "explorepage": {
         "title": "Explore Workflows",
-        "description": "Explore and import workflows to Dify immediately in Diflow.",
+        "description": "Explore and import Dify Workflows to Dify immediately in Diflow.",
         "modetitle": "Hosted Mode",
-        "publicmsg": "In Public Mode, all public workflows are available for everyone. When not logged in, you can only explore in this mode.",
-        "privatemsg": "In Private-Hosted Mode, Diflowy will become your personal Dify file manager. Only your own private workflows are available to you and others can't see them.",
+        "publicmsg": "In Public Mode, all public Dify Workflows are available for everyone. When not logged in, you can only explore in this mode.",
+        "privatemsg": "In Private-Hosted Mode, Diflowy will become your personal Dify file manager. Only your own private Dify Workflows are available to you and others can't see them.",
         "uploadtitle": "Didn't find what you want?",
         "uploadtext1": "Feel free to upload and share them with everyone.",
         "uploadtext2": "Or you can upload in Private-Hosted mode to make your Dify clean and organized.",
@@ -111,7 +132,7 @@
     },
     "uploadpage": {
         "title": "Share Your Workflows",
-        "description": "Upload your workflows to Diflowy, you can publish your workflows to everyone, or make them private for your private-hosted use.",
+        "description": "Upload your Dify Workflows to Diflowy, you can publish your Dify Workflows to everyone, or make them private for your private-hosted use.",
         "loginhint": "To ensure security, you need to Login before uploading.",
         "loginbtn": "🔐 Login and Upload",
         "recommended": "(Recommended)",
@@ -148,12 +169,12 @@
         "how3": "If you have any questions or feedback, join our ",
         "rm1": "Launch Diflowy in v0.0.9",
         "rm2": "Add workflow version management feature in v0.1.0",
-        "rm3": "Add Private-Hosted Mode for workflows in v0.1.1",
+        "rm3": "Add Private-Hosted Mode for Dify Workflows in v0.1.1",
         "rm4": "Add i18n support (EN, CN, JA) in v0.1.2",
         "rm5": "Implemente Google OAuth and email login in v0.1.3",
-        "rm6": "Add AI Summarization for Workflows",
+        "rm6": "Add AI Summarization for Dify Workflows",
         "rm7": "Add search and filter functionality",
-        "rm8": "Apply official Dify workflow style",
+        "rm8": "Apply official Dify Workflow style",
         "rm9": "Other suggestions are welcome; please post them on our GitHub Discussions"
     },
     "workflow": {
@@ -172,7 +193,7 @@
     },
     "user": {
         "title": "User Center",
-        "description": "In User Center you can manage your hosted Dify workflows.",
+        "description": "In User Center you can manage your hosted Dify Workflows.",
         "before": "Please Login before entering the User Center.",
         "loginbtn": "🔐 Login",
         "No": "No.",
