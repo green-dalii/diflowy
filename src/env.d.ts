@@ -1,3 +1,4 @@
+/// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
 import type { Node, Edge } from '@xyflow/react';
 declare namespace App {

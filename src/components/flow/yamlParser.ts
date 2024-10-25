@@ -31,6 +31,7 @@ export interface YamlData {
           id: string;
           source: string;
           target: string;
+          zIndex?: number;
         }>;
       };
     };
@@ -57,6 +58,7 @@ export interface YamlData {
       sourcePosition: node.sourcePosition,
       targetPosition: node.targetPosition,
       parentId: node.parentId,
+      zIndex: node.zIndex,
     }));
     // Extract edges data
     const edges = yamlData.workflow.graph.edges.map((edge) => ({
@@ -64,6 +66,7 @@ export interface YamlData {
       source: edge.source,
       target: edge.target,
       type: "default",
+      zIndex: edge.zIndex,
     }));
     // Extract llm data
     const usedModal = Array.from(new Set(

@@ -19,7 +19,7 @@
 
 .react-flow {
     direction: ltr;
-    background: #f3f4f6 !important;
+    background: #f0f2f7 !important;
 }
 
 .react-flow.dark {
@@ -503,4 +503,8 @@
 #workflow-container .react-flow__selection {
     border: 1px solid #528bff;
     background: rgba(21, 94, 239, .05)
+}
+
+.icon-white {
+    filter: brightness(0) invert(1);
 }
