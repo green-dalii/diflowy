@@ -4,18 +4,22 @@ import MainLayout from "../layouts/MainLayout.astro";
 import SectionTitle from "../components/ui/SectionTitle.astro";
 import Section from "../components/sections/Section.astro";
 import EditModal from "../components/ui/EditModal.astro";
+import UploadEntranceBelow from "../components/sections/UploadEntranceBelow.astro";
+import Breadcrumbs from "../components/ui/breadcrumbs.astro";
 import "../styles/globals.css";
 
 changeLanguage("en");
 
 const description = t("user.description");
 const skeletonCount = 10;
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
 <MainLayout
   title={t("site.user")}
   description={t("site.description")}
 >
+  <Breadcrumbs urlList={urlList} />
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle={t("user.title")} description={description} />
@@ -64,6 +68,7 @@ const skeletonCount = 10;
         <div class="mt-14 text-center">
           <div class="join" id="pagination"></div>
         </div>
+        <UploadEntranceBelow />
       </div>
       <EditModal />
     </Section>

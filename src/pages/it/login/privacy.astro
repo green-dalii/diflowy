@@ -3,11 +3,13 @@ import { changeLanguage } from "i18next";
 import MainLayout from "../../../layouts/MainLayout.astro";
 import Section from "../../../components/sections/Section.astro";
 import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
 import "../../../styles/globals.css";
 import "../../../styles/markdown.css";
 
 changeLanguage("it");
 
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
 const description = "Diflowy respects your privacy. This Privacy Policy explains how we collect, use, share, and protect your information when you use our services.";
 const privacy = `
 ## Information We Collect
@@ -48,6 +50,7 @@ If you have any questions about our privacy policy, please contact us at diflowy
   title="Privacy Policy | Diflowy"
   description="Explore, Share, Download Dify Workflows in Diflowy"
 >
+  <Breadcrumbs urlList={urlList} />
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="Privacy Policy" description={description} />

@@ -4,18 +4,22 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import EditModal from "../../components/ui/EditModal.astro";
+import UploadEntranceBelow from "../../components/sections/UploadEntranceBelow.astro";
+import Breadcrumbs from "../../components/ui/breadcrumbs.astro";
 import "../../styles/globals.css";
 
 changeLanguage("pt");
 
 const description = t("user.description");
 const skeletonCount = 10;
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
 <MainLayout
   title={t("site.user")}
   description={t("site.description")}
 >
+  <Breadcrumbs urlList={urlList} />
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle={t("user.title")} description={description} />
@@ -64,6 +68,7 @@ const skeletonCount = 10;
         <div class="mt-14 text-center">
           <div class="join" id="pagination"></div>
         </div>
+        <UploadEntranceBelow />
       </div>
       <EditModal />
     </Section>
@@ -119,14 +124,18 @@ const skeletonCount = 10;
       row.classList.add("hover");
       row.id = `${workflow.id}`;
       const tagsBase64 = btoa(JSON.stringify(workflow.tags));
+      // encode description base64
+      const descriptionUtf8Bytes = new TextEncoder().encode(workflow.description) as Uint8Array;
+      const descriptionByteArray = Array.from(descriptionUtf8Bytes);
+      const descriptionBase64 = btoa(String.fromCharCode.apply(null, descriptionByteArray));
       row.innerHTML = `
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
         <td class="w-3/12 text-xs sm:3/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.latestVersion}</td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private"}</td>
         <td class="w-3/12 sm:w-2/12">
-            <button class="btn w-full btn-outline btn-sm btn-info edit text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">
-              📝 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${workflow.description}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">Edit</span>
+            <button class="btn w-full btn-outline btn-sm btn-info edit text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${descriptionBase64}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">
+              📝 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${descriptionBase64}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">Edit</span>
             </button>
         </td>
         <td class="w-3/12 sm:w-2/12">
@@ -225,6 +234,10 @@ const skeletonCount = 10;
           const selectedTags = JSON.parse(
             atob(target.dataset.workflowTags as string),
           ) as string;
+          // Decode description base64
+          const descriptionStr = atob(target.dataset.workflowDescription as string);
+          const utf8Bytes = new Uint8Array(descriptionStr.length).map((_, i) => descriptionStr.charCodeAt(i));
+          const description = new TextDecoder().decode(utf8Bytes) as string;
           const selectedTagsObject = JSON.parse(selectedTags) as string[];
           // Get private toggle input
           const privateToggle = document.getElementById("private") as HTMLInputElement;
@@ -239,8 +252,7 @@ const skeletonCount = 10;
           editWorkflowAuthor.value = target.dataset.workflowAuthor as string;
           editWorkflowAuthorLink.value = target.dataset
             .workflowSocialLink as string;
-          editWorkflowDescription.value = target.dataset
-            .workflowDescription as string;
+          editWorkflowDescription.value = description;
           selectedTagsDiv.innerHTML = "";
           // Add tags to the selectedTagsDiv
           selectedTagsObject.forEach((tag) => {
@@ -350,7 +362,7 @@ const skeletonCount = 10;
         modalTitle.innerText = "⚠️ Error";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
-          "Failed to fetch workflows. Please check your connection and try again.";
+          "Failed to fetch workflows. Please Login again or check your connection.";
         modal.showModal();
       }
     }

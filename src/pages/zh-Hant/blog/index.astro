@@ -3,10 +3,12 @@ import { changeLanguage } from "i18next";
 import MainLayout from "../../../layouts/MainLayout.astro";
 import SectionTitle from "../../../components/ui/SectionTitle.astro";
 import Section from "../../../components/sections/Section.astro";
+import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
 import "../../../styles/globals.css";
 
 changeLanguage("zh-Hant");
 
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
 const description = "We welcome your contributions on any Dify Workflow tips, tricks, case studies, and experiences to help the community.";
 ---
 
@@ -14,6 +16,7 @@ const description = "We welcome your contributions on any Dify Workflow tips, tr
   title="Blog | Diflowy"
   description="Explore, Share, Download Dify Workflows in Diflowy"
 >
+  <Breadcrumbs urlList={urlList} />
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="Our Blogs" description={description} />

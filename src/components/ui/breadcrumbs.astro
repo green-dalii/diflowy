@@ -1,0 +1,30 @@
+---
+const { urlList, isTitle = "NoTitle" } = Astro.props;
+---
+
+<div class="sm:pb-30 px-5 pt-16">
+	<div class="container sm:pb-24">
+		<div class="breadcrumbs text-sm">
+			<ul>
+				<li><a class="hover:text-dark" href="/">Home</a></li>
+				{
+					urlList.map((url: string, index: number) => (
+						<li>
+							{index === urlList.length - 1 ? (
+								isTitle !== "NoTitle" ? (
+									isTitle
+								) : (
+									url.charAt(0).toUpperCase() + url.slice(1)
+								)
+							) : (
+								<a class="hover:text-dark" href={`/${url}`}>
+									{url.charAt(0).toUpperCase() + url.slice(1)}
+								</a>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</div>

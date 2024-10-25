@@ -6,18 +6,21 @@ import UploadEntranceBelow from "../../../components/sections/UploadEntranceBelo
 import Section from "../../../components/sections/Section.astro";
 import Skeleton from "../../../components/ui/Skeleton.astro";
 import PrivateHostedToogle from "../../../components/ui/PrivateHostedToogle.astro";
+import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
 import "../../../styles/globals.css";
 
 changeLanguage("pt");
 
 const description = t("explorepage.description");
 const skeletonCount = 12;
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
 <MainLayout
   title={t("site.explore")}
   description={t("site.description")}
 >
+  <Breadcrumbs urlList={urlList} />
   <div class="mt-48">
     <Section>
       <SectionTitle

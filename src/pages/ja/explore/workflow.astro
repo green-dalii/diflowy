@@ -5,15 +5,18 @@ import SectionTitle from "../../../components/ui/SectionTitle.astro";
 import Section from "../../../components/sections/Section.astro";
 import ReactFlowPreview from "../../../components/flow/ReactFlowPreview";
 import { Icon } from "astro-icon/components";
+import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
 import "../../../styles/globals.css";
 import "../../../styles/markdown.css";
 
 changeLanguage("ja");
 
 const description = t("workflow.description");
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
 <MainLayout title={t("site.workflow")} description={t("site.ddescription")}>
+  <Breadcrumbs urlList={urlList} />
   <div class="mt-48">
     <Section>
       <SectionTitle sectionTitle="Workflow" description={description} />
