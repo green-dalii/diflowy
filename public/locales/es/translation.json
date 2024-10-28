@@ -154,7 +154,7 @@
         "previewtitle": "Previsualización del Workflow",
         "previewhint": "* Lo anterior es solo una previsualización, cualquier cambio no afectará el archivo original.",
         "publicmsg": "Cuando se selecciona el modo público, su flujo de trabajo subido se compartirá en la comunidad Diflowy, ¡agradecemos su aporte!",
-        "privatems": "Cuando se selecciona el modo de alojamiento privado, su flujo de trabajo subido se almacenará encriptado con algoritmos de alta intensidad, solo usted tendrá derecho a acceder, y puede disfrutar de la conveniencia de gestión de archivos que Diflowy ofrece en un entorno seguro de privacidad.",
+        "privatemsg": "Cuando se selecciona el modo de alojamiento privado, su flujo de trabajo subido se almacenará encriptado con algoritmos de alta intensidad, solo usted tendrá derecho a acceder, y puede disfrutar de la conveniencia de gestión de archivos que Diflowy ofrece en un entorno seguro de privacidad.",
         "publicmode": "Modo público",
         "privatemode": "Modo de alojamiento privado"
     },

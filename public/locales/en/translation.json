@@ -154,7 +154,7 @@
         "previewtitle": "Workflow Preview",
         "previewhint": "* The above is for preview only, any changes will not affect the file.",
         "publicmsg": "When choosing public mode, your uploaded workflow will be shared to the Diflowy community, we appreciate your sharing!",
-        "privatems": "When choosing Private-Hosted mode, your uploaded workflow will be stored with high-strength algorithm encryption, only you have access, allowing you to enjoy the file management convenience brought by Diflowy in a privacy-safe environment.",
+        "privatemsg": "When choosing Private-Hosted mode, your uploaded workflow will be stored with high-strength algorithm encryption, only you have access, allowing you to enjoy the file management convenience brought by Diflowy in a privacy-safe environment.",
         "publicmode": "Public Mode",
         "privatemode": "Private Hosting Mode"
     },

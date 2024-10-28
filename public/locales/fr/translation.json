@@ -154,7 +154,7 @@
         "previewtitle": "Prévisualisation du Workflow",
         "previewhint": "* Ceci est uniquement une prévisualisation, aucune modification ne sera appliquée au fichier d'origine.",
         "publicmsg": "Lorsque vous choisissez le mode public, votre workflow téléversé sera partagé avec la communauté Diflowy, nous vous remercions pour votre partage !",
-        "privatems": "Lorsque vous choisissez le mode d'hébergement privé, votre workflow téléversé sera stocké avec un algorithme de haute intensité de cryptage, seul vous avez le droit d'accéder, vous pouvez profiter de la commodité de gestion de fichiers offerte par Diflowy en toute sécurité de la vie privée.",
+        "privatemsg": "Lorsque vous choisissez le mode d'hébergement privé, votre workflow téléversé sera stocké avec un algorithme de haute intensité de cryptage, seul vous avez le droit d'accéder, vous pouvez profiter de la commodité de gestion de fichiers offerte par Diflowy en toute sécurité de la vie privée.",
         "publicmode": "Mode public",
         "privatemode": "Mode d'hébergement privé"
     },

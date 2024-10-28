@@ -154,7 +154,7 @@
         "previewtitle": " Anteprima del Workflow",
         "previewhint": "* L'anteprima sopra è solo per visualizzazione, nessuna modifica influenzerà il file originale.",
         "publicmsg": "Quando scegli la modalità pubblica, il flusso di lavoro caricato verrà condiviso con la comunità Diflowy, apprezziamo la tua condivisione!",
-        "privatems": "Quando scegli la modalità di hosting privato, il flusso di lavoro caricato verrà memorizzato con crittografia ad alta intensità, solo tu hai il permesso di accedervi, puoi godere della comodità di gestione dei file offerta da Diflowy in sicurezza e privacy.",
+        "privatemsg": "Quando scegli la modalità di hosting privato, il flusso di lavoro caricato verrà memorizzato con crittografia ad alta intensità, solo tu hai il permesso di accedervi, puoi godere della comodità di gestione dei file offerta da Diflowy in sicurezza e privacy.",
         "publicmode": "Modalità pubblica",
         "privatemode": "Modalità di hosting privato"
     },

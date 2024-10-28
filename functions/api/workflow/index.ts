@@ -64,8 +64,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                     });
                 }
                 // 用户验证通过，生成解密秘钥
+                console.log("Generating File Key....")
                 if(workflowResult.created_at){
                     decryptionKey = await generateFileKey(payload.id as string, workflowResult.created_at as string, env.AUTH_SECRET)
+                    console.log("File Key Generated!>>>", decryptionKey)
                 }
             } catch (error) {
                 console.error("Error in Get Filter Workflows Request>>>>", error)
@@ -111,6 +113,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 headers: { 'Content-Type': 'application/json' }
             });
         }
+        console.log("Loading file buffer....")
         const fileContentArrayBuffer = versionResult.file_content as ArrayBuffer;
         const fileContentUint8Array = new Uint8Array(fileContentArrayBuffer);
         const fileContentDecoder = new TextDecoder("utf-8");
@@ -121,9 +124,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             const decryptedContent = await decryptFile(fileContentUint8Array, decryptionKey as CryptoKey)
             fileContentString = fileContentDecoder.decode(decryptedContent)
         } else {
+            console.log("No need decrypt, return content directly")
             fileContentString = fileContentDecoder.decode(fileContentUint8Array);
         }
-
+        console.log("Result prepared.")
         // 将查询结果映射到 Workflow 类型
         const workflow: Workflow = {
             id: workflowResult.id as string,

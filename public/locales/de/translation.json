@@ -154,7 +154,7 @@
         "previewtitle": " Workflow-Vorschau",
         "previewhint": "* Dies dient nur als Vorschau, Änderungen haben keinen Einfluss auf die ursprüngliche Datei.",
         "publicmsg": "Wenn Sie den öffentlichen Modus wählen, wird Ihr hochgeladener Workflow der Diflowy-Community zur Verfügung gestellt. Vielen Dank für Ihren Beitrag!",
-        "privatems": "Wenn Sie den privaten Hosting-Modus wählen, wird Ihr hochgeladener Workflow mit einem hochgradigen Verschlüsselungsalgorithmus gespeichert. Nur Sie haben Zugriff, und Sie können die Dateiverwaltungsleistungen von Diflowy unter Beachtung der Privatsphäre genießen.",
+        "privatemsg": "Wenn Sie den privaten Hosting-Modus wählen, wird Ihr hochgeladener Workflow mit einem hochgradigen Verschlüsselungsalgorithmus gespeichert. Nur Sie haben Zugriff, und Sie können die Dateiverwaltungsleistungen von Diflowy unter Beachtung der Privatsphäre genießen.",
         "publicmode": "Öffentlicher Modus",
         "privatemode": "Privater Hosting-Modus"
     },

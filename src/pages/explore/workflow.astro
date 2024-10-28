@@ -375,7 +375,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           )
           .join("");
         workflowTags.innerHTML = tagsHTML;
-        console.log("Workflow info updated.");
+        console.log("Workflow info updated, workflowObject.file_content>>>>", workflowObject.file_content);
 
         // Update the ReactFlow component
         const { nodes, edges, usedModal, flowMode } = parseYamlToReactFlow(
