@@ -42,7 +42,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         }
         // 判断是否为Private-Hosted文件
         isPrivate = workflowResult.is_private;
-        // console.log("isPrivate>>>", typeof(isPrivate), isPrivate, isPrivate === 1)
+        console.log("isPrivate>>>", isPrivate, "workflowUserID>>>", workflowResult.user_id, "workflowCreated>>>", workflowResult.created_at)
         if (isPrivate === 1) {
             // 如果为私密文件
             console.log("Request Private file....")
@@ -57,7 +57,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                     });
                 }
                 const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
-                if(payload.id != workflowResult.user_id){
+                console.log("Paylog_ID>>>", payload.id)
+                if(payload.id !== workflowResult.user_id){
                     console.log("Private Deny!!", payload.id, workflowResult.user_id)
                     return new Response(JSON.stringify({ error: "Forbidden" }), {
                         headers: { 'Content-Type': 'application/json' },
