@@ -199,7 +199,7 @@
         "btn2": "Herunterladen",
         "btn3": "Like [Comming...]",
         "btn4": "Link teilen",
-        "privatealert": "Sie müssen sich keine Sorgen machen, dass dieser Workflow Ihre private gehostete Datei ist. Nach der Verschlüsselung mit einem starken Verschlüsselungsalgorithmus (AES-GCM) wurde sie in der Datenbank gespeichert. Der auf dieser Seite angezeigte Vorschauinhalt wird auf dem Server entschlüsselt und nur an Ihren Browser übertragen, wenn Sie angemeldet sind. Jede andere Person, die die URL dieser Seite erhält, hat keinen Zugriff darauf. Aufgrund der oben genannten Sicherheitsmerkmale sind die Funktionen „Ein-Klick-Import“ und „Link teilen“ deaktiviert. Sie können die Funktion „Herunterladen“ verwenden, um die Datei abzurufen, solange Sie angemeldet sind."
+        "privatealert": "Dieser Workflow ist Ihre private der Datei und wurde mit dem AES-GCM-Algorithmus (AES-GCM) verschlüsselt gespeichert. Der Vorschauinhalt wird auf dem Server entschlüsselt und nur Ihnen, nach Ihrer erfolgreichen Anmeldung, angezeigt. Andere Personen können nicht über die URL über darauf zugreifen. Aufgrund von, Sicherheitseinschränkungen sind die Funktionen „Ein Klick importieren“ und „Link teilen“ nicht verfügbar. Sie können die Datei in im angemeldeten Zustand durch Klicken auf die Schaltfläche „Herunterladen“ abrufen."
     },
     "user": {
         "title": "Benutzerzentrum",

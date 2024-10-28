@@ -373,7 +373,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
         // Update isPrivate
-        isPrivate.innerText = `${workflowObject.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}`;
+        metaInfo.innerHTML = `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${workflowObject.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}</div>`;
         if (workflowObject.isPrivate === 1) {
           copyButton.classList.toggle("btn-disabled", true);
           shareButton.classList.toggle("btn-disabled", true);

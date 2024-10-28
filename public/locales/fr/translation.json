@@ -199,7 +199,7 @@
         "btn2": "Télécharger",
         "btn3": "Aimer [Prochainement...]",
         "btn4": "Partager le lien",
-        "privatealert": "Ce flux de travail est votre fichier hébergé en privé, stocké dans notre base de données après avoir été chiffré avec un algorithme de chiffrement fort (AES-GCM). Le contenu de prévisualisation sur cette page est transmis à votre navigateur après déchiffrement côté serveur, et n'est visible que pour vous lorsque vous êtes connecté. Toute autre personne ayant l'URL de cette page ne pourra pas y accéder. En raison des contraintes de sécurité, les options 'Importer en un clic' et 'Partager le lien' sont désactivées. Vous pouvez utiliser la fonction 'Télécharger' pour obtenir le fichier tout en restant connecté."
+        "privatealert": "Ce workflow est un fichier privé, stocké avec chiffrement utilisant l'algorithme AES-GCM. Le contenu prévisualisé est déchiffré côté serveur et est affiché uniquement pour vous, après authentification. Les autres ne peuvent pas accéder via l'URL. En raison des restrictions de sécurité, les fonctionnalités « Importer en un clic » et « Partager le lien » ne sont pas disponibles. Vous pouvez cliquer sur le bouton « Télécharger » pour obtenir le fichier en étant connecté."
     },
     "user": {
         "title": "Centre utilisateur",
