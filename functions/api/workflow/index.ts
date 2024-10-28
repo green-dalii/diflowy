@@ -42,7 +42,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         }
         // 判断是否为Private-Hosted文件
         isPrivate = workflowResult.is_private;
-        console.log("isPrivate>>>", isPrivate, "workflowUserID>>>", workflowResult.user_id, "workflowCreated>>>", workflowResult.created_at)
+        console.log("isPrivate>>>", isPrivate, "workflowUserID>>>", workflowResult.user_id)
         if (isPrivate === 1) {
             // 如果为私密文件
             console.log("Request Private file....")
@@ -58,17 +58,21 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 }
                 const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
                 console.log("Paylog_ID>>>", payload.id)
-                if(payload.id !== workflowResult.user_id){
+                if (payload.id !== workflowResult.user_id) {
                     console.log("Private Deny!!", payload.id, workflowResult.user_id)
                     return new Response(JSON.stringify({ error: "Forbidden" }), {
                         headers: { 'Content-Type': 'application/json' },
                         status: 403,
                     });
                 }
+                // Get user register time
+                const userQuery = await context.env.D1.prepare(
+                    "SELECT created_at FROM users WHERE id = ?"
+                ).bind(payload.id).first();
                 // 用户验证通过，生成解密秘钥
-                if(workflowResult.created_at !== null){
-                    console.log("Generating File Key....workflowResult.created_at>>>", workflowResult.created_at)
-                    decryptionKey = await generateFileKey(payload.id as string, workflowResult.created_at as string, env.AUTH_SECRET)
+                if (userQuery) {
+                    console.log("Generating File Key....userQuery.created_at>>>", userQuery.created_at)
+                    decryptionKey = await generateFileKey(payload.id as string, userQuery.created_at as string, env.AUTH_SECRET)
                     console.log("File Key Generated!>>>", decryptionKey)
                 }
             } catch (error) {
@@ -121,7 +125,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const fileContentDecoder = new TextDecoder("utf-8");
         let fileContentString;
         // 如果为Private-Hosted文件
-        if(isPrivate === 1){
+        if (isPrivate === 1) {
             console.log("Decrypting File...")
             const decryptedContent = await decryptFile(fileContentUint8Array, decryptionKey as CryptoKey)
             fileContentString = fileContentDecoder.decode(decryptedContent)
