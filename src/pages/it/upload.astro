@@ -5,7 +5,7 @@ import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
 import Form from "../../components/ui/Form.astro";
 import { localizePath } from "astro-i18next";
-import Breadcrumbs from "../../components/ui/breadcrumbs.astro";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import "../../styles/globals.css";
 
 changeLanguage("it");
@@ -16,7 +16,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 
 <MainLayout title={t("site.upload")} description={t("site.description")}>
   <Breadcrumbs urlList={urlList} />
-  <div class="mt-48">
+  <div class="mt-20">
     <Section>
       <SectionTitle
         sectionTitle={t("uploadpage.title")}

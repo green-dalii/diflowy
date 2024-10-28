@@ -3,7 +3,7 @@ import { changeLanguage, t } from "i18next";
 import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
-import Breadcrumbs from "../../components/ui/breadcrumbs.astro";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import "../../styles/globals.css";
 
 changeLanguage("de");
@@ -17,7 +17,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   description={t("site.description")}
 >
   <Breadcrumbs urlList={urlList} />
-  <div class="mt-48">
+  <div class="mt-20">
     <Section>
       <SectionTitle
         sectionTitle={t("notfound.title")}

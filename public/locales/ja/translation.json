@@ -6,6 +6,7 @@
         "register": "登録 | Diflowy",
         "explore": "探索 | Diflowy",
         "upload": "共有 | Diflowy",
+        "blog": "ブログ | Diflowy",
         "about": "私たちについて | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "ユーザーセンター | Diflowy",
@@ -152,6 +153,10 @@
         "uploadbtn": "アップロード",
         "previewtitle": "ワークフローのプレビュー",
         "previewhint": "* これはプレビューのみで、変更は元のファイルに影響しません。"
+    },
+    "blogpage": {
+        "title": "公式ブログ",
+        "description": "ここはDiflowyコミュニティブログの投稿場所です。Diflowy公式コンテンツに加えて、AI Workflowに関する記事も歓迎します。"
     },
     "aboutpage": {
         "title": "Diflowyについて",

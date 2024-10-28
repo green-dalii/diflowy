@@ -6,6 +6,7 @@
         "register": "Registo | Diflowy",
         "explore": "Explorar | Diflowy",
         "upload": "Subir | Diflowy",
+        "blog": "Blog | Diflowy",
         "about": "Sobre Nós | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "Centro do Usuário | Diflowy",
@@ -152,6 +153,10 @@
         "uploadbtn": "Subir",
         "previewtitle": "Pré-visualização do Workflow",
         "previewhint": "* O acima é apenas uma pré-visualização, nenhuma alteração afetará o arquivo original"
+    },
+    "blogpage": {
+        "title": "Blog Oficial",
+        "description": "Este é o local oficial de publicação do blog da comunidade Diflowy. Além do conteúdo oficial da Diflowy, também aceitamos contribuições sobre qualquer tema relacionado a AI Workflow."
     },
     "aboutpage": {
         "title": "Sobre Nós",

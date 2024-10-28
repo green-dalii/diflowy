@@ -6,6 +6,7 @@
         "register": "Register | Diflowy",
         "explore": "Explore | Diflowy",
         "upload": "Share | Diflowy",
+        "blog": "Blog | Diflowy",
         "about": "About | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "User Center | Diflowy",
@@ -152,6 +153,10 @@
         "uploadbtn": "Upload",
         "previewtitle": "Workflow Preview",
         "previewhint": "* The above is for preview only, any changes will not affect the file."
+    },
+    "blogpage": {
+        "title": "Official Blogs",
+        "description": "This is where the Diflowy community blogs are posted, and we welcome you to contribute any content about AI Workflows in addition to official Diflowy content."
     },
     "aboutpage": {
         "title": "About Us",

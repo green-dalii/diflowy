@@ -1,0 +1,92 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+// import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import { getEntry, getEntries } from "astro:content";
+// const { Content, headings } = await entry.render();
+import "../styles/globals.css";
+const { frontmatter, relatedPosts } = Astro.props;
+const images: Record<string, { default: ImageMetadata }> = import.meta.glob(
+	"/src/data/blog/*/*.{jpeg,jpg,png,gif}",
+	{ eager: true },
+);
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
+---
+
+<MainLayout>
+	<Breadcrumbs urlList={urlList} isTitle={frontmatter.title} />
+	<div class="sm:pb-30 mx-auto maxs-w-7xl px-6 pt-0 sm:px-2">
+		<div class="container mx-auto px-0 sm:px-5 sm:pb-24">
+			<!-- Blog Article -->
+			<div class="sm:py-30 mx-auto max-w-7xl px-0 pt-0">
+				<div class="grid gap-y-8 lg:grid-cols-5 lg:gap-y-0">
+					<!-- Content -->
+					<div class="lg:col-span-3 lg:col-start-2">
+						<div class="py-8">
+							<div class="space-y-5 lg:space-y-8">
+								<!-- Hero Image -->
+								<Image
+									src={images[frontmatter.heroImage]?.default}
+									alt={frontmatter.heroImageAlt}
+									class="rounded-xl"
+								/>
+								<!-- Title -->
+								<h2 class="font-bold text-3xl lg:text-4xl leading-relaxed">
+									{frontmatter.title}
+								</h2>
+								<!-- Tag & Author & Date -->
+								<div class="flex items-center gap-x-5">
+									<!-- Date -->
+									<div class="flex items-center gap-2">
+										<!-- <Icon name="mdi:clock" class="text-sm" /> -->
+										<p class="text-[--color-text-offset] text-xs">
+											{frontmatter.pubDate.toLocaleDateString()}
+										</p>
+									</div>
+									<!-- Author -->
+									<div class="flex items-center gap-2">
+										<!-- <Icon name="mdi:account" class="text-sm" /> -->
+										<p class="text-[--color-text-offset] text-xs">
+											{frontmatter.author}
+										</p>
+									</div>
+								</div>
+								<!-- Badges/Tags -->
+								<div
+									class="grid gap-y-5 lg:flex lg:items-center lg:justify-between lg:gap-y-0"
+								>
+									<div
+										class="flex items-center gap-3 text-[--color-text-offset]"
+									>
+										<!-- <Icon name="mdi:tag-outline" /> -->
+										<div class="flex flex-row flex-wrap gap-2">
+											{
+												frontmatter.tags.map((tag: string) => (
+													<a
+														class="badge items-center text-xs sm:text-sm"
+														href={`/blog/tags/${tag}`}
+													>
+														{tag}
+													</a>
+												))
+											}
+										</div>
+									</div>
+									<!-- End Badges/Tags -->
+								</div>
+								<!-- Article Content -->
+								<article class="prose prose-img:my-0 pt-10">
+									<slot />
+								</article>
+							</div>
+						</div>
+					</div>
+					<!-- End Content -->
+				</div>
+			</div>
+			<!-- End Blog Article -->
+		</div>
+	</div>
+</MainLayout>

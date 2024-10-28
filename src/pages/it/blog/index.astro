@@ -1,26 +1,35 @@
 ---
-import { changeLanguage } from "i18next";
+import { t, changeLanguage } from "i18next";
 import MainLayout from "../../../layouts/MainLayout.astro";
 import SectionTitle from "../../../components/ui/SectionTitle.astro";
 import Section from "../../../components/sections/Section.astro";
-import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
+import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
+import BlogCard from "../../../components/ui/Blog-Card.astro";
+import { getCollection } from "astro:content";
+const allPosts = await getCollection("blog");
 import "../../../styles/globals.css";
 
 changeLanguage("it");
 
+// 按日期倒序排序
+allPosts.sort((a: any, b: any) => {
+    const dateA = new Date(a.data.pubDate).getTime();
+    const dateB = new Date(b.data.pubDate).getTime();
+    return dateB - dateA;
+});
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
-const description = "We welcome your contributions on any Dify Workflow tips, tricks, case studies, and experiences to help the community.";
+const description = t("blogpage.description");
 ---
 
 <MainLayout
-  title="Blog | Diflowy"
-  description="Explore, Share, Download Dify Workflows in Diflowy"
+  title={t("site.blog")}
+  description={t("site.description")}
 >
   <Breadcrumbs urlList={urlList} />
-  <div class="mt-48">
+  <div class="mt-20">
     <Section>
-      <SectionTitle sectionTitle="Our Blogs" description={description} />
-      <div class="flex flex-col items-center justify-center mt-32">Coming Soon...</div>
+      <SectionTitle sectionTitle={t("blogpage.title")} description={description} />
+      <BlogCard allPosts={allPosts}></BlogCard>
     </Section>
   </div>
 </MainLayout>

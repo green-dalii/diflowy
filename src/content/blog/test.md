@@ -6,9 +6,7 @@ author: "Greener-Dalii"
 occupation: "Founder of Diflowy Community"
 heroImage: "/src/data/blog/test/HEROIMAGE.jpg"
 heroImageAlt: 'Blog Hero Image'
-tags: ["Diflowy", "official" ]
+tags: ["Diflowy Official", "Test" ]
 ---
-
-## Test
 
 this is a test blog for diflowy community.

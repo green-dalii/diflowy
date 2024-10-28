@@ -6,6 +6,7 @@
         "register": "التسجيل | Diflowy",
         "explore": "استكشاف | Diflowy",
         "upload": "مشاركة | Diflowy",
+        "blog": "مدونة | Diflowy",
         "about": "حولنا | Diflowy",
         "workflow": "سير العمل  | Diflowy",
         "user": "مركز المستخدم | Diflowy",
@@ -152,6 +153,10 @@
         "uploadbtn": "تحميل",
         "previewtitle": "معاينة سير العمل ",
         "previewhint": "* ما يلي هو معاينة فقط، أي تغييرات لن تؤثر على الملف الأصلي."
+    },
+    "blogpage": {
+        "title": "المدونة الرسمية",
+        "description": "هذا هو المكان الذي يتم فيه نشر مدونة Diflowy المجتمعية، بالإضافة إلى المحتوى الرسمي لـ Diflowy، نرحب أيضًا بمشاركاتكم في أي محتوى متعلق بـ AI Workflow."
     },
     "aboutpage": {
         "title": "حولنا",

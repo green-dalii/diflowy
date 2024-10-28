@@ -4,7 +4,7 @@ import { Icon } from "astro-icon/components";
 import Section from "../../../components/sections/Section.astro";
 import SectionTitle from "../../../components/ui/SectionTitle.astro";
 import { t, changeLanguage } from "i18next";
-import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
+import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
 import "../../../styles/globals.css";
 
 changeLanguage("fr");
@@ -15,7 +15,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 
 <MainLayout title={t("site.login")} description={t("site.description")}>
   <Breadcrumbs urlList={urlList} />
-  <div class="mt-48">
+  <div class="mt-20">
     <Section>
       <SectionTitle sectionTitle={t("login.title")} description={description} />
       <div class="flex flex-col items-center justify-center my-32">

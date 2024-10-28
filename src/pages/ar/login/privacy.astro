@@ -3,7 +3,7 @@ import { changeLanguage } from "i18next";
 import MainLayout from "../../../layouts/MainLayout.astro";
 import Section from "../../../components/sections/Section.astro";
 import SectionTitle from "../../../components/ui/SectionTitle.astro";
-import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
+import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
 import "../../../styles/globals.css";
 import "../../../styles/markdown.css";
 
@@ -51,7 +51,7 @@ If you have any questions about our privacy policy, please contact us at diflowy
   description="Explore, Share, Download Dify Workflows in Diflowy"
 >
   <Breadcrumbs urlList={urlList} />
-  <div class="mt-48">
+  <div class="mt-20">
     <Section>
       <SectionTitle sectionTitle="Privacy Policy" description={description} />
       <div class="flex flex-col items-center justify-center mt-32">

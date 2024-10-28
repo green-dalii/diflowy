@@ -1,0 +1,49 @@
+---
+import { changeLanguage } from "i18next";
+import MainLayout from "../../../../layouts/MainLayout.astro";
+import SectionTitle from "../../../../components/ui/SectionTitle.astro";
+import Section from "../../../../components/sections/Section.astro";
+import Breadcrumbs from "../../../../components/ui/Breadcrumbs.astro";
+import BlogCard from "../../../../components/ui/Blog-Card.astro";
+import { getCollection } from "astro:content";
+import "../../../../styles/globals.css";
+
+changeLanguage("es");
+
+export async function getStaticPaths() {
+    const allPosts = await getCollection("blog");
+    const uniqueTags = [
+        ...new Set(allPosts.map((post: any) => post.data.tags).flat()),
+    ];
+    return uniqueTags.map((tag) => {
+        const filteredPosts = allPosts.filter((post: any) => post.data.tags.includes(tag));
+        return {
+            params: { tag },
+            props: { posts: filteredPosts },
+        };
+    });
+}
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+const description = "We welcome your contributions on any Dify Workflow tips, tricks, case studies, and experiences to help the community.";
+---
+
+<MainLayout
+	title="Blog | Diflowy"
+	description="Explore, Share, Download Dify Workflows in Diflowy"
+>
+	<Breadcrumbs urlList={urlList} />
+	<div class="mt-20 sm:mt-10 sm:pb-32 sm:pt-10">
+		<Section>
+			<SectionTitle sectionTitle="Our Blogs" description={description} />
+			<Fragment slot="description">
+				<p>标签为： {tag} 的所有文章</p>
+			</Fragment>
+			<BlogCard allPosts={posts} />
+			<div class="mt-20 text-center">
+				<!-- <Btn btnText="← Go Back" btnAltText="← 返回" url="/insight"></Btn> -->
+			</div>
+		</Section>
+	</div>
+</MainLayout>

@@ -6,7 +6,7 @@ import UploadEntranceBelow from "../../../components/sections/UploadEntranceBelo
 import Section from "../../../components/sections/Section.astro";
 import Skeleton from "../../../components/ui/Skeleton.astro";
 import PrivateHostedToogle from "../../../components/ui/PrivateHostedToogle.astro";
-import Breadcrumbs from "../../../components/ui/breadcrumbs.astro";
+import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
 import "../../../styles/globals.css";
 
 changeLanguage("ko");
@@ -21,7 +21,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   description={t("site.description")}
 >
   <Breadcrumbs urlList={urlList} />
-  <div class="mt-48">
+  <div class="mt-20">
     <Section>
       <SectionTitle
         sectionTitle={t("explorepage.title")}

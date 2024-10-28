@@ -24,4 +24,4 @@ export const collections = {
 };
 
 // 获取Blog所有图片
-export const blogImages = import.meta.glob("/src/data/blog/*/*.jpg", { eager: true });
+export const blogImages: Record<string, { default: ImageMetadata }> = import.meta.glob("/src/data/blog/*/*.jpg", { eager: true });

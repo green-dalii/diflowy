@@ -14,5 +14,15 @@ export default defineConfig({
   security: {
     checkOrigin: true
   },
+  markdown: {
+    shikiConfig: {
+      theme: 'dracula',
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+      wrap: true
+    }
+  },
   output: "static"
 });

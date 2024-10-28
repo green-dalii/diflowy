@@ -63,5 +63,6 @@ We hope you enjoy being part of Diflowy as much as we do. Let's build something 
 - [x] i18n Support
 - [x] Login with Google OAuth and Email
 - [x] Apply Dify Official Workflow Style
+- [ ] Database-level encryption for private hosted files
 - [ ] AI Summarization for Workflows
 - [ ] Search and Filter Workflows

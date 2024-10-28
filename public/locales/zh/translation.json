@@ -6,6 +6,7 @@
         "register": "注册 | Diflowy",
         "explore": "探索 | Diflowy",
         "upload": "分享 | Diflowy",
+        "blog": "博客 | Diflowy",
         "about": "关于我们 | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "用户中心 | Diflowy",
@@ -152,6 +153,10 @@
         "uploadbtn": "上传",
         "previewtitle": " Workflow 预览",
         "previewhint": "* 以上仅为预览，任何更改不会影响原文件。"
+    },
+    "blogpage": {
+        "title": "官方博客",
+        "description": "这里是Diflowy社区博客发布地点，除Diflowy官方内容外，我们也欢迎您投稿任何关于AI Workflow的内容。"
     },
     "aboutpage": {
         "title": "关于我们",
