@@ -1,6 +1,7 @@
 import type { Env } from '../auth';
 import * as jose from 'jose'
 import { jwtVerify } from 'jose';
+import { generateFileKey, decryptFile } from '../../crypto';
 
 interface Workflow {
     id: string;
@@ -25,6 +26,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     // 提取 version 参数
     const workflowVersion = url.searchParams.get('version')
     console.log("workflowId>>>", workflowId, "workflowVersion>>>", workflowVersion)
+    // 设置解密秘钥
+    let decryptionKey;
     try {
         console.log("Querying Database for Workflow...")
         // 查询特定的 workflow
@@ -38,7 +41,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         }
         // 判断是否为Private-Hosted文件
         const isPrivate = workflowResult.is_private;
-        console.log("isPrivate>>>", typeof(isPrivate), isPrivate, isPrivate === 1)
+        // console.log("isPrivate>>>", typeof(isPrivate), isPrivate, isPrivate === 1)
         if (isPrivate === 1) {
             // 如果为私密文件
             console.log("Request Private file....")
@@ -59,6 +62,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                         headers: { 'Content-Type': 'application/json' },
                         status: 403,
                     });
+                }
+                // 用户验证通过，生成解密秘钥
+                if(workflowResult.created_at){
+                    decryptionKey = await generateFileKey(payload.id as string, workflowResult.created_at as string, env.AUTH_SECRET)
                 }
             } catch (error) {
                 console.error("Error in Get Filter Workflows Request>>>>", error)
@@ -107,7 +114,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const fileContentArrayBuffer = versionResult.file_content as ArrayBuffer;
         const fileContentUint8Array = new Uint8Array(fileContentArrayBuffer);
         const fileContentDecoder = new TextDecoder("utf-8");
-        const fileContentString = fileContentDecoder.decode(fileContentUint8Array);
+        let fileContentString;
+        // 如果为Private-Hosted文件
+        if(isPrivate === 1 && decryptionKey){
+            console.log("Decrypting File...")
+            const decryptedContent = await decryptFile(fileContentUint8Array, decryptionKey as CryptoKey)
+            fileContentString = fileContentDecoder.decode(decryptedContent)
+        } else {
+            fileContentString = fileContentDecoder.decode(fileContentUint8Array);
+        }
 
         // 将查询结果映射到 Workflow 类型
         const workflow: Workflow = {

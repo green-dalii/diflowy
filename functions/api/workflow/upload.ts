@@ -2,6 +2,7 @@ import { jwtVerify } from 'jose';
 import * as jose from 'jose'
 import { generateIdFromEntropySize } from "lucia";
 import type { Env } from '../auth';
+import { generateFileKey, encryptFile } from '../../crypto';
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
     try {
@@ -18,7 +19,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             });
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-
+        // Get user register time
+        const userQuery = await context.env.D1.prepare(
+            "SELECT created_at FROM users WHERE id = ?"
+        ).bind(payload.id).first();
         console.log("User Authorized", payload)
         // Get Data from POST
         const formData = await request.formData();
@@ -37,7 +41,19 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // Read the file content as binary data
         console.log("Reading file content", dslFile, dslFile.name, typeof dslFile.arrayBuffer)
         const dslFileBuffer = await dslFile.arrayBuffer();
-        const dslFileContent = new Uint8Array(dslFileBuffer);
+        let dslFileContent = new Uint8Array(dslFileBuffer);
+        // If is private, encrypt the file content
+        if (is_private === 1 && userQuery) {
+            console.log("Encrypting file content")
+            // Generate a key for encryption
+            const encryptionKey = await generateFileKey(
+                payload.id as string,
+                userQuery.created_at as string,
+                context.env.AUTH_SECRET
+            );
+            // Encrypt file content
+            dslFileContent = await encryptFile(dslFileContent, encryptionKey);
+        }
         // generate workflow id
         const fileId = generateIdFromEntropySize(10);
         // generate workflow version id
