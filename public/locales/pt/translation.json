@@ -198,7 +198,8 @@
         "btn1": "Importar com um clique para Dify",
         "btn2": "Baixar",
         "btn3": "Curtir [Comming...]",
-        "btn4": "Compartilhar Link"
+        "btn4": "Compartilhar Link",
+        "privatealert": "Tenha certeza de que este fluxo de trabalho é um arquivo privado hospedado por você, que foi armazenado no banco de dados após ser criptografado com um algoritmo de alta intensidade (AES-GCM). O conteúdo de pré-visualização exibido nesta página foi transmitido para o navegador após ser descriptografado no servidor e está disponível apenas para você, que está logado. Qualquer outra pessoa que obtenha o URL desta página não tem permissão para acessá-la. Devido a essas características de segurança, as funcionalidades de 'Importação com Um Clique' e 'Compartilhar Link' estão proibidas. Você pode usar a funcionalidade de 'Download' para obter o arquivo enquanto estiver logado."
     },
     "user": {
         "title": "Centro do Usuário",

@@ -198,7 +198,8 @@
         "btn1": "Importa in un solo clic in Dify",
         "btn2": "Scarica",
         "btn3": "Mi piace [in arrivo]",
-        "btn4": "Condividi il link"
+        "btn4": "Condividi il link",
+        "privatealert": "Questo flusso di lavoro è un file privato ospitato da te, che è stato memorizzato nel database dopo essere stato crittografato con un algoritmo di crittografia ad alta intensità (AES-GCM). Il contenuto di anteprima visualizzato in questa pagina è stato trasmesso al browser dopo essere stato decrittografato sul server e solo per te, che hai effettuato l'accesso. Nessun altro può accedere a questa pagina, nemmeno se ottiene l'URL. A causa delle caratteristiche di sicurezza sopra descritte, le funzioni 'Importa con un clic' e 'Condividi link' sono disabilitate, puoi utilizzare la funzione 'Scarica' per ottenere il file mantenendo l'accesso."
     },
     "user": {
         "title": "Centro utente",

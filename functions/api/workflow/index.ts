@@ -71,9 +71,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 ).bind(payload.id).first();
                 // 用户验证通过，生成解密秘钥
                 if (userQuery) {
-                    console.log("Generating File Key....userQuery.created_at>>>", userQuery.created_at)
                     decryptionKey = await generateFileKey(payload.id as string, userQuery.created_at as string, env.AUTH_SECRET)
-                    console.log("File Key Generated!>>>", decryptionKey)
+                    console.log("File Key Generated!>>>")
                 }
             } catch (error) {
                 console.error("Error in Get Filter Workflows Request>>>>", error)
@@ -133,7 +132,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             console.log("No need decrypt, return content directly")
             fileContentString = fileContentDecoder.decode(fileContentUint8Array);
         }
-        console.log("Result prepared.")
         // 将查询结果映射到 Workflow 类型
         const workflow: Workflow = {
             id: workflowResult.id as string,

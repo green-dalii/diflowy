@@ -2,9 +2,10 @@ import type { Env } from '../../auth';
 import { jwtVerify } from 'jose';
 import * as jose from 'jose'
 import { generateIdFromEntropySize } from "lucia";
+import { generateFileKey, encryptFile } from '../../../crypto';
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
-    try{
+    try {
         console.log("Update Version Request....")
         const { request, params } = context;
         const cookie = request.headers.get('cookie');
@@ -21,11 +22,12 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
         // Verify that the owner of the workflow to be update is the requesting user
-        const workflowUserId  = await context.env.D1.prepare(
-            "SELECT user_id FROM yaml_files WHERE id =?"
+        const workflowResult = await context.env.D1.prepare(
+            "SELECT * FROM yaml_files WHERE id =?"
         ).bind(workflowId).first() as any;
-        console.log("workflowUserId>>>", workflowUserId.user_id, "payloadID>>>", payload.id)
-        if(workflowUserId.user_id !== payload.id){
+        const is_private = workflowResult.is_private
+        // console.log("workflowUserId>>>", workflowResult.user_id, "payloadID>>>", payload.id)
+        if (workflowResult.user_id !== payload.id) {
             // If the user is not the owner of the workflow
             console.log("User not authorized to delete this workflow")
             return new Response(JSON.stringify({ res: 'Unauthorized' }), {
@@ -41,14 +43,33 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             const dslFile = formData.get('dsl-file') as File;
             // Read the file content as binary data
             const dslFileBuffer = await dslFile.arrayBuffer();
-            const dslFileContent = new Uint8Array(dslFileBuffer);
+            let dslFileContent = new Uint8Array(dslFileBuffer);
+            // if isPrivate file
+            if (is_private === 1) {
+                // Get user register time
+                const userQuery = await context.env.D1.prepare(
+                    "SELECT created_at FROM users WHERE id = ?"
+                ).bind(payload.id).first();
+                if (userQuery) {
+                    console.log("Encrypting file content")
+                    // Generate a key for encryption
+                    const encryptionKey = await generateFileKey(
+                        payload.id as string,
+                        userQuery.created_at as string,
+                        context.env.AUTH_SECRET
+                    );
+                    // Encrypt file content
+                    dslFileContent = await encryptFile(dslFileContent, encryptionKey);
+                }
+            }
             // generate new id of new version of workflow file
             const fileId = generateIdFromEntropySize(10);
             // Insert new version data of workflow in the database
             console.log("Insert workflow's new version content in the database")
             const insertVersionQuery = await context.env.D1.prepare("INSERT INTO yaml_versions (id, yaml_file_id, version, file_content) VALUES (?,?,?,?)")
-            .bind(fileId, workflowId, updatedVersion, dslFileContent).run();
+                .bind(fileId, workflowId, updatedVersion, dslFileContent).run();
             console.log("Update Workflow Query Result>>>", insertVersionQuery);
+
             // Update version in workflow meta data in the database
             console.log("Update workflow's version in the database")
             const updateVersionQuery = await context.env.D1.prepare(

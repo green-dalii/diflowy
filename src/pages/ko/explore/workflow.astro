@@ -6,12 +6,14 @@ import Section from "../../../components/sections/Section.astro";
 import ReactFlowPreview from "../../../components/flow/ReactFlowPreview";
 import { Icon } from "astro-icon/components";
 import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
+import Alert from "../../../components/ui/Alert.astro";
 import "../../../styles/globals.css";
 import "../../../styles/markdown.css";
 
 changeLanguage("ko");
 
 const description = t("workflow.description");
+const privateAlert = t("workflow.privatealert");
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
@@ -67,7 +69,9 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               <div class="flex flex-row space-x-2 items-center">
                 <div class="flex flex-row items-center space-x-1">
                   <Icon name="rocket" class="text-sm" />
-                  <div class="text-xs break-keep text-nowrap">{t("workflow.version")}</div>
+                  <div class="text-xs break-keep text-nowrap">
+                    {t("workflow.version")}
+                  </div>
                 </div>
                 <select
                   id="version"
@@ -107,21 +111,34 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               <button
                 id="downloadButton"
                 class="flex w-full justify-center items-center btn bg-dark hover:bg-sky-600 px-3 py-2 text-sm text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                ><Icon name="download" class="text-2xl mr-1" />{t("workflow.btn2")}</button
+                ><Icon name="download" class="text-2xl mr-1" />{
+                  t("workflow.btn2")
+                }</button
               >
               <button
                 id="likeButton"
                 class="flex w-full justify-center items-center btn btn-disabled bg-red-400 hover:bg-red-500 px-3 py-2 text-sm text-white font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                ><Icon
-                  name="like"
-                  class="text-xl mr-1"
-                />{t("workflow.btn3")}</button
+                ><Icon name="like" class="text-xl mr-1" />{
+                  t("workflow.btn3")
+                }</button
               >
               <button
                 id="shareButton"
                 class="flex w-full justify-center items-center btn btn-neutral px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                ><Icon name="share" class="text-xl mr-1" />{t("workflow.btn4")}</button
+                ><Icon name="share" class="text-xl mr-1" />{
+                  t("workflow.btn4")
+                }</button
               >
+            </div>
+            <!-- Alert -->
+            <div
+              class="w-full grid grid-cols-1 items-center gap-4 mt-32"
+            >
+              <Alert
+                id="private-alert"
+                type="alert-warning hidden"
+                message={privateAlert}
+              />
             </div>
           </div>
           <div>
@@ -212,7 +229,9 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   // After all DOM is loaded
   document.addEventListener("DOMContentLoaded", async (_) => {
     // disable language select due to URL params lost bug
-    const langSelect = document.getElementById("langSelect") as unknown as HTMLSelectElement;
+    const langSelect = document.getElementById(
+      "langSelect",
+    ) as unknown as HTMLSelectElement;
     langSelect.disabled = true;
     // Get the modal element
     const modal = document.getElementById("modal") as HTMLDialogElement;
@@ -267,6 +286,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       ) as HTMLButtonElement;
       const isPrivate = document.getElementById("isPrivate") as HTMLDivElement;
       const metaInfo = document.getElementById("metaInfo") as HTMLDivElement;
+      const alert = document.getElementById("private-alert") as HTMLElement;
 
       // Download workflow function
       async function downloadWorkflow(workflowObject: WorkflowContentResponse) {
@@ -286,7 +306,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         document.body.removeChild(a);
       }
 
-      // copy download url function
+      // Copy import url function
       function copyDownloadUrl(workflowObject: WorkflowContentResponse) {
         const baseUrl = `${window.location.origin}/api/workflow/download/${workflowObject.id}`;
         const params = new URLSearchParams({
@@ -353,7 +373,12 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
         // Update isPrivate
-        isPrivate.innerText = `${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}`;
+        isPrivate.innerText = `${workflowObject.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}`;
+        if (workflowObject.isPrivate === 1) {
+          copyButton.classList.toggle("btn-disabled", true);
+          shareButton.classList.toggle("btn-disabled", true);
+          alert.classList.toggle("hidden", false);
+        }
         // Update the updated time
         updatedTime.innerText = `Updated ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select
@@ -375,7 +400,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           )
           .join("");
         workflowTags.innerHTML = tagsHTML;
-        console.log("Workflow info updated.");
+        console.log("Workflow info updated");
 
         // Update the ReactFlow component
         const { nodes, edges, usedModal, flowMode } = parseYamlToReactFlow(
@@ -384,7 +409,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // Update flow mode
         metaInfo.innerHTML += `<div class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${flowMode}</div>`;
         // Update llm metadata
-        console.log("LLM>>>>", usedModal);
+        // console.log("LLM>>>>", usedModal);
         usedModal.map((name: string) => {
           metaInfo.innerHTML += `<div class="w-max text-xs text-gray-600 dark:text-gray-400 border bg-transparent py-1 px-2 rounded-full">${name}</div>`;
         });
