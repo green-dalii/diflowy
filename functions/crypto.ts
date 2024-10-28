@@ -1,4 +1,4 @@
-export async function generateFileKey(userId: string, registrationTime: string, authSecret: string) {
+export async function generateFileKey(userId: string, registrationTime: string, authSecret: string): Promise<CryptoKey> {
     // 组合用户特定信息创建密钥材料
     const keyMaterial = `${userId}-${registrationTime}-${authSecret}`;
     const encoder = new TextEncoder();

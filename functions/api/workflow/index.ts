@@ -65,8 +65,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                     });
                 }
                 // 用户验证通过，生成解密秘钥
-                console.log("Generating File Key....")
-                if(workflowResult.created_at){
+                if(workflowResult.created_at !== null){
+                    console.log("Generating File Key....workflowResult.created_at>>>", workflowResult.created_at)
                     decryptionKey = await generateFileKey(payload.id as string, workflowResult.created_at as string, env.AUTH_SECRET)
                     console.log("File Key Generated!>>>", decryptionKey)
                 }
