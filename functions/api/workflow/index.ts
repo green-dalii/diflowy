@@ -86,7 +86,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 }
             }
         }
-        console.log("Workflow Found...", "isPrivate>>>", isPrivate, "isPrivate===1>>>", isPrivate === 1, "isPrivate === 1 && decryptionKey>>>", isPrivate === 1 && decryptionKey)
+        console.log("Workflow Found...", "isPrivate>>>", isPrivate, "isPrivate===1>>>", isPrivate === 1)
         // 查询Workflow所有版本
         const versionsQuery = `SELECT version FROM yaml_versions WHERE yaml_file_id =?`;
         const versionsResult = await env.D1.prepare(versionsQuery).bind(workflowId).all();
@@ -120,7 +120,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const fileContentDecoder = new TextDecoder("utf-8");
         let fileContentString;
         // 如果为Private-Hosted文件
-        if(isPrivate === 1 && decryptionKey){
+        if(isPrivate === 1){
             console.log("Decrypting File...")
             const decryptedContent = await decryptFile(fileContentUint8Array, decryptionKey as CryptoKey)
             fileContentString = fileContentDecoder.decode(decryptedContent)

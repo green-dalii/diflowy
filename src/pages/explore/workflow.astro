@@ -375,7 +375,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           )
           .join("");
         workflowTags.innerHTML = tagsHTML;
-        console.log("Workflow info updated, workflowObject.file_content>>>>", workflowObject.file_content);
+        console.log("Workflow info updated");
 
         // Update the ReactFlow component
         const { nodes, edges, usedModal, flowMode } = parseYamlToReactFlow(
@@ -384,7 +384,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // Update flow mode
         metaInfo.innerHTML += `<div class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${flowMode}</div>`;
         // Update llm metadata
-        console.log("LLM>>>>", usedModal);
+        // console.log("LLM>>>>", usedModal);
         usedModal.map((name: string) => {
           metaInfo.innerHTML += `<div class="w-max text-xs text-gray-600 dark:text-gray-400 border bg-transparent py-1 px-2 rounded-full">${name}</div>`;
         });

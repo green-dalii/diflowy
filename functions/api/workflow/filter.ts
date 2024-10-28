@@ -100,7 +100,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         // 查询分页数据
         const workflowsQuery = `SELECT * FROM yaml_files ${whereClause} LIMIT ? OFFSET ?`;
         const workflowsResult = await env.D1.prepare(workflowsQuery).bind(...bindings).all();
-        console.log("workflowsResult>>>", workflowsResult);
+        // console.log("workflowsResult>>>", workflowsResult);
 
         // 查询总数
         const countQuery = `SELECT COUNT(*) as count FROM yaml_files ${whereClause}`;
