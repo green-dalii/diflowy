@@ -5,7 +5,7 @@
         "login": "Anmelden | Diflowy",
         "register": "Register | Diflowy",
         "explore": "Entdecken | Diflowy",
-        "upload": "Teilen | Diflowy",
+        "upload": "Hochladen | Diflowy",
         "blog": "Blog | Diflowy",
         "about": "Über uns | Diflowy",
         "workflow": "Workflow | Diflowy",
@@ -17,7 +17,7 @@
         "logout": "Abmelden",
         "usercenter": "Benutzerzentrum",
         "explore": "Entdecken",
-        "share": "Teilen",
+        "share": "Hochladen",
         "host": "Hosten",
         "blog": "Blog",
         "about": "Über uns",
@@ -48,9 +48,9 @@
         "clickhere": "Klicken Sie hier"
     },
     "share": {
-        "description": "Sie können in Diflowy Ihre Workflows hochladen und mit anderen teilen oder sie im privaten Hosting-Modus nur für Sie sichtbar machen.",
-        "sharetitle": "Teilen Sie Ihre Workflows oder setzen Sie sie als privates Hosting",
-        "belowtitle": "Egal ob Sie Ihre Workflows öffentlich teilen oder privat speichern, Sie können Diflowys ausgezeichnete Funktionen nutzen.",
+        "description": "Auf Diflowy können Sie Dify-Workflows hochladen und mit anderen teilen oder sie nur für sich selbst sichtbar machen, wenn Sie den privaten Hosting-Modus nutzen.",
+        "sharetitle": "Teilen Sie Ihren Workflow oder machen Sie ihn für private Hosting-Zwecke verfügbar",
+        "belowtitle": "Egal ob Sie Dify-Workflows öffentlich teilen oder verschlüsselt für private Hosting-Zwecke verwenden, Sie können die hervorragenden Funktionen von Diflowy nutzen.",
         "uploadWorkflow": "Workflow hochladen"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "Schnellimport",
         "importDes": "Schnell in Dify importieren.",
         "private": "Privater Hosting-Modus",
-        "privateDes": "Verwalten Sie Ihre privaten Workflows im privaten Hosting-Modus, behalten Sie alle Funktionen und halten Sie Ihren Dify sauber und strukturiert."
+        "privateDes": "Im privaten Hosting-Modus wird die Speicherung auf Datenbankebene mit AES-GCM-Verschlüsselung sichergestellt, um Datensicherheit und Integrität zu gewährleisten. Dies ist für Unternehmens- und persönliche Anwendungsszenarien mit Datenschutzanforderungen geeignet"
     },
     "reviews": {
         "title": "Benutzermeinungen",
@@ -125,20 +125,20 @@
         "description": "Entdecken und importieren Sie sofort Workflows in Dify.",
         "modetitle": "Host-Modus",
         "publicmsg": "Im öffentlichen Modus sind alle öffentlichen Workflows für jeden verfügbar. Wenn Sie nicht angemeldet sind, können Sie nur in diesem Modus durchsuchen.",
-        "privatemsg": "Im privaten Host-Modus dient Diflowy als Ihr persönliches Dify-Dateimanager. Nur Sie können Ihre privaten Workflows sehen, niemand anders.",
+        "privatemsg": "Im privaten Hosting-Modus fungiert Diflowy als Ihr persönlicher Dify-Dateimanager. Nur Sie können Ihre privaten, verschlüsselten Workflows sehen, andere haben keinen Zugriff.",
         "uploadtitle": "Haben Sie nicht gefunden, was Sie suchen?",
         "uploadtext1": "Laden Sie sie jederzeit hoch und teilen Sie sie mit allen.",
-        "uploadtext2": "Oder Sie können sie im privaten Host-Modus hochladen, um Ihren Dify sauber und strukturiert zu halten.",
+        "uploadtext2": "Oder wählen Sie den privaten Hosting-Modus, um Ihre Dify-Dateien hochzuladen und zu verschlüsseln, damit sie sicher und geordnet sind.",
         "uploadbtn": "Workflow hochladen"
     },
     "uploadpage": {
-        "title": "Teilen Sie Ihren Workflow",
-        "description": "Laden Sie Ihren Workflow in Diflowy hoch. Sie können Ihren Workflow öffentlich für alle freischalten oder ihn als privat setzen, nur im privaten Hosting-Modus sichtbar.",
+        "title": "Laden Sie Ihren Workflow hoch",
+        "description": "Laden Sie Ihren Workflow auf Diflowy hoch. Sie können ihn für alle öffentlich machen oder für private Hosting-Zwecke verschlüsseln und nur für sich selbst verfügbar machen, andere haben keinen Zugriff.",
         "loginhint": "Um die Sicherheit zu gewährleisten, müssen Sie angemeldet sein, um hochzuladen.",
         "loginbtn": "🔐 Anmelden und hochladen",
         "recommended": "(empfohlen)",
-        "fillhint": "Oder Sie können das folgende Formular ausfüllen, und es wird dann von einem Administrator überprüft und später hochgeladen.",
-        "fillbtn": "📝 Workflow-Formular ausfüllen",
+        "fillhint": "Wenn Sie nicht angemeldet sind, können Sie auch das folgende Formular ausfüllen. Es wird dann von einem Administrator überprüft und später als öffentliche Datei hochgeladen. Wenn Sie die Möglichkeiten des privaten Hosting nutzen möchten, verwenden Sie bitte den oben genannten Weg nach der Anmeldung.",
+        "fillbtn": "📝 Öffentliches Workflow-Formular ausfüllen",
         "workflowinfo": " Workflow-Information",
         "uploadfile": "Laden Sie Ihre Dify Workflow-Datei hoch",
         "name": " Workflow-Name",
@@ -152,7 +152,11 @@
         "notify3": "Stellen Sie sicher, dass vor dem Hochladen keine privaten Informationen (API-Schlüssel, Umgebungsvariablen usw.) enthalten sind.",
         "uploadbtn": "Hochladen",
         "previewtitle": " Workflow-Vorschau",
-        "previewhint": "* Dies dient nur als Vorschau, Änderungen haben keinen Einfluss auf die ursprüngliche Datei."
+        "previewhint": "* Dies dient nur als Vorschau, Änderungen haben keinen Einfluss auf die ursprüngliche Datei.",
+        "publicmsg": "Wenn Sie den öffentlichen Modus wählen, wird Ihr hochgeladener Workflow der Diflowy-Community zur Verfügung gestellt. Vielen Dank für Ihren Beitrag!",
+        "privatems": "Wenn Sie den privaten Hosting-Modus wählen, wird Ihr hochgeladener Workflow mit einem hochgradigen Verschlüsselungsalgorithmus gespeichert. Nur Sie haben Zugriff, und Sie können die Dateiverwaltungsleistungen von Diflowy unter Beachtung der Privatsphäre genießen.",
+        "publicmode": "Öffentlicher Modus",
+        "privatemode": "Privater Hosting-Modus"
     },
     "blogpage": {
         "title": "Offizieller Blog",
@@ -198,7 +202,7 @@
     },
     "user": {
         "title": "Benutzerzentrum",
-        "description": "Im Benutzerzentrum können Sie Ihre Dify Workflows einfach verwalten.",
+        "description": "Im Benutzerzentrum können Sie Ihre gehosteten Dify Workflows einfach verwalten.",
         "before": "Bitte melden Sie sich zunächst an, bevor Sie das Benutzerzentrum betreten.",
         "loginbtn": "🔐 Anmelden",
         "No": "Nummer",
@@ -206,7 +210,14 @@
         "hm": "Host-Modus",
         "meta": "Meta-Informationen",
         "update": "Version aktualisieren",
-        "delete": "Löschen"
+        "delete": "Löschen",
+        "publicmsg": "Für hochgeladene Workflows kann aus Sicherheitsgründen der Hosting-Modus nicht geändert werden. Wenn Sie in den privaten Hosting-Modus wechseln möchten, laden Sie bitte erneut hoch und wählen Sie diesen Modus.",
+        "privatemsg": "Für hochgeladene Workflows kann aus Sicherheitsgründen der Hosting-Modus nicht geändert werden. Wenn Sie in den öffentlichen Modus wechseln möchten, laden Sie bitte erneut hoch und wählen Sie diesen Modus.",
+        "originalversion": "Aktuellste Version",
+        "updateversion": "Versionsnummer dieses Updates",
+        "savebtn": "Speichern",
+        "updatebtn": "Version aktualisieren",
+        "closebtn": "Schließen"
     },
     "notfound": {
         "title": "Seite nicht gefunden",

@@ -5,7 +5,7 @@
         "login": "登录 | Diflowy",
         "register": "注册 | Diflowy",
         "explore": "探索 | Diflowy",
-        "upload": "分享 | Diflowy",
+        "upload": "上传 | Diflowy",
         "blog": "博客 | Diflowy",
         "about": "关于我们 | Diflowy",
         "workflow": "Workflow | Diflowy",
@@ -17,7 +17,7 @@
         "logout": "注销",
         "usercenter": "用户中心",
         "explore": "探索",
-        "share": "分享",
+        "share": "上传",
         "host": "托管",
         "blog": "博客",
         "about": "关于我们",
@@ -48,9 +48,9 @@
         "clickhere": "点击这里"
     },
     "share": {
-        "description": "你可以在Diflowy上传 Dify 工作流与他人分享，或者用于私人托管模式仅自己可见",
+        "description": "你可以在 Diflowy 上传 Dify 工作流与他人分享，或者用于私有托管模式仅自己可见",
         "sharetitle": "分享您的工作流或将其设为私有托管",
-        "belowtitle": "无论公开分享 Dify 工作流还是私密保存，您都可以使用 Diflowy 的优秀特性。",
+        "belowtitle": "无论是公开分享 Dify 工作流还是加密后用于私有托管，您都可以使用 Diflowy 的优秀特性。",
         "uploadWorkflow": "上传 Workflow"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "快速导入",
         "importDes": "一键导入 Dify 工作流到 Dify",
         "private": "私有托管模式",
-        "privateDes": "使用私有托管模式管理您的私人 Dify 工作流，同时保留所有功能，令您的 Dify 保持整洁"
+        "privateDes": "私有托管模式下将采用数据库级AES-GCM加密存储，确保数据安全与完整性，可用于企业、个人的隐私托管应用场景"
     },
     "reviews": {
         "title": "用户评价",
@@ -125,20 +125,20 @@
         "description": "在 Diflow 中立即探索并导入 工作流 到 Dify。",
         "modetitle": "托管模式",
         "publicmsg": "在公共模式下，所有公共 Dify 工作流都可供所有人使用。未登录时，您只能在这种模式下浏览。",
-        "privatemsg": "在私有托管模式下，Diflowy 将作为您的个人 Dify 文件管理器。只有您可以看到您的私人 Workflow，其他人无法查看。",
+        "privatemsg": "在私有托管模式下，Diflowy 将作为您的个人 Dify 文件管理器。只有您可以看到您的私有加密 Workflow，其他人无权限查看。",
         "uploadtitle": "没找到您想要的？",
         "uploadtext1": "随时上传并与所有人分享。",
-        "uploadtext2": "或者您可以在私有托管模式下上传，使您的 Dify 保持整洁和有序。",
+        "uploadtext2": "或者您可以选择私有托管模式上传并加密，使您的 Dify 文件管理安全有序。",
         "uploadbtn": "上传 Workflow"
     },
     "uploadpage": {
-        "title": "分享你的 Workflow",
-        "description": "将你的 Workflow上传到 Diflowy，你可以将你的 Workflow公开给所有人，或者将其设为私有，仅供私人托管使用。",
+        "title": "上传你的 Workflow",
+        "description": "将你的 Workflow上传到 Diflowy，你可以将你的 Workflow 公开给所有人，或者将其设为私有托管并加密，仅供自己使用，其他人无权访问。",
         "loginhint": "为了确保安全，你需要在登录后才能上传。",
         "loginbtn": "🔐 登录并上传",
         "recommended": "(推荐)",
-        "fillhint": "或者，你也可以填写下面的表格，然后它将由管理员审核并在稍后上传。",
-        "fillbtn": "📝 填写 Workflow 表格",
+        "fillhint": "若不登录，你也可以填写下面的表单，然后它将由管理员审核并在稍后上传为公开文件。若需要享受私有托管能力，请采用上方登录后上传途径。",
+        "fillbtn": "📝 填写公开 Workflow 表单",
         "workflowinfo": " Workflow 信息",
         "uploadfile": "上传你的 Dify Workflow 文件",
         "name": " Workflow 名称",
@@ -152,7 +152,11 @@
         "notify3": "在上传前确保没有私人信息（API 密钥、环境变量等）。",
         "uploadbtn": "上传",
         "previewtitle": " Workflow 预览",
-        "previewhint": "* 以上仅为预览，任何更改不会影响原文件。"
+        "previewhint": "* 以上仅为预览，任何更改不会影响原文件。",
+        "publicmsg": "当选择公共模式时，您上传的工作流将共享至 Diflowy 社区，我们感谢您的分享！",
+        "privatems": "当选择私有托管模式时，您上传的工作流将采用高强度算法加密存储，只有您有权获得，您可在隐私安全的情况下享受 Diflowy 带来的文件管理便利。",
+        "publicmode": "公开模式",
+        "privatemode": "私有托管模式"
     },
     "blogpage": {
         "title": "官方博客",
@@ -206,7 +210,14 @@
         "hm": "托管模式",
         "meta": "基本信息",
         "update": "更新版本",
-        "delete": "删除"
+        "delete": "删除",
+        "publicmsg": "对于已上传的工作流，为了文件安全起见，无法更改托管模式。若您需要变更为私有托管模式，请重新上传并选择该模式。",
+        "privatemsg": "对于已上传的工作流，为了文件安全起见，无法更改托管模式。若您需要变更为公开模式，请重新上传并选择该模式。",
+        "originalversion": "当前最新版本",
+        "updateversion": "此次更新的版本号",
+        "savebtn": "保存",
+        "updatebtn": "更新版本",
+        "closebtn": "关闭"
     },
     "notfound": {
         "title": "页面未找到",

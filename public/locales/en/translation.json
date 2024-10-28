@@ -5,7 +5,7 @@
         "login": "Login | Diflowy",
         "register": "Register | Diflowy",
         "explore": "Explore | Diflowy",
-        "upload": "Share | Diflowy",
+        "upload": "Upload | Diflowy",
         "blog": "Blog | Diflowy",
         "about": "About | Diflowy",
         "workflow": "Workflow | Diflowy",
@@ -17,7 +17,7 @@
         "logout": "Logout",
         "usercenter": "User Center",
         "explore": "Explore",
-        "share": "Share",
+        "share": "Upload",
         "host": "Host",
         "blog": "Blog",
         "about": "About",
@@ -48,9 +48,9 @@
         "clickhere": "Click Here"
     },
     "share": {
-        "description": "You can share your Dify Workflows inspiration with others or just keep your Dify Workflows private in Private-Hosted mode.",
+        "description": "You can upload Dify workflows on Diflowy to share with others, or use private hosting mode for personal visibility only.",
         "sharetitle": "Share Your WorkFlow Or Make It Private-Hosted",
-        "belowtitle": "Whether sharing Dify Workflows publicly or keeping them privately, you can take advantage of Diflowy's useful features below.",
+        "belowtitle": "Whether sharing Dify Workflows publicly or encrypting them for private hosting, you can take advantage of Diflowy's excellent features.",
         "uploadWorkflow": "Upload Workflow"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "Quick Import",
         "importDes": "One-click import workflows to Dify",
         "private": "Private-Hosted Mode",
-        "privateDes": "Using Private-Hosted Mode to manage your private Dify Workflows with all features, keeping your Dify clean and organized"
+        "privateDes": "With Private-Hosted, database-level AES-GCM encryption ensures data security and integrity, making it ideal for enterprise and personal privacy applications"
     },
     "reviews": {
         "title": "Testimonials",
@@ -125,20 +125,20 @@
         "description": "Explore and import Dify Workflows to Dify immediately in Diflow.",
         "modetitle": "Hosted Mode",
         "publicmsg": "In Public Mode, all public Dify Workflows are available for everyone. When not logged in, you can only explore in this mode.",
-        "privatemsg": "In Private-Hosted Mode, Diflowy will become your personal Dify file manager. Only your own private Dify Workflows are available to you and others can't see them.",
+        "privatemsg": "In private-Hosted mode, Diflowy will act as your personal Dify file manager. Only you can see your private encrypted Workflows; others do not have permission to view them.",
         "uploadtitle": "Didn't find what you want?",
         "uploadtext1": "Feel free to upload and share them with everyone.",
-        "uploadtext2": "Or you can upload in Private-Hosted mode to make your Dify clean and organized.",
+        "uploadtext2": "Alternatively, you can choose private hosting mode to upload and encrypt, ensuring your Dify files are secure and organized.",
         "uploadbtn": "Upload WorkFlow"
     },
     "uploadpage": {
-        "title": "Share Your Workflows",
-        "description": "Upload your Dify Workflows to Diflowy, you can publish your Dify Workflows to everyone, or make them private for your private-hosted use.",
+        "title": "Upload Your Workflows",
+        "description": "Upload your Workflow to Diflowy, you can make your Workflow public to everyone, or set it for private hosting and encryption, accessible only to you, with no access for others.",
         "loginhint": "To ensure security, you need to Login before uploading.",
         "loginbtn": "🔐 Login and Upload",
         "recommended": "(Recommended)",
-        "fillhint": "Alternatively, you can also fill out the form below, then it will be audited and uploaded later by administrator.",
-        "fillbtn": "📝 Fill Workflow Form",
+        "fillhint": "If not logged in, you can also fill out the form below, and it will be reviewed by the administrator and uploaded as a public workflow later. If you need to enjoy private hosting capabilities, please use the upload method after logging in above.",
+        "fillbtn": "📝 Fill Out Public Workflow Form",
         "workflowinfo": "Workflow Information",
         "uploadfile": "Upload your Dify Workflow file",
         "name": "Workflow Name",
@@ -152,7 +152,11 @@
         "notify3": "Ensure there is no private information (API keys, environment variables, etc.) before uploading.",
         "uploadbtn": "Upload",
         "previewtitle": "Workflow Preview",
-        "previewhint": "* The above is for preview only, any changes will not affect the file."
+        "previewhint": "* The above is for preview only, any changes will not affect the file.",
+        "publicmsg": "When choosing public mode, your uploaded workflow will be shared to the Diflowy community, we appreciate your sharing!",
+        "privatems": "When choosing Private-Hosted mode, your uploaded workflow will be stored with high-strength algorithm encryption, only you have access, allowing you to enjoy the file management convenience brought by Diflowy in a privacy-safe environment.",
+        "publicmode": "Public Mode",
+        "privatemode": "Private Hosting Mode"
     },
     "blogpage": {
         "title": "Official Blogs",
@@ -206,7 +210,14 @@
         "hm": "Host Mode",
         "meta": "Metadata",
         "update": "Update Version",
-        "delete": "Delete"
+        "delete": "Delete",
+        "publicmsg": "For uploaded workflows, for security reasons, the hosting mode cannot be changed. If you need to change to private hosting mode, please re-upload and select that mode.",
+        "privatemsg": "For uploaded workflows, for security reasons, the hosting mode cannot be changed. If you need to change to public mode, please re-upload and select that mode.",
+        "originalversion": "Current Latest Version",
+        "updateversion": "Version Number of This Update",
+        "savebtn": "Save",
+        "updatebtn": "Update Version",
+        "closebtn": "Close"
     },
     "notfound": {
         "title": "Oooops!",

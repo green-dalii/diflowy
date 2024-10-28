@@ -2,7 +2,7 @@
 import WorkflowFileInput from "./WorkflowFileInput.astro";
 import Tags from "./Tags.astro";
 import ReactFlowPreview from "../flow/ReactFlowPreview";
-// import Alert from "./Alert.astro";
+import { t } from "i18next";
 import PrivateHostedToogle from "./PrivateHostedToogle.astro";
 ---
 
@@ -17,7 +17,8 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           <div class="form-control w-full">
             <div class="label">
               <span class="label-text"
-                >Workflow Name<sup class="ml-1 text-red-500">*</sup></span
+                >{t("uploadpage.name")}<sup class="ml-1 text-red-500">*</sup
+                ></span
               >
             </div>
             <input
@@ -33,7 +34,9 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           <div class="form-control w-full">
             <div class="label">
               <span class="label-text"
-                >Author<sup class="ml-1 text-red-500">*</sup></span
+                >{t("uploadpage.authorname")}<sup class="ml-1 text-red-500"
+                  >*</sup
+                ></span
               >
             </div>
             <input
@@ -47,7 +50,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           <div class="form-control w-full">
             <div class="label">
               <span class="label-text"
-                >Social Media / Contact Link<sup class="ml-1 text-red-500"
+                >{t("uploadpage.authorlink")}<sup class="ml-1 text-red-500"
                   >*</sup
                 ></span
               >
@@ -62,14 +65,20 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           </div>
           <!-- Public / Private -->
           <div class="pt-4">
-            <PrivateHostedToogle isTitled={true} />
+            <PrivateHostedToogle
+              isTitled={true}
+              disabled="disabled"
+              title={t("explorepage.modetitle")}
+              publicAlertMsg={t("user.publicmsg")}
+              privateAlertMsg={t("user.privatemsg")}
+            />
           </div>
         </div>
         <!-- Column 2 -->
         <div class="form-control w-full">
           <div class="label">
             <span class="label-text"
-              >Description<sup class="ml-1 text-red-500">*</sup><small
+              >{t("uploadpage.des")}<sup class="ml-1 text-red-500">*</sup><small
                 class="text-gray-400 ml-1">[Markdown is supported]</small
               ></span
             >
@@ -91,7 +100,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           </div>
           <div>
             <div class="label">
-              <span class="label-text">Workflow Name</span>
+              <span class="label-text">{t("uploadpage.name")}</span>
             </div>
             <input
               id="updateWorkflowName"
@@ -103,7 +112,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           </div>
           <div>
             <div class="label">
-              <span class="label-text">Original Latest Version</span>
+              <span class="label-text">{t("user.originalversion")}</span>
             </div>
             <input
               id="originalWorkflowVersion"
@@ -116,7 +125,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           <!-- Version -->
           <div>
             <label for="version" class="text-sm font-medium leading-6"
-              >Update Version<sup class="ml-1 text-red-500">*</sup></label
+              >{t("user.updateversion")}<sup class="ml-1 text-red-500">*</sup></label
             >
             <div class="w-full mt-2 flex rounded-md shadow-sm">
               <span
@@ -159,11 +168,11 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
     <div class="modal-action">
       <form method="dialog">
         <!-- if there is a button in form, it will close the modal -->
-        <button id="editConfirmBtn" class="hidden btn btn-success">Save</button>
+        <button id="editConfirmBtn" class="hidden btn btn-success">{t("user.savebtn")}</button>
         <button id="updateConfirmBtn" class="hidden btn btn-success"
-          >Update Version</button
+          >{t("user.updatebtn")}</button
         >
-        <button id="closeEditModalBtn" class="btn">Close</button>
+        <button id="closeEditModalBtn" class="btn">{t("user.closebtn")}</button>
       </form>
     </div>
   </div>
@@ -403,12 +412,14 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
     const editWorkflowAuthorLink = document.getElementById(
       "editWorkflowAuthorLink",
     ) as HTMLInputElement;
-    const privateToggle = document.getElementById("private") as HTMLInputElement;
+    // const privateToggle = document.getElementById(
+    //   "private",
+    // ) as HTMLInputElement;
     formData.append("editWorkflowName", editWorkflowName.value);
     formData.append("editWorkflowDescription", editWorkflowDescription.value);
     formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
     formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
-    formData.append("isPrivate", privateToggle.value)
+    // formData.append("isPrivate", privateToggle.value);
     // Check if all required fields are filled
     if (
       !formData.get("editWorkflowName") ||

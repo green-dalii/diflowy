@@ -5,7 +5,7 @@
         "login": "Iniciar sesión | Diflowy",
         "register": "Regístrese en | Diflowy",
         "explore": "Explorar | Diflowy",
-        "upload": "Compartir | Diflowy",
+        "upload": "Subir | Diflowy",
         "blog": "Blog | Diflowy",
         "about": "Acerca de | Diflowy",
         "workflow": "Workflow | Diflowy",
@@ -17,7 +17,7 @@
         "logout": "Cerrar sesión",
         "usercenter": "Centro de usuario",
         "explore": "Explorar",
-        "share": "Compartir",
+        "share": "Subir",
         "host": "Aloja",
         "blog": "Blog",
         "about": "Acerca de",
@@ -48,9 +48,9 @@
         "clickhere": "Haz clic aquí"
     },
     "share": {
-        "description": "Puedes subir tus Workflows a Diflowy para compartirlos con otros o para usarlos en modo de alojamiento privado, visible solo para ti",
-        "sharetitle": "Comparte tus Workflows o configúralos para alojamiento privado",
-        "belowtitle": "Ya sea compartiendo Workflows públicamente o guardándolos en privado, puedes usar las excelentes características de Diflowy.",
+        "description": "Puede subir flujos de trabajo Dify a Diflowy para compartir con otros, o utilizarlo en modo de alojamiento privado solo para usted",
+        "sharetitle": "Comparta su flujo de trabajo o configúrelo en modo de alojamiento privado.",
+        "belowtitle": "Ya sea compartiendo públicamente su flujo de trabajo Dify o encriptándolo para uso en alojamiento privado, puede aprovechar las excelentes características de Diflowy.",
         "uploadWorkflow": "Sube tu Workflow"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "Importación rápida",
         "importDes": "Importa de una sola vez a Dify",
         "private": "Modo de alojamiento privado",
-        "privateDes": "Administra tus Workflows en modo de alojamiento privado, manteniendo todas las funciones y tu Dify limpio y organizado"
+        "privateDes": "En el modo de alojamiento privado, se aplicará el cifrado AES-GCM a nivel de base de datos para garantizar la seguridad y la integridad de los datos, lo cual es ideal para aplicaciones de alojamiento privado tanto empresariales como personales"
     },
     "reviews": {
         "title": "Opiniones de los usuarios",
@@ -125,20 +125,20 @@
         "description": "Explora y sube Workflows a Dify inmediatamente en Diflowy",
         "modetitle": "Modo de alojamiento",
         "publicmsg": "En modo público, todos los Workflows públicos están disponibles para todos. Si no estás registrado, solo podrás navegar en este modo.",
-        "privatemsg": "En modo de alojamiento privado, Diflowy actúa como tu administrador de archivos de Dify. Solo tú puedes ver tus Workflows privados, los demás no pueden.",
+        "privatemsg": "En modo de alojamiento privado, Diflowy actuará como su gestor de archivos Dify personal. Solo usted podrá ver su Workflow encriptado privado, y otros no tendrán permiso para verlo.",
         "uploadtitle": "¿No encontraste lo que buscabas?",
         "uploadtext1": "Sube y comparte con todos en cualquier momento.",
-        "uploadtext2": "O sube en modo de alojamiento privado para mantener tu Dify limpio y organizado.",
+        "uploadtext2": "O puede optar por subir y encriptar en modo de alojamiento privado, para mantener sus archivos Dify seguros y organizados.",
         "uploadbtn": "Sube tu Workflow"
     },
     "uploadpage": {
-        "title": "Comparte tu Workflow",
-        "description": "Sube tu Workflow a Diflowy, puedes compartir tu Workflow con todos o configúralo como privado, solo para alojamiento privado.",
+        "title": "Subir su Workflow",
+        "description": "Suba su Workflow a Diflowy, puede hacer que su Workflow sea público para todos, o configurarlo como alojamiento privado y encriptado, solo para su uso, y otros no tendrán acceso.",
         "loginhint": "Para asegurar la seguridad, necesitas iniciar sesión antes de subir.",
         "loginbtn": "🔐 Inicia sesión y sube",
         "recommended": "(recomendado)",
-        "fillhint": "O, puedes completar el formulario a continuación, y luego será revisado por el administrador y subido más tarde.",
-        "fillbtn": "📝 Completa el formulario de Workflow",
+        "fillhint": "Si no inicia sesión, también puede completar el siguiente formulario, que será revisado por el administrador y subido más tarde como archivo público. Si necesita disfrutar de la capacidad de alojamiento privado, utilice la ruta de subida después de iniciar sesión.",
+        "fillbtn": "📝 Completar formulario de Workflow público",
         "workflowinfo": "Información del Workflow",
         "uploadfile": "Sube tu archivo Workflow de Dify",
         "name": "Nombre del Workflow",
@@ -152,7 +152,11 @@
         "notify3": "Asegúrate de que no hay información privada (claves de API, variables de entorno, etcétera) antes de subir.",
         "uploadbtn": "Subir",
         "previewtitle": "Previsualización del Workflow",
-        "previewhint": "* Lo anterior es solo una previsualización, cualquier cambio no afectará el archivo original."
+        "previewhint": "* Lo anterior es solo una previsualización, cualquier cambio no afectará el archivo original.",
+        "publicmsg": "Cuando se selecciona el modo público, su flujo de trabajo subido se compartirá en la comunidad Diflowy, ¡agradecemos su aporte!",
+        "privatems": "Cuando se selecciona el modo de alojamiento privado, su flujo de trabajo subido se almacenará encriptado con algoritmos de alta intensidad, solo usted tendrá derecho a acceder, y puede disfrutar de la conveniencia de gestión de archivos que Diflowy ofrece en un entorno seguro de privacidad.",
+        "publicmode": "Modo público",
+        "privatemode": "Modo de alojamiento privado"
     },
     "blogpage": {
         "title": "Blog Oficial",
@@ -198,7 +202,7 @@
     },
     "user": {
         "title": "Centro de usuario",
-        "description": "En el centro de usuario, puedes gestionar fácilmente tus Workflows de Dify.",
+        "description": "En el centro de usuario, puede gestionar fácilmente sus flujos de trabajo Dify alojados.",
         "before": "Inicia sesión antes de entrar al centro de usuario.",
         "loginbtn": "🔐 Inicia sesión",
         "No": "Número",
@@ -206,7 +210,14 @@
         "hm": "Modo de alojamiento",
         "meta": "Información básica",
         "update": "Actualizar versión",
-        "delete": "Eliminar"
+        "delete": "Eliminar",
+        "publicmsg": "Para los flujos de trabajo ya subidos, por razones de seguridad del archivo, no se puede cambiar el modo de alojamiento. Si necesita cambiar al modo de alojamiento privado, vuelva a subir y seleccione ese modo.",
+        "privatemsg": "Para los flujos de trabajo ya subidos, por razones de seguridad del archivo, no se puede cambiar el modo de alojamiento. Si necesita cambiar al modo público, vuelva a subir y seleccione ese modo.",
+        "originalversion": "Versión actual más reciente",
+        "updateversion": "Número de versión de esta actualización",
+        "savebtn": "Guardar",
+        "updatebtn": "Actualizar versión",
+        "closebtn": "Cerrar"
     },
     "notfound": {
         "title": "Página no encontrada",

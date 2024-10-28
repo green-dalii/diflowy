@@ -5,7 +5,7 @@
         "login": "Accedi | Diflowy",
         "register": "Registro | Diflowy",
         "explore": "Esplora | Diflowy",
-        "upload": "Condividi | Diflowy",
+        "upload": "Carica | Diflowy",
         "blog": "Blog | Diflowy",
         "about": "Chi siamo | Diflowy",
         "workflow": "Workflow | Diflowy",
@@ -17,7 +17,7 @@
         "logout": "Esci",
         "usercenter": "Centro utente",
         "explore": "Esplora",
-        "share": "Condividi",
+        "share": "Carica",
         "host": "Ospita",
         "blog": "Blog",
         "about": "Chi siamo",
@@ -48,9 +48,9 @@
         "clickhere": "Clicca Qui"
     },
     "share": {
-        "description": "Puoi caricare i tuoi workflow su Diflowy per condividerli con gli altri, o per ospitarli in modalità privata visibile solo a te",
-        "sharetitle": "Condividi i tuoi workflow o imposta l'hosting privato",
-        "belowtitle": "Se condividi i workflow pubblicamente o li conservi in privato, puoi sfruttare le incredibili funzionalità di Diflowy.",
+        "description": "Puoi caricare i flussi di lavoro Dify su Diflowy per condividerli con altri o utilizzarli in modalità di hosting privato visibile solo a te",
+        "sharetitle": "Condividi il tuo flusso di lavoro o impostalo come hosting privato",
+        "belowtitle": "Sia che condividi pubblicamente i flussi di lavoro Dify o li crittografi per l'hosting privato, puoi sfruttare le eccellenti funzionalità di Diflowy",
         "uploadWorkflow": "Carica Workflow"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "Importazione rapida",
         "importDes": "Importazione in un solo clic sulla tua Dify",
         "private": "Host privato",
-        "privateDes": "Utilizza la modalità di hosting privato per organizzare i tuoi workflow privati, mantenendo tutte le funzionalità e un ambiente Dify ordinato"
+        "privateDes": "Nella modalità di hosting privato, si utilizzerà la crittografia di archiviazione a livello di database AES-GCM (Advanced Encryption Standard - Galois/Counter Mode) per garantire la sicurezza e l'integrità dei dati, adatta a scenari di hosting privato per aziende e privati"
     },
     "reviews": {
         "title": "Opinioni degli utenti",
@@ -125,20 +125,20 @@
         "description": "Esplora e importa subito Workflows su Diflow in Dify.",
         "modetitle": "Modalità di hosting",
         "publicmsg": "In modalità pubblica, tutti i Workflows sono accessibili a tutti gli utenti. Se non sei loggato, puoi solo navigarli in questa modalità.",
-        "privatemsg": "In modalità di hosting privato, Diflowy funge da spazio personale per organizzare i tuoi workflow. Solo tu puoi vedere i tuoi Workflows privati, gli altri no.",
+        "privatemsg": "In modalità di hosting privato, Diflowy funge da gestore di file Dify personale. Solo tu potrai vedere i tuoi flussi di lavoro privati e crittografati, nessun altro ha il permesso di visualizzarli.",
         "uploadtitle": "Non hai trovato ciò che cercavi?",
         "uploadtext1": "Caricali in qualsiasi momento e condividi con tutti.",
-        "uploadtext2": "O caricali in modalità di hosting privato per mantenere la tua Dify organizzata e ordinata.",
+        "uploadtext2": "Oppure puoi scegliere di caricare e crittografare in modalità di hosting privato, mantenendo i tuoi file Dify sicuri e ordinati.",
         "uploadbtn": "Carica Workflow"
     },
     "uploadpage": {
-        "title": "Condividi il tuo Workflow",
-        "description": "Carica il tuo Workflow su Diflowy. Puoi condividere il tuo Workflow pubblicamente con tutti, o impostarlo come privato solo per l'hosting privato.",
-        "loginhint": "Per garantire la sicurezza, devi accedere prima di poter caricare.",
+        "title": "Carica il tuo Workflow",
+        "description": "Carica il tuo Workflow su Diflowy, puoi renderlo pubblico per tutti o impostarlo come hosting privato e crittografarlo, riservandolo solo a te, senza accesso da parte di altri.",
+        "loginhint": "Se non accedi, puoi anche compilare il modulo sottostante, che verrà esaminato dal gestore e caricato in seguito come file pubblico. Se desideri usufruire delle capacità di hosting privato, utilizza il percorso di caricamento dopo l'accesso sopra.",
         "loginbtn": "🔐 Accedi e carica",
         "recommended": "(raccomandato)",
         "fillhint": "O, completa il seguente modulo e sarà revisionato da un amministratore e caricato successivamente.",
-        "fillbtn": "📝 Compila il modulo",
+        "fillbtn": "📝 Compila il modulo del Workflow pubblico",
         "workflowinfo": " Informazioni sul Workflow",
         "uploadfile": "Carica il tuo file Workflow Dify",
         "name": " Nome del Workflow",
@@ -152,7 +152,11 @@
         "notify3": "Assicurati che non ci siano informazioni private (API keys, variabili di ambiente, ecc.) prima del caricamento.",
         "uploadbtn": "Carica",
         "previewtitle": " Anteprima del Workflow",
-        "previewhint": "* L'anteprima sopra è solo per visualizzazione, nessuna modifica influenzerà il file originale."
+        "previewhint": "* L'anteprima sopra è solo per visualizzazione, nessuna modifica influenzerà il file originale.",
+        "publicmsg": "Quando scegli la modalità pubblica, il flusso di lavoro caricato verrà condiviso con la comunità Diflowy, apprezziamo la tua condivisione!",
+        "privatems": "Quando scegli la modalità di hosting privato, il flusso di lavoro caricato verrà memorizzato con crittografia ad alta intensità, solo tu hai il permesso di accedervi, puoi godere della comodità di gestione dei file offerta da Diflowy in sicurezza e privacy.",
+        "publicmode": "Modalità pubblica",
+        "privatemode": "Modalità di hosting privato"
     },
     "blogpage": {
         "title": "Blog Ufficiale",
@@ -198,7 +202,7 @@
     },
     "user": {
         "title": "Centro utente",
-        "description": "Nel centro utente, puoi gestire facilmente i tuoi workflow Dify.",
+        "description": "Nel centro utente, puoi gestire facilmente i tuoi flussi di lavoro Dify ospitati.",
         "before": "Accedi per raggiungere il centro utente.",
         "loginbtn": "🔐 Accedi",
         "No": "Numero",
@@ -206,7 +210,14 @@
         "hm": "Modalità di hosting",
         "meta": "Informazioni di base",
         "update": "Aggiorna la versione",
-        "delete": "Elimina"
+        "delete": "Elimina",
+        "publicmsg": "Per i flussi di lavoro già caricati, per motivi di sicurezza dei file, non è possibile modificare la modalità di hosting. Se desideri passare alla modalità di hosting privato, ricarica e seleziona questa modalità.",
+        "privatemsg": "Per i flussi di lavoro già caricati, per motivi di sicurezza dei file, non è possibile modificare la modalità di hosting. Se desideri passare alla modalità pubblica, ricarica e seleziona questa modalità.",
+        "originalversion": "Versione più recente attuale",
+        "updateversion": "Numero di versione di questo aggiornamento",
+        "savebtn": "Salva",
+        "updatebtn": "Aggiorna versione",
+        "closebtn": "Chiudi"
     },
     "notfound": {
         "title": "Pagina non trovata",

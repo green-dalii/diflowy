@@ -11,7 +11,9 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
     <div class="sm:col-span-2 sm:col-start-1">
       <!-- Basic Info`` -->
       <div class="pb-12">
-        <h2 class="text-xl font-semibold leading-7">{t("uploadpage.workflowinfo")}</h2>
+        <h2 class="text-xl font-semibold leading-7">
+          {t("uploadpage.workflowinfo")}
+        </h2>
         <!-- Basic info -->
         <div class="grid grid-cols-1 gap-2">
           <!-- WorkFlow File -->
@@ -26,7 +28,8 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
             <label
               for="workflowname"
               class="block text-sm font-medium leading-6"
-              >{t("uploadpage.name")}<sup class="ml-1 text-red-500">*</sup></label
+              >{t("uploadpage.name")}<sup class="ml-1 text-red-500">*</sup
+              ></label
             >
             <div class="mt-2">
               <div class="flex items-center">
@@ -46,7 +49,8 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
           <!-- Version -->
           <div class="sm:col-span-full">
             <label for="version" class="block text-sm font-medium leading-6"
-              >{t("uploadpage.version")}<sup class="ml-1 text-red-500">*</sup></label
+              >{t("uploadpage.version")}<sup class="ml-1 text-red-500">*</sup
+              ></label
             >
             <div class="mt-2 flex rounded-md shadow-sm">
               <span
@@ -93,8 +97,9 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
               <label
                 for="description"
                 class="block text-sm font-medium leading-6"
-                >{t("uploadpage.des")}<sup class="ml-1 text-red-500">*</sup><small
-                  class="text-gray-400 ml-1">[Markdown is supported]</small
+                >{t("uploadpage.des")}<sup class="ml-1 text-red-500">*</sup
+                ><small class="text-gray-400 ml-1"
+                  >[Markdown is supported]</small
                 ></label
               >
               <div class="mt-2">
@@ -128,7 +133,9 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
               <label
                 for="author-name"
                 class="block text-sm font-medium leading-6"
-                >{t("uploadpage.authorname")}<sup class="ml-1 text-red-500">*</sup></label
+                >{t("uploadpage.authorname")}<sup class="ml-1 text-red-500"
+                  >*</sup
+                ></label
               >
               <div class="mt-2">
                 <input
@@ -178,11 +185,18 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
         </div>
         <!-- Public / Private -->
         <div class="my-4">
-          <PrivateHostedToogle isTitled={true} />
+          <PrivateHostedToogle
+            isTitled={true}
+            title={t("explorepage.modetitle")}
+            publicAlertMsg={t("uploadpage.publicmsg")}
+            privateAlertMsg={t("uploadpage.privatemsg")}
+          />
         </div>
         <!-- Notifications -->
         <div class="border-b border-gray-900/10 pt-8 pb-4">
-          <h2 class="text-base font-semibold leading-7">{t("uploadpage.notifytitle")}</h2>
+          <h2 class="text-base font-semibold leading-7">
+            {t("uploadpage.notifytitle")}
+          </h2>
           <ul class="list-disc list-inside text-xs">
             <li class="leading-6 text-gray-600">
               {t("uploadpage.notify1")}
@@ -209,7 +223,9 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
       id="reactflow-preview"
       class="mt-8 sm:mt-0 sm:col-span-4 sm:col-start-3"
     >
-      <h2 class="text-xl font-semibold leading-7">{t("uploadpage.previewtitle")}</h2>
+      <h2 class="text-xl font-semibold leading-7">
+        {t("uploadpage.previewtitle")}
+      </h2>
       <div class="w-full h-[500px] sm:h-[600px]">
         <ReactFlowPreview client:only="react" />
       </div>

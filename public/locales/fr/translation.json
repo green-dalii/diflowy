@@ -5,7 +5,7 @@
         "login": "Connexion | Diflowy",
         "register": "Registre | Diflowy",
         "explore": "Explorer | Diflowy",
-        "upload": "Partager | Diflowy",
+        "upload": "Téléverser | Diflowy",
         "blog": "Blog | Diflowy",
         "about": "À propos | Diflowy",
         "workflow": "Workflow | Diflowy",
@@ -17,7 +17,7 @@
         "logout": "Déconnexion",
         "usercenter": "Centre utilisateur",
         "explore": "Explorer",
-        "share": "Partager",
+        "share": "Téléverser",
         "host": "Héberger",
         "blog": "Blog",
         "about": "À propos",
@@ -48,9 +48,9 @@
         "clickhere": "Cliquez ici"
     },
     "share": {
-        "description": "Vous pouvez téléverser un workflow sur Diflowy et le partager avec les autres, ou l'utiliser en mode d'hébergement privé pour que seul vous puissiez le voir",
-        "sharetitle": "Partagez votre workflow ou configurez-le en mode d'hébergement privé",
-        "belowtitle": "Que vous partagiez vos workflows publiquement ou les conserviez en privé, vous pouvez utiliser les excellentes fonctionnalités de Diflowy.",
+        "description": "Vous pouvez téléverser des workflows Dify sur Diflowy pour les partager avec d'autres, ou pour un mode d'hébergement privé visible uniquement à vous",
+        "sharetitle": "Partagez votre workflow ou rendez-le en hébergement privé",
+        "belowtitle": "Que vous partagiez un workflow Dify ou que vous l'utilisiez pour un hébergement privé crypté, vous pouvez utiliser les excellentes fonctionnalités de Diflowy.",
         "uploadWorkflow": "Téléverser un Workflow"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "Importation rapide",
         "importDes": "Importez en un clic dans Dify",
         "private": "Mode d'hébergement privé",
-        "privateDes": "Gérez vos workflows privés en mode d'hébergement privé tout en conservant toutes les fonctionnalités, afin de garder votre Dify propre et ordonné"
+        "privateDes": "En mode d'hébergement privé, une base de données chiffrée avec AES-GCM sera utilisée pour le stockage, garantit la sécurité et l'intégrité des données, adapté aux scénarios d'hébergement privé pour les entreprises et les particuliers"
     },
     "reviews": {
         "title": "Témoignages des utilisateurs",
@@ -125,20 +125,20 @@
         "description": "Explorez et importez immédiatement des Workflows dans Dify sur Diflowy",
         "modetitle": "Mode d'hébergement",
         "publicmsg": "En mode public, tous les Workflows publics sont disponibles pour tous. Si vous n'êtes pas connecté, vous ne pouvez parcourir en ce mode que les Workflows publics.",
-        "privatemsg": "En mode d'hébergement privé, Diflowy agit comme votre gestionnaire de fichiers Dify personnel. Seul vous pouvez voir vos Workflows privés, personne d'autre ne peut les voir.",
+        "privatemsg": "En mode d'hébergement privé, Diflowy agira comme votre gestionnaire de fichiers Dify personnel. Seul vous pourrez voir vos workflows privés cryptés, les autres n'ont aucune autorisation pour les consulter.",
         "uploadtitle": "Rien trouvé ?",
         "uploadtext1": "Téléversez et partagez avec tout le monde à tout moment.",
-        "uploadtext2": "Ou téléversez en mode d'hébergement privé pour garder votre Dify propre et ordonné.",
+        "uploadtext2": "Ou vous pouvez choisir le mode d'hébergement privé pour téléverser et crypter, rendant vos fichiers Dify sécurisés et organisés.",
         "uploadbtn": "Téléverser un Workflow"
     },
     "uploadpage": {
-        "title": "Partagez votre Workflow",
-        "description": "Téléversez votre Workflow sur Diflowy, vous pouvez rendre votre Workflow public pour que tout le monde puisse le voir, ou le configurer en mode privé pour l'héberger uniquement pour vous.",
+        "title": "Téléversez votre Workflow",
+        "description": "Téléversez votre Workflow sur Diflowy, vous pouvez le rendre public pour tous, ou le rendre en hébergement privé et le crypter pour un usage personnel uniquement, les autres n'ont pas accès.",
         "loginhint": "Pour des raisons de sécurité, vous devez vous connecter avant de pouvoir téléverser.",
         "loginbtn": " 🔐 Connectez-vous et téléversez",
         "recommended": "(Recommandé)",
-        "fillhint": "Ou bien, vous pouvez remplir le formulaire ci-dessous, qui sera ensuite examiné par l'administrateur et téléversé plus tard.",
-        "fillbtn": "📝 Remplir le formulaire de Workflow",
+        "fillhint": "Si vous ne vous connectez pas, vous pouvez également remplir le formulaire ci-dessous, il sera ensuite examiné par l'administrateur et téléversé plus tard en tant que fichier public. Si vous souhaitez bénéficier des capacités d'hébergement privé, veuillez utiliser la méthode de téléversement après connexion ci-dessus.",
+        "fillbtn": "📝 Remplir le formulaire de Workflow public",
         "workflowinfo": "Informations sur le Workflow",
         "uploadfile": "Téléversez votre fichier Dify Workflow",
         "name": "Nom du Workflow",
@@ -152,7 +152,11 @@
         "notify3": "Vérifiez qu'il n'y a aucune information privée (clés API, variables d'environnement, etc.) avant de téléverser.",
         "uploadbtn": "Téléverser",
         "previewtitle": "Prévisualisation du Workflow",
-        "previewhint": "* Ceci est uniquement une prévisualisation, aucune modification ne sera appliquée au fichier d'origine."
+        "previewhint": "* Ceci est uniquement une prévisualisation, aucune modification ne sera appliquée au fichier d'origine.",
+        "publicmsg": "Lorsque vous choisissez le mode public, votre workflow téléversé sera partagé avec la communauté Diflowy, nous vous remercions pour votre partage !",
+        "privatems": "Lorsque vous choisissez le mode d'hébergement privé, votre workflow téléversé sera stocké avec un algorithme de haute intensité de cryptage, seul vous avez le droit d'accéder, vous pouvez profiter de la commodité de gestion de fichiers offerte par Diflowy en toute sécurité de la vie privée.",
+        "publicmode": "Mode public",
+        "privatemode": "Mode d'hébergement privé"
     },
     "blogpage": {
         "title": "Blog officiel",
@@ -198,7 +202,7 @@
     },
     "user": {
         "title": "Centre utilisateur",
-        "description": "Dans le centre utilisateur, vous pouvez gérer facilement vos Dify Workflows.",
+        "description": "Dans le centre utilisateur, vous pouvez facilement gérer vos workflows Dify hébergés.",
         "before": "Veuillez vous connecter pour accéder au centre utilisateur.",
         "loginbtn": "🔐 Connexion",
         "No": "Numéro",
@@ -206,7 +210,14 @@
         "hm": "Mode d'hébergement",
         "meta": "Informations de base",
         "update": "Mettre à jour",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "publicmsg": "Pour les workflows déjà téléversés, pour des raisons de sécurité des fichiers, le mode d'hébergement ne peut pas être modifié. Si vous avez besoin de le changer en mode d'hébergement privé, veuillez le téléverser à nouveau et choisir ce mode.",
+        "privatemsg": "Pour les workflows déjà téléversés, pour des raisons de sécurité des fichiers, le mode d'hébergement ne peut pas être modifié. Si vous avez besoin de le changer en mode public, veuillez le téléverser à nouveau et choisir ce mode.",
+        "originalversion": "Version actuelle la plus récente",
+        "updateversion": "Numéro de version de cette mise à jour",
+        "savebtn": "Enregistrer",
+        "updatebtn": "Mettre à jour la version",
+        "closebtn": "Fermer"
     },
     "notfound": {
         "title": "Page non trouvée",

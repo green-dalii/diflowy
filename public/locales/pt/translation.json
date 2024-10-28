@@ -5,7 +5,7 @@
         "login": "Login | Diflowy",
         "register": "Registo | Diflowy",
         "explore": "Explorar | Diflowy",
-        "upload": "Subir | Diflowy",
+        "upload": "Upload | Diflowy",
         "blog": "Blog | Diflowy",
         "about": "Sobre Nós | Diflowy",
         "workflow": "Workflow | Diflowy",
@@ -17,7 +17,7 @@
         "logout": "Logout",
         "usercenter": "Centro do Usuário",
         "explore": "Explorar",
-        "share": "Compartilhar",
+        "share": "Upload",
         "host": "Hospedar",
         "blog": "Blog",
         "about": "Sobre Nós",
@@ -48,9 +48,9 @@
         "clickhere": "Clique aqui"
     },
     "share": {
-        "description": "Você pode carregar seus fluxos de trabalho no Diflowy para compartilhar com outros, ou usá-los em modo de hospedagem privada visível apenas para você",
-        "sharetitle": "Compartilhe seu Fluxo de Trabalho ou configure-o para hospedagem privada",
-        "belowtitle": "Seja compartilhando Fluxos de Trabalho publicamente ou salvando-os em sigilo, você pode aproveitar os excelentes recursos do Diflowy",
+        "description": "Você pode carregar fluxos de trabalho Dify no Diflowy para compartilhar com outras pessoas, ou usá-lo para hospedagem privada onde apenas você pode ver.",
+        "sharetitle": "Compartilhe seu fluxo de trabalho ou torne-o para hospedagem privada",
+        "belowtitle": "Seja para compartilhar publicamente fluxos de trabalho Dify ou criptografá-los para hospedagem privada, você pode usar as excelentes funcionalidades do Diflowy.",
         "uploadWorkflow": "Subir Workflow"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "Importação Rápida",
         "importDes": "Importação com um clique para o Dify",
         "private": "Modo de Hospedagem Privada",
-        "privateDes": "Use o modo de hospedagem privada para gerenciar seus fluxos de trabalho privados, mantendo todas as funcionalidades e mantendo seu Dify organizado e limpo"
+        "privateDes": "No modo de hospedagem privada, aplicamos criptografia de armazenamento AES-GCM (Advanced Encryption Standard - Galois/Counter Mode) no nível da base de dados, assegurando a segurança e integridade dos dados. Esta solução é ideal para empresas e indivíduos que buscam uma hospedagem privada segura"
     },
     "reviews": {
         "title": "Opiniões dos Usuários",
@@ -125,20 +125,20 @@
         "description": "Explore e importe Workflows para o Dify imediatamente em Diflowy",
         "modetitle": "Modo de Hospedagem",
         "publicmsg": "Em modo público, todos os Workflows públicos estão disponíveis para todos os usuários. Quando não estiver logado, você só pode navegar nesse modo",
-        "privatemsg": "Em modo de hospedagem privada, o Diflowy funciona como seu gerenciador de arquivos Dify pessoal. Apenas você pode ver seus Workflows privados, os outros usuários não podem",
+        "privatemsg": "No modo de hospedagem privada, o Diflowy funcionará como seu gerenciador de arquivos Dify pessoal. Somente você pode ver seus fluxos de trabalho criptografados privados, outras pessoas não têm permissão para visualizar.",
         "uploadtitle": "Não encontrou o que estava procurando?",
         "uploadtext1": "Subir e compartilhar com todos a qualquer momento",
-        "uploadtext2": "Ou você pode subir em modo de hospedagem privada, mantendo seu Dify limpo e organizado",
+        "uploadtext2": "Ou você pode optar por carregar e criptografar em modo de hospedagem privada, mantendo seus arquivos Dify seguros e organizados.",
         "uploadbtn": "Subir Workflow"
     },
     "uploadpage": {
-        "title": "Compartilhe seu Workflow",
-        "description": "Subir seu Workflow no Diflowy, você pode torná-lo público para todos ou privado, apenas para hospedagem privada",
+        "title": "Carregue seu Fluxo de Trabalho",
+        "description": "Carregue seu Fluxo de Trabalho no Diflowy, você pode torná-lo público para todos ou configurá-lo como hospedagem privada e criptografado, para uso exclusivo próprio, sem acesso de outras pessoas.",
         "loginhint": "Para garantir a segurança, você precisa fazer login antes de subir",
         "loginbtn": "🔐 Fazer Login e Subir",
         "recommended": "(Recomendado)",
-        "fillhint": "Ou você pode preencher o formulário abaixo, que será revisado pelo administrador e carregado posteriormente.",
-        "fillbtn": "📝 Preencher Formulário do Workflow",
+        "fillhint": "Se não fizer login, você também pode preencher o formulário abaixo, que será revisado pelo administrador e carregado posteriormente como arquivo público. Se precisar de capacidades de hospedagem privada, use o método de upload acima após fazer login.",
+        "fillbtn": "📝 Preencher formulário de Fluxo de Trabalho público",
         "workflowinfo": "Informação do Workflow",
         "uploadfile": "Subir seu arquivo Workflow do Dify",
         "name": "Nome do Workflow",
@@ -152,7 +152,11 @@
         "notify3": "Antes de subir, certifique-se de que não há informações pessoais (chaves API, variáveis de ambiente, etc.)",
         "uploadbtn": "Subir",
         "previewtitle": "Pré-visualização do Workflow",
-        "previewhint": "* O acima é apenas uma pré-visualização, nenhuma alteração afetará o arquivo original"
+        "previewhint": "* O acima é apenas uma pré-visualização, nenhuma alteração afetará o arquivo original",
+        "publicmsg": "Ao escolher o modo público, seu fluxo de trabalho carregado será compartilhado na comunidade Diflowy, agradecemos sua contribuição!",
+        "privatems": "Ao escolher o modo de hospedagem privada, seu fluxo de trabalho carregado será armazenado com criptografia de alta intensidade, somente você tem acesso, você pode desfrutar da conveniência de gerenciamento de arquivos oferecida pelo Diflowy em um ambiente seguro de privacidade.",
+        "publicmode": "Modo público",
+        "privatemode": "Modo de hospedagem privada"
     },
     "blogpage": {
         "title": "Blog Oficial",
@@ -198,7 +202,7 @@
     },
     "user": {
         "title": "Centro do Usuário",
-        "description": "No Centro do Usuário, você pode gerenciar facilmente seus Fluxos de Trabalho Dify",
+        "description": "No centro do usuário, você pode gerenciar facilmente seus fluxos de trabalho Dify hospedados.",
         "before": "Faça login antes de entrar no Centro do Usuário",
         "loginbtn": "🔐 Fazer Login",
         "No": "Número",
@@ -206,7 +210,14 @@
         "hm": "Modo de Hospedagem",
         "meta": "Informações Básicas",
         "update": "Atualizar Versão",
-        "delete": "Excluir"
+        "delete": "Excluir",
+        "publicmsg": "Para fluxos de trabalho já carregados, por razões de segurança de arquivo, o modo de hospedagem não pode ser alterado. Se você precisar mudar para o modo de hospedagem privada, por favor, carregue novamente e escolha esse modo.",
+        "privatemsg": "Para fluxos de trabalho já carregados, por razões de segurança de arquivo, o modo de hospedagem não pode ser alterado. Se você precisar mudar para o modo público, por favor, carregue novamente e escolha esse modo.",
+        "originalversion": "Versão mais recente atual",
+        "updateversion": "Número da versão desta atualização",
+        "savebtn": "Salvar",
+        "updatebtn": "Atualizar versão",
+        "closebtn": "Fechar"
     },
     "notfound": {
         "title": "Página não encontrada",

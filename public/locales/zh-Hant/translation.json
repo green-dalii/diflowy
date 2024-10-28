@@ -17,7 +17,7 @@
         "logout": "登出",
         "usercenter": "用戶中心",
         "explore": "探索",
-        "share": "分享",
+        "share": "上傳",
         "host": "託管",
         "blog": "部落格",
         "about": "關於我們",
@@ -48,9 +48,9 @@
         "clickhere": "點擊這裡"
     },
     "share": {
-        "description": "你可以在 Diflowy 上傳 Dify 工作流與他人分享，或者用於私人託管模式僅自己可見",
-        "sharetitle": "分享您的 Dify 工作流或將其設為私有託管",
-        "belowtitle": "無論公開分享 Dify 工作流還是私密保存，您都可以使用 Diflowy 的優秀功能。",
+        "description": "你你可以在 Diflowy 上傳 Dify 工作流與他人分享，或者用於私有托管模式僅自己可見",
+        "sharetitle": "分享您的工作流或將其設為私有托管",
+        "belowtitle": "無論是公開分享 Dify 工作流還是加密後用於私有托管，您都可以使用 Diflowy 的優秀特性",
         "uploadWorkflow": "上傳工作流"
     },
     "feature": {
@@ -63,7 +63,7 @@
         "import": "快速導入",
         "importDes": "一鍵導入到 Dify",
         "private": "私有託管模式",
-        "privateDes": "使用私有託管模式管理您的私人 Dify 工作流，同時保留所有功能，令您的 Dify 保持整潔"
+        "privateDes": "私有托管模式下將採用數據庫級AES-GCM加密存儲，確保數據安全與完整性，適用於企業及個人的隱私托管需求"
     },
     "reviews": {
         "title": "用戶之聲",
@@ -125,20 +125,20 @@
         "description": "在 Diflow 中立即探索並導入工作流到 Dify。",
         "modetitle": "託管模式",
         "publicmsg": "在公共模式下，所有公共 Dify 工作流都可供所有人使用。未登入時，您只能在這種模式下瀏覽。",
-        "privatemsg": "在私有託管模式下，Diflowy 將作為您的個人 Dify 文件管理器。只有您可以看到您的私有 Dify 工作流，其他人無法查看。",
+        "privatemsg": "在私有托管模式下，Diflowy 將作為您的個人 Dify 文件管理器。只有您可以看到您的私有加密 Workflow，其他人無權限查看。",
         "uploadtitle": "找不到想要的 Dify 工作流？",
         "uploadtext1": "隨時上傳並與所有人分享。",
-        "uploadtext2": "或者您可以在私有託管模式下上傳，使您的 Dify 保持整潔和有序。",
+        "uploadtext2": "或者您可以選擇私有托管模式上傳並加密，使您的 Dify 文件安全有序。",
         "uploadbtn": "上傳工作流"
     },
     "uploadpage": {
-        "title": "分享你的工作流",
-        "description": "將你的 Dify 工作流上傳到 Diflowy，你可以將你的工作流公開給所有人，或者將其設為私有，僅供私人託管使用。",
+        "title": "上傳你的 Workflow",
+        "description": "將你的 Workflow 上傳到 Diflowy，你可以將你的 Workflow 公開給所有人，或者將其設為私有托管並加密，僅供自己使用，其他人無權訪問。",
         "loginhint": "為了確保安全，你需要在登入後才能上傳。",
         "loginbtn": "🔐 登入並上傳",
         "recommended": "(推薦)",
-        "fillhint": "或者，你也可以填寫下面的表單，然後它將由管理員審核並在之後上傳。",
-        "fillbtn": "📝 填寫工作流表單",
+        "fillhint": "若不登錄，你也可以填寫下面的表單，然後它將由管理員審核並在稍後上傳為公開文件。若需要享受私有托管能力，請採用上方登錄後上傳途徑。",
+        "fillbtn": "📝 填寫公開 Workflow 表單",
         "workflowinfo": "工作流信息",
         "uploadfile": "上傳你的 Dify 工作流文件",
         "name": "工作流名稱",
@@ -152,7 +152,11 @@
         "notify3": "在上傳前請確保沒有私人信息（API 密鑰、環境變量等）。",
         "uploadbtn": "上傳",
         "previewtitle": "工作流預覽",
-        "previewhint": "* 以上僅為預覽，任何更改不會影響原文件。"
+        "previewhint": "* 以上僅為預覽，任何更改不會影響原文件。",
+        "publicmsg": "當選擇公共模式時，您上傳的工作流將共享至 Diflowy 社區，我們感謝您的分享！",
+        "privatems": "當選擇私有托管模式時，您上傳的工作流將採用高強度算法加密存儲，只有您有權獲得，您可在隱私安全的情況下享受 Diflowy 帶來的文件管理便利。",
+        "publicmode": "公開模式",
+        "privatemode": "私有托管模式"
     },
     "blogpage": {
         "title": "官方博客",
@@ -206,7 +210,14 @@
         "hm": "託管模式",
         "meta": "基本信息",
         "update": "更新版本",
-        "delete": "刪除"
+        "delete": "刪除",
+        "publicmsg": "對於已上傳的工作流，為了文件安全起見，無法更改托管模式。若您需要變更為私有托管模式，請重新上傳並選擇該模式。",
+        "privatemsg": "對於已上傳的工作流，為了文件安全起見，無法更改托管模式。若您需要變更為公開模式，請重新上傳並選擇該模式。",
+        "originalversion": "目前最新版本",
+        "updateversion": "本次更新的版本號",
+        "savebtn": "儲存",
+        "updatebtn": "更新版本",
+        "closebtn": "關閉"
     },
     "notfound": {
         "title": "頁面未找到",
