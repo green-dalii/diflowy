@@ -28,6 +28,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     console.log("workflowId>>>", workflowId, "workflowVersion>>>", workflowVersion)
     // 设置解密秘钥
     let decryptionKey;
+    let isPrivate;
     try {
         console.log("Querying Database for Workflow...")
         // 查询特定的 workflow
@@ -40,7 +41,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             });
         }
         // 判断是否为Private-Hosted文件
-        const isPrivate = workflowResult.is_private;
+        isPrivate = workflowResult.is_private;
         // console.log("isPrivate>>>", typeof(isPrivate), isPrivate, isPrivate === 1)
         if (isPrivate === 1) {
             // 如果为私密文件
@@ -85,7 +86,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 }
             }
         }
-        console.log("Workflow Found...")
+        console.log("Workflow Found...", "isPrivate>>>", isPrivate, "isPrivate===1>>>", isPrivate === 1, "isPrivate === 1 && decryptionKey>>>", isPrivate === 1 && decryptionKey)
         // 查询Workflow所有版本
         const versionsQuery = `SELECT version FROM yaml_versions WHERE yaml_file_id =?`;
         const versionsResult = await env.D1.prepare(versionsQuery).bind(workflowId).all();
