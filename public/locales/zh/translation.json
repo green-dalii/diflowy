@@ -57,13 +57,13 @@
         "features": "核心特性",
         "description": "Diflowy能带给你以下体验",
         "instant": "即时预览",
-        "instantDes": "可在 Diflowy 中实时预览 Dify 工作流结构",
+        "instantDes": "通过节点图快速可视化 Workflow 结构，一目了然",
         "version": "版本管理",
-        "versionDes": "支持 Dify 工作流的版本管理",
+        "versionDes": "便捷管理多版本 Workflow 文件，不用在为多版本文件管理而烦恼",
         "import": "快速导入",
-        "importDes": "一键导入 Dify 工作流到 Dify",
+        "importDes": "支持通过URL一键导入至 Dify.AI，体验丝滑",
         "private": "私有托管模式",
-        "privateDes": "私有托管模式下将采用数据库级AES-GCM加密存储，确保数据安全与完整性，可用于企业、个人的隐私托管应用场景"
+        "privateDes": "采用数据库级AES-GCM加密存储，确保数据安全与完整性，可用于企业、个人的隐私托管应用场景"
     },
     "reviews": {
         "title": "用户评价",

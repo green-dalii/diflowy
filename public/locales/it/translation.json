@@ -63,7 +63,7 @@
         "import": "Importazione rapida",
         "importDes": "Supporta l'importazione con un clic tramite URL su Dify.AI, esperienza senza soluzione di continuità",
         "private": "Host privato",
-        "privateDes": " Utilizza la crittografia AES-GCM a livello di database per garantire la sicurezza e l'integrità dei dati, adatta per scenari di hosting privato sia aziendali che personali"
+        "privateDes": "Utilizza la crittografia AES-GCM a livello di database per garantire la sicurezza e l'integrità dei dati, adatta per scenari di hosting privato sia aziendali che personali"
     },
     "reviews": {
         "title": "Opinioni degli utenti",
