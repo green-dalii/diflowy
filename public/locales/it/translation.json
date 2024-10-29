@@ -57,13 +57,13 @@
         "features": "Principali funzionalità",
         "description": "Diflowy ti offre le seguenti esperienze",
         "instant": "Anteprima immediata",
-        "instantDes": "Visualizzazione in tempo reale della struttura del workflow su Diflowy",
+        "instantDes": "Visualizza rapidamente la struttura di Workflow attraverso il grafico dei nodi",
         "version": "Gestione delle versioni",
-        "versionDes": "Supporta la gestione delle versioni dei workflow",
+        "versionDes": "Gestisci facilmente più versioni di file Workflow, senza preoccuparsi della gestione di file con più versioni",
         "import": "Importazione rapida",
-        "importDes": "Importazione in un solo clic sulla tua Dify",
+        "importDes": "Supporta l'importazione con un clic tramite URL su Dify.AI, esperienza senza soluzione di continuità",
         "private": "Host privato",
-        "privateDes": "Nella modalità di hosting privato, si utilizzerà la crittografia di archiviazione a livello di database AES-GCM (Advanced Encryption Standard - Galois/Counter Mode) per garantire la sicurezza e l'integrità dei dati, adatta a scenari di hosting privato per aziende e privati"
+        "privateDes": " Utilizza la crittografia AES-GCM a livello di database per garantire la sicurezza e l'integrità dei dati, adatta per scenari di hosting privato sia aziendali che personali"
     },
     "reviews": {
         "title": "Opinioni degli utenti",

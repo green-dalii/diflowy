@@ -18,12 +18,12 @@ Diflowy is a vibrant community platform for Dify workflows where you can:
 
 ## 🌟 Features
 
-- 📊 **Instant Overview**: Visualize Workflow structure quickly through node graphs, easily understood at a glance
-- 📂 **Versions Management**: Conveniently upload and download multiple versions of Workflow files, eliminating the hassle of multi-version file management
-- 📦 **Quick Import**: Support one-click import via URL to Dify.AI, providing a smooth experience
-- 🔒 **Support Private Hosting Mode**: Serve as your personal Workflow file manager, maintaining a clean and organized Dify list
-- 👥 **User-Driven**: A Workflow knowledge base contributed to and benefited from by users
-- 🔔 **Dynamic Updates**: Stay updated with the latest trends in Dify Workflow
+- 🔒 **Private-Hosted Mode**: Ensures data security and integrity with database-level AES-GCM encryption, ideal for enterprise and personal privacy needs.
+- 📂 **Version Management**: Effortlessly manage multiple versions of Workflow files, simplifying version control.
+- 📊 **Real-time Preview**: Instantly visualize Workflow structures through node diagrams for clear insights.
+- 📦 **Quick Import**: Easily import via URL to Dify.AI with a seamless one-click process.
+- 👥 **User-driven**: A collaborative Workflow knowledge base that benefits everyone.
+- 🔔 **Dynamic Updates**: Keep up-to-date with the latest advancements in Dify Workflow.
 
 ## 🌍 Community
 

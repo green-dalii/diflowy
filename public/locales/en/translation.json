@@ -57,13 +57,13 @@
         "features": "Features",
         "description": "Amazing features in Diflowy",
         "instant": "Instant Overview",
-        "instantDes": "Real-time preview of Dify Workflow structures in Diflowy",
+        "instantDes": "Quickly visualize Workflow structure through node diagrams, making the structure immediately clear",
         "version": "Versions Management",
-        "versionDes": "Support version management for Dify Workflows",
+        "versionDes": "Conveniently manage multiple versions of Workflow files, eliminating the hassle of managing multiple file versions",
         "import": "Quick Import",
-        "importDes": "One-click import workflows to Dify",
+        "importDes": "Supports one-click import via URL to Dify.AI, providing a seamless experience",
         "private": "Private-Hosted Mode",
-        "privateDes": "With Private-Hosted, database-level AES-GCM encryption ensures data security and integrity, making it ideal for enterprise and personal privacy applications"
+        "privateDes": "Uses AES-GCM encryption at the database level for storage, ensuring data security and integrity, suitable for enterprise and personal privacy-focused hosting scenarios"
     },
     "reviews": {
         "title": "Testimonials",
