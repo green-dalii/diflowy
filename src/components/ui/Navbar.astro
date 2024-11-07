@@ -288,7 +288,9 @@ const navLinks = [
         userMenuButton.addEventListener("click", toggleUserDropdown);
         logoutLink.addEventListener("click", confirmLogout);
         if (protectedContent) {
-          notLogin.style.display = "none";
+          if(notLogin){
+            notLogin.style.display = "none";
+          }
           protectedContent.style.display = "block";
         }
       } else {
