@@ -38,6 +38,7 @@ const navLinks = [
   },
 ];
 ---
+
 <!-- Navbar -->
 <div
   class="fixed w-full top-0 z-10 py-3 px-5 h-auto flex items-center justify-center header lg:dark:bg-[#1c232a6b] dark:bg-[#1c232a] dark:border-[#39506669]"
@@ -296,7 +297,7 @@ const navLinks = [
       }
     }
     }catch(error){
-      console.log("No user found in server response");
+      console.log("Error fetch user data", error);
       sessionStorage.removeItem("username");
       userMenuButton.textContent = translations.login;
       // loginLink.setAttribute("href", "/login");
