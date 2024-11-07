@@ -199,7 +199,10 @@
         "btn2": "Baixar",
         "btn3": "Curtir [Comming...]",
         "btn4": "Compartilhar Link",
-        "privatealert": "Este fluxo de trabalho é para seus arquivos privados, armazenados com criptografia utilizando o algoritmo AES-GCM. O conteúdo de pré-visualização é descriptografado no servidor e exibido apenas para você, após a autenticação de login, e não pode ser acessado por outros através do URL. Devido a restrições de segurança, as funções de \"Importação com Um Clique\" e \"Compartilhar Link\" não estão disponíveis. Você pode clicar no botão \"Baixar\" quando estiver logado para obter o arquivo."
+        "privatealert": "Este fluxo de trabalho é para seus arquivos privados, armazenados com criptografia utilizando o algoritmo AES-GCM. O conteúdo de pré-visualização é descriptografado no servidor e exibido apenas para você, após a autenticação de login, e não pode ser acessado por outros através do URL. Devido a restrições de segurança, as funções de \"Importação com Um Clique\" e \"Compartilhar Link\" não estão disponíveis. Você pode clicar no botão \"Baixar\" quando estiver logado para obter o arquivo.",
+        "hosttitle": "Atualize ou edite seu arquivo do Workflow",
+        "hostcontent": "Você pode acessar o centro de usuários para gerenciar seus arquivos de fluxo de trabalho, seja para atualizar a versão ou para editar informações",
+        "hostbtn": "Atualizar ou editar"
     },
     "user": {
         "title": "Centro do Usuário",

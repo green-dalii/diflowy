@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+import Card from "../ui/Card.astro";
+import { localizePath } from "astro-i18next";
+import propImg from "../../assets/pics/upload.svg";
+
+const { title, description, btnText, url, hasImg = false } = Astro.props;
+---
+
+<div class="mt-5 sm:mt-16 mb-5">
+	<Card>
+		<div
+			class="group bg-[#F3F3F3] dark:bg-[--darkbgoffset] rounded-3xl p-8 relative"
+		>
+			<div class="flex flex-col sm:flex-row">
+				<div class="w-full flex flex-col gap-[26px]">
+					<h2>{title}</h2>
+					<p>{description}</p>
+					<a href={localizePath(url)}>
+						<button class="btn-primary w-full sm:w-auto">{btnText}</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</Card>
+</div>

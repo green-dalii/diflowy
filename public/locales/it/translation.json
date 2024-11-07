@@ -199,7 +199,10 @@
         "btn2": "Scarica",
         "btn3": "Mi piace [in arrivo]",
         "btn4": "Condividi il link",
-        "privatealert": "Questo flusso di lavoro è un file privato vostro, memorizzato con crittografia utilizzando l'algoritmo AES-GCM. Il contenuto di anteprima viene decrittografato sul server e mostrato solo a voi che avete superato l'autenticazione di accesso, e altri non possono accedervi tramite l'URL. A causa delle restrizioni di sicurezza, le funzionalità \"Importa con un clic\" e \"Condividi link\" non sono disponibili. Potete ottenere il file cliccando sul pulsante \"Scarica\" quando siete connessi."
+        "privatealert": "Questo flusso di lavoro è un file privato vostro, memorizzato con crittografia utilizzando l'algoritmo AES-GCM. Il contenuto di anteprima viene decrittografato sul server e mostrato solo a voi che avete superato l'autenticazione di accesso, e altri non possono accedervi tramite l'URL. A causa delle restrizioni di sicurezza, le funzionalità \"Importa con un clic\" e \"Condividi link\" non sono disponibili. Potete ottenere il file cliccando sul pulsante \"Scarica\" quando siete connessi.",
+        "hosttitle": "Aggiorna o modifica il tuo file del workflow",
+        "hostcontent": "Puoi accedere al centro utente per gestire i tuoi file del workflow, sia per aggiornare la versione sia per modificare le informazioni",
+        "hostbtn": "Aggiorna o modifica"
     },
     "user": {
         "title": "Centro utente",

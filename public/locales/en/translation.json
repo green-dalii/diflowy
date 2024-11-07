@@ -199,7 +199,10 @@
         "btn2": "Download",
         "btn3": "Like [Comming...]",
         "btn4": "Share the Link",
-        "privatealert": "This workflow is your private file, encrypted and stored using the AES-GCM algorithm. The preview content is decrypted on the server side and is only displayed to you after login verification. Others cannot access it via the URL. For security reasons, the 'One-Click Import' and 'Share Link' features are disabled. You can download the file by clicking the 'Download' button while logged in."
+        "privatealert": "This workflow is your private file, encrypted and stored using the AES-GCM algorithm. The preview content is decrypted on the server side and is only displayed to you after login verification. Others cannot access it via the URL. For security reasons, the 'One-Click Import' and 'Share Link' features are disabled. You can download the file by clicking the 'Download' button while logged in.",
+        "hosttitle": "Update or edit your workflow",
+        "hostcontent": "You can access the User Center to manage your workflow files, whether it's editing, or updating a file version.",
+        "hostbtn": "Update or Edit"
     },
     "user": {
         "title": "User Center",

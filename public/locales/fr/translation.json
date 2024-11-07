@@ -199,7 +199,10 @@
         "btn2": "Télécharger",
         "btn3": "Aimer [Prochainement...]",
         "btn4": "Partager le lien",
-        "privatealert": "Ce workflow est un fichier privé, stocké avec chiffrement utilisant l'algorithme AES-GCM. Le contenu prévisualisé est déchiffré côté serveur et est affiché uniquement pour vous, après authentification. Les autres ne peuvent pas accéder via l'URL. En raison des restrictions de sécurité, les fonctionnalités « Importer en un clic » et « Partager le lien » ne sont pas disponibles. Vous pouvez cliquer sur le bouton « Télécharger » pour obtenir le fichier en étant connecté."
+        "privatealert": "Ce workflow est un fichier privé, stocké avec chiffrement utilisant l'algorithme AES-GCM. Le contenu prévisualisé est déchiffré côté serveur et est affiché uniquement pour vous, après authentification. Les autres ne peuvent pas accéder via l'URL. En raison des restrictions de sécurité, les fonctionnalités « Importer en un clic » et « Partager le lien » ne sont pas disponibles. Vous pouvez cliquer sur le bouton « Télécharger » pour obtenir le fichier en étant connecté.",
+        "hosttitle": "Mettre à jour ou éditer votre fichier Workflow",
+        "hostcontent": "Vous pouvez accéder au centre utilisateur pour gérer vos fichiers de workflow, afin de mettre à jour la version ou éditer les informations",
+        "hostbtn": "Mettre à jour ou éditer"
     },
     "user": {
         "title": "Centre utilisateur",

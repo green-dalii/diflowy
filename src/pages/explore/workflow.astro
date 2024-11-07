@@ -7,6 +7,7 @@ import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import { Icon } from "astro-icon/components";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Alert from "../../components/ui/Alert.astro";
+import Entrance from "../../components/ui/Entrance.astro";
 import "../../styles/globals.css";
 import "../../styles/markdown.css";
 
@@ -132,13 +133,16 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
             </div>
             <!-- Alert -->
             <div
-              class="w-full grid grid-cols-1 items-center gap-4 mt-32"
+              class="w-full grid grid-cols-1 items-center gap-4 mt-10"
             >
               <Alert
                 id="private-alert"
                 type="alert-warning hidden"
                 message={privateAlert}
               />
+            </div>
+            <div id="protected-content" class="hidden">
+              <Entrance title={t("workflow.hosttitle")} description={t("workflow.hostcontent")} btnText={t("workflow.hostbtn")} url="/user" />
             </div>
           </div>
           <div>

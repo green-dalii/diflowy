@@ -199,7 +199,10 @@
         "btn2": "Herunterladen",
         "btn3": "Like [Comming...]",
         "btn4": "Link teilen",
-        "privatealert": "Dieser Workflow ist Ihre private der Datei und wurde mit dem AES-GCM-Algorithmus (AES-GCM) verschlüsselt gespeichert. Der Vorschauinhalt wird auf dem Server entschlüsselt und nur Ihnen, nach Ihrer erfolgreichen Anmeldung, angezeigt. Andere Personen können nicht über die URL über darauf zugreifen. Aufgrund von, Sicherheitseinschränkungen sind die Funktionen „Ein Klick importieren“ und „Link teilen“ nicht verfügbar. Sie können die Datei in im angemeldeten Zustand durch Klicken auf die Schaltfläche „Herunterladen“ abrufen."
+        "privatealert": "Dieser Workflow ist Ihre private der Datei und wurde mit dem AES-GCM-Algorithmus (AES-GCM) verschlüsselt gespeichert. Der Vorschauinhalt wird auf dem Server entschlüsselt und nur Ihnen, nach Ihrer erfolgreichen Anmeldung, angezeigt. Andere Personen können nicht über die URL über darauf zugreifen. Aufgrund von, Sicherheitseinschränkungen sind die Funktionen „Ein Klick importieren“ und „Link teilen“ nicht verfügbar. Sie können die Datei in im angemeldeten Zustand durch Klicken auf die Schaltfläche „Herunterladen“ abrufen.",
+        "hosttitle": "Aktualisieren oder Bearbeiten Sie Ihre Workflow-Dateien",
+        "hostcontent": "Gehen Sie in den Benutzerbereich, um Ihre Workflow-Dateien zu verwalten. Sie können entweder eine neue Version aktualisieren oder Informationen bearbeiten.",
+        "hostbtn": "Aktualisieren oder Bearbeiten"
     },
     "user": {
         "title": "Benutzerzentrum",

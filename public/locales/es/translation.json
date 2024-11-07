@@ -199,7 +199,10 @@
         "btn2": "Descargar",
         "btn3": "Me gusta [Comming...]",
         "btn4": "Compartir enlace",
-        "privatealert": "Este flujo de trabajo está diseñado para sus archivos privados y utiliza el algoritmo de cifrado AES-GCM para su almacenamiento. El contenido de la vista previa se descifra en el servidor y solo usted, que ha pasado la autenticación de inicio de sesión, puede verlo; otros usuarios no pueden acceder a él a través de la URL. Por motivos de seguridad, las funciones de «Importar con un clic» y «Compartir enlace» no están disponibles. Puede hacer clic en el botón «Descargar» mientras está conectado para obtener el archivo."
+        "privatealert": "Este flujo de trabajo está diseñado para sus archivos privados y utiliza el algoritmo de cifrado AES-GCM para su almacenamiento. El contenido de la vista previa se descifra en el servidor y solo usted, que ha pasado la autenticación de inicio de sesión, puede verlo; otros usuarios no pueden acceder a él a través de la URL. Por motivos de seguridad, las funciones de «Importar con un clic» y «Compartir enlace» no están disponibles. Puede hacer clic en el botón «Descargar» mientras está conectado para obtener el archivo.",
+        "hosttitle": "Actualizar o editar tu archivo de Workflow",
+        "hostcontent": "Puedes ingresar al centro de usuarios para administrar tus archivos de flujo de trabajo, ya sea para actualizar la versión o editar la información",
+        "hostbtn": "Actualizar o editar"
     },
     "user": {
         "title": "Centro de usuario",
