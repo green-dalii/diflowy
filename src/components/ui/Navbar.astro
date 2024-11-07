@@ -257,8 +257,10 @@ const navLinks = [
       userMenuButton.addEventListener("click", toggleUserDropdown);
       logoutLink.addEventListener("click", confirmLogout);
       if (protectedContent) {
-        notLogin.style.display = "none";
         protectedContent.style.display = "block";
+        if(notLogin){
+          notLogin.style.display = "none";
+        }
       }
     } else {
       console.log("No username found in sessionStorage, Call User API...");
@@ -268,9 +270,11 @@ const navLinks = [
         sessionStorage.removeItem("username");
         userMenuButton.textContent = translations.login;
         userMenuButton.setAttribute("onclick", `window.location.href="${translations.loginURL}"`)
-        if(protectedContent && notLogin){
-          notLogin.style.display = "block";
+        if(protectedContent){
           protectedContent.style.display = "none";
+          if(notLogin){
+            notLogin.style.display = "block";
+          }
         }
         return;
       }
@@ -290,8 +294,10 @@ const navLinks = [
       } else {
         userMenuButton.textContent = translations.login;
         userMenuButton.setAttribute("onclick", `window.location.href="${translations.loginURL}"`)
-        if(protectedContent && notLogin){
-          notLogin.style.display = "block";
+        if(protectedContent){
+          if(notLogin){
+            notLogin.style.display = "block";
+          }
           protectedContent.style.display = "none";
         }
       }
@@ -302,8 +308,10 @@ const navLinks = [
       userMenuButton.textContent = translations.login;
       // loginLink.setAttribute("href", "/login");
       userMenuButton.setAttribute("onclick", `window.location.href="${translations.loginURL}"`)
-      if(protectedContent && notLogin){
-        notLogin.style.display = "block";
+      if(protectedContent){
+        if(notLogin){
+          notLogin.style.display = "block";
+        }
         protectedContent.style.display = "none";
       }
     }
