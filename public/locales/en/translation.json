@@ -184,7 +184,8 @@
         "rm6": "Add AI Summarization for Dify Workflows",
         "rm7": "Add search and filter functionality",
         "rm8": "Apply official Dify Workflow style",
-        "rm9": "Other suggestions are welcome; please post them on our GitHub Discussions"
+        "rm9": "Other suggestions are welcome; please post them on our GitHub Discussions",
+        "rm10": "Add Workspace collaboration support for advanced users"
     },
     "workflow": {
         "description": "You can preview, download or import the workflow to your Dify.",

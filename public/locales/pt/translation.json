@@ -184,7 +184,8 @@
         "rm6": "Adição da função de resumo por IA a Workflows",
         "rm7": "Adição de funções de pesquisa e filtragem",
         "rm8": "Aplicação do estilo oficial do Workflow Dify",
-        "rm9": "Qualquer outra sugestão é bem-vinda em nossas GitHub Discussions"
+        "rm9": "Qualquer outra sugestão é bem-vinda em nossas GitHub Discussions",
+        "rm10": "Adicionar suporte de colaboração no espaço de trabalho para utilizadores avançados"
     },
     "workflow": {
         "description": "Você pode pré-visualizar, baixar ou importar o Workflow para o seu Dify",

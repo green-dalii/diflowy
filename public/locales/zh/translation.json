@@ -184,7 +184,8 @@
         "rm6": "为 Dify Workflow  添加 AI 总结功能",
         "rm7": "添加搜索和筛选功能",
         "rm8": "应用官方 Dify Workflow 样式",
-        "rm9": "任何其他建议欢迎在我们的 GitHub Discussions 上提出"
+        "rm9": "任何其他建议欢迎在我们的 GitHub Discussions 上提出",
+        "rm10": "针对高级用户增加工作区协作支持"
     },
     "workflow": {
         "description": "您可以预览、下载或将 Dify Workflow 导入到您的 Dify 中",

@@ -184,7 +184,8 @@
         "rm6": "WorkflowにAI要約機能を追加",
         "rm7": "検索とフィルタリング機能を追加",
         "rm8": "公式Dify Workflowスタイルを適用",
-        "rm9": "その他の提案はGitHub Discussionsで投稿してください"
+        "rm9": "その他の提案はGitHub Discussionsで投稿してください",
+        "rm10": "上級ユーザー向けにワークスペース・コラボレーションのサポートを追加"
     },
     "workflow": {
         "description": "プレビュー、ダウンロード、またはDifyにワークフローをインポートできます",
