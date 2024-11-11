@@ -207,7 +207,7 @@
     },
     "user": {
         "title": "User Center",
-        "description": "In User Center you can manage your hosted Dify Workflows.",
+        "description": "In User Center you can manage your account, workspace and hosted Dify Workflows.",
         "before": "Please Login before entering the User Center.",
         "loginbtn": "🔐 Login",
         "No": "No.",
@@ -222,7 +222,23 @@
         "updateversion": "Version Number of This Update",
         "savebtn": "Save",
         "updatebtn": "Update Version",
-        "closebtn": "Close"
+        "closebtn": "Close",
+        "accountinfo": "Account Information",
+        "username": "Username",
+        "editname": "Edit Username",
+        "plannow": "Current Plan",
+        "upgrade": "Upgrade Plan",
+        "planstart": "Plan Start Time",
+        "planexpire": "Plan Expire Time",
+        "renewalbtn": "Renewal",
+        "freeplan": "Free Plan",
+        "teamplan": "Team Plan",
+        "businessplan": "Business Plan",
+        "availableworkspace": "Available Workspace Count",
+        "workspaceinfo": "Workspace Information",
+        "workspacename": "Workspace Name",
+        "membercount": "Member Count",
+        "hostedworkflow": "Hosted Workflow"
     },
     "notfound": {
         "title": "Oooops!",

@@ -16,6 +16,15 @@ export interface GetWorkflowsResponse {
     pageSize: number;
 }
 
+export interface GetUserDetailsResponse {
+    id: string;
+    username: string;
+    created_at: string;
+    plan_type: string;
+    plan_started_at: string;
+    plan_expired_at: string;
+}
+
 // 自定义错误类
 class CustomError extends Error {
     constructor(message: string) {
@@ -183,4 +192,22 @@ export function formatUpdateTime(updateTime: string): string {
     } else {
         return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
     }
+}
+
+// Get User detail info
+export async function fetchUserDetails(): Promise<GetUserDetailsResponse> {
+    const url = new URL("/api/user?detail=true", window.location.origin);
+    const response = await fetch(url.toString());
+    if (response.status == 401) {
+        console.error("JWT Expired");
+        throw new Error("JWT Expired");
+    } else if (response.status === 404){
+        console.error("No User Found");
+        throw new Error("Not Found");
+    }
+     else if (!response.ok) {
+        console.error("Failed to fetch userinfo", response.statusText);
+        throw new Error("Failed to fetch userinfo");
+    }
+    return (await response.json()) as GetUserDetailsResponse;
 }
