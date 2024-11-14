@@ -1,6 +1,6 @@
 import { jwtVerify } from 'jose';
 import * as jose from 'jose'
-import type { Env } from './auth';
+import type { Env } from '../auth';
 
 export async function onRequest(context: { request: Request; env: Env }) {
     try {

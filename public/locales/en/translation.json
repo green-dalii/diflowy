@@ -240,7 +240,19 @@
         "workspaceinfo": "Workspace Information",
         "workspacename": "Workspace Name",
         "membercount": "Member Count",
-        "hostedworkflow": "Hosted Workflow"
+        "hostedworkflow": "Hosted Workflow",
+        "setting": "Setting",
+        "workspacequota": "Workspace Quota",
+        "memberquota": "Member Quota",
+        "basicsetting": "Basic Setting",
+        "membermangement": "Member Management",
+        "dissolveworkspace": "Dissolve Workspace",
+        "currentwprkspace": "Current Workspace",
+        "rolemanagement": "Role Management",
+        "administrator": "Administrator",
+        "member": "Member",
+        "guest": "Guest",
+        "removemember": "Remove Member"
     },
     "notfound": {
         "title": "Oooops!",

@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 // const images = import.meta.glob("/src/data/insight/*/*.jpg", { eager: true });
 import { blogImages } from "../../content/config";
+import { localizePath } from "astro-i18next";
 ---
 
 <div class="flex scroll-mt-20 flex-col">
@@ -11,7 +12,7 @@ import { blogImages } from "../../content/config";
       allPosts.map((post: any) => (
         <div class="group grid grid-cols-1 lg:grid-cols-5 gap-2 lg:gap-6 rounded-3xl bg-white dark:bg-[--darkbgoffset] shadow-sm hover:shadow-lg transition-all duration-300 my-6">
           <figure class="lg:col-span-3 h-56 w-full sm:h-64 md:h-96 relative overflow-hidden rounded-3xl ">
-            <a href={`/blog/${post.slug}/`}>
+            <a href={localizePath(`/blog/${post.slug}/`)}>
               <Image
                 class="absolute left-0 top-0 h-full w-full object-cover object-center transition-all duration-300 group-hover:scale-110"
                 src={blogImages[post.data.heroImage]?.default}
@@ -20,7 +21,7 @@ import { blogImages } from "../../content/config";
             </a>
           </figure>
           <div class="lg:col-span-2 w-full p-6 grid grid-cols-1 content-between">
-            <a href={`/blog/${post.slug}/`}>
+            <a href={localizePath(`/blog/${post.slug}/`)}>
               <h2 class="text-xl">{post.data.title}</h2>
               <p class="font-light leading-relaxed text-[--color-text-offset] text-xs">
                 {post.data.description}
@@ -39,7 +40,7 @@ import { blogImages } from "../../content/config";
                 {/* <Icon name="mdi:tag-outline" class="text-sm" /> */}
                 <div class="flex flex-row flex-wrap gap-2">
                   {post.data.tags.map((tag: string) => (
-                    <a href={`/blog/tags/${tag}`} class="text-xs">
+                    <a href={localizePath(`/blog/tags/${tag}`)} class="text-xs">
                       <span class="badge">{tag}</span>
                     </a>
                   ))}

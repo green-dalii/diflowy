@@ -25,7 +25,7 @@
         "contactus": "聯繫我們",
         "difyofficial": "Dify 官方",
         "resources": "相關連結",
-        "pricing": "價格"
+        "pricing": "定價"
     },
     "hero": {
         "exploreWorkflows": "探索工作流",
@@ -160,8 +160,8 @@
         "privatemode": "私有托管模式"
     },
     "blogpage": {
-        "title": "官方博客",
-        "description": "這裡是Diflowy社區博客的發布平台，除了Diflowy官方內容外，我們也歡迎您投稿任何AI Workflow相關內容。",
+        "title": "官方部落格",
+        "description": "這裡是Diflowy社區部落格的發布平台，除了Diflowy官方內容外，我們也歡迎您投稿任何AI Workflow相關內容。",
         "multilang": "本文也有其他可选语言 👉 "
     },
     "aboutpage": {

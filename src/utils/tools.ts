@@ -25,6 +25,15 @@ export interface GetUserDetailsResponse {
     plan_expired_at: string;
 }
 
+export interface Workspace {
+    id: string;
+    workspace_name: string;
+}
+
+export interface GetWorkspacesResponse {
+    workspaces: Workspace[];
+}
+
 // 自定义错误类
 class CustomError extends Error {
     constructor(message: string) {
@@ -209,6 +218,23 @@ export async function fetchUserDetails(): Promise<GetUserDetailsResponse> {
         console.error("Failed to fetch userinfo", response.statusText);
         throw new Error("Failed to fetch userinfo");
     }
-    console.log("Fetched User Info>>>", (await response.json()))
     return (await response.json()) as GetUserDetailsResponse;
+}
+
+// Get User Workspace info
+export async function fetchUserWorkspaces(): Promise<string[]> {
+    const url = new URL("/api/user/workspaces", window.location.origin);
+    const response = await fetch(url.toString());
+    if (response.status == 401) {
+        console.error("JWT Expired");
+        throw new Error("JWT Expired");
+    } else if (response.status === 404){
+        console.error("No User Found");
+        throw new Error("Not Found");
+    }
+     else if (!response.ok) {
+        console.error("Failed to fetch userinfo", response.statusText);
+        throw new Error("Failed to fetch userinfo");
+    }
+    return (await response.json()) as string[];
 }
