@@ -38,9 +38,31 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       <div id="protected-content" style="display: none;">
         <div class="drawer lg:drawer-open">
           <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-          <div class="drawer-content flex flex-col items-start justify-start sm:pl-8">
-            <!-- Workspace Management -->
-            
+          <div class="drawer-content flex flex-col items-start justify-start">
+            <!-- Accounts Management -->
+            <div class="sm:pl-8 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+              <div class="col-span-full pb-6">
+                <h3 class="font-bold">{t("user.workspaceinfo")}</h3>
+              </div>
+              <div class="text-sm sm:col-span-2">
+                <span class="font-medium mr-2">{t("user.plannow")}:</span>
+                <span id="plan">Loading...</span>
+              </div>
+              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
+                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>
+              </div>
+              <div class="text-sm col-span-full sm:col-span-1">
+                <span class="font-medium mr-2">{t("user.planstart")}:</span>
+                <span id="planstart">Loading...</span>
+              </div>
+              <div class="text-sm col-span-full sm:col-span-1">
+                <span class="font-medium mr-2">{t("user.planexpire")}:</span>
+                <span id="planexpire">Loading...</span>
+              </div>
+              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
+                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="renewal">{t("user.renewalbtn")}</button>
+              </div>
+            </div>
           </div>
           <div class="drawer-side sm:h-[70dvh]">
             <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -59,13 +81,8 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 </MainLayout>
 
 <script>
-  import { updatePagination, fetchWorkflows, JWTError } from "../../../utils/tools";
-  import type { Workflow, GetWorkflowsResponse } from "../../../utils/tools";
-
-  // Get the table body element
-  const workflowTableBody = document.getElementById(
-    "workflowTable",
-  ) as HTMLTableSectionElement;
+  import { fetchUserDetails, JWTError } from "../../../utils/tools";
+  import type { GetUserDetailsResponse } from "../../../utils/tools";
 
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
@@ -77,254 +94,33 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
 
-  // Get Edit modal element
-  const editModal = document.getElementById("editModal") as HTMLDialogElement;
-  const editModalTitle = document.getElementById(
-    "editModalTitle",
-  ) as HTMLHeadingElement;
-  const editMetaForm = document.getElementById(
-    "editMetaForm",
-  ) as HTMLDivElement;
-  const updateForm = document.getElementById("updateForm") as HTMLDivElement;
-  const editModalConfirmBtn = document.getElementById(
-    "editConfirmBtn",
-  ) as HTMLButtonElement;
-  const updateConfirmBtn = document.getElementById(
-    "updateConfirmBtn",
-  ) as HTMLButtonElement;
-  const reactFlowPreview = document.getElementById(
-    "reactFlowPreview",
-  ) as HTMLDivElement;
+  // Get User info elements
+  const usernameElement = document.getElementById("username") as HTMLSpanElement;
+  const planElement = document.getElementById("plan") as HTMLSpanElement;
+  const planstartElement = document.getElementById("planstart") as HTMLSpanElement;
+  const planexpireElement = document.getElementById("planexpire") as HTMLSpanElement;
 
-  // Update Workfow Table
-  function updateUserWorkflowsTable(workflowsResponse: GetWorkflowsResponse) {
-    workflowTableBody.innerHTML = "";
-    const workflows = workflowsResponse.workflows as Workflow[];
-    const page = workflowsResponse.page as number;
-    const pageSize = workflowsResponse.pageSize as number;
-    workflows.forEach((workflow: Workflow, index: number) => {
-      const row = document.createElement("tr");
-      row.classList.add("hover");
-      row.id = `${workflow.id}`;
-      const tagsBase64 = btoa(JSON.stringify(workflow.tags));
-      // encode description base64
-      const descriptionUtf8Bytes = new TextEncoder().encode(workflow.description) as Uint8Array;
-      const descriptionByteArray = Array.from(descriptionUtf8Bytes);
-      const descriptionBase64 = btoa(String.fromCharCode.apply(null, descriptionByteArray));
-      row.innerHTML = `
-        <td class="hidden text-xs sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
-        <td class="w-3/12 text-xs sm:3/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
-        <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.latestVersion}</td>
-        <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private"}</td>
-        <td class="w-3/12 sm:w-2/12">
-            <button class="btn w-full btn-outline btn-sm btn-info edit text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${descriptionBase64}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">
-              📝 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${descriptionBase64}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">Edit</span>
-            </button>
-        </td>
-        <td class="w-3/12 sm:w-2/12">
-          <button class="btn w-full btn-outline btn-sm btn-success update text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">
-              🚀 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">Update</span>
-          </button>
-        </td>
-        <td class="w-3/12 sm:w-2/12">
-          <button class="btn w-full btn-outline btn-sm btn-error delete text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">
-              🗑️ <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">Delete</span>
-          </button>
-        </td>
-      `;
-      workflowTableBody.appendChild(row);
-    });
-  }
+  // Get the edit name button and input field
+  const editNameBtn = document.getElementById("editname");
+  const editNameInput = document.getElementById("editnameInput");
 
-  // Delete workflow by API
-  async function deleteWorkflow(workflowId: string, event: Event) {
-    event.preventDefault();
-    // Show loading modal
-    modalTitle.innerText = "⏳ Processing...";
-    modalContent.innerText = "Workflow is deleting...";
-    confirmBtn.classList.toggle("hidden", true);
-    modal.showModal();
-    const response = await fetch(`/api/workflow/delete/${workflowId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (response.ok) {
-        console.log("Delete Success", response.statusText);
-        modalTitle.innerText = "🎉 Tida";
-        modalContent.innerText = "Workflow deleted successfully";
-        confirmBtn.classList.toggle("hidden", true);
-        modal.showModal();
-        loadPageData();
+  // Function of getting user info
+  async function getUserInfo() {
+    try{
+      const userInfo = await fetchUserDetails() as GetUserDetailsResponse;
+      console.log("User API Return Data>>>", userInfo)
+      usernameElement.textContent = userInfo.user.username;
+      planElement.textContent = userInfo.user.plan_type;
+      if(userInfo.user.plan_type === "Free"){
+        planstartElement.classList.toggle("hidden", true);
+        planexpireElement.classList.toggle("hidden", true);
       } else {
-        console.error("Failed to delete workflow", response.statusText);
-        modalTitle.innerText = "⚠️ Error";
-        modalContent.innerText =
-          "Failed to delete workflow. Please try again later.";
-        confirmBtn.classList.toggle("hidden", true);
-        modal.showModal();
+        planstartElement.classList.toggle("hidden", false);
+        planexpireElement.classList.toggle("hidden", false);
+        planstartElement.textContent = userInfo.user.plan_started_at;
+        planexpireElement.textContent = userInfo.user.plan_expired_at;
       }
-    });
-  }
-
-  // Load page data
-  async function loadPageData(page: number = 1) {
-    try {
-      const workflowsResponse = await fetchWorkflows(
-        page,
-        10,
-        undefined,
-        "yes",
-        "all"
-      );
-      updateUserWorkflowsTable(workflowsResponse);
-      updatePagination(
-        workflowsResponse.total,
-        workflowsResponse.page,
-        workflowsResponse.pageSize,
-        loadPageData,
-      );
-      // Bind click event to each workflow's mangae buttons
-      workflowTableBody.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-        const editButton = target.closest("button.edit") as HTMLButtonElement;
-        const updateButton = target.closest("button.update") as HTMLButtonElement;
-        const deleteButton = target.closest("button.delete") as HTMLButtonElement;
-        // click edit button action
-        if (editButton) {
-          event.stopPropagation(); // Prevent the event from bubbling up to the document
-          const workflowId = editButton.dataset.workflowId as string;
-          console.log("Clicked the edit button of", workflowId);
-          editMetaForm.dataset.workflowId = workflowId as string;
-          editModalTitle.innerText = "Edit Workflow Metadata";
-          // Fill in metadata
-          const editWorkflowName = document.getElementById(
-            "editWorkflowName",
-          ) as HTMLInputElement;
-          const editWorkflowAuthor = document.getElementById(
-            "editWorkflowAuthor",
-          ) as HTMLInputElement;
-          const editWorkflowAuthorLink = document.getElementById(
-            "editWorkflowAuthorLink",
-          ) as HTMLInputElement;
-          const editWorkflowDescription = document.getElementById(
-            "editWorkflowDescription",
-          ) as HTMLTextAreaElement;
-          const selectedTagsDiv = document.getElementById(
-            "selectedTags",
-          ) as HTMLDivElement;
-          const selectedTags = JSON.parse(
-            atob(target.dataset.workflowTags as string),
-          ) as string;
-          // Decode description base64
-          const descriptionStr = atob(target.dataset.workflowDescription as string);
-          const utf8Bytes = new Uint8Array(descriptionStr.length).map((_, i) => descriptionStr.charCodeAt(i));
-          const description = new TextDecoder().decode(utf8Bytes) as string;
-          const selectedTagsObject = JSON.parse(selectedTags) as string[];
-          // Get private toggle input
-          const privateToggle = document.getElementById("private") as HTMLInputElement;
-          // Get public alert
-          const publicAlert = document.getElementById("public-alert") as HTMLDivElement;
-          // Get private alert
-          const privateAlert = document.getElementById(
-            "private-alert",
-          ) as HTMLDivElement;
-          // console.log("Tags>>>>", selectedTags, "type of tags>>>", typeof selectedTags, "selectedTagsObject>>>", selectedTagsObject, "type of selectedTagsObject>>>", typeof selectedTagsObject)
-          editWorkflowName.value = target.dataset.workflowName as string;
-          editWorkflowAuthor.value = target.dataset.workflowAuthor as string;
-          editWorkflowAuthorLink.value = target.dataset
-            .workflowSocialLink as string;
-          editWorkflowDescription.value = description;
-          selectedTagsDiv.innerHTML = "";
-          // Add tags to the selectedTagsDiv
-          selectedTagsObject.forEach((tag) => {
-            const tagElement = document.createElement("span");
-            tagElement.classList.add("tag", "tag-sm");
-            tagElement.textContent = tag;
-            selectedTagsDiv.appendChild(tagElement);
-          });
-          // Set checked state for each tag
-          const dropdownTags = document.getElementById(
-            "dropdownTags",
-          ) as HTMLDivElement;
-          const checkboxes = dropdownTags.querySelectorAll(
-            "input[type='checkbox']",
-          ) as NodeListOf<HTMLInputElement>;
-          checkboxes.forEach((checkbox) => {
-            const tagName = checkbox.value;
-            if (selectedTagsObject.includes(tagName)) {
-              checkbox.checked = true;
-            }
-          });
-          // Private or Public
-          if (target.dataset.workflowPrivate === String(1)){
-            privateAlert.classList.toggle("hidden", false);
-            publicAlert.classList.toggle("hidden", true);
-            privateToggle.checked = true;
-          } else {
-            privateAlert.classList.toggle("hidden", true);
-            publicAlert.classList.toggle("hidden", false);
-            privateToggle.checked = false;
-          }
-          // Show the edit modal
-          updateConfirmBtn.classList.toggle("hidden", true);
-          editModalConfirmBtn.classList.toggle("hidden", false);
-          editMetaForm.classList.toggle("hidden", false);
-          updateForm.classList.toggle("hidden", true);
-          updateForm.classList.toggle("grid", false);
-          editModal.showModal();
-        }
-        // click update button action
-        if (updateButton) {
-          event.stopPropagation(); // Prevent the event from bubbling up to the document
-          const workflowVer = target.dataset.workflowVer;
-          const updateVersionInput = document.getElementById(
-            "updateVersionInput",
-          ) as HTMLInputElement;
-          const workflowId = updateButton.dataset.workflowId as string;
-          const originalWorkflowVersion = document.getElementById("originalWorkflowVersion") as HTMLInputElement;
-          const updateWorkflowName = document.getElementById("updateWorkflowName") as HTMLInputElement;
-          console.log("Clicked the update button of", workflowId, workflowVer);
-          updateForm.dataset.workflowId = workflowId as string;
-          updateWorkflowName.value = target.dataset.workflowName as string;
-          originalWorkflowVersion.value = workflowVer as string;
-          const expectVersion = (Number(workflowVer) + 0.1).toFixed(1);
-          updateVersionInput.value = String(expectVersion);
-          updateVersionInput.placeholder = String(expectVersion);
-          const editModalUpdateNote = document.getElementById(
-            "editModalUpdateNote",
-          ) as HTMLParagraphElement;
-          editModalUpdateNote.innerHTML = `⚠️ Note: The original latest version of this workflow is <span style="font-weight: bold;">${workflowVer}</span>, the updated version must be greater than it. Recommended: <span style="font-weight: bold;">${expectVersion}</span>.`;
-          editModalTitle.innerText = "Update Workflow Version";
-          editModalConfirmBtn.classList.toggle("hidden", true);
-          updateConfirmBtn.classList.toggle("hidden", false);
-          editMetaForm.classList.toggle("hidden", true);
-          updateForm.classList.toggle("hidden", false);
-          updateForm.classList.toggle("grid", true);
-          reactFlowPreview.classList.toggle("hidden", false);
-          editModal.showModal();
-        }
-        // click delete button action
-        if (deleteButton) {
-          event.stopPropagation(); // Prevent the event from bubbling up to the document
-          const workflowId = deleteButton.dataset.workflowId as string;
-          console.log("Clicked the delete button of", workflowId);
-          modalTitle.innerText = "🤔 Delect?";
-          modalContent.innerHTML = `Confirm to delete this workflow: <span class="font-bold">${target.dataset.workflowName}</span> and all its version records?`;
-          confirmBtn.textContent = "Delete";
-          confirmBtn.classList.toggle("btn-error", true);
-          confirmBtn.classList.toggle("hidden", false);
-          confirmBtn.removeEventListener("click", (event: Event) => {
-            deleteWorkflow(workflowId as string, event)
-          });
-          confirmBtn.addEventListener("click", (event: Event) => {
-            deleteWorkflow(workflowId as string, event)
-          });
-          modal.showModal();
-        }
-      });
-    } catch (error) {
+    } catch (error){
       if ((error as Error).message === "JWT Expired") {
         sessionStorage.removeItem("username");
         modalTitle.innerText = "😮 Oops...";
@@ -341,20 +137,18 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         });
         modal.showModal();
       } else {
-        console.error("Error loading page data:", error);
+        console.error("Error loading user data:", error);
         modalTitle.innerText = "⚠️ Error";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
-          "Failed to fetch workflows. Please Login again or check your connection.";
+          "Failed to fetch user data. Please Login again or check your connection.";
         modal.showModal();
       }
     }
   }
 
-  // 
-  (window as any).loadTableData = loadPageData;
 
   document.addEventListener("DOMContentLoaded", () => {
-    loadPageData(1);
+    getUserInfo();
   });
 </script>

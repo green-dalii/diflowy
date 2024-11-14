@@ -17,12 +17,14 @@ export interface GetWorkflowsResponse {
 }
 
 export interface GetUserDetailsResponse {
-    id: string;
-    username: string;
-    created_at: string;
-    plan_type: string;
-    plan_started_at: string;
-    plan_expired_at: string;
+    user: {
+        id: string;
+        username: string;
+        created_at: string;
+        plan_type: string;
+        plan_started_at: string;
+        plan_expired_at: string;
+    }
 }
 
 export interface Workspace {
@@ -157,11 +159,11 @@ export async function fetchWorkflows(
     if (response.status == 401) {
         console.error("JWT Expired");
         throw new Error("JWT Expired");
-    } else if (response.status === 403){
+    } else if (response.status === 403) {
         console.error("Forbidden to fetch workflows");
         throw new Error("Forbidden");
     }
-     else if (!response.ok) {
+    else if (!response.ok) {
         console.error("Failed to fetch workflows:", response.statusText);
         throw new Error("Failed to fetch workflows");
     }
@@ -210,11 +212,11 @@ export async function fetchUserDetails(): Promise<GetUserDetailsResponse> {
     if (response.status == 401) {
         console.error("JWT Expired");
         throw new Error("JWT Expired");
-    } else if (response.status === 404){
+    } else if (response.status === 404) {
         console.error("No User Found");
         throw new Error("Not Found");
     }
-     else if (!response.ok) {
+    else if (!response.ok) {
         console.error("Failed to fetch userinfo", response.statusText);
         throw new Error("Failed to fetch userinfo");
     }
@@ -228,11 +230,11 @@ export async function fetchUserWorkspaces(): Promise<string[]> {
     if (response.status == 401) {
         console.error("JWT Expired");
         throw new Error("JWT Expired");
-    } else if (response.status === 404){
+    } else if (response.status === 404) {
         console.error("No User Found");
         throw new Error("Not Found");
     }
-     else if (!response.ok) {
+    else if (!response.ok) {
         console.error("Failed to fetch userinfo", response.statusText);
         throw new Error("Failed to fetch userinfo");
     }

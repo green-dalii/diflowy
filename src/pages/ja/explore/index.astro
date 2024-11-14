@@ -58,9 +58,9 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       <div class="mt-14 text-center">
         <div class="join" id="pagination"></div>
       </div>
+      <UploadEntranceBelow />
     </Section>
   </div>
-  <UploadEntranceBelow />
 </MainLayout>
 
 <script>
@@ -69,7 +69,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     updatePagination,
     getTagsFromURL,
     fetchWorkflows,
-  } from "../../../utils/tools";
+  } from "../../utils/tools";
   import type { Workflow } from "../../../utils/tools";
 
   // Get the modal element
@@ -109,7 +109,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     workflowGrid.innerHTML = "";
     workflows.forEach((workflow) => {
       const workflowLink = document.createElement("a");
-      workflowLink.setAttribute("href", `/ja/explore/workflow?id=${workflow.id}`);
+      workflowLink.setAttribute("href", `/explore/workflow?id=${workflow.id}`);
       const workflowElement = document.createElement("div");
       let tags;
       try {

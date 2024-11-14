@@ -49,14 +49,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <span id="username">Loading...</span>
               </div>
               <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
-                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="editname">{t("user.editname")}</button>
+                <button class="btn-disabled btn w-full sm:w-auto py-2 text-sm" id="editname">{t("user.editname")}</button>
               </div>
               <div class="text-sm sm:col-span-2">
                 <span class="font-medium mr-2">{t("user.plannow")}:</span>
                 <span id="plan">Loading...</span>
               </div>
               <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
-                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>
+                <button class="btn-disabled btn w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>
               </div>
               <div class="text-sm col-span-full sm:col-span-1">
                 <span class="font-medium mr-2">{t("user.planstart")}:</span>
@@ -67,7 +67,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <span id="planexpire">Loading...</span>
               </div>
               <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
-                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="renewal">{t("user.renewalbtn")}</button>
+                <button class="btn-disabled btn w-full sm:w-auto py-2 text-sm" id="renewal">{t("user.renewalbtn")}</button>
               </div>
             </div>
           </div>
@@ -116,10 +116,17 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     try{
       const userInfo = await fetchUserDetails() as GetUserDetailsResponse;
       console.log("User API Return Data>>>", userInfo)
-      usernameElement.textContent = userInfo.username;
-      planElement.textContent = userInfo.plan_type;
-      planstartElement.textContent = userInfo.plan_started_at;
-      planexpireElement.textContent = userInfo.plan_expired_at;
+      usernameElement.textContent = userInfo.user.username;
+      planElement.textContent = userInfo.user.plan_type;
+      if(userInfo.user.plan_type === "Free"){
+        planstartElement.classList.toggle("hidden", true);
+        planexpireElement.classList.toggle("hidden", true);
+      } else {
+        planstartElement.classList.toggle("hidden", false);
+        planexpireElement.classList.toggle("hidden", false);
+        planstartElement.textContent = userInfo.user.plan_started_at;
+        planexpireElement.textContent = userInfo.user.plan_expired_at;
+      }
     } catch (error){
       if ((error as Error).message === "JWT Expired") {
         sessionStorage.removeItem("username");
