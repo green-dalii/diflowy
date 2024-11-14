@@ -24,7 +24,8 @@
         "privacypolicy": "Politique de confidentialité",
         "contactus": "Nous contacter",
         "difyofficial": "Dify officiel",
-        "resources": "Liens utiles"
+        "resources": "Liens utiles",
+        "pricing": "Tarification"
     },
     "hero": {
         "exploreWorkflows": "Explorer les Workflows",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "Blog officiel",
-        "description": "Ceci est l'endroit où le blog de la communauté Diflowy est publié. En plus du contenu officiel de Diflowy, nous vous invitons à partager vos contributions sur tout sujet relatif aux workflows (AI Workflow)."
+        "description": "Ceci est l'endroit où le blog de la communauté Diflowy est publié. En plus du contenu officiel de Diflowy, nous vous invitons à partager vos contributions sur tout sujet relatif aux workflows (AI Workflow).",
+        "multilang": "Cet article est également disponible en 👉 "
     },
     "aboutpage": {
         "title": "À propos de nous",
@@ -222,7 +224,23 @@
         "updateversion": "Numéro de version de cette mise à jour",
         "savebtn": "Enregistrer",
         "updatebtn": "Mettre à jour la version",
-        "closebtn": "Fermer"
+        "closebtn": "Fermer",
+        "accountinfo": "Informations du compte",
+        "username": "Nom d'utilisateur",
+        "editname": "Modifier le nom d'utilisateur",
+        "plannow": "Plan actuellement souscrit",
+        "upgrade": "Passer à un plan supérieur",
+        "planstart": "Date de début du plan souscrit",
+        "planexpire": "Date d'expiration du plan souscrit",
+        "renewalbtn": "Renouveler le plan",
+        "freeplan": "Plan gratuit",
+        "teamplan": "Plan pour équipe",
+        "businessplan": "Plan pour entreprise",
+        "availableworkspace": "Nombre d'espaces de travail disponibles actuellement",
+        "workspaceinfo": "Informations sur l'espace de travail",
+        "workspacename": "Nom de l'espace de travail",
+        "membercount": "Nombre de membres",
+        "hostedworkflow": "Flux de travail hébergés actuellement"
     },
     "notfound": {
         "title": "Page non trouvée",

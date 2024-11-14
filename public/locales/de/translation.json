@@ -24,7 +24,8 @@
         "privacypolicy": "Datenschutzrichtlinie",
         "contactus": "Kontaktieren Sie uns",
         "difyofficial": "Dify Offiziell",
-        "resources": "Ressourcen"
+        "resources": "Ressourcen",
+        "pricing": "Preisgestaltung"
     },
     "hero": {
         "exploreWorkflows": "Entdecken Sie Workflows",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "Offizieller Blog",
-        "description": "Hier finden Sie die Blog-Beiträge der Diflowy-Community. Neben offiziellen Inhalten von Diflowy freuen wir uns auch über Ihre Beiträge zum Thema AI Workflow."
+        "description": "Hier finden Sie die Blog-Beiträge der Diflowy-Community. Neben offiziellen Inhalten von Diflowy freuen wir uns auch über Ihre Beiträge zum Thema AI Workflow.",
+        "multilang": "Dieser Artikel ist auch in anderen Sprachen verfügbar 👉 "
     },
     "aboutpage": {
         "title": "Über uns",
@@ -222,7 +224,23 @@
         "updateversion": "Versionsnummer dieses Updates",
         "savebtn": "Speichern",
         "updatebtn": "Version aktualisieren",
-        "closebtn": "Schließen"
+        "closebtn": "Schließen",
+        "accountinfo": "Kontoinformationen",
+        "username": "Nutzername",
+        "editname": "Nutzernamen bearbeiten",
+        "plannow": "aktuelle Plan",
+        "upgrade": "Plan aktualisieren",
+        "planstart": "Planbeginn",
+        "planexpire": "Plaendezeitpunkt",
+        "renewalbtn": "Verlängern",
+        "freeplan": "Kostenloser Plan",
+        "teamplan": "Team-Plan",
+        "businessplan": "Geschäftsplan",
+        "availableworkspace": "Verfügbare Arbeitsbereiche",
+        "workspaceinfo": "Arbeitsbereichsinformationen",
+        "workspacename": "Arbeitsbereichsname",
+        "membercount": "Mitgliederzahl",
+        "hostedworkflow": "Gehostete Arbeitsabläufe"
     },
     "notfound": {
         "title": "Seite nicht gefunden",

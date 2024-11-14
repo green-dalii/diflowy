@@ -15,6 +15,8 @@ const blogCollection = defineCollection({
     heroImage: z.string(),
     heroImageAlt: z.string(),
     tags: z.array(z.string()),
+    lang: z.string(),
+    multiLanguage: z.array(reference('blog'))
   })
 });
 

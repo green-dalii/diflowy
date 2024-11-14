@@ -1,14 +1,14 @@
 ---
 import { changeLanguage, t } from "i18next";
-import MainLayout from "../../layouts/MainLayout.astro";
-import SectionTitle from "../../components/ui/SectionTitle.astro";
-import Section from "../../components/sections/Section.astro";
-import EditModal from "../../components/ui/EditModal.astro";
-import UploadEntranceBelow from "../../components/sections/UploadEntranceBelow.astro";
-import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
-import "../../styles/globals.css";
+import { localizePath } from "astro-i18next";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import Section from "../../../components/sections/Section.astro";
+import EditModal from "../../../components/ui/EditModal.astro";
+import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
+import "../../../styles/globals.css";
 
-changeLanguage("ko");
+changeLanguage("es");
 
 const description = t("user.description");
 const skeletonCount = 10;
@@ -36,39 +36,22 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         </div>
       </div>
       <div id="protected-content" style="display: none;">
-        <table class="table table-fixed w-full">
-          <thead>
-            <tr>
-              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12">{t("user.No")}</th>
-              <th class="text-wrap text-xs w-3/12 sm:w-3/12">{t("uploadpage.name")}</th>
-              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12">{t("user.lv")}</th>
-              <th class="text-wrap text-xs hidden sm:table-cell sm:w-1/12">{t("user.hm")}</th>
-              <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.meta")}</th>
-              <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.update")}</th>
-              <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.delete")}</th>
-            </tr>
-          </thead>
-          <tbody id="workflowTable">
-            <!-- Workflow rows will be dynamically replaced here -->
-            {
-              new Array(skeletonCount).fill(null).map((_) => (
-                <tr>
-                  <td class="hidden text-xs sm:table-cell sm:w-1/12">...</td>
-                  <td class="w-6/12 text-xs sm:3/12">Loading...</td>
-                  <td class="hidden text-xs sm:table-cell sm:w-1/12">...</td>
-                  <td class="hidden text-xs sm:table-cell sm:w-1/12">...</td>
-                  <td class="w-2/12 text-xs">...</td>
-                  <td class="w-2/12 text-xs">...</td>
-                  <td class="w-2/12 text-xs">...</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-        <div class="mt-14 text-center">
-          <div class="join" id="pagination"></div>
+        <div class="drawer lg:drawer-open">
+          <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+          <div class="drawer-content flex flex-col items-start justify-start sm:pl-8">
+            <!-- Workspace Management -->
+            
+          </div>
+          <div class="drawer-side sm:h-[70dvh]">
+            <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+            <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+              <!-- Sidebar content here -->
+              <li><a href={localizePath("/user")}>{t("user.accountinfo")}</a></li>
+              <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li>
+              <li><a href={localizePath("/user/host")}>{t("user.hostedworkflow")}</a></li>
+            </ul>
+          </div>
         </div>
-        <UploadEntranceBelow />
       </div>
       <EditModal />
     </Section>
@@ -76,8 +59,8 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 </MainLayout>
 
 <script>
-  import { updatePagination, fetchWorkflows, JWTError } from "../../utils/tools";
-  import type { Workflow, GetWorkflowsResponse } from "../../utils/tools";
+  import { updatePagination, fetchWorkflows, JWTError } from "../../../utils/tools";
+  import type { Workflow, GetWorkflowsResponse } from "../../../utils/tools";
 
   // Get the table body element
   const workflowTableBody = document.getElementById(
@@ -130,7 +113,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       const descriptionBase64 = btoa(String.fromCharCode.apply(null, descriptionByteArray));
       row.innerHTML = `
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
-        <td class="w-3/12 text-xs sm:3/12"><a href="/ko/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
+        <td class="w-3/12 text-xs sm:3/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.latestVersion}</td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private"}</td>
         <td class="w-3/12 sm:w-2/12">

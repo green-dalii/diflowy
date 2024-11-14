@@ -24,7 +24,8 @@
         "privacypolicy": "隱私政策",
         "contactus": "聯繫我們",
         "difyofficial": "Dify 官方",
-        "resources": "相關連結"
+        "resources": "相關連結",
+        "pricing": "價格"
     },
     "hero": {
         "exploreWorkflows": "探索工作流",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "官方博客",
-        "description": "這裡是Diflowy社區博客的發布平台，除了Diflowy官方內容外，我們也歡迎您投稿任何AI Workflow相關內容。"
+        "description": "這裡是Diflowy社區博客的發布平台，除了Diflowy官方內容外，我們也歡迎您投稿任何AI Workflow相關內容。",
+        "multilang": "本文也有其他可选语言 👉 "
     },
     "aboutpage": {
         "title": "關於我們",
@@ -222,7 +224,23 @@
         "updateversion": "本次更新的版本號",
         "savebtn": "儲存",
         "updatebtn": "更新版本",
-        "closebtn": "關閉"
+        "closebtn": "關閉",
+        "accountinfo": "帳戶資訊",
+        "username": "使用者名稱",
+        "editname": "編輯使用者名稱",
+        "plannow": "當前方案",
+        "upgrade": "升級方案",
+        "planstart": "方案生效時間",
+        "planexpire": "方案過期時間",
+        "renewalbtn": "續費",
+        "freeplan": "免費方案",
+        "teamplan": "團隊方案",
+        "businessplan": "商業方案",
+        "availableworkspace": "可用工作區數目",
+        "workspaceinfo": "工作區資料",
+        "workspacename": "工作區名稱",
+        "membercount": "成員數目",
+        "hostedworkflow": "已託管工作流程"
     },
     "notfound": {
         "title": "頁面未找到",

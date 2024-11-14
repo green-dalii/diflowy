@@ -24,7 +24,8 @@
         "privacypolicy": "Privacy Policy",
         "contactus": "Contact Us",
         "difyofficial": "Dify Official",
-        "resources": "Resources"
+        "resources": "Resources",
+        "pricing": "Pricing"
     },
     "hero": {
         "exploreWorkflows": "Explore Workflows",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "Official Blogs",
-        "description": "This is where the Diflowy community blogs are posted, and we welcome you to contribute any content about AI Workflows in addition to official Diflowy content."
+        "description": "This is where the Diflowy community blogs are posted, and we welcome you to contribute any content about AI Workflows in addition to official Diflowy content.",
+        "multilang": "This article is also available in 👉 "
     },
     "aboutpage": {
         "title": "About Us",

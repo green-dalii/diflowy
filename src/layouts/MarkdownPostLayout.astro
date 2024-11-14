@@ -1,4 +1,5 @@
 ---
+import { t } from "i18next";
 import MainLayout from "../layouts/MainLayout.astro";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
 // import { getCollection } from "astro:content";
@@ -7,12 +8,28 @@ import { Icon } from "astro-icon/components";
 import { getEntry, getEntries } from "astro:content";
 // const { Content, headings } = await entry.render();
 import "../styles/globals.css";
-const { frontmatter, relatedPosts } = Astro.props;
+const { frontmatter } = Astro.props;
 const images: Record<string, { default: ImageMetadata }> = import.meta.glob(
 	"/src/data/blog/*/*.{jpeg,jpg,png,gif}",
 	{ eager: true },
 );
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
+
+const languageMap = {
+	zh: "中文",
+	ja: "日本語",
+	en: "English",
+};
+
+// 生成语言链接对象
+const languageLinks = [] as { text: string; link: string }[];
+frontmatter.multiLanguage.forEach((blog: { slug: string }) => {
+	const langCode = blog.slug.split("-").pop();
+	const langText = languageMap[langCode as keyof typeof languageMap];
+	if (langText) {
+		languageLinks.push({ text: langText, link: `/blog/${blog.slug}` });
+	}
+});
 ---
 
 <MainLayout>
@@ -22,8 +39,31 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 			<!-- Blog Article -->
 			<div class="sm:py-30 mx-auto max-w-7xl px-0 pt-0">
 				<div class="grid gap-y-8 lg:grid-cols-5 lg:gap-y-0">
-					<!-- Content -->
 					<div class="lg:col-span-3 lg:col-start-2">
+						<!-- Multi Language Link -->
+						<div role="alert" class="alert">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								class="stroke-info h-6 w-6 shrink-0"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								></path>
+							</svg>
+							<span class="text-xs"
+								>{t("blogpage.multilang")}
+									{languageLinks.map((item) => {
+										return <a href={item.link} class="font-bold link mx-1">{item.text}</a>;
+									})}</span
+								>
+							</span>
+						</div>
+						<!-- Blog Content -->
 						<div class="py-8">
 							<div class="space-y-5 lg:space-y-8">
 								<!-- Hero Image -->
@@ -33,7 +73,9 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 									class="rounded-xl"
 								/>
 								<!-- Title -->
-								<h2 class="font-bold text-3xl lg:text-4xl leading-relaxed">
+								<h2
+									class="font-bold text-3xl lg:text-4xl leading-relaxed"
+								>
 									{frontmatter.title}
 								</h2>
 								<!-- Tag & Author & Date -->
@@ -41,14 +83,20 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 									<!-- Date -->
 									<div class="flex items-center gap-2">
 										<!-- <Icon name="mdi:clock" class="text-sm" /> -->
-										<p class="text-[--color-text-offset] text-xs">
-											{frontmatter.pubDate.toLocaleDateString()}
+										<p
+											class="text-[--color-text-offset] text-xs"
+										>
+											{
+												frontmatter.pubDate.toLocaleDateString()
+											}
 										</p>
 									</div>
 									<!-- Author -->
 									<div class="flex items-center gap-2">
 										<!-- <Icon name="mdi:account" class="text-sm" /> -->
-										<p class="text-[--color-text-offset] text-xs">
+										<p
+											class="text-[--color-text-offset] text-xs"
+										>
 											{frontmatter.author}
 										</p>
 									</div>
@@ -61,23 +109,29 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 										class="flex items-center gap-3 text-[--color-text-offset]"
 									>
 										<!-- <Icon name="mdi:tag-outline" /> -->
-										<div class="flex flex-row flex-wrap gap-2">
+										<div
+											class="flex flex-row flex-wrap gap-2"
+										>
 											{
-												frontmatter.tags.map((tag: string) => (
-													<a
-														class="badge items-center text-xs sm:text-sm"
-														href={`/blog/tags/${tag}`}
-													>
-														{tag}
-													</a>
-												))
+												frontmatter.tags.map(
+													(tag: string) => (
+														<a
+															class="badge items-center text-xs sm:text-sm"
+															href={`/blog/tags/${tag}`}
+														>
+															{tag}
+														</a>
+													),
+												)
 											}
 										</div>
 									</div>
 									<!-- End Badges/Tags -->
 								</div>
 								<!-- Article Content -->
-								<article class="prose prose-img:my-0 pt-10">
+								<article
+									class="prose prose-slate prose-li:text-sm lg:prose-xl dark:prose-invert prose-a:after:content-['_↗'] prose-img:rounded-xl pt-10"
+								>
 									<slot />
 								</article>
 							</div>

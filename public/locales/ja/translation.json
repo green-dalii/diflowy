@@ -24,7 +24,8 @@
         "privacypolicy": "個人情報保護方針",
         "contactus": "お問い合わせ",
         "difyofficial": "Dify 公式",
-        "resources": "リソースリンク"
+        "resources": "リソースリンク",
+        "pricing": "価格"
     },
     "hero": {
         "exploreWorkflows": "ワークフローを探索する",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "公式ブログ",
-        "description": "ここはDiflowyコミュニティブログの投稿場所です。Diflowy公式コンテンツに加えて、AI Workflowに関する記事も歓迎します。"
+        "description": "ここはDiflowyコミュニティブログの投稿場所です。Diflowy公式コンテンツに加えて、AI Workflowに関する記事も歓迎します。",
+        "multilang": "この記事は他の言語でもご覧いただけます 👉 "
     },
     "aboutpage": {
         "title": "Diflowyについて",
@@ -222,7 +224,23 @@
         "updateversion": "この更新のバージョン番号",
         "savebtn": "保存",
         "updatebtn": "バージョンを更新",
-        "closebtn": "閉じる"
+        "closebtn": "閉じる",
+        "accountinfo": "アカウント情報",
+        "username": "ニックネーム",
+        "editname": "ニックネームの編集",
+        "plannow": "現在のプラン",
+        "upgrade": "プランアップグレード",
+        "planstart": "プラン開始日時",
+        "planexpire": "プラン終了日時",
+        "renewalbtn": "プランを更新",
+        "freeplan": "無料プラン",
+        "teamplan": "チームプラン",
+        "businessplan": "ビジネスプラン",
+        "availableworkspace": "利用可能なワークスペース",
+        "workspaceinfo": "ワークスペース情報",
+        "workspacename": "ワークスペース名",
+        "membercount": "メンバー数",
+        "hostedworkflow": "ホスト済みワークフロー"
     },
     "notfound": {
         "title": "ページが見つかりません",

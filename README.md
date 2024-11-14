@@ -15,6 +15,7 @@ Diflowy is a vibrant community platform for Dify workflows where you can:
 - 🔗 Connect with global Dify enthusiasts
 - 🎨 Share your creative workflows
 - 🔍 Find workflows to scale your projects
+- 💾 Hosting your workflows
 
 ## 🌟 Features
 

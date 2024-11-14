@@ -115,6 +115,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   async function getUserInfo() {
     try{
       const userInfo = await fetchUserDetails() as GetUserDetailsResponse;
+      console.log("User API Return Data>>>", userInfo)
       usernameElement.textContent = userInfo.username;
       planElement.textContent = userInfo.plan_type;
       planstartElement.textContent = userInfo.plan_started_at;

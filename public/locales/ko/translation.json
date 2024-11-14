@@ -24,7 +24,8 @@
         "privacypolicy": "개인정보 보호 정책",
         "contactus": "연락하기",
         "difyofficial": "Dify 공식",
-        "resources": "링크 모음"
+        "resources": "링크 모음",
+        "pricing": "요금 정보"
     },
     "hero": {
         "exploreWorkflows": "워크플로우 탐색",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "공식 블로그",
-        "description": "여기가 Diflowy 커뮤니티 블로그 발행 장소로, Diflowy 공식 콘텐츠 외에도 AI Workflow에 관한 모든 내용을 투고 주시면 감사하겠습니다."
+        "description": "여기가 Diflowy 커뮤니티 블로그 발행 장소로, Diflowy 공식 콘텐츠 외에도 AI Workflow에 관한 모든 내용을 투고 주시면 감사하겠습니다.",
+        "multilang": "이 기사는 다른 언어로도 확인할 수 있습니다 👉 "
     },
     "aboutpage": {
         "title": "Diflowy 소개",
@@ -222,7 +224,23 @@
         "updateversion": "이번 업데이트 버전",
         "savebtn": "저장",
         "updatebtn": "버전 업데이트",
-        "closebtn": "닫기"
+        "closebtn": "닫기",
+        "accountinfo": "계정 정보",
+        "username": "닉네임",
+        "editname": "닉네임 변경",
+        "plannow": "현재 사용 중인 플랜",
+        "upgrade": "플랜 업그레이드",
+        "planstart": "플랜 시작일",
+        "planexpire": "플랜 만료일",
+        "renewalbtn": "갱신 버튼",
+        "freeplan": "무료 플랜",
+        "teamplan": "팀 플랜",
+        "businessplan": "비즈니스 플랜",
+        "availableworkspace": "사용 가능한 워크스페이스 개수",
+        "workspaceinfo": "워크스페이스 정보",
+        "workspacename": "워크스페이스 이름",
+        "membercount": "멤버 수",
+        "hostedworkflow": "호스팅된 워크플로우"
     },
     "notfound": {
         "title": "페이지를 찾을 수 없습니다",

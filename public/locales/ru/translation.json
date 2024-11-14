@@ -24,7 +24,8 @@
         "privacypolicy": "Политика конфиденциальности",
         "contactus": "Связаться с нами",
         "difyofficial": "Официальный Dify",
-        "resources": "Дружественные ссылки"
+        "resources": "Дружественные ссылки",
+        "pricing": "Тарифы"
     },
     "hero": {
         "exploreWorkflows": "Исследуйте рабочие процессы",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "Официальный блог",
-        "description": "Это место для публикации блога сообщества Diflowy. Помимо официального контента Diflowy, мы приветствуем ваши статьи по любым темам, связанным с AI Workflow."
+        "description": "Это место для публикации блога сообщества Diflowy. Помимо официального контента Diflowy, мы приветствуем ваши статьи по любым темам, связанным с AI Workflow.",
+        "multilang": "Эта статья также доступна на следующих языках 👉 "
     },
     "aboutpage": {
         "title": "О нас",
@@ -222,7 +224,23 @@
         "updateversion": "Номер версии этого обновления",
         "savebtn": "Сохранить",
         "updatebtn": "Обновить версию",
-        "closebtn": "Закрыть"
+        "closebtn": "Закрыть",
+        "accountinfo": "Informações da Conta",
+        "username": "Nome de Usuário",
+        "editname": "Editar Nome de Usuário",
+        "plannow": "Plano Atual",
+        "upgrade": "Atualizar Plano",
+        "planstart": "Data de Início do Plano",
+        "planexpire": "Data de Expiração do Plano",
+        "renewalbtn": "Renovar",
+        "freeplan": "Plano Gratuito",
+        "teamplan": "Plano de Equipe",
+        "businessplan": "Plano Comercial",
+        "availableworkspace": "Número de Workspaces Disponíveis",
+        "workspaceinfo": "Informações do Workspace",
+        "workspacename": "Nome do Workspace",
+        "membercount": "Número de Membros",
+        "hostedworkflow": "Fluxos de Trabalho Hospedados"
     },
     "notfound": {
         "title": "Страница не найдена",

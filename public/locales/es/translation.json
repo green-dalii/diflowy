@@ -24,7 +24,8 @@
         "privacypolicy": "Política de privacidad",
         "contactus": "Contáctanos",
         "difyofficial": "Oficial de Dify",
-        "resources": "Enlaces amistosos"
+        "resources": "Enlaces amistosos",
+        "pricing": "Precios"
     },
     "hero": {
         "exploreWorkflows": "Explora Workflows",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "Blog Oficial",
-        "description": "Este es el espacio de publicación del blog de la comunidad Diflowy. Además de contenido oficial de Diflowy, también le damos la bienvenida a enviar cualquier contenido relacionado con AI Workflow."
+        "description": "Este es el espacio de publicación del blog de la comunidad Diflowy. Además de contenido oficial de Diflowy, también le damos la bienvenida a enviar cualquier contenido relacionado con AI Workflow.",
+        "multilang": "Este artículo también está disponible en 👉 "
     },
     "aboutpage": {
         "title": "Acerca de nosotros",
@@ -222,7 +224,23 @@
         "updateversion": "Número de versión de esta actualización",
         "savebtn": "Guardar",
         "updatebtn": "Actualizar versión",
-        "closebtn": "Cerrar"
+        "closebtn": "Cerrar",
+        "accountinfo": "información de cuenta",
+        "username": "nombre de usuario",
+        "editname": "editar apodo",
+        "plannow": "plan actual",
+        "upgrade": "actualizar plan",
+        "planstart": "fecha de inicio del plan",
+        "planexpire": "fecha de vencimiento del plan",
+        "renewalbtn": "renovar",
+        "freeplan": "plan gratuito",
+        "teamplan": "plan de equipo",
+        "businessplan": "plan de negocio",
+        "availableworkspace": "espacios de trabajo disponibles",
+        "workspaceinfo": "información del espacio de trabajo",
+        "workspacename": "nombre del espacio de trabajo",
+        "membercount": "número de miembros",
+        "hostedworkflow": "flujos de trabajo alojados"
     },
     "notfound": {
         "title": "Página no encontrada",

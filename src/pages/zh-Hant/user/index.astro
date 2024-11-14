@@ -1,0 +1,154 @@
+---
+import { changeLanguage, t } from "i18next";
+import { localizePath } from "astro-i18next";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import Section from "../../../components/sections/Section.astro";
+import EditModal from "../../../components/ui/EditModal.astro";
+import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
+import "../../../styles/globals.css";
+
+changeLanguage("zh-Hant");
+
+const description = t("user.description");
+const skeletonCount = 10;
+const urlList = Astro.url.pathname.split("/").filter(Boolean);
+---
+
+<MainLayout
+  title={t("site.user")}
+  description={t("site.description")}
+>
+  <Breadcrumbs urlList={urlList} />
+  <div class="mt-20">
+    <Section>
+      <SectionTitle sectionTitle={t("user.title")} description={description} />
+      <div class="sm:grid sm:grid-cols-6 mt-40">
+        <div id="not-login" class="sm:col-start-3 sm:col-span-2 text-center">
+          <p class="text-sm">
+            {t("user.before")}
+          </p>
+          <a id="login-link" href="/login"
+            ><button class="btn-primary w-full py-2 my-10" id="login"
+              >{t("user.loginbtn")}</button
+            >
+          </a>
+        </div>
+      </div>
+      <div id="protected-content" style="display: none;">
+        <div class="drawer lg:drawer-open">
+          <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+          <div class="drawer-content flex flex-col items-start justify-start">
+            <!-- Accounts Management -->
+            <div class="sm:pl-8 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+              <div class="col-span-full pb-6">
+                <h3 class="font-bold">{t("user.accountinfo")}</h3>
+              </div>
+              <div class="col-span-full sm:col-span-2 text-sm">
+                <span class="font-medium mr-2">{t("user.username")}:</span>
+                <span id="username">Loading...</span>
+              </div>
+              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
+                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="editname">{t("user.editname")}</button>
+              </div>
+              <div class="text-sm sm:col-span-2">
+                <span class="font-medium mr-2">{t("user.plannow")}:</span>
+                <span id="plan">Loading...</span>
+              </div>
+              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
+                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>
+              </div>
+              <div class="text-sm col-span-full sm:col-span-1">
+                <span class="font-medium mr-2">{t("user.planstart")}:</span>
+                <span id="planstart">Loading...</span>
+              </div>
+              <div class="text-sm col-span-full sm:col-span-1">
+                <span class="font-medium mr-2">{t("user.planexpire")}:</span>
+                <span id="planexpire">Loading...</span>
+              </div>
+              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
+                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="renewal">{t("user.renewalbtn")}</button>
+              </div>
+            </div>
+          </div>
+          <div class="drawer-side sm:h-[70dvh]">
+            <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+            <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+              <!-- Sidebar content here -->
+              <li><a href={localizePath("/user")}>{t("user.accountinfo")}</a></li>
+              <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li>
+              <li><a href={localizePath("/user/host")}>{t("user.hostedworkflow")}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <EditModal />
+    </Section>
+  </div>
+</MainLayout>
+
+<script>
+  import { fetchUserDetails, JWTError } from "../../../utils/tools";
+  import type { GetUserDetailsResponse } from "../../../utils/tools";
+
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+  const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+
+  // Get User info elements
+  const usernameElement = document.getElementById("username") as HTMLSpanElement;
+  const planElement = document.getElementById("plan") as HTMLSpanElement;
+  const planstartElement = document.getElementById("planstart") as HTMLSpanElement;
+  const planexpireElement = document.getElementById("planexpire") as HTMLSpanElement;
+
+  // Get the edit name button and input field
+  const editNameBtn = document.getElementById("editname");
+  const editNameInput = document.getElementById("editnameInput");
+
+  // Function of getting user info
+  async function getUserInfo() {
+    try{
+      const userInfo = await fetchUserDetails() as GetUserDetailsResponse;
+      console.log("User API Return Data>>>", userInfo)
+      usernameElement.textContent = userInfo.username;
+      planElement.textContent = userInfo.plan_type;
+      planstartElement.textContent = userInfo.plan_started_at;
+      planexpireElement.textContent = userInfo.plan_expired_at;
+    } catch (error){
+      if ((error as Error).message === "JWT Expired") {
+        sessionStorage.removeItem("username");
+        modalTitle.innerText = "😮 Oops...";
+        modalContent.innerText = "Your login has expired, please login again!";
+        const confirmBtn = document.getElementById(
+          "confirmBtn",
+        ) as HTMLButtonElement;
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.toggle("btn-error", true);
+        confirmBtn.classList.toggle("hidden", false);
+        confirmBtn.addEventListener("click", (event: Event) => {
+          event.preventDefault();
+          window.location.href = "/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+        });
+        modal.showModal();
+      } else {
+        console.error("Error loading user data:", error);
+        modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "Failed to fetch user data. Please Login again or check your connection.";
+        modal.showModal();
+      }
+    }
+  }
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    getUserInfo();
+  });
+</script>

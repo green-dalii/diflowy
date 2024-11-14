@@ -33,7 +33,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
                     plan_started_at: userResult.plan_started_at,
                     plan_expired_at: userResult.plan_expired_at,
                 }
-                console.log("User API Return Data>>>", returnData)
+                // console.log("User API Return Data>>>", returnData)
                 return new Response(JSON.stringify({ user: returnData }), {
                     headers: { 'Content-Type': 'application/json' },
                     status: 200,

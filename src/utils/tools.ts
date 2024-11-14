@@ -209,5 +209,6 @@ export async function fetchUserDetails(): Promise<GetUserDetailsResponse> {
         console.error("Failed to fetch userinfo", response.statusText);
         throw new Error("Failed to fetch userinfo");
     }
+    console.log("Fetched User Info>>>", (await response.json()))
     return (await response.json()) as GetUserDetailsResponse;
 }

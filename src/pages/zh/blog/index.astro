@@ -6,11 +6,16 @@ import Section from "../../../components/sections/Section.astro";
 import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
 import BlogCard from "../../../components/ui/Blog-Card.astro";
 import { getCollection } from "astro:content";
-const allPosts = await getCollection("blog");
 import "../../../styles/globals.css";
 
 changeLanguage("zh");
 
+const allPosts = await getCollection("blog");
+const filteredPosts = allPosts.filter((post: {
+    data: {
+        lang: string;
+    };
+}) => post.data.lang === "zh");
 // 按日期倒序排序
 allPosts.sort((a: any, b: any) => {
     const dateA = new Date(a.data.pubDate).getTime();
@@ -29,7 +34,7 @@ const description = t("blogpage.description");
   <div class="mt-20">
     <Section>
       <SectionTitle sectionTitle={t("blogpage.title")} description={description} />
-      <BlogCard allPosts={allPosts}></BlogCard>
+      <BlogCard allPosts={filteredPosts}></BlogCard>
     </Section>
   </div>
 </MainLayout>

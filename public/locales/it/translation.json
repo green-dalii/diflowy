@@ -24,7 +24,8 @@
         "privacypolicy": "Politica sulla privacy",
         "contactus": "Contattaci",
         "difyofficial": "Dify ufficiale",
-        "resources": "Collegamenti utili"
+        "resources": "Collegamenti utili",
+        "pricing": "Tariffe"
     },
     "hero": {
         "exploreWorkflows": "Esplora Workflows",
@@ -160,7 +161,8 @@
     },
     "blogpage": {
         "title": "Blog Ufficiale",
-        "description": "Ecco la piattaforma del blog della comunità Diflowy. Oltre ai contenuti ufficiali di Diflowy, accettiamo anche i tuoi contributi su qualsiasi argomento relativo a AI Workflow."
+        "description": "Ecco la piattaforma del blog della comunità Diflowy. Oltre ai contenuti ufficiali di Diflowy, accettiamo anche i tuoi contributi su qualsiasi argomento relativo a AI Workflow.",
+        "multilang": "Questo articolo è anche disponibile in 👉 "
     },
     "aboutpage": {
         "title": "Chi siamo",
@@ -222,7 +224,23 @@
         "updateversion": "Numero di versione di questo aggiornamento",
         "savebtn": "Salva",
         "updatebtn": "Aggiorna versione",
-        "closebtn": "Chiudi"
+        "closebtn": "Chiudi",
+        "accountinfo": "Dettagli account",
+        "username": "Nome utente",
+        "editname": "Modifica il nome utente",
+        "plannow": "Piano attuale",
+        "upgrade": "Aggiorna il piano",
+        "planstart": "Data di inizio piano",
+        "planexpire": "Data di scadenza piano",
+        "renewalbtn": "Rinnova",
+        "freeplan": "Piano gratuito",
+        "teamplan": "Piano team",
+        "businessplan": "Piano business",
+        "availableworkspace": "Numero di workspace disponibili",
+        "workspaceinfo": "Dettagli workspace",
+        "workspacename": "Nome workspace",
+        "membercount": "Numero di membri",
+        "hostedworkflow": "Flussi di lavoro ospitati"
     },
     "notfound": {
         "title": "Pagina non trovata",
