@@ -58,15 +58,15 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
                 <button class="btn-disabled btn w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>
               </div>
-              <div class="text-sm col-span-full sm:col-span-1">
+              <div class="text-sm col-span-full sm:col-span-1 notfree hidden">
                 <span class="font-medium mr-2">{t("user.planstart")}:</span>
                 <span id="planstart">Loading...</span>
               </div>
-              <div class="text-sm col-span-full sm:col-span-1">
+              <div class="text-sm col-span-full sm:col-span-1 notfree hidden">
                 <span class="font-medium mr-2">{t("user.planexpire")}:</span>
                 <span id="planexpire">Loading...</span>
               </div>
-              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
+              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1 notfree hidden">
                 <button class="btn-disabled btn w-full sm:w-auto py-2 text-sm" id="renewal">{t("user.renewalbtn")}</button>
               </div>
             </div>
@@ -107,6 +107,9 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   const planstartElement = document.getElementById("planstart") as HTMLSpanElement;
   const planexpireElement = document.getElementById("planexpire") as HTMLSpanElement;
 
+  // Get notfree elements
+  const notfree = document.querySelectorAll('.notfree');
+
   // Get the edit name button and input field
   const editNameBtn = document.getElementById("editname");
   const editNameInput = document.getElementById("editnameInput");
@@ -119,11 +122,13 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       usernameElement.textContent = userInfo.user.username;
       planElement.textContent = userInfo.user.plan_type;
       if(userInfo.user.plan_type === "FREE"){
-        planstartElement.classList.toggle("hidden", true);
-        planexpireElement.classList.toggle("hidden", true);
+        notfree.forEach(element => {
+          element.classList.toggle("hidden", true);
+        });
       } else {
-        planstartElement.classList.toggle("hidden", false);
-        planexpireElement.classList.toggle("hidden", false);
+        notfree.forEach(element => {
+          element.classList.toggle("hidden", false);
+        });
         planstartElement.textContent = userInfo.user.plan_started_at;
         planexpireElement.textContent = userInfo.user.plan_expired_at;
       }
