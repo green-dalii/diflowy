@@ -76,7 +76,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
             <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
               <!-- Sidebar content here -->
               <li><a href={localizePath("/user")}>{t("user.accountinfo")}</a></li>
-              <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li>
+              <!-- <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li> -->
               <li><a href={localizePath("/user/host")}>{t("user.hostedworkflow")}</a></li>
             </ul>
           </div>
@@ -118,7 +118,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       console.log("User API Return Data>>>", userInfo)
       usernameElement.textContent = userInfo.user.username;
       planElement.textContent = userInfo.user.plan_type;
-      if(userInfo.user.plan_type === "Free"){
+      if(userInfo.user.plan_type === "FREE"){
         planstartElement.classList.toggle("hidden", true);
         planexpireElement.classList.toggle("hidden", true);
       } else {

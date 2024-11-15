@@ -185,7 +185,7 @@
         "rm5": "v0.1.3, Implementación de autenticación OAuth de Google y inicio de sesión por Email",
         "rm6": "Añadida la función de resumen de AI para Workflows",
         "rm7": "Añadida la función de búsqueda y filtrado",
-        "rm8": "Aplicación del estilo oficial de Workflow de Dify",
+        "rm8": "v0.1.4, Aplicación del estilo oficial de Workflow de Dify",
         "rm9": "Cualquier sugerencia adicional es bienvenida en nuestras GitHub Discussions",
         "rm10": "Añadir soporte de colaboración en el espacio de trabajo para usuarios avanzados"
     },

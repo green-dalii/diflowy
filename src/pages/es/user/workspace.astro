@@ -69,7 +69,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
             <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
               <!-- Sidebar content here -->
               <li><a href={localizePath("/user")}>{t("user.accountinfo")}</a></li>
-              <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li>
+              <!-- <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li> -->
               <li><a href={localizePath("/user/host")}>{t("user.hostedworkflow")}</a></li>
             </ul>
           </div>
