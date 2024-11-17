@@ -3,6 +3,21 @@ import Footer from "../components/ui/Footer.astro";
 import Navbar from "../components/ui/Navbar.astro";
 import MainHead from "./MainHead.astro";
 import i18next from "i18next";
+import defaultConfig from "../../astro-i18next.config.mjs";
+
+// Get the user's preferred language
+const userLanguage = navigator.language || navigator.languages[0];
+const supportedLanguages = defaultConfig.locales;
+
+// Get the user's preferred language short code
+const userLanguageShort = userLanguage.split('-')[0];
+
+// Check if the user's preferred language is supported
+if (supportedLanguages.includes(userLanguageShort)) {
+  i18next.changeLanguage(userLanguageShort);
+} else {
+  i18next.changeLanguage('en');
+}
 
 const { ...props } = Astro.props;
 ---
