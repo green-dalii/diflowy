@@ -50,9 +50,9 @@ const { ...props } = Astro.props;
   function detectAndRedirect() {
 
     type SupportedLang = 'en' | 'zh' | 'zh-Hant' | 'ja' | 'ko' | 'fr' | 'pt' | 'es' | 'de' | 'it' | 'ru' | 'ar' ;
-
+    const DEFAULT_LANG: SupportedLang = 'en';
     const supportedLanguages: Record<SupportedLang, string> = {
-      'en': '/en',
+      'en': '',
       'zh': '/zh',
       "zh-Hant": "/zh-Hant",
       "ja": "/ja",
@@ -66,15 +66,27 @@ const { ...props } = Astro.props;
       "ar": "/ar"
     };
 
-    const languagePrefixes = Object.values(supportedLanguages);
+    // Extract all language prefixes from the supportedLanguages object
+    const languagePrefixes = Object.values(supportedLanguages).filter(prefix => prefix !== '');
 
+    // Get the current path, query string, and hash
     const currentPath = window.location.pathname;
     const queryString = window.location.search;
     const hash = window.location.hash;
+
+    // Check if the current path starts with a supported language prefix
     if (languagePrefixes.some(prefix => currentPath.startsWith(prefix))) {
       return;
     }
 
+    // Check if the current path starts with '/en/' and redirect to the new path
+    if (currentPath.startsWith('/en/')) {
+      const newPath = currentPath.replace('/en', '') + queryString + hash;
+      window.location.href = newPath;
+      return;
+    }
+
+    // Check if the current path starts with '/' and redirect to the new path
     const browserLang = navigator.languages
       ? navigator.languages[0]
       : (navigator.language);
@@ -84,17 +96,25 @@ const { ...props } = Astro.props;
     function isSupportedLanguage(lang: string): lang is SupportedLang {
       return Object.keys(supportedLanguages).includes(lang);
     }
-
+    
     if (isSupportedLanguage(shortLang)) {
       const newPrefix = supportedLanguages[shortLang];
-      const newPath = `${newPrefix}${currentPath === '/' ? '' : currentPath}${queryString}${hash}`;
-      if (newPath !== currentPath + queryString + hash) {
+      // if current path is the default language, return
+      if (shortLang === DEFAULT_LANG && !languagePrefixes.some(prefix => currentPath.startsWith(prefix))) {
+        return;
+      }
+      // make new path
+      const newPath = `${newPrefix}${currentPath}${queryString}${hash}`;
+      const currentFullPath = currentPath + queryString + hash;
+      if (newPath !== currentFullPath) {
         window.location.href = newPath;
       }
     } else {
-      if (!currentPath.startsWith('/en')) {
-        const defaultPath = `/en${currentPath === '/' ? '' : currentPath}${queryString}${hash}`;
-        window.location.href = defaultPath;
+      // if isn't supported language, check if current path is the default language, return
+      if (languagePrefixes.some(prefix => currentPath.startsWith(prefix))) {
+        // if has other prefix, remove it
+        const pathWithoutPrefix = currentPath.replace(/^\/[a-z]{2}/, '');
+        window.location.href = pathWithoutPrefix + queryString + hash;
       }
     }
   }

@@ -22,7 +22,6 @@ export async function onRequest(context: { request: Request; env: Env }) {
         // get cookie
         const cookie = request.headers.get('cookie');
         const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
-        // console.log("User API JWT>>>", jwt)
         if (!jwt) {
             return new Response(JSON.stringify({ user: null, workspace: null }), {
                 headers: { 'Content-Type': 'application/json' },
@@ -66,7 +65,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
                 }));
                 workspaceData = workspaces;                
             }
-            
+            console.log("User API Response>>>", userData, "Workspace API Response>>>", workspaceData)
             return new Response(JSON.stringify({ user: userData, workspace: workspaceData }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 200,
