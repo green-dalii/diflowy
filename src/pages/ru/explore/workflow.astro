@@ -18,7 +18,7 @@ const privateAlert = t("workflow.privatealert");
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
-<MainLayout title={t("site.workflow")} description={t("site.ddescription")}>
+<MainLayout title={t("site.workflow")} description={description}>
   <Breadcrumbs urlList={urlList} />
   <div class="mt-20">
     <Section>
