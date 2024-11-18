@@ -3,21 +3,6 @@ import Footer from "../components/ui/Footer.astro";
 import Navbar from "../components/ui/Navbar.astro";
 import MainHead from "./MainHead.astro";
 import i18next from "i18next";
-import defaultConfig from "../../astro-i18next.config.mjs";
-
-// Get the user's preferred language
-const userLanguage = navigator.language || navigator.languages[0];
-const supportedLanguages = defaultConfig.locales;
-
-// Get the user's preferred language short code
-const userLanguageShort = userLanguage.split('-')[0];
-
-// Check if the user's preferred language is supported
-if (supportedLanguages.includes(userLanguageShort)) {
-  i18next.changeLanguage(userLanguageShort);
-} else {
-  i18next.changeLanguage('en');
-}
 
 const { ...props } = Astro.props;
 ---
@@ -50,6 +35,7 @@ const { ...props } = Astro.props;
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     setDocumentDirection();
+    detectAndRedirect();
   });
 
   function setDocumentDirection() {
@@ -60,6 +46,57 @@ const { ...props } = Astro.props;
       document.documentElement.dir = "ltr";
     }
   }
+
+  function detectAndRedirect() {
+
+    type SupportedLang = 'en' | 'zh' | 'zh-Hant' | 'ja' | 'ko' | 'fr' | 'pt' | 'es' | 'de' | 'it' | 'ru' | 'ar' ;
+
+    const supportedLanguages: Record<SupportedLang, string> = {
+      'en': '/en',
+      'zh': '/zh',
+      "zh-Hant": "/zh-Hant",
+      "ja": "/ja",
+      "ko": "/ko",
+      "fr": "/fr",
+      "pt": "/pt",
+      "es": "/es",
+      "de": "/de",
+      "it": "/it",
+      "ru": "/ru",
+      "ar": "/ar"
+    };
+
+    const languagePrefixes = Object.values(supportedLanguages);
+
+    const currentPath = window.location.pathname;
+    if (languagePrefixes.some(prefix => currentPath.startsWith(prefix))) {
+      return;
+    }
+
+    const browserLang = navigator.languages
+      ? navigator.languages[0]
+      : (navigator.language);
+    
+    const shortLang = browserLang.substring(0, 2).toLowerCase();
+    
+    function isSupportedLanguage(lang: string): lang is SupportedLang {
+      return Object.keys(supportedLanguages).includes(lang);
+    }
+
+    if (isSupportedLanguage(shortLang)) {
+      const newPrefix = supportedLanguages[shortLang];
+      const newPath = `${newPrefix}${currentPath === '/' ? '' : currentPath}`;
+      if (newPath !== currentPath) {
+        window.location.href = newPath;
+      }
+    } else {
+      if (!currentPath.startsWith('/en')) {
+        const defaultPath = `/en${currentPath === '/' ? '' : currentPath}`;
+        window.location.href = defaultPath;
+      }
+    }
+  }
+  window.addEventListener('languagechange', setDocumentDirection);
 </script>
 <!-- Cloudflare Web Analytics -->
 <script
