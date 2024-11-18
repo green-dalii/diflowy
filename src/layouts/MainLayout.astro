@@ -69,6 +69,8 @@ const { ...props } = Astro.props;
     const languagePrefixes = Object.values(supportedLanguages);
 
     const currentPath = window.location.pathname;
+    const queryString = window.location.search;
+    const hash = window.location.hash;
     if (languagePrefixes.some(prefix => currentPath.startsWith(prefix))) {
       return;
     }
@@ -85,13 +87,13 @@ const { ...props } = Astro.props;
 
     if (isSupportedLanguage(shortLang)) {
       const newPrefix = supportedLanguages[shortLang];
-      const newPath = `${newPrefix}${currentPath === '/' ? '' : currentPath}`;
-      if (newPath !== currentPath) {
+      const newPath = `${newPrefix}${currentPath === '/' ? '' : currentPath}${queryString}${hash}`;
+      if (newPath !== currentPath + queryString + hash) {
         window.location.href = newPath;
       }
     } else {
       if (!currentPath.startsWith('/en')) {
-        const defaultPath = `/en${currentPath === '/' ? '' : currentPath}`;
+        const defaultPath = `/en${currentPath === '/' ? '' : currentPath}${queryString}${hash}`;
         window.location.href = defaultPath;
       }
     }
