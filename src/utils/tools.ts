@@ -30,9 +30,19 @@ export interface GetUserDetailsResponse {
 export interface Workspace {
     id: string;
     workspace_name: string;
+    owner_id: string;
+    created_at: string;
 }
 
 export interface GetWorkspacesResponse {
+    user: {
+        id: string;
+        username: string;
+        created_at: string;
+        plan_type: string;
+        plan_started_at: string;
+        plan_expired_at: string;
+    };
     workspaces: Workspace[];
 }
 
@@ -225,7 +235,7 @@ export async function fetchUserDetails(): Promise<GetUserDetailsResponse> {
 
 // Get User Workspace info
 export async function fetchUserWorkspaces(): Promise<string[]> {
-    const url = new URL("/api/user/workspaces", window.location.origin);
+    const url = new URL("/api/user/workspace", window.location.origin);
     const response = await fetch(url.toString());
     if (response.status == 401) {
         console.error("JWT Expired");

@@ -252,7 +252,9 @@
         "administrator": "Administrator",
         "member": "Member",
         "guest": "Guest",
-        "removemember": "Remove Member"
+        "removemember": "Remove Member",
+        "isadmin": "Is Administrator",
+        "joinedworkspace": "Joined Workspace"
     },
     "notfound": {
         "title": "Oooops!",

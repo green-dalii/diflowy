@@ -16,7 +16,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
             });
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-        console.log("User API Payload>>>", payload)
+        // console.log("User API Payload>>>", payload)
         // Parse query parameters
         const url = new URL(request.url);
         const detail = url.searchParams.get('detail');
