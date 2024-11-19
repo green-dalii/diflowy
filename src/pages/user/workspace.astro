@@ -4,7 +4,7 @@ import { localizePath } from "astro-i18next";
 import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
-import EditModal from "../../components/ui/EditModal.astro";
+import WorkspaceEditModal from "../../components/ui/WorkspaceEditModal.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import "../../styles/globals.css";
 
@@ -55,7 +55,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <span class="font-medium mr-2">{t("user.workspacequota")}:</span>
               </div>
               <div class="col-span-2 sm:col-span-1">
-                <progress id="workspacequata" class="progress progress-primary w-full" value="10" max="100"></progress>
+                <progress id="workspacequata" class="progress progress-primary w-full" value="0" max="100"></progress>
               </div>
               <div class="text-sm col-span-1 sm:col-span-1">
                 <span id="workspacequataVal">-</span> / <span id="workspacequataMaxVal">-</span>
@@ -64,7 +64,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <span class="font-medium mr-2">{t("user.memberquota")}:</span>
               </div>
               <div class="col-span-2 sm:col-span-1">
-                <progress id="memberquata" class="progress progress-primary w-full" value="10" max="100"></progress>
+                <progress id="memberquata" class="progress progress-primary w-full" value="0" max="100"></progress>
               </div>
               <div class="text-sm col-span-1 sm:col-span-1">
                 <span id="memberquataVal">-</span> / <span id="memberquataMaxVal">-</span>
@@ -75,15 +75,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <span class="font-medium mr-2">{t("user.joinedworkspace")}</span>
               </div>
               <div class="pb-6 sm:pb-0 col-span-1">
-                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">Create workspaces</button>
+                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="createWokspaceBtn">Create workspaces</button>
               </div>
               <table class="table table-fixed w-full col-span-full">
                 <thead>
                   <tr>
-                    <th class="text-wrap text-xs sm:table-cell sm:w-4/12">{t("user.workspacename")}</th>
+                    <th class="text-wrap text-xs sm:table-cell sm:w-6/12">{t("user.workspacename")}</th>
                     <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.isadmin")}</th>
-                    <th class="text-wrap text-xs sm:table-cell sm:w-2/12">{t("user.basicsetting")}</th>
-                    <th class="text-wrap text-xs sm:table-cell sm:w-2/12">{t("user.membermangement")}</th>
+                    <th class="text-wrap text-xs sm:table-cell sm:w-2/12">{t("user.management")}</th>
                     <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.dissolveworkspace")}</th>
                   </tr>
                 </thead>
@@ -92,9 +91,8 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                   {
                     new Array(skeletonCount).fill(null).map((_) => (
                       <tr>
-                        <td class="text-xs sm:table-cell sm:w-4/12">Loading...</td>
+                        <td class="text-xs sm:table-cell sm:w-6/12">Loading...</td>
                         <td class="text-xs sm:2/12">-</td>
-                        <td class="text-xs sm:table-cell sm:w-2/12">-</td>
                         <td class="text-xs sm:table-cell sm:w-2/12">-</td>
                         <td class="text-xs sm:w-2/12">-</td>
                       </tr>
@@ -115,7 +113,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           </div>
         </div>
       </div>
-      <EditModal />
+      <WorkspaceEditModal />
     </Section>
   </div>
 </MainLayout>
@@ -134,6 +132,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
 
+  // Get Edit modal element
+  const editModal = document.getElementById("editModal") as HTMLDialogElement;
+  const editModalTitle = document.getElementById(
+    "editModalTitle",
+  ) as HTMLHeadingElement;
+  const createConfirmBtn = document.getElementById("createConfirmBtn") as HTMLButtonElement; 
+  const editConfirmBtn = document.getElementById("editConfirmBtn") as HTMLButtonElement;
+
   // Get User info elements
   const planElement = document.getElementById("plan") as HTMLSpanElement;
   const workspaceQuata = document.getElementById("workspacequata") as HTMLProgressElement;
@@ -142,6 +148,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   const memberQuataVal = document.getElementById("memberquataVal") as HTMLSpanElement;
   const workspaceQuataMaxVal = document.getElementById("workspacequataMaxVal") as HTMLSpanElement;
   const memberQuataMaxVal = document.getElementById("memberquataMaxVal") as HTMLSpanElement;
+  const createWokspaceBtn = document.getElementById("createWokspaceBtn") as HTMLButtonElement;
 
   // Get the edit name button and input field
   const editNameBtn = document.getElementById("editname");
@@ -150,10 +157,13 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   // Get workspace table
   const workspaceTable = document.getElementById("workspaceTable") as HTMLTableElement;
 
+  // Get Member Container element
+  const memberContainer = document.getElementById("memberContainer") as HTMLDivElement;
+  
   // Function of getting user info
   async function getWorkspaceInfo() {
     try{
-      const { user, workspacesObject } = await fetchUserWorkspaces() as unknown as GetWorkspacesResponse;
+      const { user, workspacesObject } = await fetchUserWorkspaces() as GetWorkspacesResponse;
       console.log("User API Return Data>>>", user, "Workspaces API Return Data>>>", workspacesObject);
       planElement.textContent = user.plan_type;
       if (user.plan_type === "TEAM") {
@@ -187,6 +197,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         memberQuata.value = 0;
         memberQuataVal.textContent = "0";
       }
+      // if workspaces quata is full, disable create workspace button
+      if (workspacesObject.managed.total >= workspaceQuata.max) {
+        createWokspaceBtn.disabled = true;
+        createWokspaceBtn.classList.toggle("btn-disabled", true);
+      } else {
+        createWokspaceBtn.disabled = false;
+        createWokspaceBtn.classList.toggle("btn-disabled", false);
+      }
       // Get joined workspace table
       workspacesObject.joined.workspaces.forEach((workspaces: JoinedWorkspace) => {
         workspaceTable.innerHTML = "";
@@ -219,13 +237,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     }
   }
 
-  // Create workspace by API
-
-
-  // Update workspace by API
-  // Delete workspace by API
-
   document.addEventListener("DOMContentLoaded", () => {
     getWorkspaceInfo();
+    // Add event listener to create workspace button
+    createWokspaceBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      memberContainer.classList.toggle("hidden", true);
+      createConfirmBtn.classList.toggle("hidden", false);
+      editModal.showModal();
+    });
   });
 </script>

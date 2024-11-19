@@ -1,0 +1,332 @@
+---
+import { t } from "i18next";
+---
+
+<dialog id="editModal" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box sm:w-11/12 sm:max-w-5xl">
+    <h3 id="editModalTitle" class="text-lg font-bold">{t("user.management")}</h3>
+    <div id="editModalContent" class="py-4 text-sm">
+      <!-- Edit Metadata Form -->
+      <form id="editMetaForm" class="grid grid-cols-2 gap-4">
+        <!-- Row 1 -->
+        <div class="col-span-full flex flex-col gap-2">
+          <div class="form-control w-full sm:w-1/2">
+            <div class="label">
+              <span class="label-text"
+                >{t("user.workspacename")}<sup class="ml-1 text-red-500">*</sup
+                ></span
+              >
+            </div>
+            <input
+              id="workspaceName"
+              name="workspaceName"
+              type="text"
+              class="input input-bordered w-full"
+              required="required"
+            />
+          </div>
+        </div>
+        <!-- Row 2 -->
+        <div id="memberContainer" class="form-control col-span-full flex flex-col gap-2">
+          <div class="label">
+            <span class="label-text"
+              >{t("user.membermangement")}</span
+            >
+          </div>
+          <table class="table table-fixed w-full col-span-full">
+            <thead>
+              <tr>
+                <th class="text-wrap text-xs sm:table-cell sm:w-6/12">{t("user.username")}</th>
+                <th class="text-wrap text-xs w-3/12 sm:w-3/12">{t("user.role")}</th>
+                <th class="text-wrap text-xs sm:table-cell sm:w-3/12">{t("user.removemember")}</th>
+              </tr>
+            </thead>
+            <tbody id="workspaceTable">
+              <!-- Workspace rows will be dynamically replaced here -->
+              {
+                new Array(1).fill(null).map((_) => (
+                  <tr>
+                    <td class="text-xs sm:table-cell sm:w-6/12">Loading...</td>
+                    <td class="text-xs sm:3/12">-</td>
+                    <td class="text-xs sm:table-cell sm:w-3/12">-</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button id="editConfirmBtn" class="hidden btn btn-success">{t("user.savebtn")}</button>
+        <button id="createConfirmBtn" class="hidden btn btn-success"
+          >{t("user.createbtn")}</button
+        >
+        <button id="closeEditModalBtn" class="btn">{t("user.closebtn")}</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Utility functions
+  const showModal = (
+    title: string,
+    content: string,
+    showConfirmBtn: boolean = false,
+    btnText: string = "OK",
+    btnClass: string = "",
+  ) => {
+    modalTitle.innerText = title;
+    modalContent.innerText = content;
+    confirmBtn.classList.toggle("hidden", !showConfirmBtn);
+    confirmBtn.textContent = btnText;
+    confirmBtn.className = `btn ${btnClass}`;
+    modal.showModal();
+  };
+
+  const clearForm = (form: HTMLFormElement) => {
+    form.reset();
+    const selectedTagsTree = document.getElementById("selectedTags");
+    if (selectedTagsTree) selectedTagsTree.innerHTML = "";
+  };
+
+  const handleNetworkError = (error: Error) => {
+    console.error("Network error:", error);
+    showModal(
+      "😮 Oops...",
+      "Your network is unreachable. Please check your internet connection and try again.",
+    );
+  };
+
+  // Handle unauthorized access
+  const handleUnauthorized = () => {
+    showModal(
+      "😮 Oops...",
+      "Your login has expired, please login again!",
+      true,
+      "Login again",
+      "btn-error",
+    );
+    confirmBtn.addEventListener(
+      "click",
+      () => {
+        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+      },
+      { once: true },
+    );
+  };
+
+  // Validation function
+  const validateFormData = (formData: FormData): boolean => {
+    // Implement your validation logic here
+    // Return true if valid, false otherwise
+    return true; // Placeholder
+  };
+
+  // Close Edit Modal function
+  const closeEditModal = () => {
+    clearForm(editMetaForm);
+    editModal.close();
+  };
+
+  // Form submission handler
+  const handleFormSubmit = async (
+    event: Event,
+    form: HTMLFormElement,
+    url: string,
+    successMessage: string,
+  ) => {
+    event.preventDefault();
+    showModal("⏳ Processing...", "Uploading data...");
+
+    const formData = new FormData(form);
+
+    // Validate form data
+    if (!validateFormData(formData)) {
+      showModal("😮 Oops", "Please fill out all required fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch(url, { method: "POST", body: formData });
+
+      if (response.ok) {
+        showModal("🎉 Success!", successMessage);
+        clearForm(form);
+        (window as any).loadTableData(); // Reload the table data
+        editModal.close();
+      } else if (response.status === 401) {
+        handleUnauthorized();
+      } else {
+        throw new Error("Server error");
+      }
+    } catch (error) {
+      handleNetworkError(error as Error);
+    }
+  };
+
+  // Get the modal element
+  const modal = document.getElementById("modal") as HTMLDialogElement;
+  const modalTitle = document.getElementById(
+    "modalTitle",
+  ) as HTMLHeadingElement;
+  const modalContent = document.getElementById(
+    "modalContent",
+  ) as HTMLDivElement;
+  const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+  // Get form element
+  const editMetaForm = document.getElementById(
+    "editMetaForm",
+  ) as HTMLFormElement;
+  const editModalConfirmBtn = document.getElementById(
+    "editConfirmBtn",
+  ) as HTMLButtonElement;
+  const createConfirmBtn = document.getElementById(
+    "createConfirmBtn",
+  ) as HTMLButtonElement;
+  const closeEditModalBtn = document.getElementById(
+    "closeEditModalBtn",
+  ) as HTMLButtonElement;
+  const editModal = document.getElementById("editModal") as HTMLDialogElement;
+
+  // Create woorkspace function
+  async function createWorkspace(event: Event) {
+    event.preventDefault();
+    // Show loading modal
+    showModal("⏳ Processing...", "Creating workspace...");
+    // Get form data
+    const formData = new FormData(editMetaForm) as FormData;
+    // Check if all required fields are filled
+    if (!formData.get("workspaceName")){
+      showModal("😮 Oops", "Please fill out all required fields.");
+    } else {
+      try {
+        const response = await fetch("/api/user/workspace/create", {
+          method: "POST",
+          body: formData,
+        });
+        if (response.ok) {
+          console.log("Response>>>", response.json());
+          // close the edit modal
+          closeEditModal();
+          showModal("🎉 Success!", "Create workspace successful!");
+          (window as any).loadTableData(); // Reload the table data
+        } else if (response.status === 401) {
+          // close the edit modal
+          closeEditModal();
+          handleUnauthorized();
+        } else {
+          // close the edit modal
+          closeEditModal();
+          showModal("😮 Oops...", "Something went wrong in remote server. Please cantact us.");
+        }
+      } catch (error) {
+        console.error('Error in Create Workspace>>>', error);
+        // close the edit modal
+        closeEditModal();
+        handleNetworkError(error as Error);
+      }
+    }
+  }
+
+  // Upload Edit Meta Data of Workflow Form
+  async function handleEditMetaSubmit(event: Event) {
+    event.preventDefault();
+    // Show loading modal
+    showModal("⏳ Processing...", "Uploading data...");
+    // Get workflowId
+    const workflowId = editMetaForm.dataset.workflowId as string;
+    // Get form data
+    const formData = new FormData(editMetaForm) as FormData;
+    const selectedTags = document.querySelectorAll(
+      ".tag",
+    ) as NodeListOf<HTMLElement>;
+    // Append data in formData
+    const editWorkflowName = document.getElementById(
+      "editWorkflowName",
+    ) as HTMLInputElement;
+    const editWorkflowDescription = document.getElementById(
+      "editWorkflowDescription",
+    ) as HTMLTextAreaElement;
+    const editWorkflowAuthor = document.getElementById(
+      "editWorkflowAuthor",
+    ) as HTMLInputElement;
+    const editWorkflowAuthorLink = document.getElementById(
+      "editWorkflowAuthorLink",
+    ) as HTMLInputElement;
+    // const privateToggle = document.getElementById(
+    //   "private",
+    // ) as HTMLInputElement;
+    formData.append("editWorkflowName", editWorkflowName.value);
+    formData.append("editWorkflowDescription", editWorkflowDescription.value);
+    formData.append("editWorkflowAuthor", editWorkflowAuthor.value);
+    formData.append("editWorkflowAuthorLink", editWorkflowAuthorLink.value);
+    // formData.append("isPrivate", privateToggle.value);
+    // Check if all required fields are filled
+    if (
+      !formData.get("editWorkflowName") ||
+      !formData.get("editWorkflowDescription") ||
+      !formData.get("editWorkflowAuthor") ||
+      !formData.get("editWorkflowAuthorLink") ||
+      selectedTags.length === 0
+    ) {
+      showModal("😮 Oops", "Please fill out all required fields.");
+      return;
+    }
+    // Add the selected tags to the form data
+    const selectedTagsTree = document.getElementById("selectedTags");
+    const tags: string[] = [];
+    selectedTags.forEach((tag) => {
+      tags.push(tag.textContent as string);
+    });
+    formData.append("tags", JSON.stringify(tags));
+    // Send form data to the server
+    try {
+      const response = await fetch(`/api/workflow/edit/${workflowId}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        console.log("Response>>>", response.json());
+        // close the edit modal
+        closeEditModal();
+        showModal("🎉 Success!", "Upload meta data successful!");
+        (window as any).loadTableData(); // Reload the table data
+      } else if (response.status === 401) {
+        // close the edit modal
+        closeEditModal();
+        handleUnauthorized();
+      } else {
+        // close the edit modal
+        closeEditModal();
+        showModal(
+          "😮 Oops...",
+          "Something went wrong in remote server. Please cantact us.",
+        );
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // close the edit modal
+      closeEditModal();
+      handleNetworkError(error as Error);
+    }
+  }
+
+
+  // Add event listener to the document
+  document.addEventListener("DOMContentLoaded", () => {
+    // Add event listener to the confirm button
+    editModalConfirmBtn.addEventListener("click", handleEditMetaSubmit);
+    // Add event listener to create workspcae button
+    createConfirmBtn.addEventListener("click", createWorkspace)
+    // Add event listener to the close button
+    closeEditModalBtn.addEventListener("click", (event: Event) => {
+      event.preventDefault();
+      console.log("Edit Modal Close button clicked");
+      closeEditModal();
+    });
+  });
+</script>

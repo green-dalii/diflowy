@@ -252,7 +252,7 @@ export async function fetchUserDetails(): Promise<GetUserDetailsResponse> {
 }
 
 // Get User Workspace info
-export async function fetchUserWorkspaces(): Promise<string[]> {
+export async function fetchUserWorkspaces(): Promise<GetWorkspacesResponse> {
     const url = new URL("/api/user/workspace", window.location.origin);
     const response = await fetch(url.toString());
     if (response.status == 401) {
@@ -266,5 +266,5 @@ export async function fetchUserWorkspaces(): Promise<string[]> {
         console.error("Failed to fetch userinfo", response.statusText);
         throw new Error("Failed to fetch userinfo");
     }
-    return (await response.json()) as string[];
+    return (await response.json()) as GetWorkspacesResponse;
 }

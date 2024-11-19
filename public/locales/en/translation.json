@@ -248,13 +248,15 @@
         "membermangement": "Member Management",
         "dissolveworkspace": "Dissolve Workspace",
         "currentwprkspace": "Current Workspace",
-        "rolemanagement": "Role Management",
+        "management": "Workspace Management",
         "administrator": "Administrator",
         "member": "Member",
         "guest": "Guest",
         "removemember": "Remove Member",
         "isadmin": "Is Administrator",
-        "joinedworkspace": "Joined Workspace"
+        "joinedworkspace": "Joined Workspace",
+        "role": "Role",
+        "createbtn": "Create Workspace"
     },
     "notfound": {
         "title": "Oooops!",
