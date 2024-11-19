@@ -82,12 +82,12 @@ export async function onRequest(context: { request: Request; env: Env }) {
                 };            
             }
             console.log("User API Response>>>", userData, "Workspace API Response>>>", workspaceData)
-            return new Response(JSON.stringify({ user: userData, workspace: workspaceData }), {
+            return new Response(JSON.stringify({ user: userData, workspacesObject: workspaceData }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 200,
             });
         } else {
-            return new Response(JSON.stringify({ user: null, workspace: null }), {
+            return new Response(JSON.stringify({ user: null, workspacesObject: { joined: null, managed: null } }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 404,
             });
@@ -96,12 +96,12 @@ export async function onRequest(context: { request: Request; env: Env }) {
         console.error("Error in verifying User>>>", error);
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
-            return new Response(JSON.stringify({ user: null, workspace: null }), {
+            return new Response(JSON.stringify({ user: null, workspacesObject: { joined: null, managed: null } }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 401,
             });
         } else {
-            return new Response(JSON.stringify({ user: null, workspace: null }), {
+            return new Response(JSON.stringify({ user: null, workspacesObject: { joined: null, managed: null } }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 500,
             });
