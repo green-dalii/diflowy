@@ -6,14 +6,13 @@ interface Workspace {
     id: string;
     name: string;
     owner_id: string;
+    role: string;
     created_at: string;
 }
 
-interface WorkspaceMembers {
-    user_id: string;
-    workspace_id: string;
-    role: string;
-    joined_at: string;
+interface WorkspaceResponse {
+    workspaces: Workspace[];
+    total: number;
 }
 
 export async function onRequest(context: { request: Request; env: Env }) {
@@ -32,12 +31,8 @@ export async function onRequest(context: { request: Request; env: Env }) {
 
         // Query Database for user workspace details
         const userQuery = `SELECT * FROM users WHERE id =?`;
-        const workspaceMembersQuery = `
-                                        SELECT w.* 
-                                        FROM workspaces w
-                                        JOIN workspace_members wm ON w.id = wm.workspace_id
-                                        WHERE wm.user_id = ?
-                                    `;
+        const workspaceMembersQuery = `SELECT w.*, wm.role FROM workspaces w JOIN workspace_members wm ON w.id = wm.workspace_id WHERE wm.user_id = ?`;
+        const managedWorkspacesQuery = `SELECT w.*, COUNT(wm.user_id) AS member_count, SUM(COUNT(wm.user_id)) OVER () AS total_member_count FROM workspaces w LEFT JOIN workspace_members wm ON w.id = wm.workspace_id WHERE w.owner_id = ? GROUP BY w.id`;
         const userResult = await context.env.D1.prepare(userQuery).bind(payload.id).first();
         if(userResult){
             const userData = {
@@ -55,15 +50,36 @@ export async function onRequest(context: { request: Request; env: Env }) {
             } else {
                 // If user plan is not FREE, query workspaces info
                 const workspaceMembersResult = await context.env.D1.prepare(workspaceMembersQuery).bind(payload.id).all();
-
+                // Query managed workspaces with member count
+                const managedWorkspacesResult = await context.env.D1.prepare(managedWorkspacesQuery).bind(payload.id).all();
                 // Get all workspaces info of user joined in
-                const workspaces: Workspace[] = (workspaceMembersResult.results as any[]).map(row => ({
-                    id: row.id,
-                    name: row.name,
-                    owner_id: row.owner_id,
-                    created_at: row.created_at,
-                }));
-                workspaceData = workspaces;                
+                const workspaces: WorkspaceResponse = {
+                    workspaces: (workspaceMembersResult.results as any[]).map(row => ({
+                        id: row.id,
+                        name: row.name,
+                        owner_id: row.owner_id,
+                        role: row.role,
+                        created_at: row.created_at,
+                    })),
+                    total: workspaceMembersResult.results.length,
+                };
+
+                // Get all managed workspaces info with member count
+                const managedWorkspaces = {
+                    workspaces: (managedWorkspacesResult.results as any[]).map(row => ({
+                        id: row.id,
+                        name: row.name,
+                        owner_id: row.owner_id,
+                        created_at: row.created_at,
+                        member_count: row.member_count, // Include the member count
+                    })),
+                    total: managedWorkspacesResult.results[0]?.total_member_count || 0
+                };
+                // Return both joined and managed workspaces
+                workspaceData = {
+                    joined: workspaces,
+                    managed: managedWorkspaces,
+                };            
             }
             console.log("User API Response>>>", userData, "Workspace API Response>>>", workspaceData)
             return new Response(JSON.stringify({ user: userData, workspace: workspaceData }), {

@@ -27,11 +27,20 @@ export interface GetUserDetailsResponse {
     }
 }
 
-export interface Workspace {
+export interface JoinedWorkspace {
+    id: string;
+    workspace_name: string;
+    owner_id: string;
+    role: string;
+    created_at: string;
+}
+
+export interface ManagedWorkspaces {
     id: string;
     workspace_name: string;
     owner_id: string;
     created_at: string;
+    member_count: number;
 }
 
 export interface GetWorkspacesResponse {
@@ -43,7 +52,16 @@ export interface GetWorkspacesResponse {
         plan_started_at: string;
         plan_expired_at: string;
     };
-    workspaces: Workspace[];
+    workspacesObject: {
+        joined: {
+            workspaces: JoinedWorkspace[];
+            total: number;
+        };
+        managed: {
+            workspaces: ManagedWorkspaces[];
+            total: number;
+        };
+    }
 }
 
 // 自定义错误类

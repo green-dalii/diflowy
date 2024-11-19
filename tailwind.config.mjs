@@ -11,6 +11,7 @@ export default {
         medium: 500,
       },
       colors: {
+        primary: "var(--dark)",
         blue: "var(--blue)",
         black: "var(--black)",
         dark: "var(--dark)",
@@ -37,4 +38,14 @@ export default {
     require("daisyui"),
     require('@tailwindcss/typography'),
   ],
+  daisyui: {
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["light"],
+          primary: "#007fe6",
+        },
+      },
+    ],
+  },
 };

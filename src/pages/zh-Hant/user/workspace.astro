@@ -11,7 +11,7 @@ import "../../../styles/globals.css";
 changeLanguage("zh-Hant");
 
 const description = t("user.description");
-const skeletonCount = 10;
+const skeletonCount = 1;
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
@@ -39,12 +39,12 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         <div class="drawer lg:drawer-open">
           <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
           <div class="drawer-content flex flex-col items-start justify-start">
-            <!-- Accounts Management -->
+            <!-- Workspace Quota -->
             <div class="sm:pl-8 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
               <div class="col-span-full pb-6">
                 <h3 class="font-bold">{t("user.workspaceinfo")}</h3>
               </div>
-              <div class="text-sm sm:col-span-2">
+              <div class="text-sm col-span-full sm:col-span-2">
                 <span class="font-medium mr-2">{t("user.plannow")}:</span>
                 <span id="plan">Loading...</span>
               </div>
@@ -52,16 +52,56 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>
               </div>
               <div class="text-sm col-span-full sm:col-span-1">
-                <span class="font-medium mr-2">{t("user.planstart")}:</span>
-                <span id="planstart">Loading...</span>
+                <span class="font-medium mr-2">{t("user.workspacequota")}:</span>
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <progress id="workspacequata" class="progress progress-primary w-full" value="10" max="100"></progress>
+              </div>
+              <div class="text-sm col-span-1 sm:col-span-1">
+                <span id="workspacequataVal">-</span> / <span id="workspacequataMaxVal">-</span>
               </div>
               <div class="text-sm col-span-full sm:col-span-1">
-                <span class="font-medium mr-2">{t("user.planexpire")}:</span>
-                <span id="planexpire">Loading...</span>
+                <span class="font-medium mr-2">{t("user.memberquota")}:</span>
               </div>
-              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
-                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="renewal">{t("user.renewalbtn")}</button>
+              <div class="col-span-2 sm:col-span-1">
+                <progress id="memberquata" class="progress progress-primary w-full" value="10" max="100"></progress>
               </div>
+              <div class="text-sm col-span-1 sm:col-span-1">
+                <span id="memberquataVal">-</span> / <span id="memberquataMaxVal">-</span>
+              </div>
+              <div class="divider col-span-full"></div>
+              <!-- Workspace List -->
+              <div class="text-sm col-span-2">
+                <span class="font-medium mr-2">{t("user.joinedworkspace")}</span>
+              </div>
+              <div class="pb-6 sm:pb-0 col-span-1">
+                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">Create workspaces</button>
+              </div>
+              <table class="table table-fixed w-full col-span-full">
+                <thead>
+                  <tr>
+                    <th class="text-wrap text-xs sm:table-cell sm:w-4/12">{t("user.workspacename")}</th>
+                    <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.isadmin")}</th>
+                    <th class="text-wrap text-xs sm:table-cell sm:w-2/12">{t("user.basicsetting")}</th>
+                    <th class="text-wrap text-xs sm:table-cell sm:w-2/12">{t("user.membermangement")}</th>
+                    <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.dissolveworkspace")}</th>
+                  </tr>
+                </thead>
+                <tbody id="workspaceTable">
+                  <!-- Workspace rows will be dynamically replaced here -->
+                  {
+                    new Array(skeletonCount).fill(null).map((_) => (
+                      <tr>
+                        <td class="text-xs sm:table-cell sm:w-4/12">Loading...</td>
+                        <td class="text-xs sm:2/12">-</td>
+                        <td class="text-xs sm:table-cell sm:w-2/12">-</td>
+                        <td class="text-xs sm:table-cell sm:w-2/12">-</td>
+                        <td class="text-xs sm:w-2/12">-</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="drawer-side sm:h-[70dvh]">
@@ -69,7 +109,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
             <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
               <!-- Sidebar content here -->
               <li><a href={localizePath("/user")}>{t("user.accountinfo")}</a></li>
-              <!-- <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li> -->
+              <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li>
               <li><a href={localizePath("/user/host")}>{t("user.hostedworkflow")}</a></li>
             </ul>
           </div>
@@ -81,8 +121,8 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 </MainLayout>
 
 <script>
-  import { fetchUserDetails, JWTError } from "../../../utils/tools";
-  import type { GetUserDetailsResponse } from "../../../utils/tools";
+  import type { GetWorkspacesResponse, JoinedWorkspace } from "../../../utils/tools";
+  import { fetchUserWorkspaces, JWTError } from "../../../utils/tools";
 
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
@@ -95,31 +135,63 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
 
   // Get User info elements
-  const usernameElement = document.getElementById("username") as HTMLSpanElement;
   const planElement = document.getElementById("plan") as HTMLSpanElement;
-  const planstartElement = document.getElementById("planstart") as HTMLSpanElement;
-  const planexpireElement = document.getElementById("planexpire") as HTMLSpanElement;
+  const workspaceQuata = document.getElementById("workspacequata") as HTMLProgressElement;
+  const memberQuata = document.getElementById("memberquata") as HTMLProgressElement;
+  const workspaceQuataVal = document.getElementById("workspacequataVal") as HTMLSpanElement;
+  const memberQuataVal = document.getElementById("memberquataVal") as HTMLSpanElement;
+  const workspaceQuataMaxVal = document.getElementById("workspacequataMaxVal") as HTMLSpanElement;
+  const memberQuataMaxVal = document.getElementById("memberquataMaxVal") as HTMLSpanElement;
 
   // Get the edit name button and input field
   const editNameBtn = document.getElementById("editname");
   const editNameInput = document.getElementById("editnameInput");
 
+  // Get workspace table
+  const workspaceTable = document.getElementById("workspaceTable") as HTMLTableElement;
+
   // Function of getting user info
-  async function getUserInfo() {
+  async function getWorkspaceInfo() {
     try{
-      const userInfo = await fetchUserDetails() as GetUserDetailsResponse;
-      console.log("User API Return Data>>>", userInfo)
-      usernameElement.textContent = userInfo.user.username;
-      planElement.textContent = userInfo.user.plan_type;
-      if(userInfo.user.plan_type === "Free"){
-        planstartElement.classList.toggle("hidden", true);
-        planexpireElement.classList.toggle("hidden", true);
+      const { user, workspacesObject } = await fetchUserWorkspaces() as unknown as GetWorkspacesResponse;
+      console.log("User API Return Data>>>", user, "Workspaces API Return Data>>>", workspacesObject);
+      planElement.textContent = user.plan_type;
+      if (user.plan_type === "TEAM") {
+        // Team plan
+        workspaceQuata.max = 1;
+        workspaceQuataMaxVal.textContent = "1";
+        workspaceQuata.value = workspacesObject.managed.total || 0;
+        workspaceQuataVal.textContent = String(workspacesObject.managed.total) || "0";
+        memberQuata.max = 10;
+        memberQuataMaxVal.textContent = "10";
+        memberQuata.value = workspacesObject.joined.total || 0;
+        memberQuataVal.textContent = String(workspacesObject.joined.total) || "0";
+      } else if (user.plan_type === "ENTERPRISE") {
+        // Enterprise plan
+        workspaceQuata.max = 10;
+        workspaceQuataMaxVal.textContent = "10";
+        workspaceQuata.value = workspacesObject.managed.total || 0;
+        workspaceQuataVal.textContent = String(workspacesObject.managed.total) || "0";
+        memberQuata.max = 100;
+        memberQuataMaxVal.textContent = "100";
+        memberQuata.value = workspacesObject.joined.total || 0;
+        memberQuataVal.textContent = String(workspacesObject.joined.total) || "0";
       } else {
-        planstartElement.classList.toggle("hidden", false);
-        planexpireElement.classList.toggle("hidden", false);
-        planstartElement.textContent = userInfo.user.plan_started_at;
-        planexpireElement.textContent = userInfo.user.plan_expired_at;
+        // Free plan
+        workspaceQuata.max = 0;
+        workspaceQuataMaxVal.textContent = "0";
+        workspaceQuata.value = 0;
+        workspaceQuataVal.textContent = "0";
+        memberQuata.max = 0;
+        memberQuataMaxVal.textContent = "0";
+        memberQuata.value = 0;
+        memberQuataVal.textContent = "0";
       }
+      // Get joined workspace table
+      workspacesObject.joined.workspaces.forEach((workspaces: JoinedWorkspace) => {
+        workspaceTable.innerHTML = "";
+        console.log("Workspaces>>>", workspaces);
+      });
     } catch (error){
       if ((error as Error).message === "JWT Expired") {
         sessionStorage.removeItem("username");
@@ -137,18 +209,23 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         });
         modal.showModal();
       } else {
-        console.error("Error loading user data:", error);
+        console.error("Error loading workspace data:", error);
         modalTitle.innerText = "⚠️ Error";
         confirmBtn.classList.toggle("hidden", true);
         modalContent.innerText =
-          "Failed to fetch user data. Please Login again or check your connection.";
+          "Failed to fetch workspace data. Please Login again or check your connection.";
         modal.showModal();
       }
     }
   }
 
+  // Create workspace by API
+
+
+  // Update workspace by API
+  // Delete workspace by API
 
   document.addEventListener("DOMContentLoaded", () => {
-    getUserInfo();
+    getWorkspaceInfo();
   });
 </script>

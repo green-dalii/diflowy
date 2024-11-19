@@ -11,7 +11,7 @@ import "../../styles/globals.css";
 changeLanguage("en");
 
 const description = t("user.description");
-const skeletonCount = 5;
+const skeletonCount = 1;
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
@@ -55,19 +55,19 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <span class="font-medium mr-2">{t("user.workspacequota")}:</span>
               </div>
               <div class="col-span-2 sm:col-span-1">
-                <progress class="progress w-full" value="10" max="100"></progress>
+                <progress id="workspacequata" class="progress progress-primary w-full" value="10" max="100"></progress>
               </div>
-              <div class="col-span-1 sm:col-span-1">
-                <span class="text-sm">0 / 1</span>
+              <div class="text-sm col-span-1 sm:col-span-1">
+                <span id="workspacequataVal">-</span> / <span id="workspacequataMaxVal">-</span>
               </div>
               <div class="text-sm col-span-full sm:col-span-1">
                 <span class="font-medium mr-2">{t("user.memberquota")}:</span>
               </div>
               <div class="col-span-2 sm:col-span-1">
-                <progress class="progress w-full" value="10" max="100"></progress>
+                <progress id="memberquata" class="progress progress-primary w-full" value="10" max="100"></progress>
               </div>
-              <div class="col-span-1 sm:col-span-1">
-                <span class="text-sm">0 / 1</span>
+              <div class="text-sm col-span-1 sm:col-span-1">
+                <span id="memberquataVal">-</span> / <span id="memberquataMaxVal">-</span>
               </div>
               <div class="divider col-span-full"></div>
               <!-- Workspace List -->
@@ -77,7 +77,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               <div class="pb-6 sm:pb-0 col-span-1">
                 <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">Create workspaces</button>
               </div>
-              <table class="table table-fixed w-full col-span-full" id="hostingTable">
+              <table class="table table-fixed w-full col-span-full">
                 <thead>
                   <tr>
                     <th class="text-wrap text-xs sm:table-cell sm:w-4/12">{t("user.workspacename")}</th>
@@ -87,16 +87,16 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                     <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.dissolveworkspace")}</th>
                   </tr>
                 </thead>
-                <tbody id="workflowTable">
-                  <!-- Workflow rows will be dynamically replaced here -->
+                <tbody id="workspaceTable">
+                  <!-- Workspace rows will be dynamically replaced here -->
                   {
                     new Array(skeletonCount).fill(null).map((_) => (
                       <tr>
-                        <td class="hidden text-xs sm:table-cell sm:w-4/12">Loading...</td>
-                        <td class="w-6/12 text-xs sm:2/12">-</td>
+                        <td class="text-xs sm:table-cell sm:w-4/12">Loading...</td>
+                        <td class="text-xs sm:2/12">-</td>
                         <td class="text-xs sm:table-cell sm:w-2/12">-</td>
                         <td class="text-xs sm:table-cell sm:w-2/12">-</td>
-                        <td class="w-2/12 text-xs">-</td>
+                        <td class="text-xs sm:w-2/12">-</td>
                       </tr>
                     ))
                   }
@@ -121,7 +121,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 </MainLayout>
 
 <script>
-  import type { GetWorkspacesResponse } from "../../utils/tools";
+  import type { GetWorkspacesResponse, JoinedWorkspace } from "../../utils/tools";
   import { fetchUserWorkspaces, JWTError } from "../../utils/tools";
 
   // Get the modal element
@@ -135,31 +135,63 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
 
   // Get User info elements
-  const usernameElement = document.getElementById("username") as HTMLSpanElement;
   const planElement = document.getElementById("plan") as HTMLSpanElement;
-  const planstartElement = document.getElementById("planstart") as HTMLSpanElement;
-  const planexpireElement = document.getElementById("planexpire") as HTMLSpanElement;
+  const workspaceQuata = document.getElementById("workspacequata") as HTMLProgressElement;
+  const memberQuata = document.getElementById("memberquata") as HTMLProgressElement;
+  const workspaceQuataVal = document.getElementById("workspacequataVal") as HTMLSpanElement;
+  const memberQuataVal = document.getElementById("memberquataVal") as HTMLSpanElement;
+  const workspaceQuataMaxVal = document.getElementById("workspacequataMaxVal") as HTMLSpanElement;
+  const memberQuataMaxVal = document.getElementById("memberquataMaxVal") as HTMLSpanElement;
 
   // Get the edit name button and input field
   const editNameBtn = document.getElementById("editname");
   const editNameInput = document.getElementById("editnameInput");
 
+  // Get workspace table
+  const workspaceTable = document.getElementById("workspaceTable") as HTMLTableElement;
+
   // Function of getting user info
   async function getWorkspaceInfo() {
     try{
-      const { user, workspaces } = await fetchUserWorkspaces() as unknown as GetWorkspacesResponse;
-      console.log("User API Return Data>>>", user, "Workspaces API Return Data>>>", workspaces);
-      // usernameElement.textContent = user.username;
-      // planElement.textContent = user.plan_type;
-      if(user.plan_type === "Free"){
-        // planstartElement.classList.toggle("hidden", true);
-        // planexpireElement.classList.toggle("hidden", true);
+      const { user, workspacesObject } = await fetchUserWorkspaces() as unknown as GetWorkspacesResponse;
+      console.log("User API Return Data>>>", user, "Workspaces API Return Data>>>", workspacesObject);
+      planElement.textContent = user.plan_type;
+      if (user.plan_type === "TEAM") {
+        // Team plan
+        workspaceQuata.max = 1;
+        workspaceQuataMaxVal.textContent = "1";
+        workspaceQuata.value = workspacesObject.managed.total || 0;
+        workspaceQuataVal.textContent = String(workspacesObject.managed.total) || "0";
+        memberQuata.max = 10;
+        memberQuataMaxVal.textContent = "10";
+        memberQuata.value = workspacesObject.joined.total || 0;
+        memberQuataVal.textContent = String(workspacesObject.joined.total) || "0";
+      } else if (user.plan_type === "ENTERPRISE") {
+        // Enterprise plan
+        workspaceQuata.max = 10;
+        workspaceQuataMaxVal.textContent = "10";
+        workspaceQuata.value = workspacesObject.managed.total || 0;
+        workspaceQuataVal.textContent = String(workspacesObject.managed.total) || "0";
+        memberQuata.max = 100;
+        memberQuataMaxVal.textContent = "100";
+        memberQuata.value = workspacesObject.joined.total || 0;
+        memberQuataVal.textContent = String(workspacesObject.joined.total) || "0";
       } else {
-        // planstartElement.classList.toggle("hidden", false);
-        // planexpireElement.classList.toggle("hidden", false);
-        // planstartElement.textContent = user.plan_started_at;
-        // planexpireElement.textContent = user.plan_expired_at;
+        // Free plan
+        workspaceQuata.max = 0;
+        workspaceQuataMaxVal.textContent = "0";
+        workspaceQuata.value = 0;
+        workspaceQuataVal.textContent = "0";
+        memberQuata.max = 0;
+        memberQuataMaxVal.textContent = "0";
+        memberQuata.value = 0;
+        memberQuataVal.textContent = "0";
       }
+      // Get joined workspace table
+      workspacesObject.joined.workspaces.forEach((workspaces: JoinedWorkspace) => {
+        workspaceTable.innerHTML = "";
+        console.log("Workspaces>>>", workspaces);
+      });
     } catch (error){
       if ((error as Error).message === "JWT Expired") {
         sessionStorage.removeItem("username");
@@ -187,6 +219,11 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     }
   }
 
+  // Create workspace by API
+
+
+  // Update workspace by API
+  // Delete workspace by API
 
   document.addEventListener("DOMContentLoaded", () => {
     getWorkspaceInfo();
