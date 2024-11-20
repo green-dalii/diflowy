@@ -45,6 +45,10 @@ export default {
           ...require("daisyui/src/theming/themes")["light"],
           primary: "#007fe6",
         },
+        dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
+          primary: "#007fe6",
+        },
       },
     ],
   },
