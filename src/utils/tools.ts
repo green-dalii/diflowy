@@ -29,7 +29,7 @@ export interface GetUserDetailsResponse {
 
 export interface JoinedWorkspace {
     id: string;
-    workspace_name: string;
+    name: string;
     owner_id: string;
     role: string;
     created_at: string;
@@ -37,7 +37,7 @@ export interface JoinedWorkspace {
 
 export interface ManagedWorkspaces {
     id: string;
-    workspace_name: string;
+    name: string;
     owner_id: string;
     created_at: string;
     member_count: number;

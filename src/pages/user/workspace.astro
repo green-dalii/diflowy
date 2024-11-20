@@ -206,9 +206,44 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         createWokspaceBtn.classList.toggle("btn-disabled", false);
       }
       // Get joined workspace table
+      workspaceTable.innerHTML = "";
       workspacesObject.joined.workspaces.forEach((workspaces: JoinedWorkspace) => {
-        workspaceTable.innerHTML = "";
         console.log("Workspaces>>>", workspaces);
+        const row = document.createElement("tr");
+        row.classList.add("hover");
+        row.id = `${workspaces.id}`;
+        row.innerHTML = `
+          <td class="text-xs sm:table-cell sm:w-6/12">${workspaces.name}</td>
+          <td class="text-xs sm:2/12">${workspaces.owner_id === user.id ? "✅" : "-"}</td>
+          <td class="text-xs sm:table-cell sm:w-2/12" data-workspace-id="${workspaces.id}">
+            <button class="manage btn btn-sm btn-outline btn-primary" id="manageworkspace" data-workspace-id="${workspaces.id}">Manage</button>
+          </td>
+          <td class="text-xs sm:w-2/12" data-workspace-id="${workspaces.id}">
+            <button class="dissolve btn btn-sm btn-outline btn-error" id="dissolveworkspace" data-workspace-id="${workspaces.id}">Dissolve</button>
+          </td>
+        `;
+        workspaceTable.appendChild(row);
+      });
+      // Add event listener to manage workspace button
+      workspaceTable.addEventListener("click", (event: Event) => {
+        const target = event.target as HTMLElement;
+        const manageButton = target.closest("button.manage") as HTMLButtonElement;
+        const dissolveButton = target.closest("button.dissolve") as HTMLButtonElement;
+        if (manageButton) {
+          event.preventDefault();
+          const workspaceId = manageButton.dataset.workspaceId;
+          console.log("Manage workspace button clicked for workspace ID:", workspaceId);
+          editModalTitle.innerText = "Manage Workspace";
+          editModal.showModal();
+        } else if (dissolveButton) {
+          event.preventDefault();
+          const workspaceId = dissolveButton.dataset.workspaceId;
+          console.log("Dissolve workspace button clicked for workspace ID:", workspaceId);
+          modalTitle.innerText = "Dissolve Workspace";
+          modalContent.innerText = "Are you sure you want to dissolve this workspace?";
+          confirmBtn.classList.toggle("hidden", true);
+          modal.showModal();
+        }
       });
     } catch (error){
       if ((error as Error).message === "JWT Expired") {

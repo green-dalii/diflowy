@@ -344,7 +344,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           event.stopPropagation(); // Prevent the event from bubbling up to the document
           const workflowId = deleteButton.dataset.workflowId as string;
           console.log("Clicked the delete button of", workflowId);
-          modalTitle.innerText = "🤔 Delect?";
+          modalTitle.innerText = "🤔 Delete Workflow?";
           modalContent.innerHTML = `Confirm to delete this workflow: <span class="font-bold">${target.dataset.workflowName}</span> and all its version records?`;
           confirmBtn.textContent = "Delete";
           confirmBtn.classList.toggle("btn-error", true);
