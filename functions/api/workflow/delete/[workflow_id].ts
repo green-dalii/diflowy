@@ -8,6 +8,13 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
         const { request, params } = context;
         const cookie = request.headers.get('cookie');
         const workflowId = params.workflow_id
+        if(!workflowId){
+            console.log("No workflow_id found in params")
+            return new Response(JSON.stringify({ error: 'Bad Request' }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 400,
+            });
+        }
         const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
         console.log("will Delete workflow_id>>", workflowId, "method", request.method)
         // Authenticate the user by JWT

@@ -7,6 +7,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     try {
         const { env, params, request } = context;
         const workflowId = params.workflow_id;
+        if(!workflowId){
+            console.log("Workflow ID not found")
+            return new Response(JSON.stringify({ error: 'Bad Request' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
         const url = new URL(request.url);
         // Decode the entire query string
         const decodedSearch = decodeURIComponent(url.search);
