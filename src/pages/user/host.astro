@@ -17,7 +17,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
 <MainLayout
-  title={t("site.user")}
+  title={t("site.host")}
   description={t("site.description")}
 >
   <Breadcrumbs urlList={urlList} />
@@ -385,7 +385,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     }
   }
 
-  // 
+  // Expose the loadPageData function to the global scope
   (window as any).loadTableData = loadPageData;
 
   document.addEventListener("DOMContentLoaded", () => {

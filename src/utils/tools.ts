@@ -1,3 +1,4 @@
+// Workflow Data Structure
 export interface Workflow {
     id: string;
     name: string;
@@ -9,6 +10,7 @@ export interface Workflow {
     authorData: string;
 }
 
+// Workflows Response Data Structure
 export interface GetWorkflowsResponse {
     workflows: Workflow[];
     total: number;
@@ -16,6 +18,7 @@ export interface GetWorkflowsResponse {
     pageSize: number;
 }
 
+// User Details Response Data Structure
 export interface GetUserDetailsResponse {
     user: {
         id: string;
@@ -27,6 +30,7 @@ export interface GetUserDetailsResponse {
     }
 }
 
+// Joined Workspace Data Structure
 export interface JoinedWorkspace {
     id: string;
     name: string;
@@ -35,6 +39,7 @@ export interface JoinedWorkspace {
     created_at: string;
 }
 
+// Managed Workspace Data Structure
 export interface ManagedWorkspaces {
     id: string;
     name: string;
@@ -43,6 +48,7 @@ export interface ManagedWorkspaces {
     member_count: number;
 }
 
+// Workspaces Response Data Structure
 export interface GetWorkspacesResponse {
     user: {
         id: string;
@@ -62,6 +68,23 @@ export interface GetWorkspacesResponse {
             total: number;
         };
     }
+}
+
+// Members in workspace Data Structure
+export interface Members {
+    id: string;
+    username: string;
+    role: string;
+    joined_at: string;
+}
+
+// Specific Workspace Data Structure
+export interface WorkspaceResponse {
+    id: string;
+    name: string;
+    owner_id: string;
+    created_at: string;
+    members: Members[];
 }
 
 // 自定义错误类
@@ -267,4 +290,22 @@ export async function fetchUserWorkspaces(): Promise<GetWorkspacesResponse> {
         throw new Error("Failed to fetch userinfo");
     }
     return (await response.json()) as GetWorkspacesResponse;
+}
+
+// Get specific workspace data
+export async function fetchSpecificWorkspace(workspace_id: string): Promise<WorkspaceResponse> {
+    const url = new URL("/api/user/workspace/" + workspace_id, window.location.origin);
+    const response = await fetch(url.toString());
+    if (response.status == 401) {
+        console.error("JWT Expired");
+        throw new Error("JWT Expired");
+    } else if (response.status === 404) {
+        console.error("No workspace Found");
+        throw new Error("Not Found");
+    }
+    else if (!response.ok) {
+        console.error("Failed to fetch workspace", response.statusText);
+        throw new Error("Failed to fetch workspace");
+    }
+    return (await response.json()) as WorkspaceResponse;
 }

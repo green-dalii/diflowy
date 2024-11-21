@@ -9,8 +9,8 @@ import { t } from "i18next";
       <!-- Edit Metadata Form -->
       <form id="editMetaForm" class="grid grid-cols-2 gap-4">
         <!-- Row 1 -->
-        <div class="col-span-full flex flex-col gap-2">
-          <div class="form-control w-full sm:w-1/2">
+        <div class="col-span-full flex flex-col sm:flex-row gap-2">
+          <div class="form-control w-full">
             <div class="label">
               <span class="label-text"
                 >{t("user.workspacename")}<sup class="ml-1 text-red-500">*</sup
@@ -24,6 +24,12 @@ import { t } from "i18next";
               class="input input-bordered w-full"
               required="required"
             />
+          </div>
+          <div id="yourroleContainer" class="form-control w-full hidden">
+            <div class="label">
+              <span class="label-text">{t("user.yourrole")}</span>
+            </div>
+            <div id="yourrole" class="tag w-full">Loading</div>
           </div>
         </div>
         <!-- Row 2 -->
@@ -41,8 +47,8 @@ import { t } from "i18next";
                 <th class="text-wrap text-xs sm:table-cell sm:w-3/12">{t("user.removemember")}</th>
               </tr>
             </thead>
-            <tbody id="workspaceTable">
-              <!-- Workspace rows will be dynamically replaced here -->
+            <tbody id="membersTable">
+              <!-- Members rows will be dynamically replaced here -->
               {
                 new Array(1).fill(null).map((_) => (
                   <tr>
@@ -132,6 +138,30 @@ import { t } from "i18next";
     editModal.close();
   };
 
+  // Load workspace data function
+  const loadWorkspaceData = async (workspaceId: string) => {
+    showModal("⏳ Processing...", "Loading data...");
+    try {
+      const response = await fetch("/api/user/workspace/" + workspaceId, {
+        method: "GET",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response>>>", data);
+        // Close loading modal
+        closeEditModal();
+        // Load data into the table
+        // loadWorkspaceTableData(data);
+      } else if (response.status === 401) {
+        handleUnauthorized();
+      } else {
+        throw new Error("Server error");
+      }
+    } catch (error) {
+      handleNetworkError(error as Error);
+    }
+  };
+
   // Form submission handler
   const handleFormSubmit = async (
     event: Event,
@@ -213,7 +243,7 @@ import { t } from "i18next";
           // close the edit modal
           closeEditModal();
           showModal("🎉 Success!", "Create workspace successful!");
-          (window as any).loadTableData(); // Reload the table data
+          (window as any).loadWorkspaceData(); // Reload the workspace table data
         } else if (response.status === 401) {
           // close the edit modal
           closeEditModal();
@@ -257,9 +287,6 @@ import { t } from "i18next";
     const editWorkflowAuthorLink = document.getElementById(
       "editWorkflowAuthorLink",
     ) as HTMLInputElement;
-    // const privateToggle = document.getElementById(
-    //   "private",
-    // ) as HTMLInputElement;
     formData.append("editWorkflowName", editWorkflowName.value);
     formData.append("editWorkflowDescription", editWorkflowDescription.value);
     formData.append("editWorkflowAuthor", editWorkflowAuthor.value);

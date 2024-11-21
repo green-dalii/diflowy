@@ -10,7 +10,9 @@
         "about": "About | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "User Center | Diflowy",
-        "notfound": "Oops | Diflowy"
+        "notfound": "Oops | Diflowy",
+        "host": "Host | Diflowy",
+        "workspace": "Workspace | Diflowy"
     },
     "navbar": {
         "login": "Login",
@@ -253,10 +255,11 @@
         "member": "Member",
         "guest": "Guest",
         "removemember": "Remove Member",
-        "isadmin": "Is Administrator",
+        "isowner": "Is Owner",
         "joinedworkspace": "Joined Workspace",
         "role": "Role",
-        "createbtn": "Create Workspace"
+        "createbtn": "Create Workspace",
+        "yourrole": "Your Role"
     },
     "notfound": {
         "title": "Oooops!",
