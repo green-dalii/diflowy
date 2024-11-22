@@ -228,6 +228,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // click edit button action
         if (editButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          event.preventDefault();
           const workflowId = editButton.dataset.workflowId as string;
           console.log("Clicked the edit button of", workflowId);
           editMetaForm.dataset.workflowId = workflowId as string;
@@ -312,6 +313,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // click update button action
         if (updateButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          event.preventDefault();
           const workflowVer = target.dataset.workflowVer;
           const updateVersionInput = document.getElementById(
             "updateVersionInput",
@@ -342,6 +344,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // click delete button action
         if (deleteButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          event.preventDefault();
           const workflowId = deleteButton.dataset.workflowId as string;
           console.log("Clicked the delete button of", workflowId);
           modalTitle.innerText = "🤔 Delete Workflow?";

@@ -311,7 +311,9 @@ export async function fetchSpecificWorkspace(workspace_id: string): Promise<Work
 }
 
 // Dissolve the workspace
-export async function dissolveWorkspace(workspace_id: string): Promise<WorkspaceResponse> {
+export async function dissolveWorkspace(workspace_id: string, event: Event): Promise<WorkspaceResponse> {
+    event.preventDefault();
+    event.stopPropagation();
     const url = new URL("/api/user/workspace/delete/" + workspace_id, window.location.origin);
     const response = await fetch(url.toString(), {
         method: "DELETE"

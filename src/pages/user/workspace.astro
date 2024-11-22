@@ -120,7 +120,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 
 <script>
   import type { GetWorkspacesResponse, JoinedWorkspace, WorkspaceResponse } from "../../utils/tools";
-  import { fetchUserWorkspaces, JWTError, fetchSpecificWorkspace } from "../../utils/tools";
+  import { fetchUserWorkspaces, JWTError, fetchSpecificWorkspace, dissolveWorkspace } from "../../utils/tools";
 
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
@@ -223,22 +223,28 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           <td class="text-xs sm:table-cell sm:w-6/12">${workspaces.name}</td>
           <td class="text-xs sm:2/12">${workspaces.owner_id === user.id ? "✅" : "-"}</td>
           <td class="text-xs sm:table-cell sm:w-2/12" data-workspace-id="${workspaces.id}">
-            <button class="manage btn btn-sm btn-outline" id="manageworkspace" data-workspace-id="${workspaces.id}">Manage</button>
+            <button class="manage btn btn-sm btn-outline" id="manageworkspace" data-workspace-id="${workspaces.id}">⚙️</button>
           </td>
           <td class="text-xs sm:w-2/12" data-workspace-id="${workspaces.id}">
-            ${workspaces.owner_id === user.id ? `<button class="dissolve btn btn-sm btn-outline btn-error" id="dissolveworkspace" data-workspace-id="${workspaces.id}">Dissolve</button>` : "-"}
+            ${workspaces.owner_id === user.id ? `<button class="dissolve btn btn-sm btn-outline btn-error" id="dissolveworkspace" data-workspace-id="${workspaces.id}">✕</button>` : "-"}
           </td>
         `;
         workspaceTable.appendChild(row);
       });
       // Add event listener to manage workspace button
       workspaceTable.addEventListener("click", async (event: Event) => {
+        event.preventDefault();
+        event.stopPropagation();
         const target = event.target as HTMLElement;
         const manageButton = target.closest("button.manage") as HTMLButtonElement;
         const dissolveButton = target.closest("button.dissolve") as HTMLButtonElement;
         // Check if the clicked element is a manage workspace button
         if (manageButton) {
           event.preventDefault();
+          event.stopPropagation();
+          workspaceNameInput.value = "Loading";
+          yourrole.innerText = "Loading";
+          membersTable.innerHTML = "";
           const workspaceId = manageButton.dataset.workspaceId;
           console.log("Manage workspace button clicked for workspace ID:", workspaceId);
           editModalTitle.innerText = "Manage Workspace";
@@ -246,12 +252,12 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           editConfirmBtn.classList.toggle("hidden", false);
           createConfirmBtn.classList.toggle("hidden", true);
           yourroleContainer.classList.toggle("hidden", false);
+          editModal.showModal();
           // load workspace info from api
           const specificWorkspaceData: WorkspaceResponse = await fetchSpecificWorkspace(workspaceId as string);
           workspaceNameInput.value = specificWorkspaceData.name;
           yourrole.innerText = specificWorkspaceData.owner_id === user.id? "Owner" : "Member";
           // load member table
-          membersTable.innerHTML = "";
           specificWorkspaceData.members.forEach((member) => {
             const row = document.createElement("tr");
             row.classList.add("hover");
@@ -260,14 +266,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               <td class="text-xs sm:table-cell sm:w-6/12">${member.username}</td>
               <td class="text-xs sm:2/12">${member.role}</td>
               <td class="text-xs sm:w-2/12">
-                ${member.role === "OWNER"? `<button class="btn btn-sm btn-error" id="dissolvemember" data-member-id="${member.id}">Dissolve</button>` : "-"}
+                ${member.role === "OWNER"? `<button class="btn btn-sm btn-error" id="dissolvemember" data-member-id="${member.id}">✕</button>` : "-"}
             `;
             membersTable.appendChild(row);
           });
-          editModal.showModal();
         } else if (dissolveButton) {
           // Check if the clicked element is a dissolve workspace button
           event.preventDefault();
+          event.stopPropagation();
           const workspaceId = dissolveButton.dataset.workspaceId;
           console.log("Dissolve workspace button clicked for workspace ID:", workspaceId);
           // load workspace info from api
@@ -275,6 +281,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           modalTitle.innerText = "🤔 Dissolve Workspace";
           modalContent.innerText = "Are you sure you want to dissolve this workspace: " + specificWorkspaceData.name + "?";
           confirmBtn.classList.toggle("hidden", false);
+          confirmBtn.textContent = "Delete";
+          confirmBtn.classList.toggle("btn-error", true);
+          confirmBtn.removeEventListener("click", (event: Event) => {
+            dissolveWorkspace(workspaceId as string, event)
+          });
+          confirmBtn.addEventListener("click", (event: Event) => {
+            dissolveWorkspace(workspaceId as string, event)
+          });
           modal.showModal();
         }
       });
@@ -316,6 +330,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       memberContainer.classList.toggle("hidden", true);
       createConfirmBtn.classList.toggle("hidden", false);
       editConfirmBtn.classList.toggle("hidden", true);
+      yourroleContainer.classList.toggle("hidden", true);
       editModal.showModal();
     });
   });
