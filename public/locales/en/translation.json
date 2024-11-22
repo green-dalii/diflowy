@@ -259,7 +259,8 @@
         "joinedworkspace": "Joined Workspace",
         "role": "Role",
         "createbtn": "Create Workspace",
-        "yourrole": "Your Role"
+        "yourrole": "Your Role",
+        "invitemember": "Invite Member"
     },
     "notfound": {
         "title": "Oooops!",

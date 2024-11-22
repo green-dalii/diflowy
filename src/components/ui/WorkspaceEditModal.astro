@@ -9,7 +9,7 @@ import { t } from "i18next";
       <!-- Edit Metadata Form -->
       <form id="editMetaForm" class="grid grid-cols-2 gap-4">
         <!-- Row 1 -->
-        <div class="col-span-full flex flex-col sm:flex-row gap-2">
+        <div class="col-span-full flex flex-col sm:flex-row gap-4">
           <div class="form-control w-full">
             <div class="label">
               <span class="label-text"
@@ -38,6 +38,7 @@ import { t } from "i18next";
             <span class="label-text"
               >{t("user.membermangement")}</span
             >
+            <button id="invitebtn" class="btn-primary text-sm">{t("user.invitemember")}</button>
           </div>
           <table class="table table-fixed w-full col-span-full">
             <thead>
