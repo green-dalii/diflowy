@@ -120,7 +120,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 
 <script>
   import type { GetWorkspacesResponse, JoinedWorkspace, WorkspaceResponse } from "../../utils/tools";
-  import { fetchUserWorkspaces, JWTError, fetchSpecificWorkspace, dissolveWorkspace } from "../../utils/tools";
+  import { fetchUserWorkspaces, JWTError, fetchSpecificWorkspace } from "../../utils/tools";
 
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
@@ -167,6 +167,37 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   // Get invite member button
   const invitebtn = document.getElementById("invitebtn") as HTMLButtonElement;
   
+  // Dissolve Workspace Function
+  async function dissolveWorkspace(workspace_id: string, event: Event): Promise<WorkspaceResponse> {
+    event.preventDefault();
+    event.stopPropagation();
+    // Show loading modal
+    modalTitle.innerText = "⏳ Processing...";
+    modalContent.innerText = "Workflow is deleting...";
+    confirmBtn.classList.toggle("hidden", true);
+    modal.showModal();
+    const url = new URL("/api/user/workspace/delete/" + workspace_id, window.location.origin);
+    const response = await fetch(url.toString(), {
+        method: "DELETE"
+    });
+    if (response.status == 401) {
+        console.error("JWT Expired");
+        throw new Error("JWT Expired");
+    } else if (response.status === 404) {
+        console.error("No workspace Found");
+        throw new Error("Not Found");
+    }
+    else if (!response.ok) {
+        console.error("Failed to delete workspace", response.statusText);
+        throw new Error("Failed to delete workspace");
+    } else {
+      modalTitle.innerText = "🎉 Tida";
+      modalContent.innerText = "Workspace dissolve successfully";
+      confirmBtn.classList.toggle("hidden", true);
+      modal.showModal();
+    }
+    return (await response.json()) as WorkspaceResponse;
+  }
   // Function of getting user info
   async function getWorkspaceInfo() {
     try{
@@ -269,6 +300,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
             workspaceNameInput.disabled = false;
             yourrole.innerText = specificWorkspaceData.owner_id == user.id? "Owner" : "Member";
             // load member table
+            membersTable.innerHTML = "";
             specificWorkspaceData.members.forEach((member) => {
               const row = document.createElement("tr");
               row.classList.add("hover");
@@ -277,7 +309,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <td class="text-xs sm:table-cell sm:w-6/12">${member.username}</td>
                 <td class="text-xs sm:2/12">${member.role}</td>
                 <td class="text-xs sm:w-2/12">
-                  ${member.role === "OWNER"? `<button class="btn btn-sm btn-error btn-outline w-full" id="dissolvemember" data-member-id="${member.id}">✕</button>` : "-"}
+                  ${member.role === "OWNER"? `<button class="btn btn-sm btn-error btn-outline" id="dissolvemember" data-member-id="${member.id}">✕</button>` : "-"}
               `;
               membersTable.appendChild(row);
             });
@@ -342,11 +374,11 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               });
               modal.showModal();
             } else {
-              console.error("Error loading workspace data:", error);
+              console.error("Error in Dissolve Workspace:", error);
               modalTitle.innerText = "⚠️ Error";
               confirmBtn.classList.toggle("hidden", true);
               modalContent.innerText =
-                "Failed to fetch workspace data. Please Login again or check your connection.";
+                "Failed to dissolve workspace. Please try again or check your connection.";
               modal.showModal();
             }
           }

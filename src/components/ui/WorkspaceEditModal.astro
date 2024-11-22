@@ -232,7 +232,7 @@ import { t } from "i18next";
     const formData = new FormData(editMetaForm) as FormData;
     // Check if all required fields are filled
     if (!formData.get("workspaceName")){
-      showModal("😮 Oops", "Please fill out all required fields.");
+      showModal("😮 Oops", "Please fill out all required fields.", false);
     } else {
       try {
         const response = await fetch("/api/user/workspace/create", {
@@ -243,7 +243,7 @@ import { t } from "i18next";
           console.log("Response>>>", response.json());
           // close the edit modal
           closeEditModal();
-          showModal("🎉 Success!", "Create workspace successful!");
+          showModal("🎉 Success!", "Create workspace successful!", false);
           (window as any).loadWorkspaceData(); // Reload the workspace table data
         } else if (response.status === 401) {
           // close the edit modal
@@ -252,7 +252,7 @@ import { t } from "i18next";
         } else {
           // close the edit modal
           closeEditModal();
-          showModal("😮 Oops...", "Something went wrong in remote server. Please cantact us.");
+          showModal("😮 Oops...", "Something went wrong in remote server. Please cantact us.", false);
         }
       } catch (error) {
         console.error('Error in Create Workspace>>>', error);

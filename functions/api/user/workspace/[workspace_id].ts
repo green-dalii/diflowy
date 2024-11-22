@@ -49,7 +49,7 @@ export async function onRequestGet(context: { request: Request; env: Env; params
         } else{
             // User is the member of this workspace, Query for more info
             const workspaceQuery = `SELECT * FROM workspaces WHERE id =?`;
-            const workspaceMembersQuery = `SELECT w.id AS workspace_id, w.name AS workspace_name, u.id AS user_id, u.username AS username, wm.role, wm.joined_at FROM workspaces w JOIN workspace_members wm ON w.id = wm.workspace_id JOIN users u ON wm.user_id = u.id WHERE w.id = ?`;
+            const workspaceMembersQuery = `SELECT w.id AS workspace_id, w.name AS workspace_name, w.owner_id AS owner_id, w.created_at AS created_at, u.id AS user_id, u.username AS username, wm.role, wm.joined_at FROM workspaces w JOIN workspace_members wm ON w.id = wm.workspace_id JOIN users u ON wm.user_id = u.id WHERE w.id = ?`;
             const workspaceResult = await context.env.D1.prepare(workspaceQuery).bind(workspace_id).first();
             if(workspaceResult){
                 // if user is the member of this workspace， return workspace info
