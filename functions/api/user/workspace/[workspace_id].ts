@@ -49,7 +49,7 @@ export async function onRequestGet(context: { request: Request; env: Env; params
         } else{
             // User is the member of this workspace, Query for more info
             const workspaceQuery = `SELECT * FROM workspaces WHERE id =?`;
-            const workspaceMembersQuery = `SELECT w.id AS workspace_id, w.name AS workspace_name, u.id AS user_id, u.name AS user_name, wm.role, wm.joined_at FROM workspaces w JOIN workspace_members wm ON w.id = wm.workspace_id JOIN users u ON wm.user_id = u.id WHERE w.id = ?`;
+            const workspaceMembersQuery = `SELECT w.id AS workspace_id, w.name AS workspace_name, u.id AS user_id, u.username AS username, wm.role, wm.joined_at FROM workspaces w JOIN workspace_members wm ON w.id = wm.workspace_id JOIN users u ON wm.user_id = u.id WHERE w.id = ?`;
             const workspaceResult = await context.env.D1.prepare(workspaceQuery).bind(workspace_id).first();
             if(workspaceResult){
                 // if user is the member of this workspace， return workspace info
@@ -89,7 +89,7 @@ export async function onRequestGet(context: { request: Request; env: Env; params
             }
         }
     } catch (error) {
-        console.error("Error in verifying User>>>", error);
+        console.error("Error in verifying User and Querying Workspace>>>", error);
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
             return new Response(JSON.stringify({ error: "JWT Expired" }), {

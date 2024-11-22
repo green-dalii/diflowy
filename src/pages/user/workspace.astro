@@ -270,9 +270,11 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           event.preventDefault();
           const workspaceId = dissolveButton.dataset.workspaceId;
           console.log("Dissolve workspace button clicked for workspace ID:", workspaceId);
-          modalTitle.innerText = "Dissolve Workspace";
-          modalContent.innerText = "Are you sure you want to dissolve this workspace?";
-          confirmBtn.classList.toggle("hidden", true);
+          // load workspace info from api
+          const specificWorkspaceData: WorkspaceResponse = await fetchSpecificWorkspace(workspaceId as string);
+          modalTitle.innerText = "🤔 Dissolve Workspace";
+          modalContent.innerText = "Are you sure you want to dissolve this workspace: " + specificWorkspaceData.name + "?";
+          confirmBtn.classList.toggle("hidden", false);
           modal.showModal();
         }
       });
