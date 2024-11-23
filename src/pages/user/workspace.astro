@@ -168,12 +168,12 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   const invitebtn = document.getElementById("invitebtn") as HTMLButtonElement;
   
   // Dissolve Workspace Function
-  async function dissolveWorkspace(workspace_id: string, event: Event): Promise<WorkspaceResponse> {
+  async function dissolveWorkspace(workspace_id: string, event: Event) {
     event.preventDefault();
     event.stopPropagation();
     // Show loading modal
     modalTitle.innerText = "⏳ Processing...";
-    modalContent.innerText = "Workflow is deleting...";
+    modalContent.innerText = "Dissolving Workspace...";
     confirmBtn.classList.toggle("hidden", true);
     modal.showModal();
     const url = new URL("/api/user/workspace/delete/" + workspace_id, window.location.origin);
@@ -192,11 +192,12 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         throw new Error("Failed to delete workspace");
     } else {
       modalTitle.innerText = "🎉 Tida";
-      modalContent.innerText = "Workspace dissolve successfully";
+      modalContent.innerText = "Workspace has been dissolved successfully";
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
     }
-    return (await response.json()) as WorkspaceResponse;
+    getWorkspaceInfo()
+    return;
   }
   // Function of getting user info
   async function getWorkspaceInfo() {

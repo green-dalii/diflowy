@@ -243,6 +243,7 @@ import { t } from "i18next";
           console.log("Response>>>", response.json());
           // close the edit modal
           closeEditModal();
+          confirmBtn.classList.toggle("hidden", true);
           showModal("🎉 Success!", "Create workspace successful!", false);
           (window as any).loadWorkspaceData(); // Reload the workspace table data
         } else if (response.status === 401) {
@@ -252,6 +253,7 @@ import { t } from "i18next";
         } else {
           // close the edit modal
           closeEditModal();
+          confirmBtn.classList.toggle("hidden", true);
           showModal("😮 Oops...", "Something went wrong in remote server. Please cantact us.", false);
         }
       } catch (error) {
