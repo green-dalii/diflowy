@@ -1,3 +1,4 @@
+// Get all joined and managed workspaces of the user
 import { jwtVerify } from 'jose';
 import * as jose from 'jose'
 import type { Env } from '../../auth';
@@ -48,6 +49,14 @@ export async function onRequest(context: { request: Request; env: Env }) {
             if(userData.plan_type === 'FREE'){
                 workspaceData = null;
             } else {
+                // Check if plan is expired, downgrade plan to FREE
+                if(userData.plan_expired_at && (new Date(userData.plan_expired_at as string) < new Date())){
+                    // If plan is expired, update plan type to FREE
+                    console.log("User plan expired, downgrading plan to FREE>>>", payload.id)
+                    await context.env.D1.prepare(
+                        "UPDATE users SET plan_type =? WHERE id =?"
+                    ).bind('FREE', payload.id).run();
+                }
                 // If user plan is not FREE, query workspaces info
                 const workspaceMembersResult = await context.env.D1.prepare(workspaceMembersQuery).bind(payload.id).all();
                 // Query managed workspaces with member count

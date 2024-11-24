@@ -2,6 +2,7 @@ import { jwtVerify } from 'jose';
 import * as jose from 'jose'
 import { generateIdFromEntropySize } from "lucia";
 import type { Env } from '../../auth';
+import { checkUserPlan } from '../../../planUtils';
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
     try {
@@ -18,7 +19,14 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             });
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-
+        // Check user plan
+        const planCheckResult = await checkUserPlan(payload.id as string, context.env);
+        if (planCheckResult.expired || planCheckResult.plan_type === 'FREE') {
+            return new Response(JSON.stringify({ res: planCheckResult.message }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 403,
+            });
+        }
         // Get Data from POST
         const formData = await request.formData();
         console.log("Create Workspace API Data>>>", formData)

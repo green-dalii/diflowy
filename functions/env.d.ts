@@ -18,18 +18,3 @@ declare namespace App {
         };
     }
 }
-
-// interface EventContextWithLocalsAndCookies<Env extends Record<string, any>, Data = unknown, Vars = Record<string, unknown>> extends EventContext<Env, Data, Vars> {
-//     locals: {
-//       user: import("lucia").User | null;
-//       session: import("lucia").Session | null;
-//     };
-//     cookies: {
-//       get(name: string): string | null;
-//       set(name: string, value: string, options?: Record<string, any>): void;
-//     };
-//   }
-  
-//   declare global {
-//     type EventContext<Env extends Record<string, any>, Data = unknown, Vars = Record<string, unknown>> = EventContextWithLocalsAndCookies<Env, Data, Vars>;
-//   }

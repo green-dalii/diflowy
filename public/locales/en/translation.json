@@ -12,7 +12,8 @@
         "user": "User Center | Diflowy",
         "notfound": "Oops | Diflowy",
         "host": "Host | Diflowy",
-        "workspace": "Workspace | Diflowy"
+        "workspace": "Workspace | Diflowy",
+        "joinworkspace": "Join Workspace | Diflowy"
     },
     "navbar": {
         "login": "Login",
@@ -260,7 +261,9 @@
         "role": "Role",
         "createbtn": "Create Workspace",
         "yourrole": "Your Role",
-        "invitemember": "Invite Member"
+        "invitemember": "Invite Member",
+        "workspacetoken": "Workspace Token",
+        "joinbtn": "Join Workspace"
     },
     "notfound": {
         "title": "Oooops!",

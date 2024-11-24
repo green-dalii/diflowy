@@ -1,6 +1,7 @@
 import { jwtVerify } from 'jose';
 import * as jose from 'jose'
 import type { Env } from '../auth';
+import { checkUserPlan } from '../../planUtils';
 
 export async function onRequest(context: { request: Request; env: Env }) {
     try {
@@ -16,7 +17,8 @@ export async function onRequest(context: { request: Request; env: Env }) {
             });
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-        // console.log("User API Payload>>>", payload)
+        // Check user plan
+        const planCheckResult = await checkUserPlan(payload.id as string, context.env);
         // Parse query parameters
         const url = new URL(request.url);
         const detail = url.searchParams.get('detail');
