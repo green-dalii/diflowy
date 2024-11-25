@@ -87,6 +87,11 @@ export interface WorkspaceResponse {
     members: Members[];
 }
 
+// invite token Data Structure
+export interface InviteTokenResponse {
+    token: string;
+}
+
 // 自定义错误类
 class CustomError extends Error {
     constructor(message: string) {

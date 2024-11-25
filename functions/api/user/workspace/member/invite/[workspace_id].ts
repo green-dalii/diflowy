@@ -113,6 +113,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 const inviteJWT = await createJWT(workspaceInvitePayload, context.env.AUTH_SECRET, '24h');
                 // URL encode invite JWT
                 const inviteJWTEncoded = encodeURIComponent(inviteJWT);
+                console.log("Invite JWT>>>", inviteJWTEncoded)
                 return new Response(JSON.stringify({ token: inviteJWTEncoded }), {
                     headers: { 'Content-Type': 'application/json' },
                     status: 200,

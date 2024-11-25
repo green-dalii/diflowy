@@ -47,7 +47,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
             let workspaceData;
             // If user plan is FREE, return none of workspace 
             if(userData.plan_type === 'FREE'){
-                workspaceData = null;
+                workspaceData = { joined: null, managed: null };
             } else {
                 // Check if plan is expired, downgrade plan to FREE
                 if(userData.plan_expired_at && (new Date(userData.plan_expired_at as string) < new Date())){
