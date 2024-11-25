@@ -34,16 +34,16 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
         const workspaceResult  = await context.env.D1.prepare(
             "SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?"
         ).bind(payload.id, workspace_id).first() as any;
-        console.log("workspace owner_id>>>", workspaceResult.owner_id, "payloadID>>>", payload.id)
+        console.log("workspace owner_id>>>", workspaceResult.user_id, "payloadID>>>", payload.id)
         if(!workspaceResult){
             console.log("User not authorized to operate this workspace")
             return new Response(JSON.stringify({ res: 'Unauthorized' }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 401,
             });
-        } else if((workspaceResult.role !== "OWNER") || (workspaceResult.role !== "ADMIN") ){
+        } else if((workspaceResult.role !== "OWNER") && (workspaceResult.role !== "ADMIN") ){
             // If the user is not the owner or admin of the workspace
-            console.log("User not authorized to delete this member")
+            console.log("User not authorized to delete this member", workspaceResult.role)
             return new Response(JSON.stringify({ res: 'Unauthorized' }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 403,

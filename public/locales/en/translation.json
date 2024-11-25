@@ -264,10 +264,11 @@
         "invitemember": "Invite Member",
         "workspacetoken": "Workspace Token",
         "joinbtn": "Join Workspace",
-        "workspacequataexpired": "Workspace Quota Expired, please upgrade your plan.",
-        "memberquataexpired": "Member Quota Expired, please upgrade your plan.",
+        "workspacequataexpired": "Quota is full, upgrade plan to get more",
         "workspacetokenexpired": "Workspace Token Expired",
-        "workspacetokenexpiredmsg": "Please contact the administrator to renew the Workspace Token."
+        "workspacetokenexpiredmsg": "Please contact the administrator to renew the Workspace Token.",
+        "joinworkspace": "To Join an Existing Workspace by Token"
+
     },
     "notfound": {
         "title": "Oooops!",

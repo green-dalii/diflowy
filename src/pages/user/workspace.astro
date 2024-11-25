@@ -40,7 +40,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
           <div class="drawer-content flex flex-col items-start justify-start">
             <!-- Workspace Quota -->
-            <div class="sm:pl-8 w-full grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+            <div class="sm:pl-8 w-full grid grid-cols-1 sm:grid-cols-3 gap-y-4 sm:gap-2 items-center">
               <div class="col-span-full pb-6">
                 <h3 class="font-bold">{t("user.workspaceinfo")}</h3>
               </div>
@@ -59,7 +59,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               </div>
               <div class="text-sm col-span-1 sm:col-span-1">
                 <span id="workspacequataVal">-</span> / <span id="workspacequataMaxVal">-</span>
-                <span id="workspacequatahint" class="hidden ml-4 text-gray-400">{t("user.workspacequataexpired")}</span>
+                <span id="workspacequatahint" class="hidden ml-4 text-xs text-gray-400">*{t("user.workspacequataexpired")}</span>
               </div>
               <div class="text-sm col-span-full sm:col-span-1">
                 <span class="font-medium mr-2">{t("user.memberquota")}:</span>
@@ -69,7 +69,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               </div>
               <div class="text-sm col-span-1 sm:col-span-1">
                 <span id="memberquataVal">-</span> / <span id="memberquataMaxVal">-</span>
-                <span id="memberquatahint" class="hidden ml-4 text-gray-400">{t("user.memberquataexpired")}</span>
+                <span id="memberquatahint" class="hidden ml-4 text-xs text-gray-400">*{t("user.workspacequataexpired")}</span>
               </div>
               <div class="divider col-span-full"></div>
               <!-- Workspace List -->
@@ -102,6 +102,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                   }
                 </tbody>
               </table>
+              <div class="divider col-span-full"></div>
+              <!-- Join Workspace -->
+              <div class="text-sm col-span-full sm:col-span-2">
+                <span class="font-medium mr-2">{t("user.joinworkspace")}</span>
+              </div>
+              <div class="text-sm col-span-full sm:col-span-1 my-2">
+                <a href={localizePath("/user/join")}><button class="btn-primary w-full sm:w-auto py-2 text-sm" id="joinbtn">{t("user.joinbtn")}</button></a>
+              </div>
             </div>
           </div>
           <div class="drawer-side sm:h-[70dvh]">
@@ -250,15 +258,17 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         method: "POST"
     });
     if (response.status == 401) {
-        console.error("JWT Expired");
-        throw new Error("JWT Expired");
-    } else if (response.status === 404) {
-        console.error("No workspace Found");
-        throw new Error("Not Found");
-    }
-    else if (!response.ok) {
-        console.error("Failed to invite member", response.statusText);
-        throw new Error("Failed to invite member");
+      console.error("JWT Expired");
+      modalTitle.innerText = "😮 Oops...";
+      modalContent.innerText = "Your login has expired, please login again!";
+      confirmBtn.classList.toggle("hidden", true);
+      modal.showModal();
+    } else if (!response.ok) {
+      console.error("Failed to generate token");
+      modalTitle.innerText = "😮 Oops...";
+      modalContent.innerText = "Failed to generate token, please check your Plan Quota or network connection.";
+      confirmBtn.classList.toggle("hidden", true);
+      modal.showModal();
     } else {
       const inviteToken = await response.json() as InviteTokenResponse;
       modalTitle.innerText = "🎉 Copied! Send the Token to your members.";
@@ -408,15 +418,13 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               row.id = `${member.id}`;
               row.innerHTML = `
                 <td class="text-xs sm:table-cell sm:w-6/12">${member.username}</td>
-                <td class="text-xs sm:2/12">${specificWorkspaceData.owner_id === user.id ? `
-                  <details class="dropdown">
-                    <summary class="btn m-1">${member.role}</summary>
-                    <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                      <li><a>Admin</a></li>
-                      <li><a>Member</a></li>
-                    </ul>
-                  </details>
-                  ` : `${member.role}`}
+                <td class="text-xs sm:2/12">
+                    ${specificWorkspaceData.owner_id === user.id ? `
+                        <select class="select select-bordered select-sm">
+                            <option value="Admin" ${member.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                            <option value="Member" ${member.role === 'Member' ? 'selected' : ''}>Member</option>
+                        </select>
+                    ` : `${member.role}`}
                 </td>
                 <td class="text-xs sm:w-2/12">
                   ${specificWorkspaceData.owner_id === user.id ? `<button class="btn btn-sm btn-error btn-outline" id="dissolvemember" data-member-id="${member.id}">✕</button>` : "-"}

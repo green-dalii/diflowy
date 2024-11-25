@@ -314,25 +314,3 @@ export async function fetchSpecificWorkspace(workspace_id: string): Promise<Work
     }
     return (await response.json()) as WorkspaceResponse;
 }
-
-// Dissolve the workspace
-export async function dissolveWorkspace(workspace_id: string, event: Event): Promise<WorkspaceResponse> {
-    event.preventDefault();
-    event.stopPropagation();
-    const url = new URL("/api/user/workspace/delete/" + workspace_id, window.location.origin);
-    const response = await fetch(url.toString(), {
-        method: "DELETE"
-    });
-    if (response.status == 401) {
-        console.error("JWT Expired");
-        throw new Error("JWT Expired");
-    } else if (response.status === 404) {
-        console.error("No workspace Found");
-        throw new Error("Not Found");
-    }
-    else if (!response.ok) {
-        console.error("Failed to delete workspace", response.statusText);
-        throw new Error("Failed to delete workspace");
-    }
-    return (await response.json()) as WorkspaceResponse;
-}
