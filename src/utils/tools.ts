@@ -89,7 +89,7 @@ export interface WorkspaceResponse {
 
 // invite token Data Structure
 export interface InviteTokenResponse {
-    token: string;
+    res: string;
 }
 
 // 自定义错误类

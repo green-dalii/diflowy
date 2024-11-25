@@ -257,6 +257,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     const response = await fetch(url.toString(), {
         method: "POST"
     });
+    const data = await response.json() as InviteTokenResponse;
     if (response.status == 401) {
       console.error("JWT Expired");
       modalTitle.innerText = "😮 Oops...";
@@ -266,14 +267,13 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     } else if (!response.ok) {
       console.error("Failed to generate token");
       modalTitle.innerText = "😮 Oops...";
-      modalContent.innerText = "Failed to generate token, please check your Plan Quota or network connection.";
+      modalContent.innerText = data.res;
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
     } else {
-      const inviteToken = await response.json() as InviteTokenResponse;
       modalTitle.innerText = "🎉 Copied! Send the Token to your members.";
       modalContent.innerHTML = `<div>Your workspace invite Token has been copied to your clipboard!✌️</div><div>You can send it to your members so they can join your workspace.</div>`;
-      modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${inviteToken.token}</div>`;
+      modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${data.res}</div>`;
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
     }
@@ -356,12 +356,12 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         row.id = `${workspaces.id}`;
         row.innerHTML = `
           <td class="text-xs sm:table-cell sm:w-6/12">${workspaces.name}</td>
-          <td class="text-xs sm:2/12">${workspaces.owner_id === user.id ? "✅" : "-"}</td>
+          <td class="text-xs sm:2/12">${workspaces.role === 'OWNER' ? "✅" : "-"}</td>
           <td class="text-xs sm:table-cell sm:w-2/12" data-workspace-id="${workspaces.id}">
             <button class="manage btn btn-sm btn-outline w-full" id="manageworkspace" data-workspace-id="${workspaces.id}">⚙️</button>
           </td>
           <td class="text-xs sm:w-2/12" data-workspace-id="${workspaces.id}" data-workspace-name="${workspaces.name}">
-            ${workspaces.owner_id == user.id ? `<button class="dissolve btn btn-sm btn-outline btn-error w-full" id="dissolveworkspace" data-workspace-id="${workspaces.id}" data-workspace-name="${workspaces.name}">✕</button>` : "-"}
+            ${workspaces.role === 'OWNER' ? `<button class="dissolve btn btn-sm btn-outline btn-error w-full" id="dissolveworkspace" data-workspace-id="${workspaces.id}" data-workspace-name="${workspaces.name}">✕</button>` : "-"}
           </td>
         `;
         workspaceTable.appendChild(row);
@@ -419,12 +419,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               row.innerHTML = `
                 <td class="text-xs sm:table-cell sm:w-6/12">${member.username}</td>
                 <td class="text-xs sm:2/12">
-                    ${specificWorkspaceData.owner_id === user.id ? `
-                        <select class="select select-bordered select-sm">
-                            <option value="Admin" ${member.role === 'Admin' ? 'selected' : ''}>Admin</option>
-                            <option value="Member" ${member.role === 'Member' ? 'selected' : ''}>Member</option>
-                        </select>
-                    ` : `${member.role}`}
+                    ${member.role}}
                 </td>
                 <td class="text-xs sm:w-2/12">
                   ${specificWorkspaceData.owner_id === user.id ? `<button class="btn btn-sm btn-error btn-outline" id="dissolvemember" data-member-id="${member.id}">✕</button>` : "-"}

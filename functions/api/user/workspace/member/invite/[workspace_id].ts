@@ -74,13 +74,13 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 const memberCountResult = memberCount.count;
                 // Check user workspace count and member count whether it exceeds the plan limit
                 if (planCheckResult.plan_type === 'TEAM') {
-                    if (workspaceCountResult >= TEAM_PLAN_MAX_WORKSPACE) {
+                    if (workspaceCountResult > TEAM_PLAN_MAX_WORKSPACE) {
                         // If the user has reached the maximum number of workspaces for the Team plan
                         return new Response(JSON.stringify({ res: 'You have reached the maximum number of workspaces for the Team plan' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
-                    } else if (memberCountResult >= TEAM_PLAN_MAX_MEMBERS) {
+                    } else if (memberCountResult > TEAM_PLAN_MAX_MEMBERS) {
                         // If the user has reached the maximum number of members for the Team plan
                         return new Response(JSON.stringify({ res: 'You have reached the maximum number of members for the Team plan' }), {
                             headers: { 'Content-Type': 'application/json' },
@@ -88,13 +88,13 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                         });
                     }
                 } else if (planCheckResult.plan_type === 'ENTERPRISE') {
-                    if (workspaceCountResult >= ENTERPRISE_PLAN_MAX_WORKSPACE) {
+                    if (workspaceCountResult > ENTERPRISE_PLAN_MAX_WORKSPACE) {
                         // If the user has reached the maximum number of workspaces for the Enterprise plan
                         return new Response(JSON.stringify({ res: 'You have reached the maximum number of workspaces for the Enterprise plan' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
-                    } else if (memberCountResult >= ENTERPRISE_PLAN_MAX_MEMBERS) {
+                    } else if (memberCountResult > ENTERPRISE_PLAN_MAX_MEMBERS) {
                         // If the user has reached the maximum number of members for the Enterprise plan
                         return new Response(JSON.stringify({ res: 'You have reached the maximum number of members for the Enterprise plan' }), {
                             headers: { 'Content-Type': 'application/json' },
@@ -114,7 +114,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 // URL encode invite JWT
                 const inviteJWTEncoded = encodeURIComponent(inviteJWT);
                 console.log("Invite JWT>>>", inviteJWTEncoded)
-                return new Response(JSON.stringify({ token: inviteJWTEncoded }), {
+                return new Response(JSON.stringify({ res: inviteJWTEncoded }), {
                     headers: { 'Content-Type': 'application/json' },
                     status: 200,
                 });
