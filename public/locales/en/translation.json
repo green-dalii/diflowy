@@ -263,7 +263,11 @@
         "yourrole": "Your Role",
         "invitemember": "Invite Member",
         "workspacetoken": "Workspace Token",
-        "joinbtn": "Join Workspace"
+        "joinbtn": "Join Workspace",
+        "workspacequataexpired": "Workspace Quota Expired, please upgrade your plan.",
+        "memberquataexpired": "Member Quota Expired, please upgrade your plan.",
+        "workspacetokenexpired": "Workspace Token Expired",
+        "workspacetokenexpiredmsg": "Please contact the administrator to renew the Workspace Token."
     },
     "notfound": {
         "title": "Oooops!",

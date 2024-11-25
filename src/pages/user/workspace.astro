@@ -212,7 +212,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     modalContent.innerText = "Removing Member...";
     confirmBtn.classList.toggle("hidden", true);
     modal.showModal();
-    const url = new URL("/api/user/workspace/remove/" + workspace_id + "?member_id=" + member_id, window.location.origin);
+    const url = new URL("/api/user/workspace/member/remove/" + workspace_id + "?member_id=" + member_id, window.location.origin);
     const response = await fetch(url.toString(), {
         method: "DELETE"
     });
@@ -245,7 +245,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     modalContent.innerText = "Generating Invite Token...";
     confirmBtn.classList.toggle("hidden", true);
     modal.showModal();
-    const url = new URL("/api/user/workspace/invite/" + workspace_id, window.location.origin);
+    const url = new URL("/api/user/workspace/member/invite/" + workspace_id, window.location.origin);
     const response = await fetch(url.toString(), {
         method: "POST"
     });
