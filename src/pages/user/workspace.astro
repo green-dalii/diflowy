@@ -72,8 +72,16 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                 <span id="memberquatahint" class="hidden ml-4 text-xs text-gray-400">*{t("user.workspacequataexpired")}</span>
               </div>
               <div class="divider col-span-full"></div>
-              <!-- Workspace List -->
-              <div class="text-sm col-span-2">
+              <!-- Join Workspace -->
+              <div class="text-base col-span-full sm:col-span-2">
+                <span class="font-medium mr-2">{t("user.joinworkspace")}</span>
+              </div>
+              <div class="text-sm col-span-full sm:col-span-1 my-2">
+                <a href={localizePath("/user/join")}><button class="btn-primary w-full sm:w-auto py-2 text-sm" id="joinbtn">{t("user.joinbtn")}</button></a>
+              </div>
+              <div class="divider col-span-full"></div>
+              <!-- Joined Workspace List -->
+              <div class="text-base col-span-2">
                 <span class="font-medium mr-2">{t("user.joinedworkspace")}</span>
               </div>
               <div class="pb-6 sm:pb-0 col-span-1">
@@ -102,14 +110,6 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                   }
                 </tbody>
               </table>
-              <div class="divider col-span-full"></div>
-              <!-- Join Workspace -->
-              <div class="text-sm col-span-full sm:col-span-2">
-                <span class="font-medium mr-2">{t("user.joinworkspace")}</span>
-              </div>
-              <div class="text-sm col-span-full sm:col-span-1 my-2">
-                <a href={localizePath("/user/join")}><button class="btn-primary w-full sm:w-auto py-2 text-sm" id="joinbtn">{t("user.joinbtn")}</button></a>
-              </div>
             </div>
           </div>
           <div class="drawer-side sm:h-[70dvh]">
@@ -207,7 +207,8 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
     }
-    getWorkspaceInfo()
+    // refresh page
+    window.location.reload();
     return;
   }
 
@@ -240,7 +241,8 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
     }
-    getWorkspaceInfo()
+    // refresh page
+    window.location.reload();
     return;
   }
 
@@ -271,11 +273,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       confirmBtn.classList.toggle("hidden", true);
       modal.showModal();
     } else {
-      modalTitle.innerText = "🎉 Copied! Send the Token to your members.";
-      modalContent.innerHTML = `<div>Your workspace invite Token has been copied to your clipboard!✌️</div><div>You can send it to your members so they can join your workspace.</div>`;
-      modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${data.res}</div>`;
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
+      // copy the token to clipboard
+      navigator.clipboard.writeText(data.res).then(() => {
+        modalTitle.innerText = "🎉 Copied! Send the Token to your members.";
+        modalContent.innerHTML = `<div>Your workspace invite Token has been copied to your clipboard!✌️</div><div>You can send it to your members so they can join your workspace.</div>`;
+        modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${data.res}</div>`;
+        confirmBtn.classList.toggle("hidden", true);
+        modal.showModal();
+      });
     }
     return;
   }
@@ -366,7 +371,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         `;
         workspaceTable.appendChild(row);
       });
-      // Add event listener to manage workspace button
+      // Add event listener to workspace table
       workspaceTable.addEventListener("click", async (event: Event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -419,7 +424,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               row.innerHTML = `
                 <td class="text-xs sm:table-cell sm:w-6/12">${member.username}</td>
                 <td class="text-xs sm:2/12">
-                    ${member.role}}
+                    ${member.role}
                 </td>
                 <td class="text-xs sm:w-2/12">
                   ${specificWorkspaceData.owner_id === user.id ? `<button class="btn btn-sm btn-error btn-outline" id="dissolvemember" data-member-id="${member.id}">✕</button>` : "-"}

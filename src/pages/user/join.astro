@@ -5,7 +5,6 @@ import { Icon } from "astro-icon/components";
 import MainLayout from "../../layouts/MainLayout.astro";
 import SectionTitle from "../../components/ui/SectionTitle.astro";
 import Section from "../../components/sections/Section.astro";
-import EditModal from "../../components/ui/EditModal.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import "../../styles/globals.css";
 
@@ -37,14 +36,15 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       </div>
       <div id="protected-content" style="display: none;">
         <div class="w-full sm:w-80 mx-auto">
-          <form id="login-form" class="flex flex-col gap-4">
+          <form id="tokenForm" class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
-              <label for="email" class="text-sm font-medium"
+              <label for="workspacetoken" class="text-sm font-medium"
                 >{t("user.workspacetoken")}</label
               >
               <input
                 type="text"
-                id="workspacetoken"
+                id="workspaceToken"
+                name="workspaceToken"
                 class="input input-bordered w-full"
                 required
               />
@@ -60,15 +60,11 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           </form>
         </div>
       </div>
-      <EditModal />
     </Section>
   </div>
 </MainLayout>
 
 <script>
-  import { fetchUserDetails, JWTError } from "../../utils/tools";
-  import type { GetUserDetailsResponse } from "../../utils/tools";
-
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
   const modalTitle = document.getElementById(
@@ -78,67 +74,54 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     "modalContent",
   ) as HTMLDivElement;
   const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
-
-  // Get User info elements
-  const usernameElement = document.getElementById("username") as HTMLSpanElement;
-  const planElement = document.getElementById("plan") as HTMLSpanElement;
-  const planstartElement = document.getElementById("planstart") as HTMLSpanElement;
-  const planexpireElement = document.getElementById("planexpire") as HTMLSpanElement;
-
-  // Get notfree elements
-  const notfree = document.querySelectorAll('.notfree');
-
-  // Get the edit name button and input field
-  const editNameBtn = document.getElementById("editname");
-  const editNameInput = document.getElementById("editnameInput");
-
-  // Function of getting user info
-  async function getUserInfo() {
-    try{
-      const userInfo = await fetchUserDetails() as GetUserDetailsResponse;
-      console.log("User API Return Data>>>", userInfo)
-      usernameElement.textContent = userInfo.user.username;
-      planElement.textContent = userInfo.user.plan_type;
-      if(userInfo.user.plan_type === "FREE"){
-        notfree.forEach(element => {
-          element.classList.toggle("hidden", true);
+  // Get the form element
+  const tokenForm = document.getElementById("tokenForm") as HTMLFormElement;
+  // handle submit
+  async function handleTokenSubmit(event: Event) {
+    event.preventDefault()
+    // Show loading modal
+    modalTitle.innerText = "⏳ Validating...";
+    modalContent.innerText = "Validating your token...";
+    confirmBtn.classList.toggle("hidden", true);
+    modal.showModal();
+    // Get the form data
+    const formData = new FormData(tokenForm);
+    // check if token is valid
+    if(!formData.get("workspaceToken")) {
+      modalTitle.innerText = "😮 Oops";
+      modalContent.innerText = "Please fill out the token field.";
+      modal.showModal();
+      return;
+    } else {
+      try{
+        await fetch("/api/user/workspace/member/join", {
+          method: "POST",
+          body: formData,
+        }).then((response) => {
+          if (response.ok) {
+            // Redirect to the workspace page
+            modalTitle.innerText = "🎉 Join Workspace Success";
+            modalContent.innerText = "You have successfully joined the workspace.";
+            modal.showModal();
+            confirmBtn.classList.toggle("hidden", false);
+            setTimeout(() => {
+              window.location.href = "/user/workspace";
+            }, 2000);
+          } else {
+            // Show error modal
+            modalTitle.innerText = "😮 Oops";
+            modalContent.innerText = "Invalid token.";
+            modal.showModal();
+          }
         });
-      } else {
-        notfree.forEach(element => {
-          element.classList.toggle("hidden", false);
-        });
-        planstartElement.textContent = userInfo.user.plan_started_at;
-        planexpireElement.textContent = userInfo.user.plan_expired_at;
-      }
-    } catch (error){
-      if ((error as Error).message === "JWT Expired") {
-        sessionStorage.removeItem("username");
-        modalTitle.innerText = "😮 Oops...";
-        modalContent.innerText = "Your login has expired, please login again!";
-        const confirmBtn = document.getElementById(
-          "confirmBtn",
-        ) as HTMLButtonElement;
-        confirmBtn.textContent = "Login again";
-        confirmBtn.classList.toggle("btn-error", true);
-        confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.addEventListener("click", (event: Event) => {
-          event.preventDefault();
-          window.location.href = "/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
-        });
+      } catch (error) {
+        // Show error modal
+        modalTitle.innerText = "😮 Oops";
+        modalContent.innerText = "Something went wrong.";
         modal.showModal();
-      } else {
-        console.error("Error loading user data:", error);
-        modalTitle.innerText = "⚠️ Error";
-        confirmBtn.classList.toggle("hidden", true);
-        modalContent.innerText =
-          "Failed to fetch user data. Please Login again or check your connection.";
-        modal.showModal();
+        console.error(error);
+        return;
       }
     }
   }
-
-
-  document.addEventListener("DOMContentLoaded", () => {
-    getUserInfo();
-  });
 </script>

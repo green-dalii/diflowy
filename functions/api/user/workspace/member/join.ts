@@ -1,8 +1,8 @@
 import { jwtVerify } from 'jose';
 import * as jose from 'jose'
-import type { Env } from '../../../../auth';
-import { createJWT } from "../../../../../jwtUtils";
-import { checkUserPlan } from '../../../../../planUtils';
+import type { Env } from '../../../auth';
+import { createJWT } from "../../../../jwtUtils";
+import { checkUserPlan } from '../../../../planUtils';
 
 const FREE_PLAN_MAX_WORKSPACE = 0;
 const TEAM_PLAN_MAX_WORKSPACE = 1;
@@ -12,20 +12,19 @@ const FREE_PLAN_MAX_MEMBERS = 0;
 const TEAM_PLAN_MAX_MEMBERS = 10;
 const ENTERPRISE_PLAN_MAX_MEMBERS = 100;
 
+interface workspacePayload {
+    user_id: string;
+    workspace_id: string;
+    role: string;
+}
+
+// Add member to workspace by token
 export async function onRequestPost(context: { request: Request; env: Env; params: { workspace_id: string } }) {
+    console.log("Join Workspace POST Request...")
     try {
         const { request, params } = context;
-        const workspace_id = params.workspace_id;
         const cookie = request.headers.get('cookie');
         const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
-        // Check if Workspace ID is null
-        if(!workspace_id){
-            console.log("No Workspace ID found in params")
-            return new Response(JSON.stringify({ res: 'Bad Request' }), {
-                headers: { 'Content-Type': 'application/json' },
-                status: 400,
-            });
-        }
         // Authenticate the user by JWT
         if (!jwt) {
             // If jwf is null
@@ -36,37 +35,45 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             });
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-        // Verify that the user requesting invite member is the owner or admin of the workspace
-        const workspaceResult  = await context.env.D1.prepare(
-            "SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?"
-        ).bind(payload.id, workspace_id).first() as any;
-        console.log("workspace owner_id>>>", workspaceResult.user_id, "payloadID>>>", payload.id)
-        if(!workspaceResult){
-            console.log("User not authorized to operate this workspace")
-            return new Response(JSON.stringify({ res: 'Unauthorized' }), {
+        // Get workspace info from JWT token in formdata
+        const formData = await request.formData();
+        const workspaceToken = decodeURIComponent(formData.get('workspaceToken') as string) || null;
+        if(!workspaceToken){
+            console.log("No Workspace Token found in formdata")
+            return new Response(JSON.stringify({ res: 'Bad Request' }), {
                 headers: { 'Content-Type': 'application/json' },
-                status: 401,
-            });
-        } else if((workspaceResult.role !== "OWNER") && (workspaceResult.role !== "ADMIN") ){
-            // If the user is not the owner or admin of the workspace
-            console.log("User not authorized to invite member", workspaceResult.role)
-            return new Response(JSON.stringify({ res: 'Unauthorized' }), {
-                headers: { 'Content-Type': 'application/json' },
-                status: 403,
+                status: 400,
             });
         } else {
-            // Check user plan
-            const planCheckResult = await checkUserPlan(payload.id as string, context.env);
+            const { payload: workspacePayload } = await jwtVerify(workspaceToken, new TextEncoder().encode(context.env.AUTH_SECRET));
+            const workspace_id = workspacePayload.workspace_id;
+            const inviteUserId = workspacePayload.user_id;
+            const inviteUserName = workspacePayload.username;
+            const inviteRole = workspacePayload.role;
+            // Check If the user is already in the workspace
+            const workspaceMemberResult = await context.env.D1.prepare(
+                "SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?"
+            ).bind(payload.id, workspace_id).first() as any;
+            if(workspaceMemberResult){
+                console.log("User already in the workspace")
+                return new Response(JSON.stringify({ res: 'User already in the workspace' }), {
+                    headers: { 'Content-Type': 'application/json' },
+                    status: 403,
+                });
+            }
+            // Check if the workspace owner's plan is expired
+            const planCheckResult = await checkUserPlan(inviteUserId as string, context.env);
             if (planCheckResult.expired || planCheckResult.plan_type === 'FREE') {
+                console.log("Owner's plan is invaild")
                 return new Response(JSON.stringify({ res: planCheckResult.message }), {
                     headers: { 'Content-Type': 'application/json' },
                     status: 403,
                 });
             } else {
-                // Check user workspace count
+                // Query owner's workspace count and member count
                 const workspaceCount = await context.env.D1.prepare(
                     "SELECT COUNT(*) AS count FROM workspaces WHERE owner_id =?"
-                ).bind(payload.id).first() as any;
+                ).bind(inviteUserId).first() as any;
                 const memberCount = await context.env.D1.prepare(
                     "SELECT COUNT(*) AS count FROM workspace_members WHERE workspace_id =?"
                 ).bind(workspace_id).first() as any;
@@ -76,13 +83,13 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 if (planCheckResult.plan_type === 'TEAM') {
                     if (workspaceCountResult > TEAM_PLAN_MAX_WORKSPACE) {
                         // If the user has reached the maximum number of workspaces for the Team plan
-                        return new Response(JSON.stringify({ res: 'You have reached the maximum number of workspaces for the Team plan' }), {
+                        return new Response(JSON.stringify({ res: 'The quota for the workspace you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
                     } else if (memberCountResult >= TEAM_PLAN_MAX_MEMBERS) {
                         // If the user has reached the maximum number of members for the Team plan
-                        return new Response(JSON.stringify({ res: 'You have reached the maximum number of members for the Team plan' }), {
+                        return new Response(JSON.stringify({ res: 'The workspace member quota you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
@@ -90,34 +97,23 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 } else if (planCheckResult.plan_type === 'ENTERPRISE') {
                     if (workspaceCountResult > ENTERPRISE_PLAN_MAX_WORKSPACE) {
                         // If the user has reached the maximum number of workspaces for the Enterprise plan
-                        return new Response(JSON.stringify({ res: 'You have reached the maximum number of workspaces for the Enterprise plan' }), {
+                        return new Response(JSON.stringify({ res: 'The quota for the workspace you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
                     } else if (memberCountResult >= ENTERPRISE_PLAN_MAX_MEMBERS) {
                         // If the user has reached the maximum number of members for the Enterprise plan
-                        return new Response(JSON.stringify({ res: 'You have reached the maximum number of members for the Enterprise plan' }), {
+                        return new Response(JSON.stringify({ res: 'The workspace member quota you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
                     }
                 }
-                // If the user has not reached the maximum number of workspaces or members for the plan, continue generating invite JWT
-                const workspaceInvitePayload = {
-                    user_id: payload.id,
-                    user_name: payload.username,
-                    workspace_id: workspace_id,
-                    role: 'MEMBER',
-                };
-                // Generate invite JWT
-                const inviteJWT = await createJWT(workspaceInvitePayload, context.env.AUTH_SECRET, '24h');
-                // URL encode invite JWT
-                const inviteJWTEncoded = encodeURIComponent(inviteJWT);
-                console.log("Invite JWT>>>", inviteJWTEncoded)
-                return new Response(JSON.stringify({ res: inviteJWTEncoded }), {
-                    headers: { 'Content-Type': 'application/json' },
-                    status: 200,
-                });
+                // If workspace quota is under limit, join the workspace
+                console.log("All conditions are met, ready to join the workspace...")
+                const workspaceMemberInsertResult = await context.env.D1.prepare(
+                    "INSERT INTO workspace_members (user_id, workspace_id, role) VALUES (?,?,?)"
+                ).bind(payload.id, workspace_id, inviteRole).run();
             }
         }
     } catch (error) {
