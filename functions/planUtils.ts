@@ -1,6 +1,8 @@
 import type { Env } from './api/auth';
 
-interface CheckUserPlanResult {
+export interface CheckUserPlanResult {
+    id: string;
+    username: string;
     plan_type: string;
     expired: boolean;
     message: string;
@@ -39,24 +41,30 @@ export async function checkUserPlan(userId: string, env: Env) {
         ).bind('FREE', userId).run();
 
         return {
+            id: userQuery.id,
+            username: userQuery.username,
             plan_type: 'FREE',
             expired: true,
             message: 'Plan expired, downgraded to FREE'
-        };
+        } as CheckUserPlanResult;
     }
 
     // Check if plan is FREE
     if (plan_type === 'FREE') {
         return {
+            id: userQuery.id,
+            username: userQuery.username,
             plan_type: 'FREE',
             expired: false,
             message: 'Plan is FREE, cannot perform this action'
-        };
+        } as CheckUserPlanResult;
     }
 
     return {
+        id: userQuery.id,
+        username: userQuery.username,
         plan_type: plan_type,
         expired: false,
         message: 'Plan is valid'
-    };
+    } as CheckUserPlanResult;
 }

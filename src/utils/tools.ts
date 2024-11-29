@@ -53,10 +53,9 @@ export interface GetWorkspacesResponse {
     user: {
         id: string;
         username: string;
-        created_at: string;
         plan_type: string;
-        plan_started_at: string;
-        plan_expired_at: string;
+        expired: boolean;
+        message: string;
     };
     workspacesObject: {
         joined: {
@@ -66,6 +65,7 @@ export interface GetWorkspacesResponse {
         managed: {
             workspaces: ManagedWorkspaces[];
             total: number;
+            total_member_count: number;
         };
     }
 }

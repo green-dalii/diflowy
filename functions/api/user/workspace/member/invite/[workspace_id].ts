@@ -3,6 +3,7 @@ import * as jose from 'jose'
 import type { Env } from '../../../../auth';
 import { createJWT } from "../../../../../jwtUtils";
 import { checkUserPlan } from '../../../../../planUtils';
+import type { CheckUserPlanResult } from '../../../../../planUtils';
 
 const FREE_PLAN_MAX_WORKSPACE = 0;
 const TEAM_PLAN_MAX_WORKSPACE = 1;
@@ -56,7 +57,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             });
         } else {
             // Check user plan
-            const planCheckResult = await checkUserPlan(payload.id as string, context.env);
+            const planCheckResult = await checkUserPlan(payload.id as string, context.env) as CheckUserPlanResult;
             if (planCheckResult.expired || planCheckResult.plan_type === 'FREE') {
                 return new Response(JSON.stringify({ res: planCheckResult.message }), {
                     headers: { 'Content-Type': 'application/json' },

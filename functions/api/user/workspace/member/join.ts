@@ -3,6 +3,7 @@ import * as jose from 'jose'
 import type { Env } from '../../../auth';
 import { createJWT } from "../../../../jwtUtils";
 import { checkUserPlan } from '../../../../planUtils';
+import type { CheckUserPlanResult } from '../../../../planUtils';
 
 const FREE_PLAN_MAX_WORKSPACE = 0;
 const TEAM_PLAN_MAX_WORKSPACE = 1;
@@ -62,7 +63,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 });
             }
             // Check if the workspace owner's plan is expired
-            const planCheckResult = await checkUserPlan(inviteUserId as string, context.env);
+            const planCheckResult = await checkUserPlan(inviteUserId as string, context.env) as CheckUserPlanResult;
             if (planCheckResult.expired || planCheckResult.plan_type === 'FREE') {
                 console.log("Owner's plan is invaild")
                 return new Response(JSON.stringify({ res: planCheckResult.message }), {
