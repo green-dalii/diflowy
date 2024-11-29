@@ -92,6 +92,11 @@ export interface InviteTokenResponse {
     res: string;
 }
 
+// join workspace Data Structure
+export interface JoinWorkspaceResponse {
+    res: string;
+}
+
 // 自定义错误类
 class CustomError extends Error {
     constructor(message: string) {

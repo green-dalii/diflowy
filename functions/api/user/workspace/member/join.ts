@@ -29,7 +29,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
         if (!jwt) {
             // If jwf is null
             console.log("No JWT found in cookie")
-            return new Response(JSON.stringify({ res: 'Unauthorized' }), {
+            return new Response(JSON.stringify({ res: 'Unauthorized, please login first.' }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 401,
             });
@@ -56,7 +56,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             ).bind(payload.id, workspace_id).first() as any;
             if(workspaceMemberResult){
                 console.log("User already in the workspace")
-                return new Response(JSON.stringify({ res: 'User already in the workspace' }), {
+                return new Response(JSON.stringify({ res: 'You are already in the workspace' }), {
                     headers: { 'Content-Type': 'application/json' },
                     status: 403,
                 });
@@ -120,12 +120,12 @@ export async function onRequestPost(context: { request: Request; env: Env; param
         console.error('Error in Create Workspace>>>', error);
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
-            return new Response(JSON.stringify({ res: 'JWT Broken' }), {
+            return new Response(JSON.stringify({ res: 'JWT Broken, please login again.' }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 401,
             });
         } else {
-            return new Response(JSON.stringify({ res: 'Internal Server Error' }), {
+            return new Response(JSON.stringify({ res: 'Internal Server Error, please try again later or contact Diflowy official.' }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 500,
             });
