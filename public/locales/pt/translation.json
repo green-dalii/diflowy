@@ -215,7 +215,7 @@
         "No": "Número",
         "lv": "Última Versão",
         "hm": "Modo de Hospedagem",
-        "meta": "Informações Básicas",
+        "meta": "Editar Metadados",
         "update": "Atualizar Versão",
         "delete": "Excluir",
         "publicmsg": "Para fluxos de trabalho já carregados, por razões de segurança de arquivo, o modo de hospedagem não pode ser alterado. Se você precisar mudar para o modo de hospedagem privada, por favor, carregue novamente e escolha esse modo.",

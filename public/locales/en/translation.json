@@ -218,7 +218,7 @@
         "No": "No.",
         "lv": "Latest Version",
         "hm": "Host Mode",
-        "meta": "Metadata",
+        "meta": "Edit Metadata",
         "update": "Update Version",
         "delete": "Delete",
         "publicmsg": "For uploaded workflows, for security reasons, the hosting mode cannot be changed. If you need to change to private hosting mode, please re-upload and select that mode.",

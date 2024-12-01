@@ -215,7 +215,7 @@
         "No": "Numéro",
         "lv": "Dernière version",
         "hm": "Mode d'hébergement",
-        "meta": "Informations de base",
+        "meta": "Modifier les métadonnées",
         "update": "Mettre à jour",
         "delete": "Supprimer",
         "publicmsg": "Pour les workflows déjà téléversés, pour des raisons de sécurité des fichiers, le mode d'hébergement ne peut pas être modifié. Si vous avez besoin de le changer en mode d'hébergement privé, veuillez le téléverser à nouveau et choisir ce mode.",

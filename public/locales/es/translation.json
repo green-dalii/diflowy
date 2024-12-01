@@ -215,7 +215,7 @@
         "No": "Número",
         "lv": "Última versión",
         "hm": "Modo de alojamiento",
-        "meta": "Información básica",
+        "meta": "Editar metadatos",
         "update": "Actualizar versión",
         "delete": "Eliminar",
         "publicmsg": "Para los flujos de trabajo ya subidos, por razones de seguridad del archivo, no se puede cambiar el modo de alojamiento. Si necesita cambiar al modo de alojamiento privado, vuelva a subir y seleccione ese modo.",

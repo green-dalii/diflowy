@@ -215,7 +215,7 @@
         "No": "Numero",
         "lv": "Ultima versione",
         "hm": "Modalità di hosting",
-        "meta": "Informazioni di base",
+        "meta": "Modifica Metadati",
         "update": "Aggiorna la versione",
         "delete": "Elimina",
         "publicmsg": "Per i flussi di lavoro già caricati, per motivi di sicurezza dei file, non è possibile modificare la modalità di hosting. Se desideri passare alla modalità di hosting privato, ricarica e seleziona questa modalità.",

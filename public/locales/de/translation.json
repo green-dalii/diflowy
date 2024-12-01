@@ -215,7 +215,7 @@
         "No": "Nummer",
         "lv": "Neueste Version",
         "hm": "Host-Modus",
-        "meta": "Meta-Informationen",
+        "meta": "Metadaten bearbeiten",
         "update": "Version aktualisieren",
         "delete": "Löschen",
         "publicmsg": "Für hochgeladene Workflows kann aus Sicherheitsgründen der Hosting-Modus nicht geändert werden. Wenn Sie in den privaten Hosting-Modus wechseln möchten, laden Sie bitte erneut hoch und wählen Sie diesen Modus.",

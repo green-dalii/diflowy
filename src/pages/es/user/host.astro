@@ -147,22 +147,22 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       const descriptionBase64 = btoa(String.fromCharCode.apply(null, descriptionByteArray));
       row.innerHTML = `
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
-        <td class="w-3/12 text-xs sm:3/12"><a href="/es/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
+        <td class="w-3/12 text-xs sm:3/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.latestVersion}</td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private"}</td>
         <td class="w-3/12 sm:w-2/12">
             <button class="btn w-full btn-outline btn-sm btn-info edit text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${descriptionBase64}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">
-              📝 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-tags="${tagsBase64}" data-workflow-description="${descriptionBase64}" data-workflow-author="${JSON.parse(workflow.authorData).authorName}" data-workflow-social-link="${JSON.parse(workflow.authorData).socialLink}" data-workflow-private="${workflow.isPrivate}">Edit</span>
+              📝
             </button>
         </td>
         <td class="w-3/12 sm:w-2/12">
           <button class="btn w-full btn-outline btn-sm btn-success update text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">
-              🚀 <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}" data-workflow-ver="${workflow.latestVersion}">Update</span>
+              🚀
           </button>
         </td>
         <td class="w-3/12 sm:w-2/12">
           <button class="btn w-full btn-outline btn-sm btn-error delete text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">
-              🗑️ <span class="hidden lg:block ml-1 data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">Delete</span>
+              🗑️
           </button>
         </td>
       `;
