@@ -27,7 +27,7 @@ export async function checkUserPlan(userId: string, env: Env) {
         throw new Error('User not found');
     }
 
-    const { plan_type, plan_expired_at } = userQuery;
+    const { id, username, plan_type, plan_expired_at } = userQuery;
 
     // Convert plan_expired_at to Date object
     const expiredAtDate = new Date(plan_expired_at);
@@ -41,8 +41,8 @@ export async function checkUserPlan(userId: string, env: Env) {
         ).bind('FREE', userId).run();
 
         return {
-            id: userQuery.id,
-            username: userQuery.username,
+            id: id,
+            username: username,
             plan_type: 'FREE',
             expired: true,
             message: 'Plan expired, downgraded to FREE'
@@ -52,8 +52,8 @@ export async function checkUserPlan(userId: string, env: Env) {
     // Check if plan is FREE
     if (plan_type === 'FREE') {
         return {
-            id: userQuery.id,
-            username: userQuery.username,
+            id: id,
+            username: username,
             plan_type: 'FREE',
             expired: false,
             message: 'Plan is FREE, cannot perform this action'
@@ -61,8 +61,8 @@ export async function checkUserPlan(userId: string, env: Env) {
     }
 
     return {
-        id: userQuery.id,
-        username: userQuery.username,
+        id: id,
+        username: username,
         plan_type: plan_type,
         expired: false,
         message: 'Plan is valid'

@@ -325,7 +325,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         createWokspaceBtn.classList.toggle("btn", true);
       }
       // If workspaces quata is full, disable create workspace button and display hint
-      if (workspacesObject.managed.total >= workspaceQuata.max) {
+      if (workspaceQuata.value >= workspaceQuata.max) {
         createWokspaceBtn.disabled = true;
         createWokspaceBtn.classList.toggle("btn-disabled", true);
         createWokspaceBtn.classList.toggle("btn", true);
@@ -341,7 +341,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         workspaceQuataHint.classList.toggle("hidden", true);
       }
       // If member quata is full, disable invite member button and display hint
-      if (workspacesObject.managed.total_member_count >= memberQuata.max) {
+      if (memberQuata.value >= memberQuata.max) {
         invitebtn.disabled = true;
         invitebtn.classList.toggle("btn-disabled", true);
         memberQuata.classList.toggle("progress-error", true);
@@ -524,7 +524,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // If Joined workspace is empty, return empty table
         workspaceTable.innerHTML = `
                       <tr>
-                        <td class="text-xs sm:table-cell sm:w-6/12">Empty</td>
+                        <td class="text-xs sm:table-cell sm:w-6/12">-</td>
                         <td class="text-xs sm:2/12">-</td>
                         <td class="text-xs sm:table-cell sm:w-2/12">-</td>
                         <td class="text-xs sm:w-2/12">-</td>

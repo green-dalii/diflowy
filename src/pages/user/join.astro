@@ -105,7 +105,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           if (response.ok) {
             // Redirect to the workspace page
             modalTitle.innerText = "🎉 Join Workspace Success";
-            modalContent.innerText = "You have successfully joined the workspace.";
+            modalContent.innerText = "You have successfully joined the workspace. Redirecting to workspace page in 2 seconds...";
             modal.showModal();
             confirmBtn.classList.toggle("hidden", false);
             setTimeout(() => {
@@ -115,6 +115,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
             // Show error modal
             modalTitle.innerText = "😮 Oops";
             modalContent.innerText = data.res;
+            confirmBtn.classList.toggle("hidden", false);
             modal.showModal();
           }
         });
@@ -122,6 +123,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // Show error modal
         modalTitle.innerText = "😮 Oops";
         modalContent.innerText = "Something went wrong.";
+        confirmBtn.classList.toggle("hidden", false);
         modal.showModal();
         console.error(error);
         return;

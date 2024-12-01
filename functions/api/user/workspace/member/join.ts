@@ -15,6 +15,7 @@ const ENTERPRISE_PLAN_MAX_MEMBERS = 100;
 
 interface workspacePayload {
     user_id: string;
+    username: string;
     workspace_id: string;
     role: string;
 }
@@ -46,7 +47,17 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 status: 400,
             });
         } else {
-            const { payload: workspacePayload } = await jwtVerify(workspaceToken, new TextEncoder().encode(context.env.AUTH_SECRET));
+            let workspacePayload: workspacePayload;
+            try{
+                workspacePayload = await jwtVerify(workspaceToken, new TextEncoder().encode(context.env.AUTH_SECRET)) as unknown as workspacePayload;
+            } catch (error) {
+                console.log("Invalid Workspace Token")
+                return new Response(JSON.stringify({ res: 'Invalid Workspace Token or is expired, please check it or contact the workspace owner to get a new token' }), {
+                    headers: { 'Content-Type': 'application/json' },
+                    status: 403,
+                });
+            }
+            // const { payload: workspacePayload } = await jwtVerify(workspaceToken, new TextEncoder().encode(context.env.AUTH_SECRET));
             const workspace_id = workspacePayload.workspace_id;
             const inviteUserId = workspacePayload.user_id;
             const inviteUserName = workspacePayload.username;
@@ -115,13 +126,17 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 const workspaceMemberInsertResult = await context.env.D1.prepare(
                     "INSERT INTO workspace_members (user_id, workspace_id, role) VALUES (?,?,?)"
                 ).bind(payload.id, workspace_id, inviteRole).run();
+                return new Response(JSON.stringify({ res: "Join " + inviteUserName + "'s Workspace successfully." }), {
+                    headers: { 'Content-Type': 'application/json' },
+                    status: 200,
+                });
             }
         }
     } catch (error) {
         console.error('Error in Create Workspace>>>', error);
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
-            return new Response(JSON.stringify({ res: 'JWT Broken, please login again.' }), {
+            return new Response(JSON.stringify({ res: 'User Verification Failed, please login again.' }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 401,
             });
