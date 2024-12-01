@@ -53,7 +53,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               </div>
               <div class="text-sm sm:col-span-2">
                 <span class="font-medium mr-2">{t("user.plannow")}:</span>
-                <span id="plan">Loading...</span>
+                <span id="plan" class="tag">Loading...</span>
               </div>
               <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
                 <button class="btn-disabled btn w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>

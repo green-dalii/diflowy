@@ -149,7 +149,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           } else if (data.message === "No user found with this email") {
             modalTitle.textContent = "😮 Oops...";
             modalContent.textContent =
-              "No user found with this email, please register first";
+              "No user found with this email, please register first. Redirecting to register page...";
             modal.showModal();
             setTimeout(() => {
               window.location.href = "/register/?email=" + emailInput.value;

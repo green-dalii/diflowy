@@ -20,7 +20,7 @@ interface queryResult {
 export async function checkUserPlan(userId: string, env: Env) {
     // Get user plan information
     const userQuery = await env.D1.prepare(
-        "SELECT plan_type, plan_expired_at FROM users WHERE id = ?"
+        "SELECT id, username, plan_type, plan_expired_at FROM users WHERE id = ?"
     ).bind(userId).first() as queryResult;
 
     if (!userQuery) {

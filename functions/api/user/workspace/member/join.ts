@@ -52,7 +52,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 workspacePayload = await jwtVerify(workspaceToken, new TextEncoder().encode(context.env.AUTH_SECRET)) as unknown as workspacePayload;
             } catch (error) {
                 console.log("Invalid Workspace Token")
-                return new Response(JSON.stringify({ res: 'Invalid Workspace Token or is expired, please check it or contact the workspace owner to get a new token' }), {
+                return new Response(JSON.stringify({ res: "Invalid or Expired Workspace Token. Please check it or contact the workspace's owner to get a new token" }), {
                     headers: { 'Content-Type': 'application/json' },
                     status: 403,
                 });

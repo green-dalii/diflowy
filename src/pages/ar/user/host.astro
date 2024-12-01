@@ -17,7 +17,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
 <MainLayout
-  title={t("site.user")}
+  title={t("site.host")}
   description={t("site.description")}
 >
   <Breadcrumbs urlList={urlList} />
@@ -228,6 +228,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // click edit button action
         if (editButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          event.preventDefault();
           const workflowId = editButton.dataset.workflowId as string;
           console.log("Clicked the edit button of", workflowId);
           editMetaForm.dataset.workflowId = workflowId as string;
@@ -312,6 +313,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // click update button action
         if (updateButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          event.preventDefault();
           const workflowVer = target.dataset.workflowVer;
           const updateVersionInput = document.getElementById(
             "updateVersionInput",
@@ -342,9 +344,10 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         // click delete button action
         if (deleteButton) {
           event.stopPropagation(); // Prevent the event from bubbling up to the document
+          event.preventDefault();
           const workflowId = deleteButton.dataset.workflowId as string;
           console.log("Clicked the delete button of", workflowId);
-          modalTitle.innerText = "🤔 Delect?";
+          modalTitle.innerText = "🤔 Delete Workflow?";
           modalContent.innerHTML = `Confirm to delete this workflow: <span class="font-bold">${target.dataset.workflowName}</span> and all its version records?`;
           confirmBtn.textContent = "Delete";
           confirmBtn.classList.toggle("btn-error", true);
@@ -385,7 +388,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     }
   }
 
-  // 
+  // Expose the loadPageData function to the global scope
   (window as any).loadTableData = loadPageData;
 
   document.addEventListener("DOMContentLoaded", () => {

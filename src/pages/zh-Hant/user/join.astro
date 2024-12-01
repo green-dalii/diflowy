@@ -2,13 +2,13 @@
 import { changeLanguage, t } from "i18next";
 import { localizePath } from "astro-i18next";
 import { Icon } from "astro-icon/components";
-import MainLayout from "../../layouts/MainLayout.astro";
-import SectionTitle from "../../components/ui/SectionTitle.astro";
-import Section from "../../components/sections/Section.astro";
-import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
-import "../../styles/globals.css";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import Section from "../../../components/sections/Section.astro";
+import Breadcrumbs from "../../../components/ui/Breadcrumbs.astro";
+import "../../../styles/globals.css";
 
-changeLanguage("en");
+changeLanguage("zh-Hant");
 
 const description = t("user.description");
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
@@ -65,7 +65,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
 </MainLayout>
 
 <script>
-  import type { JoinWorkspaceResponse } from "../../utils/tools";
+  import type { JoinWorkspaceResponse } from "../../../utils/tools";
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
   const modalTitle = document.getElementById(
