@@ -2,8 +2,11 @@
 import ReactFlowPreview from "../../components/flow/ReactFlowPreview";
 import WorkflowFileInput from "./WorkflowFileInput.astro";
 import Tags from "./Tags.astro";
-import i18next, { t, changeLanguage } from "i18next";
+import Alert from "./Alert.astro";
+import { t } from "i18next";
+import { localizePath } from "astro-i18next";
 import PrivateHostedToogle from "./PrivateHostedToogle.astro";
+import AlertModal from "./AlertModal.astro";
 ---
 
 <form id="uploadForm">
@@ -85,7 +88,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
                 </p>
                 <p class="text-xs leading-normal text-gray-400">
                   For any future updates, you can visit the <a
-                    href="/user"
+                    href={localizePath("/user/host")}
                     class="hover:link font-semibold hover:text-dark"
                     >👉 User Center</a
                   > to upload newer versions.
@@ -191,6 +194,29 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
             publicAlertMsg={t("uploadpage.publicmsg")}
             privateAlertMsg={t("uploadpage.privatemsg")}
           />
+        </div>
+        <!-- For Workspace  -->
+        <div class="border-b border-gray-900/10 pt-8 pb-4">
+          <h2 class="text-base font-semibold leading-7">
+            {t("uploadpage.workspaceshare")}
+          </h2>
+          <div class="form-control">
+            <label class="label cursor-pointer">
+              <span class="label-text">{t("uploadpage.personalavailable")}</span>
+              <input type="radio" id="forPersonal" name="workspaceshare" class="radio checked:bg-primary" checked="checked" />
+            </label>
+            <label class="label cursor-pointer">
+              <span class="label-text">{t("uploadpage.workspacesharing")}</span>
+              <input type="radio" id="forWorkspace" name="workspaceshare" class="radio checked:bg-primary" />
+            </label>
+          </div>
+          <label class="label">
+            <span class="label-text text-xs">{t("uploadpage.yourworkspace")}</span>
+            <select id="workspaceSelector" class="select select-bordered w-full" disabled>
+              <option disabled selected>...</option>
+            </select>
+          </label>
+          <Alert id="workspaceAlert" type="hidden" message={t("uploadpage.workspacemsg")}/>
         </div>
         <!-- Notifications -->
         <div class="border-b border-gray-900/10 pt-8 pb-4">
@@ -346,6 +372,8 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
   });
 </script>
 <script>
+  import type { GetWorkspacesResponse } from "../../utils/tools";
+  import { fetchUserWorkspaces } from "../../utils/tools";
   // Get the modal element
   const modal = document.getElementById("modal") as HTMLDialogElement;
   const modalTitle = document.getElementById(
@@ -361,6 +389,88 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
   ) as HTMLInputElement;
   // Get the file input
   const dslfile = document.getElementById("dsl-file") as HTMLInputElement;
+  // Get redio element
+  const personalRadio = document.getElementById("forPersonal") as HTMLInputElement;
+  const workspaceRadio = document.getElementById("forWorkspace") as HTMLInputElement;
+  // Get workspace selector element
+  const workspaceSelector = document.getElementById("workspaceSelector") as HTMLSelectElement | null;
+  // Get workspace alert element
+  const workspaceAlert = document.getElementById("workspaceAlert") as HTMLElement;
+  // Get private toggle input
+  const privateToggle = document.getElementById("private",) as HTMLInputElement;
+
+  // Check user's workspace
+  async function checkUserWorkspace() {
+    try{
+      if(workspaceSelector){
+        workspaceSelector.innerHTML = `<option disabled selected>Loading...</option>`
+      }
+      const { user, workspacesObject } = await fetchUserWorkspaces() as GetWorkspacesResponse;
+      console.log("workspacesObject", workspacesObject);
+      if (workspacesObject.joined.total === 0) {
+        personalRadio.checked = true;
+        workspaceRadio.disabled = true;
+        workspaceRadio.checked = false;
+        workspaceAlert.classList.toggle("hidden", true);
+        if(workspaceSelector){
+          workspaceSelector.innerHTML = `<option disabled selected>No Workspace Found</option>`
+        }
+      } else {
+        workspaceRadio.disabled = false;
+        workspaceAlert.classList.toggle("hidden", false);
+        if(workspaceSelector){
+          // remove all options in selector
+          workspaceSelector.innerHTML = '';
+          // add options from workspacesObject
+          workspacesObject.joined.workspaces.forEach((workspace) => {
+            const option = document.createElement("option");
+            option.value = workspace.id;
+            option.textContent = workspace.name;
+            workspaceSelector.appendChild(option);
+          });
+          workspaceAlert.classList.toggle("hidden", false);
+          workspaceSelector.disabled = false;
+          privateToggle.value = "on";
+        }
+      }
+    } catch (error){
+      personalRadio.checked = true;
+      workspaceRadio.disabled = true;
+      workspaceRadio.checked = false;
+      workspaceAlert.classList.toggle("hidden", true);
+      if(workspaceSelector){
+          workspaceSelector.innerHTML = `<option disabled selected>No Workspace Found</option>`
+      }
+      if ((error as Error).message === "JWT Expired") {
+        sessionStorage.removeItem("username");
+        modalTitle.innerText = "😮 Oops...";
+        modalContent.innerText = "Your login has expired, please login again!";
+        const confirmBtn = document.getElementById(
+          "confirmBtn",
+        ) as HTMLButtonElement;
+        confirmBtn.textContent = "Login again";
+        confirmBtn.classList.toggle("btn-error", true);
+        confirmBtn.classList.toggle("hidden", false);
+        confirmBtn.addEventListener("click", (event: Event) => {
+          event.preventDefault();
+          window.location.href = "/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+        });
+        modal.showModal();
+      } else {
+        console.error("Error loading workspace data:", error);
+        modalTitle.innerText = "⚠️ Error";
+        confirmBtn.classList.toggle("hidden", true);
+        modalContent.innerText =
+          "Failed to fetch workspace data. Please Login again or check your connection.";
+        modal.showModal();
+      }
+    }
+  }
+  
+  // Add listener to workspace radio
+  workspaceRadio.addEventListener("click", () => {
+    checkUserWorkspace();
+  });
 
   // Upload Form
   const form = document.getElementById("uploadForm") as HTMLFormElement;
@@ -406,6 +516,7 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
         "FormData>>>",
         formData.get("tags"),
         formData.get("dsl-file"),
+        formData.get("workspaceshare")
       );
       // Send form data to the server
       try {

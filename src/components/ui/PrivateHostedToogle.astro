@@ -55,12 +55,12 @@ const {
     privateToggle.addEventListener("change", () => {
         if (privateToggle.checked) {
             privateToggle.value = "on";
-            console.log("Private", privateToggle.value);
+            // console.log("Private", privateToggle.value);
             privateAlert.classList.toggle("hidden", false);
             publicAlert.classList.toggle("hidden", true);
         } else {
             privateToggle.value = "off";
-            console.log("Public", privateToggle.value);
+            // console.log("Public", privateToggle.value);
             privateAlert.classList.toggle("hidden", true);
             publicAlert.classList.toggle("hidden", false);
         }

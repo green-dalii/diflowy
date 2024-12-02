@@ -1,4 +1,5 @@
 ---
+import i18next, { t } from "i18next";
 const tags = [
 	"Productivity",
 	"Assistant",
@@ -19,7 +20,7 @@ const tags = [
 			class="btn-secondary w-full px-4 py-2"
 			type="button"
 		>
-			Select Tags
+			{t("uploadpage.selecttags")}<sup class="ml-1 text-red-500">*</sup>
 		</button>
 		<div
 			id="dropdownTags"
