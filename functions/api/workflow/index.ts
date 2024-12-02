@@ -15,6 +15,7 @@ interface Workflow {
     authorData: object;
     update_time: string;
     file_content?: string;
+    workspace_id: string | null;
 }
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
@@ -59,11 +60,27 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
                 console.log("Paylog_ID>>>", payload.id)
                 if (payload.id !== workflowResult.user_id) {
-                    console.log("Private Deny!!", payload.id, workflowResult.user_id)
-                    return new Response(JSON.stringify({ error: "Forbidden" }), {
-                        headers: { 'Content-Type': 'application/json' },
-                        status: 403,
-                    });
+                    // 如果用户ID不匹配，判断是否为Workspace文件
+                    const workspace_id = workflowResult.workflow_id;
+                    if(workspace_id !== null){
+                        // 如果存在 workspace_id，则查询用户是否为成员
+                        const workspaceMemberResult = await env.D1.prepare(`SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?`).bind(payload.id, workspace_id).first();
+                        if(!workspaceMemberResult){
+                            // 如果不存在成员关系，返回403 Forbidden
+                            console.log("Private Deny!!", payload.id, workspace_id)
+                            return new Response(JSON.stringify({ error: "Forbidden" }), {
+                                headers: { 'Content-Type': 'application/json' },
+                                status: 403,
+                            });
+                        }
+                    } else {
+                        // 如果不存在 workspace_id，则返回403 Forbidden
+                        console.log("Private Deny!!", payload.id, workflowResult.user_id)
+                        return new Response(JSON.stringify({ error: "Forbidden" }), {
+                            headers: { 'Content-Type': 'application/json' },
+                            status: 403,
+                        });
+                    }
                 }
                 // Get user register time
                 const userQuery = await context.env.D1.prepare(
@@ -144,10 +161,12 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             isPrivate: workflowResult.is_private as number,
             authorData: JSON.parse(workflowResult.author_data as string),
             update_time: versionResult.created_at as string,
-            file_content: fileContentString
+            file_content: fileContentString,
+            workspace_id: workflowResult.workspace_id as string
         };
 
         return new Response(JSON.stringify(workflow), {
+            status: 200,
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {

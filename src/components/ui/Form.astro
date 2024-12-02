@@ -22,7 +22,7 @@ import AlertModal from "./AlertModal.astro";
           <!-- WorkFlow File -->
           <div class="sm:col-span-full">
             <label for="dsl-file" class="block text-sm font-medium leading-6"
-              >{t("uploadpage.uploadfile")}</label
+              >{t("uploadpage.uploadfile")}<sup class="ml-1 text-red-500">*</sup></label
             >
             <WorkflowFileInput />
           </div>
@@ -398,6 +398,14 @@ import AlertModal from "./AlertModal.astro";
   const workspaceAlert = document.getElementById("workspaceAlert") as HTMLElement;
   // Get private toggle input
   const privateToggle = document.getElementById("private",) as HTMLInputElement;
+  // Get public alert
+  const publicAlert = document.getElementById(
+        "public-alert",
+    ) as HTMLDivElement;
+    // Get private alert
+    const privateAlert = document.getElementById(
+        "private-alert",
+    ) as HTMLDivElement;
 
   // Check user's workspace
   async function checkUserWorkspace() {
@@ -412,8 +420,12 @@ import AlertModal from "./AlertModal.astro";
         workspaceRadio.disabled = true;
         workspaceRadio.checked = false;
         workspaceAlert.classList.toggle("hidden", true);
+        privateToggle.value = "off";
+        privateToggle.checked = false;
+        privateAlert.classList.toggle("hidden", true);
+        publicAlert.classList.toggle("hidden", false);
         if(workspaceSelector){
-          workspaceSelector.innerHTML = `<option disabled selected>No Workspace Found</option>`
+          workspaceSelector.innerHTML = `<option disabled selected>You haven't joined any workspace.</option>`
         }
       } else {
         workspaceRadio.disabled = false;
@@ -431,6 +443,9 @@ import AlertModal from "./AlertModal.astro";
           workspaceAlert.classList.toggle("hidden", false);
           workspaceSelector.disabled = false;
           privateToggle.value = "on";
+          privateToggle.checked = true;
+          privateAlert.classList.toggle("hidden", false);
+          publicAlert.classList.toggle("hidden", true);
         }
       }
     } catch (error){
@@ -484,18 +499,19 @@ import AlertModal from "./AlertModal.astro";
     // Get form data
     const formData = new FormData(form);
     const selectedTags = document.querySelectorAll(".tag");
+    const file = formData.get("dsl-file") as unknown as HTMLInputElement
     // Check if all required fields are filled
     if (
       !formData.get("workflowname") ||
       !formData.get("description") ||
-      !formData.get("dsl-file") ||
+      file.size == 0 ||
       !formData.get("version") ||
       !formData.get("author-name") ||
       !formData.get("social-link") ||
       selectedTags.length === 0
     ) {
       modalTitle.innerText = "😮 Oops";
-      modalContent.innerText = "Please fill out all required fields.";
+      modalContent.innerText = "Please fill out all required(*) fields.";
       modal.showModal();
       return;
     } else {
@@ -512,11 +528,17 @@ import AlertModal from "./AlertModal.astro";
         tags.push(tag.textContent as string);
       });
       formData.append("tags", JSON.stringify(tags));
+      // Check if workspace is selected, add workspace_id in formData 
+      let workspace_id = "";
+      if(workspaceRadio.checked && workspaceSelector){
+        workspace_id = workspaceSelector.value || ""
+        formData.append("workspace_id", workspace_id)
+      }
       console.log(
         "FormData>>>",
         formData.get("tags"),
-        formData.get("dsl-file"),
-        formData.get("workspaceshare")
+        formData.get("dsl-file"), typeof(formData.get("dsl-file")),
+        formData.get("workspace_id")
       );
       // Send form data to the server
       try {

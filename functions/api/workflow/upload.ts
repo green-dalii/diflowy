@@ -23,7 +23,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         console.log("User Authorized", payload)
         // Get Data from POST
         const formData = await request.formData();
-        console.log("Upload API Data>>>", formData)
         // Extract data from formData
         const workflowName = formData.get('workflowname') as string;
         const description = formData.get('description') as string;
@@ -33,8 +32,16 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         const icon = formData.get('icon') as string;
         const author = JSON.stringify({ "authorName": formData.get('author-name') as string, "socialLink": formData.get('social-link') as string });
         const isPrivate = formData.get('isPrivate') || false;
-        console.log("isPrivate>>>", isPrivate)
-        const is_private = isPrivate === "on" ? 1 : 0 || 0;
+        let is_private = isPrivate === "on" ? 1 : 0 || 0;
+        const workspace_id = formData.get("workspace_id") as string;
+        let workspaceID;
+        console.log("Upload workspace id>>>", workspace_id);
+        if(workspace_id !== ""){
+            is_private = 1;
+            workspaceID = workspace_id;
+        } else {
+            workspaceID = null;
+        }
         // Read the file content as binary data
         console.log("Reading file content", dslFile, dslFile.name, typeof dslFile.arrayBuffer)
         const dslFileBuffer = await dslFile.arrayBuffer();
@@ -64,8 +71,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         // Insert data into Cloudflare D1
         console.log("Inserting data into Cloudflare D1")
         const insertQuery = await context.env.D1.prepare(
-            "INSERT INTO yaml_files (id, user_id, filename, description, latest_version, tags, author_data, icon, is_private) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-        ).bind(fileId, payload.id, workflowName, description, version, tags, author, icon, is_private).run();
+            "INSERT INTO yaml_files (id, user_id, filename, description, latest_version, tags, author_data, icon, is_private, workspace_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        ).bind(fileId, payload.id, workflowName, description, version, tags, author, icon, is_private, workspaceID).run();
         console.log("Insert Workflow Query Result>>>", insertQuery);
         // Insert version data into Cloudflare D1
         const insertVersionQuery = await context.env.D1.prepare(
