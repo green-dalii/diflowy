@@ -227,8 +227,8 @@
         "meta": "Edit Metadata",
         "update": "Update Version",
         "delete": "Delete",
-        "publicmsg": "For uploaded workflows, for security reasons, the hosting mode cannot be changed. If you need to change to private hosting mode, please re-upload and select that mode.",
-        "privatemsg": "For uploaded workflows, for security reasons, the hosting mode cannot be changed. If you need to change to public mode, please re-upload and select that mode.",
+        "publicmsg": "For security reasons, the hosting mode cannot be changed. If you need to change to private hosting mode, please re-upload and select that mode.",
+        "privatemsg": "For security reasons, the hosting mode cannot be changed. If you need to change to public mode, please re-upload and select that mode.",
         "originalversion": "Current Latest Version",
         "updateversion": "Version Number of This Update",
         "savebtn": "Save",
@@ -273,8 +273,8 @@
         "workspacequataexpired": "Quota is full, upgrade plan to get more",
         "workspacetokenexpired": "Workspace Token Expired",
         "workspacetokenexpiredmsg": "Please contact the administrator to renew the Workspace Token.",
-        "joinworkspace": "To Join an Existing Workspace by Token"
-
+        "joinworkspace": "To Join an Existing Workspace by Token",
+        "collaboration": "Collaboration"
     },
     "notfound": {
         "title": "Oooops!",

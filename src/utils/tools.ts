@@ -8,6 +8,7 @@ export interface Workflow {
     tags: string;
     latestVersion: string;
     authorData: string;
+    workspace_id: string | null;
 }
 
 // Workflows Response Data Structure

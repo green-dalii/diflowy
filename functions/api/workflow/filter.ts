@@ -60,11 +60,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             }
             const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
             if (whereClause) {
-                whereClause += ` AND user_id = ?`;
+                whereClause += ` AND (user_id = ? OR workspace_id IN (
+                    SELECT workspace_id FROM workspace_members WHERE user_id = ?
+                ))`;
             } else {
-                whereClause = `WHERE user_id = ?`;
+                whereClause = `WHERE (user_id = ? OR workspace_id IN (
+                    SELECT workspace_id FROM workspace_members WHERE user_id = ?
+                ))`;
             }
-            bindings.push(payload.id);
+            bindings.push(payload.id, payload.id);
         }
         // 检查是否为私有工作流
         if (isMyFlow && isPrivate === "yes") {
