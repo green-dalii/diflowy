@@ -378,14 +378,14 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         workflowAuthor.innerHTML = `<span class="font-semibold">@${workflowObject.authorData.authorName}</span>`;
         workflowAuthorInfo.innerHTML = `Contact Author‣<span class="underline ml-1">${workflowObject.authorData.socialLink}</span>`;
         // Update isPrivate
-        metaInfo.innerHTML = `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">🌐 Public" : "🔒 Private-Hosted"}</div>`;
+        metaInfo.innerHTML = `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">${workflowObject.isPrivate === 0 ? "🌐 Public" : "🔒 Private-Hosted"}</div>`;
         if (workflowObject.isPrivate === 1) {
           copyButton.classList.toggle("btn-disabled", true);
           shareButton.classList.toggle("btn-disabled", true);
           alert.classList.toggle("hidden", false);
         }
         // Update whether is workspace file
-        metaInfo.innerHTML += workflowObject.workspace_id === null ? null : `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">👥 Workspace Sharing</div>}`
+        metaInfo.innerHTML += workflowObject.workspace_id === null ? null : `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">👥 Workspace Sharing</div>`
         // Update the updated time
         updatedTime.innerText = `Updated ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select

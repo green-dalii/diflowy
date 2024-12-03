@@ -150,7 +150,6 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       const descriptionUtf8Bytes = new TextEncoder().encode(workflow.description) as Uint8Array;
       const descriptionByteArray = Array.from(descriptionUtf8Bytes);
       const descriptionBase64 = btoa(String.fromCharCode.apply(null, descriptionByteArray));
-      console.log("workspace_id>>>", workflow.workspace_id)
       row.innerHTML = `
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
         <td class="w-3/12 text-xs sm:4/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
