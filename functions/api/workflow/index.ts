@@ -62,8 +62,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                 if (payload.id !== workflowResult.user_id) {
                     console.log("User ID is not match the workflow user_id, trying to check workspace membership...UserID>>>", payload.id, "workflow UserID>>>", workflowResult.user_id)
                     // 如果用户ID不匹配，判断是否为Workspace文件
-                    const workspace_id = workflowResult.workflow_id;
-                    if(workspace_id !== null){
+                    const workspace_id = workflowResult.workspace_id;
+                    if(workspace_id !== undefined){
                         console.log("This workflow is workspace file, check whether user is the member.>>>", workspace_id, payload.id)
                         // 如果存在 workspace_id，则查询用户是否为成员
                         const workspaceMemberResult = await env.D1.prepare(`SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?`).bind(payload.id, workspace_id).first();
