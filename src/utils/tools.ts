@@ -9,6 +9,7 @@ export interface Workflow {
     latestVersion: string;
     authorData: string;
     workspace_id: string | null;
+    user_id: string;
 }
 
 // Workflows Response Data Structure
@@ -17,6 +18,17 @@ export interface GetWorkflowsResponse {
     total: number;
     page: number;
     pageSize: number;
+}
+
+// User Info Response Data Structure
+export interface GetUserInfoResponse {
+    user: {
+        id: string;
+        username: string;
+        plan_type: string;
+        expired: boolean;
+        message: string;
+    };
 }
 
 // User Details Response Data Structure
@@ -265,6 +277,24 @@ export function formatUpdateTime(updateTime: string): string {
     } else {
         return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
     }
+}
+
+// Get User Info
+export async function fetchUserInfo(): Promise<GetUserInfoResponse> {
+    const url = new URL("/api/user", window.location.origin);
+    const response = await fetch(url.toString());
+    if (response.status == 401) {
+        console.error("JWT Expired");
+        throw new Error("JWT Expired");
+    } else if (response.status === 404) {
+        console.error("No User Found");
+        throw new Error("Not Found");
+    }
+    else if (!response.ok) {
+        console.error("Failed to fetch userinfo", response.statusText);
+        throw new Error("Failed to fetch userinfo");
+    }
+    return (await response.json()) as GetUserInfoResponse;
 }
 
 // Get User detail info

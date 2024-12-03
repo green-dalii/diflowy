@@ -173,14 +173,8 @@ const navLinks = [
   });
 </script>
 <script>
+  import type { GetUserInfoResponse } from "../../utils/tools";
   
-  interface User {
-    username: string;
-  }
-
-  interface UserResponse {
-    user: User | null;
-  }
   // Get translations data
   const translationsElement = document.getElementById('navtranslations') as HTMLDivElement;
   const translations = JSON.parse(translationsElement.dataset.translations as string);
@@ -282,7 +276,7 @@ const navLinks = [
         }
         return;
       }
-      const data: UserResponse = await response.json();
+      const data: GetUserInfoResponse = await response.json();
       console.log("fetch user data>>>", data);
 
       if (data.user) {

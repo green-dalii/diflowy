@@ -10,6 +10,8 @@ interface Workflow {
     icon: string;
     latestVersion: string;
     authorData: string;
+    workspace_id: string | null;
+    user_id: string;
 }
 
 interface GetWorkflowsResponse {
@@ -119,7 +121,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             icon: row.icon,
             isPrivate: row.is_private,
             latestVersion: row.latest_version,
-            authorData: row.author_data
+            authorData: row.author_data,
+            workspace_id: row.workspace_id,
+            user_id: row.user_id
         }));
         // 处理 totalResult 可能为 null 的情况
         const total = totalResult && typeof totalResult.count === 'number' ? totalResult.count : 0;
@@ -132,6 +136,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         };
 
         return new Response(JSON.stringify(response), {
+            status: 200,
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {

@@ -47,7 +47,7 @@ export async function onRequest(context: { request: Request; env: Env }) {
                 });
             }
         } else{
-            return new Response(JSON.stringify({ user: payload }), {
+            return new Response(JSON.stringify({ user: planCheckResult }), {
                 headers: { 'Content-Type': 'application/json' },
                 status: 200,
             });
