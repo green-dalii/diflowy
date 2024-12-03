@@ -76,8 +76,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         console.log("Insert Workflow Query Result>>>", insertQuery);
         // Insert version data into Cloudflare D1
         const insertVersionQuery = await context.env.D1.prepare(
-            "INSERT INTO yaml_versions (id, yaml_file_id, version, file_content) VALUES (?,?,?,?)"
-        ).bind(versionId, fileId, version, dslFileContent).run();
+            "INSERT INTO yaml_versions (id, yaml_file_id, version, file_content, user_id) VALUES (?,?,?,?,?)"
+        ).bind(versionId, fileId, version, dslFileContent, payload.id).run();
         console.log("Insert Workflow Version Query Result>>>", insertVersionQuery);
         // Return response
         return new Response(JSON.stringify({ res: 'Upload successful' }), {

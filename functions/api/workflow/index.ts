@@ -85,15 +85,6 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                         });
                     }
                 }
-                // Get user register time
-                const userQuery = await context.env.D1.prepare(
-                    "SELECT created_at FROM users WHERE id = ?"
-                ).bind(payload.id).first();
-                // 用户验证通过，生成解密秘钥
-                if (userQuery) {
-                    decryptionKey = await generateFileKey(payload.id as string, userQuery.created_at as string, env.AUTH_SECRET)
-                    console.log("File Key Generated!>>>")
-                }
             } catch (error) {
                 console.error("Error in Get Filter Workflows Request>>>>", error)
                 if (error instanceof jose.errors.JOSEError) {
@@ -146,6 +137,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         // 如果为Private-Hosted文件
         if (isPrivate === 1) {
             console.log("Decrypting File...")
+            // Get user register time
+            const userQuery = await context.env.D1.prepare(
+                "SELECT created_at FROM users WHERE id = ?"
+            ).bind(versionResult.user_id).first();
+            // 用户验证通过，生成解密秘钥
+            if (userQuery) {
+                decryptionKey = await generateFileKey(versionResult.user_id as string, userQuery.created_at as string, env.AUTH_SECRET)
+                console.log("File Key Generated!>>>")
+            }
             const decryptedContent = await decryptFile(fileContentUint8Array, decryptionKey as CryptoKey)
             fileContentString = fileContentDecoder.decode(decryptedContent)
         } else {

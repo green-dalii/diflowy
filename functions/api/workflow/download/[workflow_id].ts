@@ -49,15 +49,30 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                     }
                     const { payload } = await jwtVerify(jwt, new TextEncoder().encode(env.AUTH_SECRET));
                     if(payload.id != workflowMetaResult.user_id){
-                        console.log("Private Deny!!", payload.id, workflowMetaResult.user_id)
-                        return new Response(JSON.stringify({ error: "Forbidden" }), {
-                            headers: { 'Content-Type': 'application/json' },
-                            status: 403,
-                        });
-                    }
-                    // 用户验证通过，生成解密秘钥
-                    if(workflowMetaResult.created_at){
-                        decryptionKey = await generateFileKey(payload.id as string, workflowMetaResult.created_at as string, env.AUTH_SECRET)
+                        console.log("User ID is not match the workflow user_id, trying to check workspace membership...UserID>>>", payload.id, "workflow UserID>>>", workflowMetaResult.user_id)
+                        // 如果用户ID不匹配，判断是否为Workspace文件
+                        const workspace_id = workflowMetaResult.workspace_id;
+                        if(workspace_id !== undefined){
+                            console.log("This workflow is workspace file, check whether user is the member.>>>", workspace_id, payload.id)
+                            // 如果存在 workspace_id，则查询用户是否为成员
+                            const workspaceMemberResult = await env.D1.prepare(`SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?`).bind(payload.id, workspace_id).first();
+                            console.log("workspaceMemberResult>>>", workspaceMemberResult)
+                            if(!workspaceMemberResult){
+                                // 如果不存在成员关系，返回403 Forbidden
+                                console.log("Private Deny!!", payload.id, workspace_id)
+                                return new Response(JSON.stringify({ error: "Forbidden" }), {
+                                    headers: { 'Content-Type': 'application/json' },
+                                    status: 403,
+                                });
+                            }
+                        } else {
+                            // 如果不存在 workspace_id，则返回403 Forbidden
+                            console.log("Private Deny!!", payload.id, workflowMetaResult.user_id)
+                            return new Response(JSON.stringify({ error: "Forbidden" }), {
+                                headers: { 'Content-Type': 'application/json' },
+                                status: 403,
+                            });
+                        }
                     }
                 } catch (error) {
                     console.error("Error in Get Filter Workflows Request>>>>", error)
@@ -77,7 +92,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             }
         }
         const workflowResult = await env.D1.prepare(
-            'SELECT file_content FROM yaml_versions WHERE yaml_file_id = ? AND version = ?'
+            'SELECT * FROM yaml_versions WHERE yaml_file_id = ? AND version = ?'
         ).bind(workflowId, version).first();
 
         if (!workflowResult || !version || !workflowName) {
@@ -90,8 +105,17 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const fileContentDecoder = new TextDecoder("utf-8");
         let fileContentString;
         // 如果为Private-Hosted文件
-        if(isPrivate === 1 && decryptionKey){
+        if(isPrivate === 1){
             console.log("Decrypting File...")
+            // Get user register time
+            const userQuery = await context.env.D1.prepare(
+                "SELECT created_at FROM users WHERE id = ?"
+            ).bind(workflowResult.user_id).first();
+            // 用户验证通过，生成解密秘钥
+            if (userQuery) {
+                decryptionKey = await generateFileKey(workflowResult.user_id as string, userQuery.created_at as string, env.AUTH_SECRET)
+                console.log("File Key Generated!>>>")
+            }
             const decryptedContent = await decryptFile(fileContentUint8Array, decryptionKey as CryptoKey)
             fileContentString = fileContentDecoder.decode(decryptedContent)
         } else {
