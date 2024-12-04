@@ -10,7 +10,10 @@
         "about": "Diflowy 소개 | Diflowy",
         "workflow": "Workflow | Diflowy (Workflow)",
         "user": "사용자 센터 | Diflowy",
-        "notfound": "페이지를 찾을 수 없습니다 | Diflowy"
+        "notfound": "페이지를 찾을 수 없습니다 | Diflowy",
+        "host": "호스팅 | Diflowy",
+        "workspace": "워크스페이스 | Diflowy",
+        "joinworkspace": "워크스페이스 참여 | Diflowy"
     },
     "navbar": {
         "login": "로그인",
@@ -157,7 +160,13 @@
         "publicmsg": "공개 모드를 선택하면 업로드한 워크플로우가 Diflowy 커뮤니티에 공유됩니다. 공유해 주셔서 감사합니다!",
         "privatemsg": "개인 호스팅 모드를 선택하면 업로드한 워크플로우가 고강도 알고리즘으로 암호화되어 저장되며, 자신만 접근할 수 있습니다. 개인 정보 보호 상황에서 Diflowy의 파일 관리 편의성을 누릴 수 있습니다.",
         "publicmode": "공개 모드",
-        "privatemode": "개인 호스팅 모드"
+        "privatemode": "개인 호스팅 모드",
+        "workspaceshare": "협업 모델",
+        "personalavailable": "개인 사용 가능",
+        "workspacesharing": "워크스페이스 공유",
+        "selecttags": "태그 선택 [필수]",
+        "yourworkspace": "워크스페이스 선택",
+        "workspacemsg": "지정된 워크스페이스를 선택하면, 파일은 모든 워크스페이스 멤버가 접근할 수 있으며 호스팅 모드는 기본적으로 비공개 호스팅 모드로 설정됩니다"
     },
     "blogpage": {
         "title": "공식 블로그",
@@ -240,7 +249,32 @@
         "workspaceinfo": "워크스페이스 정보",
         "workspacename": "워크스페이스 이름",
         "membercount": "멤버 수",
-        "hostedworkflow": "호스팅된 워크플로우"
+        "hostedworkflow": "호스팅된 워크플로우",
+        "setting": "설정",
+        "workspacequota": "워크스페이스 할당량",
+        "memberquota": "멤버 할당량",
+        "basicsetting": "기본 설정",
+        "membermangement": "멤버 관리",
+        "dissolveworkspace": "워크스페이스 해체",
+        "currentworkspace": "현재 워크스페이스",
+        "management": "워크스페이스 관리",
+        "administrator": "관리자",
+        "member": "멤버",
+        "guest": "게스트",
+        "removemember": "멤버 제거",
+        "isowner": "소유자",
+        "joinedworkspace": "참여한 워크스페이스",
+        "role": "역할",
+        "createbtn": "워크스페이스 생성",
+        "yourrole": "당신의 역할",
+        "invitemember": "멤버 초대",
+        "workspacetoken": "워크스페이스 토큰",
+        "joinbtn": "워크스페이스 참여",
+        "workspacequataexpired": "할당량이 초과되었습니다, 플랜을 업그레이드하여 더 많은 할당량을 받으세요",
+        "workspacetokenexpired": "워크스페이스 토큰 만료",
+        "workspacetokenexpiredmsg": "워크스페이스 토큰 갱신을 원하시면 관리자에게 문의하세요.",
+        "joinworkspace": "토큰을 사용하여 기존 워크스페이스에 참여하기",
+        "collaboration": "협업"
     },
     "notfound": {
         "title": "페이지를 찾을 수 없습니다",

@@ -10,7 +10,10 @@
         "about": "私たちについて | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "ユーザーセンター | Diflowy",
-        "notfound": "ページが見つかりません | Diflowy"
+        "notfound": "ページが見つかりません | Diflowy",
+        "host": "Diflowy ホスト",
+        "workspace": "Diflowy ワークスペース",
+        "joinworkspace": "Diflowy ワークスペースに参加"
     },
     "navbar": {
         "login": "ログイン",
@@ -157,7 +160,13 @@
         "publicmsg": "公開モードを選択すると、あなたがアップロードしたワークフローは Diflowy コミュニティに共有されます。あなたの共有に感謝します！",
         "privatemsg": "プライベートホスティングモードを選択すると、あなたがアップロードしたワークフローは高強度のアルゴリズムで暗号化されて保存され、あなただけがアクセスできます。プライバシーとセキュリティを確保しながら、Diflowy が提供するファイル管理の利便性を享受できます。",
         "publicmode": "公開モード",
-        "privatemode": "プライベートホスティングモード"
+        "privatemode": "プライベートホスティングモード",
+        "workspaceshare": "協働モデル",
+        "personalavailable": "個人で利用可能",
+        "workspacesharing": "ワークスペースの共有",
+        "selecttags": "タグを選択",
+        "yourworkspace": "ワークスペースを選択",
+        "workspacemsg": "指定されたワークスペースを選択すると、ファイルはすべてのメンバーがアクセスできるようになります。ホストモードはデフォルトでプライベートに設定されます。"
     },
     "blogpage": {
         "title": "公式ブログ",
@@ -240,7 +249,32 @@
         "workspaceinfo": "ワークスペース情報",
         "workspacename": "ワークスペース名",
         "membercount": "メンバー数",
-        "hostedworkflow": "ホスト済みワークフロー"
+        "hostedworkflow": "ホスト済みワークフロー",
+        "setting": "設定",
+        "workspacequota": "ワークスペースのクォータ",
+        "memberquota": "メンバーのクォータ",
+        "basicsetting": "基本設定",
+        "membermangement": "メンバー管理",
+        "dissolveworkspace": "ワークスペースを解散",
+        "currentworkspace": "現在のワークスペース",
+        "management": "ワークスペース管理",
+        "administrator": "管理者",
+        "member": "メンバー",
+        "guest": "ゲスト",
+        "removemember": "メンバーの削除",
+        "isowner": "所有者である",
+        "joinedworkspace": "参加したワークスペース",
+        "role": "役割",
+        "createbtn": "ワークスペースを作成",
+        "yourrole": "あなたの役割",
+        "invitemember": "メンバーを招待",
+        "workspacetoken": "ワークスペーストークン",
+        "joinbtn": "ワークスペースに参加",
+        "workspacequataexpired": "クォータが満杯です。プランをアップグレードしてさらに利用してください。",
+        "workspacetokenexpired": "ワークスペーストークンの有効期限が切れました。",
+        "workspacetokenexpiredmsg": "管理者に連絡してワークスペーストークンを更新してください。",
+        "joinworkspace": "トークンを使用して既存のワークスペースに参加する",
+        "collaboration": "コラボレーション"
     },
     "notfound": {
         "title": "ページが見つかりません",

@@ -10,7 +10,10 @@
         "about": "À propos | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "Centre utilisateur | Diflowy",
-        "notfound": "Page non trouvée | Diflowy"
+        "notfound": "Page non trouvée | Diflowy",
+        "host": "Héberger | Diflowy",
+        "workspace": "Espace de travail | Diflowy",
+        "joinworkspace": "Rejoindre l'espace de travail | Diflowy"
     },
     "navbar": {
         "login": "Connexion",
@@ -157,7 +160,13 @@
         "publicmsg": "Lorsque vous choisissez le mode public, votre workflow téléversé sera partagé avec la communauté Diflowy, nous vous remercions pour votre partage !",
         "privatemsg": "Lorsque vous choisissez le mode d'hébergement privé, votre workflow téléversé sera stocké avec un algorithme de haute intensité de cryptage, seul vous avez le droit d'accéder, vous pouvez profiter de la commodité de gestion de fichiers offerte par Diflowy en toute sécurité de la vie privée.",
         "publicmode": "Mode public",
-        "privatemode": "Mode d'hébergement privé"
+        "privatemode": "Mode d'hébergement privé",
+        "workspaceshare": "Modèle de collaboration",
+        "personalavailable": "Personnel disponible",
+        "workspacesharing": "Partage de l'espace de travail",
+        "selecttags": "Sélectionner des étiquettes [Obligatoire]",
+        "yourworkspace": "Choisissez Votre Espace de Travail",
+        "workspacemsg": "Lorsque l'espace de travail spécifié est sélectionné, le fichier est accessible à tous les membres de l'espace de travail tandis que le mode hébergé par défaut est le mode Hébergement Privé"
     },
     "blogpage": {
         "title": "Blog officiel",
@@ -240,7 +249,32 @@
         "workspaceinfo": "Informations sur l'espace de travail",
         "workspacename": "Nom de l'espace de travail",
         "membercount": "Nombre de membres",
-        "hostedworkflow": "Flux de travail hébergés actuellement"
+        "hostedworkflow": "Flux de travail hébergés actuellement",
+        "setting": "Paramètre",
+        "workspacequota": "Quota de l'espace de travail",
+        "memberquota": "Quota des membres",
+        "basicsetting": "Paramètre de base",
+        "membermangement": "Gestion des membres",
+        "dissolveworkspace": "Dissoudre l'espace de travail",
+        "currentwprkspace": "Espace de travail actuel",
+        "management": "Gestion de l'espace de travail",
+        "administrator": "Administrateur",
+        "member": "Membre",
+        "guest": "Invité",
+        "removemember": "Supprimer un membre",
+        "isowner": "Est propriétaire",
+        "joinedworkspace": "Espace de travail rejoint",
+        "role": "Rôle",
+        "createbtn": "Créer un espace de travail",
+        "yourrole": "Votre rôle",
+        "invitemember": "Inviter un membre",
+        "workspacetoken": "Jeton de l'espace de travail",
+        "joinbtn": "Rejoindre l'espace de travail",
+        "workspacequataexpired": "Le quota est plein, mettez à niveau votre plan pour obtenir plus",
+        "workspacetokenexpired": "Jeton de l'espace de travail expiré",
+        "workspacetokenexpiredmsg": "Veuillez contacter l'administrateur pour renouveler le jeton de l'espace de travail.",
+        "joinworkspace": "Pour rejoindre un espace de travail existant par jeton",
+        "collaboration": "Collaboration"
     },
     "notfound": {
         "title": "Page non trouvée",

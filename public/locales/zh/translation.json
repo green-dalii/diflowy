@@ -10,7 +10,10 @@
         "about": "关于我们 | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "用户中心 | Diflowy",
-        "notfound": "页面未找到 | Diflowy"
+        "notfound": "页面未找到 | Diflowy",
+        "host": "托管 | Diflowy",
+        "workspace": "工作区 | Diflowy",
+        "joinworkspace": "加入工作区 | Diflowy"
     },
     "navbar": {
         "login": "登录",
@@ -157,7 +160,13 @@
         "publicmsg": "当选择公共模式时，您上传的工作流将共享至 Diflowy 社区，我们感谢您的分享！",
         "privatemsg": "当选择私有托管模式时，您上传的工作流将采用高强度算法加密存储，只有您有权获得，您可在隐私安全的情况下享受 Diflowy 带来的文件管理便利。",
         "publicmode": "公开模式",
-        "privatemode": "私有托管模式"
+        "privatemode": "私有托管模式",
+        "workspaceshare": "协作模式",
+        "personalavailable": "个人可用",
+        "workspacesharing": "工作区共享",
+        "selecttags": "选择标签 [必选]",
+        "yourworkspace": "选择你的工作区",
+        "workspacemsg": "当选择指定工作区时，文件对该工作区成员可见，同时托管模式将默认为私有托管"
     },
     "blogpage": {
         "title": "官方博客",
@@ -240,7 +249,32 @@
         "workspaceinfo": "工作区信息",
         "workspacename": "工作区名称",
         "membercount": "成员数量",
-        "hostedworkflow": "已托管工作流"
+        "hostedworkflow": "已托管工作流",
+        "setting": "设置",
+        "workspacequota": "工作区额度",
+        "memberquota": "成员额度",
+        "basicsetting": "基本设置",
+        "membermangement": "成员管理",
+        "dissolveworkspace": "解散工作区",
+        "currentwprkspace": "当前工作区",
+        "management": "工作区管理",
+        "administrator": "管理员",
+        "member": "成员",
+        "guest": "访客",
+        "removemember": "移除成员",
+        "isowner": "是否为所有者",
+        "joinedworkspace": "已加入的工作区",
+        "role": "角色",
+        "createbtn": "创建工作区",
+        "yourrole": "您的角色",
+        "invitemember": "邀请成员",
+        "workspacetoken": "工作区令牌",
+        "joinbtn": "加入工作区",
+        "workspacequataexpired": "额度已满，升级计划以获得更多",
+        "workspacetokenexpired": "工作区令牌已过期",
+        "workspacetokenexpiredmsg": "请联系管理员以获取新的工作区令牌",
+        "joinworkspace": "通过令牌加入现有工作区",
+        "collaboration": "协作"
     },
     "notfound": {
         "title": "页面未找到",

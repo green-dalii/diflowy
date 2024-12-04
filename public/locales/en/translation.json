@@ -161,7 +161,7 @@
         "privatemsg": "When choosing Private-Hosted mode, your uploaded workflow will be stored with high-strength algorithm encryption, only you have access, allowing you to enjoy the file management convenience brought by Diflowy in a privacy-safe environment.",
         "publicmode": "Public Mode",
         "privatemode": "Private Hosting Mode",
-        "workspaceshare": "Workspace File Sharing",
+        "workspaceshare": "Collaboration Model",
         "personalavailable": "Personal available",
         "workspacesharing": "Workspace Sharing",
         "selecttags": "Select Tags [Required]",

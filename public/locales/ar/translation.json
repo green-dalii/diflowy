@@ -10,7 +10,10 @@
         "about": "حولنا | Diflowy",
         "workflow": "سير العمل  | Diflowy",
         "user": "مركز المستخدم | Diflowy",
-        "notfound": "الصفحة غير موجودة | Diflowy"
+        "notfound": "الصفحة غير موجودة | Diflowy",
+        "host": "مضيف | ديفلوي",
+        "workspace": "مساحة العمل | ديفلوي",
+        "joinworkspace": "انضم إلى مساحة العمل | ديفلوي"
     },
     "navbar": {
         "login": "تسجيل الدخول",
@@ -157,7 +160,13 @@
         "publicmsg": "عند اختيار الوضع العام، سيتم مشاركة سير العمل الذي قمت بتحميله في مجتمع Diflowy، نشكرك على مشاركتك!",
         "privatemsg": "عند اختيار وضع الاستضافة الخاصة، سيتم تخزين سير العمل الذي قمت بتحميله باستخدام خوارزمية تشفير قوية، فقط لديك الحق في الوصول إليه، يمكنك الاستمتاع براحة البال في أمان البيانات مع مرونة إدارة الملفات التي يوفرها Diflowy.",
         "publicmode": "الوضع العام",
-        "privatemode": "وضع الاستضافة الخاصة"
+        "privatemode": "وضع الاستضافة الخاصة",
+        "workspaceshare": "نموذج التعاون",
+        "personalavailable": "متاح شخصي",
+        "workspacesharing": "مشاركة مساحة العمل",
+        "selecttags": "حدد العلامات [مطلوب]",
+        "yourworkspace": "اختر مساحة العمل الخاصة بك",
+        "workspacemsg": "عند تحديد مساحة العمل المحددة، يكون الملف متاحًا لجميع أعضاء المساحة، بينما يكون وضع الاستضافة الافتراضي هو الاستضافة الخاصة"
     },
     "blogpage": {
         "title": "المدونة الرسمية",
@@ -240,7 +249,32 @@
         "workspaceinfo": "معلومات المساحات العاملة",
         "workspacename": "اسم المساحة العاملة",
         "membercount": "عدد الأعضاء في العمل",
-        "hostedworkflow": "العملية المضيفة"
+        "hostedworkflow": "العملية المضيفة",
+        "setting": "الإعدادات",
+        "workspacequota": "حصة مساحة العمل",
+        "memberquota": "حصة عضو",
+        "basicsetting": "الإعدادات الأساسية",
+        "membermangement": "إدارة الأعضاء",
+        "dissolveworkspace": "إنهاء مساحة العمل",
+        "currentworkspace": "مساحة العمل الحالية",
+        "management": "إدارة مساحة العمل",
+        "administrator": "مسؤول",
+        "member": "عضو",
+        "guest": "ضيف",
+        "removemember": "إزالة العضو",
+        "isowner": "هو المالك",
+        "joinedworkspace": "انضم إلى مساحة العمل",
+        "role": "الدور",
+        "createbtn": "إنشاء مساحة عمل",
+        "yourrole": "دورك",
+        "invitemember": "دعوة عضو",
+        "workspacetoken": "رمز مساحة العمل",
+        "joinbtn": "انضم إلى مساحة العمل",
+        "workspacequotaexpired": "الحصة ممتلئة، قم بترقية الخطة للحصول على المزيد",
+        "workspacetokenexpired": "انتهت صلاحية رمز مساحة العمل",
+        "workspacetokenexpiredmsg": "يرجى الاتصال بالمسؤول لتجديد رمز مساحة العمل.",
+        "joinworkspace": "للانضمام إلى مساحة عمل موجودة عن طريق رمز",
+        "collaboration": "التعاون"
     },
     "notfound": {
         "title": "الصفحة غير موجودة",

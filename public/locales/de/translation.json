@@ -10,7 +10,10 @@
         "about": "Über uns | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "Benutzerzentrum | Diflowy",
-        "notfound": "Seite nicht gefunden | Diflowy"
+        "notfound": "Seite nicht gefunden | Diflowy",
+        "host": "Hosten | Diflowy",
+        "workspace": "Arbeitsbereich | Diflowy",
+        "joinworkspace": "Arbeitsbereich beitreten | Diflowy"
     },
     "navbar": {
         "login": "Anmelden",
@@ -157,7 +160,13 @@
         "publicmsg": "Wenn Sie den öffentlichen Modus wählen, wird Ihr hochgeladener Workflow der Diflowy-Community zur Verfügung gestellt. Vielen Dank für Ihren Beitrag!",
         "privatemsg": "Wenn Sie den privaten Hosting-Modus wählen, wird Ihr hochgeladener Workflow mit einem hochgradigen Verschlüsselungsalgorithmus gespeichert. Nur Sie haben Zugriff, und Sie können die Dateiverwaltungsleistungen von Diflowy unter Beachtung der Privatsphäre genießen.",
         "publicmode": "Öffentlicher Modus",
-        "privatemode": "Privater Hosting-Modus"
+        "privatemode": "Privater Hosting-Modus",
+        "workspaceshare": "Modell der Zusammenarbeit",
+        "personalavailable": "persönlich-verfügbar",
+        "workspacesharing": "Arbeitsbereich Sharing",
+        "selecttags": "Schlagwörter auswählen [Erforderlich]",
+        "yourworkspace": "Wählen Sie Ihren Arbeitsbereich",
+        "workspacemsg": "Wenn der angegebene Arbeitsbereich ausgewählt ist, ist die Datei für alle Arbeitsbereich-Mitglieder zugänglich, während der Hosting-Modus standardmäßig auf den Private-Hosting-Modus eingestellt ist"
     },
     "blogpage": {
         "title": "Offizieller Blog",
@@ -240,7 +249,32 @@
         "workspaceinfo": "Arbeitsbereichsinformationen",
         "workspacename": "Arbeitsbereichsname",
         "membercount": "Mitgliederzahl",
-        "hostedworkflow": "Gehostete Arbeitsabläufe"
+        "hostedworkflow": "Gehostete Arbeitsabläufe",
+        "setting": "Einstellungen",
+        "workspacequota": "Arbeitsbereich-Kontingent",
+        "memberquota": "Mitgliederkontingent",
+        "basicsetting": "Grundlegende Einstellungen",
+        "membermangement": "Mitgliederverwaltung",
+        "dissolveworkspace": "Arbeitsbereich auflösen",
+        "currentwprkspace": "Aktueller Arbeitsbereich",
+        "management": "Arbeitsbereich-Verwaltung",
+        "administrator": "Administrator",
+        "member": "Mitglied",
+        "guest": "Gast",
+        "removemember": "Mitglied entfernen",
+        "isowner": "Ist Eigentümer",
+        "joinedworkspace": "Beigetretene Arbeitsbereiche",
+        "role": "Rolle",
+        "createbtn": "Arbeitsbereich erstellen",
+        "yourrole": "Ihre Rolle",
+        "invitemember": "Mitglied einladen",
+        "workspacetoken": "Arbeitsbereich-Token",
+        "joinbtn": "Arbeitsbereich beitreten",
+        "workspacequataexpired": "Kontingent ist voll, upgraden Sie den Plan, um mehr zu erhalten",
+        "workspacetokenexpired": "Arbeitsbereich-Token abgelaufen",
+        "workspacetokenexpiredmsg": "Bitte kontaktieren Sie den Administrator, um das Arbeitsbereich-Token zu erneuern.",
+        "joinworkspace": "Um einem bestehenden Arbeitsbereich durch Token beizutreten",
+        "collaboration": "Zusammenarbeit"
     },
     "notfound": {
         "title": "Seite nicht gefunden",

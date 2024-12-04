@@ -10,7 +10,10 @@
         "about": "О нас | Diflowy",
         "workflow": "Рабочий процесс | Diflowy",
         "user": "Пользовательский центр | Diflowy",
-        "notfound": "Страница не найдена | Diflowy"
+        "notfound": "Страница не найдена | Diflowy",
+        "host": "хостинг | Diflowy",
+        "workspace": "Рабочая область — Diflowy",
+        "joinworkspace": "Присоединиться к рабочей области — Diflowy"
     },
     "navbar": {
         "login": "Вход",
@@ -157,7 +160,13 @@
         "publicmsg": "При выборе публичного режима ваш загруженный рабочий процесс будет доступен сообществу Diflowy, мы благодарим вас за ваш вклад!",
         "privatemsg": "При выборе режима частного хостинга ваш загруженный рабочий процесс будет храниться с использованием высокопрочного алгоритма шифрования, доступ к которому имеете только вы. Вы можете наслаждаться удобством управления файлами от Diflowy в условиях конфиденциальности и безопасности.",
         "publicmode": "Публичный режим",
-        "privatemode": "Режим частного хостинга"
+        "privatemode": "Режим частного хостинга",
+        "workspaceshare": "Модель сотрудничества",
+        "personalavailable": "Персонально доступное",
+        "workspacesharing": "Общий доступ к рабочей области",
+        "selecttags": "Выберите теги (обязательно)",
+        "yourworkspace": "Выберите свою рабочую область",
+        "workspacemsg": "Когда выбрана указанная рабочая область, файл доступен всем участникам рабочей области, в то время как режим хостинга по умолчанию установлен в режим Приватного хостинга"
     },
     "blogpage": {
         "title": "Официальный блог",
@@ -240,7 +249,32 @@
         "workspaceinfo": "Informações do Workspace",
         "workspacename": "Nome do Workspace",
         "membercount": "Número de Membros",
-        "hostedworkflow": "Fluxos de Trabalho Hospedados"
+        "hostedworkflow": "Fluxos de Trabalho Hospedados",
+        "setting": "Настройки",
+        "workspacequota": "Квота рабочей области",
+        "memberquota": "Квота участника",
+        "basicsetting": "Основные настройки",
+        "membermangement": "Управление участниками",
+        "dissolveworkspace": "Распустить рабочую область",
+        "currentwprkspace": "Текущая рабочая область",
+        "management": "Управление рабочей областью",
+        "administrator": "Администратор",
+        "member": "Участник",
+        "guest": "Гость",
+        "removemember": "Удалить участника",
+        "isowner": "Является владельцем",
+        "joinedworkspace": "Присоединенная рабочая область",
+        "role": "Роль",
+        "createbtn": "Создать рабочую область",
+        "yourrole": "Ваша роль",
+        "invitemember": "Пригласить участника",
+        "workspacetoken": "Токен рабочей области",
+        "joinbtn": "Присоединиться к рабочей области",
+        "workspacequataexpired": "Квота исчерпана, обновите план, чтобы получить больше",
+        "workspacetokenexpired": "Токен рабочей области истек",
+        "workspacetokenexpiredmsg": "Пожалуйста, свяжитесь с администратором для обновления токена рабочей области.",
+        "joinworkspace": "Присоединиться к существующей рабочей области по токену",
+        "collaboration": "Совместная работа"
     },
     "notfound": {
         "title": "Страница не найдена",

@@ -10,7 +10,10 @@
         "about": "Chi siamo | Diflowy",
         "workflow": "Workflow | Diflowy",
         "user": "Centro utente | Diflowy",
-        "notfound": "Pagina non trovata | Diflowy"
+        "notfound": "Pagina non trovata | Diflowy",
+        "host": "Ospita | Diflowy",
+        "workspace": "Spazio di lavoro | Diflowy",
+        "joinworkspace": "Unisciti allo spazio di lavoro | Diflowy"
     },
     "navbar": {
         "login": "Accedi",
@@ -157,7 +160,13 @@
         "publicmsg": "Quando scegli la modalità pubblica, il flusso di lavoro caricato verrà condiviso con la comunità Diflowy, apprezziamo la tua condivisione!",
         "privatemsg": "Quando scegli la modalità di hosting privato, il flusso di lavoro caricato verrà memorizzato con crittografia ad alta intensità, solo tu hai il permesso di accedervi, puoi godere della comodità di gestione dei file offerta da Diflowy in sicurezza e privacy.",
         "publicmode": "Modalità pubblica",
-        "privatemode": "Modalità di hosting privato"
+        "privatemode": "Modalità di hosting privato",
+        "workspaceshare": "Modello Di Collaborazione",
+        "personalavailable": "Personale disponibile",
+        "workspacesharing": "Condivisione del Workspace",
+        "selecttags": "Seleziona Tag [Obbligatorio]",
+        "yourworkspace": "Scegli il Tuo Workspace",
+        "workspacemsg": "Quando viene selezionato il workspace specificato, il file è accessibile a tutti i membri del workspace mentre la modalità di hosting predefinita è la modalità Private-Hosting"
     },
     "blogpage": {
         "title": "Blog Ufficiale",
@@ -240,7 +249,32 @@
         "workspaceinfo": "Dettagli workspace",
         "workspacename": "Nome workspace",
         "membercount": "Numero di membri",
-        "hostedworkflow": "Flussi di lavoro ospitati"
+        "hostedworkflow": "Flussi di lavoro ospitati",
+        "setting": "Impostazione",
+        "workspacequota": "Quota del Workspace",
+        "memberquota": "Quota dei Membri",
+        "basicsetting": "Impostazione Base",
+        "membermangement": "Gestione dei Membri",
+        "dissolveworkspace": "Sciogliere il Workspace",
+        "currentwprkspace": "Workspace Corrente",
+        "management": "Gestione del Workspace",
+        "administrator": "Amministratore",
+        "member": "Membro",
+        "guest": "Ospite",
+        "removemember": "Rimuovi Membro",
+        "isowner": "È Proprietario",
+        "joinedworkspace": "Workspace Aggiunto",
+        "role": "Ruolo",
+        "createbtn": "Crea Workspace",
+        "yourrole": "Il Tuo Ruolo",
+        "invitemember": "Invita Membro",
+        "workspacetoken": "Token del Workspace",
+        "joinbtn": "Unisciti al Workspace",
+        "workspacequataexpired": "La quota è piena, aggiorna il piano per ottenere di più",
+        "workspacetokenexpired": "Token del Workspace Scaduto",
+        "workspacetokenexpiredmsg": "Si prega di contattare l'amministratore per rinnovare il Token del Workspace.",
+        "joinworkspace": "Per Unirsi a un Workspace Esistente tramite Token",
+        "collaboration": "Collaborazione"
     },
     "notfound": {
         "title": "Pagina non trovata",
