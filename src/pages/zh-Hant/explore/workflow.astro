@@ -176,6 +176,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     authorData: WorkflowAuthor;
     update_time: string;
     file_content?: string;
+    workspace_id: string | null;
   }
 
   interface WorkflowAuthor {
@@ -383,6 +384,8 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           shareButton.classList.toggle("btn-disabled", true);
           alert.classList.toggle("hidden", false);
         }
+        // Update whether is workspace file
+        workflowObject.workspace_id === null ? null : metaInfo.innerHTML += `<div id="isPrivate" class="w-max text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[--darkbgoffset] py-1 px-2 rounded-full">👥 Workspace Sharing</div>`
         // Update the updated time
         updatedTime.innerText = `Updated ${formatUpdateTime(workflowObject.update_time)}`;
         // Update the version select

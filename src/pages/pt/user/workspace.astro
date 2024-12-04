@@ -364,7 +364,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           row.id = `${workspaces.id}`;
           row.innerHTML = `
             <td class="text-xs sm:table-cell sm:w-6/12">${workspaces.name}</td>
-            <td class="text-xs sm:2/12">${workspaces.role === 'OWNER' ? "✅" : "-"}</td>
+            <td class="text-xs sm:2/12">${workspaces.role === 'OWNER' ? "✅" : "❎"}</td>
             <td class="text-xs sm:table-cell sm:w-2/12" data-workspace-id="${workspaces.id}">
               <button class="manage btn btn-sm btn-outline w-full" id="manageworkspace" data-workspace-id="${workspaces.id}">⚙️</button>
             </td>
@@ -418,6 +418,10 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
               workspaceNameInput.value = specificWorkspaceData.name;
               workspaceNameInput.disabled = false;
               yourrole.innerText = specificWorkspaceData.owner_id == user.id ? "Owner" : "Member";
+              if(yourrole.innerText === "Member") {
+                workspaceNameInput.disabled = true;
+                invitebtn.classList.toggle("hidden", true);
+              }
               // load member table
               membersTable.innerHTML = "";
               specificWorkspaceData.members.forEach((member) => {

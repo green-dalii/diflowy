@@ -169,7 +169,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         <td class="w-3/12 sm:w-1/12">
           ${userInfo?.user.id === workflow.user_id ? `<button class="btn w-full btn-outline btn-sm btn-error delete text-xs" data-workflow-id="${workflow.id}" data-workflow-name="${workflow.name}">
               🗑️
-          </button>` : `-`}
+          </button>` : `🚫`}
           
         </td>
       `;
