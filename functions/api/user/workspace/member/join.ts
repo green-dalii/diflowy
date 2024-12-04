@@ -14,10 +14,12 @@ const TEAM_PLAN_MAX_MEMBERS = 10;
 const ENTERPRISE_PLAN_MAX_MEMBERS = 100;
 
 interface workspacePayload {
-    user_id: string;
-    username: string;
-    workspace_id: string;
-    role: string;
+    payload: {
+        user_id: string;
+        username: string;
+        workspace_id: string;
+        role: string;
+    }
 }
 
 // Add member to workspace by token
@@ -37,7 +39,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             });
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
-        console.log("UserPayload>>>", payload)
         // Get workspace info from JWT token in formdata
         const formData = await request.formData();
         const workspaceToken = decodeURIComponent(formData.get('workspaceToken') as string) || null;
@@ -59,11 +60,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
                 });
             }
             console.log("Workspace Token Decoded>>>", workspacePayload)
-            // const { payload: workspacePayload } = await jwtVerify(workspaceToken, new TextEncoder().encode(context.env.AUTH_SECRET));
-            const workspace_id = workspacePayload.workspace_id;
-            const inviteUserId = workspacePayload.user_id;
-            const inviteUserName = workspacePayload.username;
-            const inviteRole = workspacePayload.role;
+            const workspace_id = workspacePayload.payload.workspace_id;
+            const inviteUserId = workspacePayload.payload.user_id;
+            const inviteUserName = workspacePayload.payload.username;
+            const inviteRole = workspacePayload.payload.role;
             // Check If the user is already in the workspace
             console.log("Check if the user is already in the workspace...UserID>>>", payload.id, "WorkspaceID>>>", workspace_id)
             const workspaceMemberResult = await context.env.D1.prepare(
