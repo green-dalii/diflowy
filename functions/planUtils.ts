@@ -33,6 +33,17 @@ export async function checkUserPlan(userId: string, env: Env) {
     const expiredAtDate = new Date(plan_expired_at);
     const currentTime = new Date();
 
+    // Check if plan is FREE
+    if (plan_type === 'FREE') {
+        return {
+            id: id,
+            username: username,
+            plan_type: 'FREE',
+            expired: false,
+            message: 'Plan is FREE, cannot perform this action'
+        } as CheckUserPlanResult;
+    }
+
     // Check if plan is expired
     if (expiredAtDate < currentTime) {
         // If plan is expired, downgrade to FREE
@@ -46,17 +57,6 @@ export async function checkUserPlan(userId: string, env: Env) {
             plan_type: 'FREE',
             expired: true,
             message: 'Plan expired, downgraded to FREE'
-        } as CheckUserPlanResult;
-    }
-
-    // Check if plan is FREE
-    if (plan_type === 'FREE') {
-        return {
-            id: id,
-            username: username,
-            plan_type: 'FREE',
-            expired: false,
-            message: 'Plan is FREE, cannot perform this action'
         } as CheckUserPlanResult;
     }
 

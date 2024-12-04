@@ -39,6 +39,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
         // Get workspace info from JWT token in formdata
         const formData = await request.formData();
+        console.log("Decoding Workspace Token...")
         const workspaceToken = decodeURIComponent(formData.get('workspaceToken') as string) || null;
         if(!workspaceToken){
             console.log("No Workspace Token found in formdata")
@@ -57,6 +58,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                     status: 403,
                 });
             }
+            console.log("Workspace Token Decoded>>>", workspacePayload)
             // const { payload: workspacePayload } = await jwtVerify(workspaceToken, new TextEncoder().encode(context.env.AUTH_SECRET));
             const workspace_id = workspacePayload.workspace_id;
             const inviteUserId = workspacePayload.user_id;
@@ -95,12 +97,14 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 if (planCheckResult.plan_type === 'TEAM') {
                     if (workspaceCountResult > TEAM_PLAN_MAX_WORKSPACE) {
                         // If the user has reached the maximum number of workspaces for the Team plan
+                        console.log("Workspace count exceeded")
                         return new Response(JSON.stringify({ res: 'The quota for the workspace you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
                     } else if (memberCountResult >= TEAM_PLAN_MAX_MEMBERS) {
                         // If the user has reached the maximum number of members for the Team plan
+                        console.log("Member count exceeded")
                         return new Response(JSON.stringify({ res: 'The workspace member quota you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
@@ -109,12 +113,14 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 } else if (planCheckResult.plan_type === 'ENTERPRISE') {
                     if (workspaceCountResult > ENTERPRISE_PLAN_MAX_WORKSPACE) {
                         // If the user has reached the maximum number of workspaces for the Enterprise plan
+                        console.log("Workspace count exceeded")
                         return new Response(JSON.stringify({ res: 'The quota for the workspace you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
                         });
                     } else if (memberCountResult >= ENTERPRISE_PLAN_MAX_MEMBERS) {
                         // If the user has reached the maximum number of members for the Enterprise plan
+                        console.log("Member count exceeded")
                         return new Response(JSON.stringify({ res: 'The workspace member quota you wish to join has been exceeded, please contact the workspace owner.' }), {
                             headers: { 'Content-Type': 'application/json' },
                             status: 403,
@@ -133,7 +139,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             }
         }
     } catch (error) {
-        console.error('Error in Create Workspace>>>', error);
+        console.error('Error in Join Workspace>>>', error);
         if (error instanceof jose.errors.JOSEError) {
             console.error("JWT Expired", error);
             return new Response(JSON.stringify({ res: 'User Verification Failed, please login again.' }), {
