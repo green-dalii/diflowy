@@ -21,10 +21,10 @@ interface workspacePayload {
 }
 
 // Add member to workspace by token
-export async function onRequestPost(context: { request: Request; env: Env; params: { workspace_id: string } }) {
+export async function onRequestPost(context: { request: Request; env: Env }) {
     console.log("Join Workspace POST Request...")
     try {
-        const { request, params } = context;
+        const { request } = context;
         const cookie = request.headers.get('cookie');
         const jwt = cookie?.split('; ').find((row: string) => row.startsWith('auth_token='))?.split('=')[1];
         // Authenticate the user by JWT
@@ -37,6 +37,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             });
         }
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
+        console.log("UserPayload>>>", payload)
         // Get workspace info from JWT token in formdata
         const formData = await request.formData();
         const workspaceToken = decodeURIComponent(formData.get('workspaceToken') as string) || null;
@@ -64,7 +65,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             const inviteUserName = workspacePayload.username;
             const inviteRole = workspacePayload.role;
             // Check If the user is already in the workspace
-            console.log("Check if the user is already in the workspace...")
+            console.log("Check if the user is already in the workspace...UserID>>>", payload.id, "WorkspaceID>>>", workspace_id)
             const workspaceMemberResult = await context.env.D1.prepare(
                 "SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?"
             ).bind(payload.id, workspace_id).first() as any;
