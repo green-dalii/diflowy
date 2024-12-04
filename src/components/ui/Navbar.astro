@@ -174,7 +174,7 @@ const navLinks = [
 </script>
 <script>
   import type { GetUserInfoResponse } from "../../utils/tools";
-  
+
   // Get translations data
   const translationsElement = document.getElementById('navtranslations') as HTMLDivElement;
   const translations = JSON.parse(translationsElement.dataset.translations as string);
@@ -292,6 +292,7 @@ const navLinks = [
           protectedContent.style.display = "block";
         }
       } else {
+        sessionStorage.removeItem("username");
         userMenuButton.textContent = translations.login;
         userMenuButton.setAttribute("onclick", `window.location.href="${translations.loginURL}"`)
         if(protectedContent){
