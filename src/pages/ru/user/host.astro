@@ -152,7 +152,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       const descriptionBase64 = btoa(String.fromCharCode.apply(null, descriptionByteArray));
       row.innerHTML = `
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${index + 1 + pageSize * (page - 1)}</td>
-        <td class="w-3/12 text-xs sm:4/12"><a href="/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
+        <td class="w-3/12 text-xs sm:4/12"><a href="/ru/explore/workflow?id=${workflow.id}" class="hover:text-dark">${workflow.name}</a></td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.latestVersion}</td>
         <td class="hidden text-xs sm:table-cell sm:w-1/12">${workflow.isPrivate === 0 ? "🌐 Public" : "🔒 Private"}</td>
         <td class="hidden text-xs sm:table-cell sm:w-2/12">${workflow.workspace_id === null ? "👤 Personal" : "👥 Workspace Sharing"}</td>
