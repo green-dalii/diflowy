@@ -15,420 +15,645 @@ const skeletonCount = 1;
 const urlList = Astro.url.pathname.split("/").filter(Boolean);
 ---
 
-<MainLayout
-  title={t("site.workspace")}
-  description={t("site.description")}
->
-  <Breadcrumbs urlList={urlList} />
-  <div class="mt-20">
-    <Section>
-      <SectionTitle sectionTitle={t("user.title")} description={description} />
-      <div class="sm:grid sm:grid-cols-6 mt-40">
-        <div id="not-login" class="sm:col-start-3 sm:col-span-2 text-center">
-          <p class="text-sm">
-            {t("user.before")}
-          </p>
-          <a id="login-link" href="/login"
-            ><button class="btn-primary w-full py-2 my-10" id="login"
-              >{t("user.loginbtn")}</button
-            >
-          </a>
-        </div>
-      </div>
-      <div id="protected-content" style="display: none;">
-        <div class="drawer lg:drawer-open">
-          <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-          <div class="drawer-content flex flex-col items-start justify-start">
-            <!-- Workspace Quota -->
-            <div class="sm:pl-8 w-full grid grid-cols-1 sm:grid-cols-3 gap-y-4 sm:gap-2 items-center">
-              <div class="col-span-full pb-6">
-                <h3 class="font-bold">{t("user.workspaceinfo")}</h3>
-              </div>
-              <div class="text-sm col-span-full sm:col-span-2">
-                <span class="font-medium mr-2">{t("user.plannow")}:</span>
-                <span id="plan" class="tag">Loading...</span>
-              </div>
-              <div class="pb-6 sm:pb-0 col-span-full sm:col-span-1">
-                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="upgrade">{t("user.upgrade")}</button>
-              </div>
-              <div class="text-sm col-span-full sm:col-span-1">
-                <span class="font-medium mr-2">{t("user.workspacequota")}:</span>
-              </div>
-              <div class="col-span-2 sm:col-span-1">
-                <progress id="workspacequata" class="progress progress-primary w-full" value="0" max="100"></progress>
-              </div>
-              <div class="text-sm col-span-1 sm:col-span-1">
-                <span id="workspacequataVal">-</span> / <span id="workspacequataMaxVal">-</span>
-                <span id="workspacequatahint" class="hidden ml-4 text-xs text-gray-400">*{t("user.workspacequataexpired")}</span>
-              </div>
-              <div class="text-sm col-span-full sm:col-span-1">
-                <span class="font-medium mr-2">{t("user.memberquota")}:</span>
-              </div>
-              <div class="col-span-2 sm:col-span-1">
-                <progress id="memberquata" class="progress progress-primary w-full" value="0" max="100"></progress>
-              </div>
-              <div class="text-sm col-span-1 sm:col-span-1">
-                <span id="memberquataVal">-</span> / <span id="memberquataMaxVal">-</span>
-                <span id="memberquatahint" class="hidden ml-4 text-xs text-gray-400">*{t("user.workspacequataexpired")}</span>
-              </div>
-              <div class="divider col-span-full"></div>
-              <!-- Join Workspace -->
-              <div class="text-base col-span-full sm:col-span-2">
-                <span class="font-medium mr-2">{t("user.joinworkspace")}</span>
-              </div>
-              <div class="text-sm col-span-full sm:col-span-1 my-2">
-                <a href={localizePath("/user/join")}><button class="btn-primary w-full sm:w-auto py-2 text-sm" id="joinbtn">{t("user.joinbtn")}</button></a>
-              </div>
-              <div class="divider col-span-full"></div>
-              <!-- Joined Workspace List -->
-              <div class="text-base col-span-2">
-                <span class="font-medium mr-2">{t("user.joinedworkspace")}</span>
-              </div>
-              <div class="pb-6 sm:pb-0 col-span-1">
-                <button class="btn-primary w-full sm:w-auto py-2 text-sm" id="createWokspaceBtn">{t("user.createbtn")}</button>
-              </div>
-              <table class="table table-fixed w-full col-span-full">
-                <thead>
-                  <tr>
-                    <th class="text-wrap text-xs sm:table-cell sm:w-6/12">{t("user.workspacename")}</th>
-                    <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.isowner")}</th>
-                    <th class="text-wrap text-xs sm:table-cell sm:w-2/12">{t("user.management")}</th>
-                    <th class="text-wrap text-xs w-3/12 sm:w-2/12">{t("user.dissolveworkspace")}</th>
-                  </tr>
-                </thead>
-                <tbody id="workspaceTable">
-                  <!-- Workspace rows will be dynamically replaced here -->
-                  {
-                    new Array(skeletonCount).fill(null).map((_) => (
-                      <tr>
-                        <td class="text-xs sm:table-cell sm:w-6/12">Loading...</td>
-                        <td class="text-xs sm:2/12">-</td>
-                        <td class="text-xs sm:table-cell sm:w-2/12">-</td>
-                        <td class="text-xs sm:w-2/12">-</td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="drawer-side sm:h-[70dvh]">
-            <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-              <!-- Sidebar content here -->
-              <li><a href={localizePath("/user")}>{t("user.accountinfo")}</a></li>
-              <li><a href={localizePath("/user/workspace")}>{t("user.workspaceinfo")}</a></li>
-              <li><a href={localizePath("/user/host")}>{t("user.hostedworkflow")}</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <WorkspaceEditModal />
-    </Section>
-  </div>
+<MainLayout title={t("site.workspace")} description={t("site.description")}>
+	<Breadcrumbs urlList={urlList} />
+	<div class="mt-20">
+		<Section>
+			<SectionTitle
+				sectionTitle={t("user.title")}
+				description={description}
+			/>
+			<div class="sm:grid sm:grid-cols-6 mt-40">
+				<div
+					id="not-login"
+					class="sm:col-start-3 sm:col-span-2 text-center"
+				>
+					<p class="text-sm">
+						{t("user.before")}
+					</p>
+					<a id="login-link" href="/login"
+						><button
+							class="btn-primary w-full py-2 my-10"
+							id="login">{t("user.loginbtn")}</button
+						>
+					</a>
+				</div>
+			</div>
+			<div id="protected-content" style="display: none;">
+				<div class="drawer lg:drawer-open">
+					<input
+						id="my-drawer-2"
+						type="checkbox"
+						class="drawer-toggle"
+					/>
+					<div
+						class="drawer-content flex flex-col items-start justify-start"
+					>
+						<!-- Workspace Quota -->
+						<div
+							class="sm:pl-8 w-full grid grid-cols-1 sm:grid-cols-3 gap-y-4 sm:gap-2 items-center"
+						>
+							<div class="col-span-full pb-6">
+								<h3 class="font-bold">
+									{t("user.workspaceinfo")}
+								</h3>
+							</div>
+							<div class="text-sm col-span-full sm:col-span-2">
+								<span class="font-medium mr-2"
+									>{t("user.plannow")}:</span
+								>
+								<span id="plan" class="tag">Loading...</span>
+							</div>
+							<div
+								class="pb-6 sm:pb-0 col-span-full sm:col-span-1"
+							>
+								<button
+									class="btn btn-disabled btn-primary w-full sm:w-auto py-2 text-sm"
+									id="upgrade">{t("user.upgrade")}</button
+								>
+							</div>
+							<div class="text-sm col-span-full sm:col-span-1">
+								<span class="font-medium mr-2"
+									>{t("user.workspacequota")}:</span
+								>
+							</div>
+							<div class="col-span-2 sm:col-span-1">
+								<progress
+									id="workspacequata"
+									class="progress progress-primary w-full"
+									value="0"
+									max="100"></progress>
+							</div>
+							<div class="text-sm col-span-1 sm:col-span-1">
+								<span id="workspacequataVal">-</span> / <span
+									id="workspacequataMaxVal">-</span
+								>
+								<span
+									id="workspacequatahint"
+									class="hidden ml-4 text-xs text-gray-400"
+									>*{t("user.workspacequataexpired")}</span
+								>
+							</div>
+							<div class="text-sm col-span-full sm:col-span-1">
+								<span class="font-medium mr-2"
+									>{t("user.memberquota")}:</span
+								>
+							</div>
+							<div class="col-span-2 sm:col-span-1">
+								<progress
+									id="memberquata"
+									class="progress progress-primary w-full"
+									value="0"
+									max="100"></progress>
+							</div>
+							<div class="text-sm col-span-1 sm:col-span-1">
+								<span id="memberquataVal">-</span> / <span
+									id="memberquataMaxVal">-</span
+								>
+								<span
+									id="memberquatahint"
+									class="hidden ml-4 text-xs text-gray-400"
+									>*{t("user.workspacequataexpired")}</span
+								>
+							</div>
+							<div class="divider col-span-full"></div>
+							<!-- Join Workspace -->
+							<div class="text-base col-span-full sm:col-span-2">
+								<span class="font-medium mr-2"
+									>{t("user.joinworkspace")}</span
+								>
+							</div>
+							<div
+								class="text-sm col-span-full sm:col-span-1 my-2"
+							>
+								<a href={localizePath("/user/join")}
+									><button
+										class="btn-primary w-full sm:w-auto py-2 text-sm"
+										id="joinbtn">{t("user.joinbtn")}</button
+									></a
+								>
+							</div>
+							<div class="divider col-span-full"></div>
+							<!-- Joined Workspace List -->
+							<div class="text-base col-span-2">
+								<span class="font-medium mr-2"
+									>{t("user.joinedworkspace")}</span
+								>
+							</div>
+							<div class="pb-6 sm:pb-0 col-span-1">
+								<button
+									class="btn-primary w-full sm:w-auto py-2 text-sm"
+									id="createWokspaceBtn"
+									>{t("user.createbtn")}</button
+								>
+							</div>
+							<table
+								class="table table-fixed w-full col-span-full"
+							>
+								<thead>
+									<tr>
+										<th
+											class="text-wrap text-xs sm:table-cell sm:w-6/12"
+											>{t("user.workspacename")}</th
+										>
+										<th
+											class="text-wrap text-xs w-3/12 sm:w-2/12"
+											>{t("user.isowner")}</th
+										>
+										<th
+											class="text-wrap text-xs sm:table-cell sm:w-2/12"
+											>{t("user.management")}</th
+										>
+										<th
+											class="text-wrap text-xs w-3/12 sm:w-2/12"
+											>{t("user.dissolveworkspace")}</th
+										>
+									</tr>
+								</thead>
+								<tbody id="workspaceTable">
+									<!-- Workspace rows will be dynamically replaced here -->
+									{
+										new Array(skeletonCount)
+											.fill(null)
+											.map((_) => (
+												<tr>
+													<td class="text-xs sm:table-cell sm:w-6/12">
+														Loading...
+													</td>
+													<td class="text-xs sm:2/12">
+														-
+													</td>
+													<td class="text-xs sm:table-cell sm:w-2/12">
+														-
+													</td>
+													<td class="text-xs sm:w-2/12">
+														-
+													</td>
+												</tr>
+											))
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="drawer-side sm:h-[70dvh]">
+						<label
+							for="my-drawer-2"
+							aria-label="close sidebar"
+							class="drawer-overlay"></label>
+						<ul
+							class="menu bg-base-200 text-base-content min-h-full w-80 p-4"
+						>
+							<!-- Sidebar content here -->
+							<li>
+								<a href={localizePath("/user")}
+									>{t("user.accountinfo")}</a>
+							</li>
+							<li>
+								<a href={localizePath("/user/workspace")}
+									>{t("user.workspaceinfo")}</a>
+							</li>
+							<li>
+								<a href={localizePath("/user/host")}
+									>{t("user.hostedworkflow")}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<WorkspaceEditModal />
+		</Section>
+	</div>
 </MainLayout>
 
 <script>
-  import type { GetWorkspacesResponse, JoinedWorkspace, WorkspaceResponse, InviteTokenResponse } from "../../../utils/tools";
-  import { fetchUserWorkspaces, JWTError, fetchSpecificWorkspace } from "../../../utils/tools";
+	import type {
+		GetWorkspacesResponse,
+		JoinedWorkspace,
+		WorkspaceResponse,
+		InviteTokenResponse,
+	} from "../../utils/tools";
+	import {
+		fetchUserWorkspaces,
+		JWTError,
+		fetchSpecificWorkspace,
+	} from "../../utils/tools";
 
-  // Get the modal element
-  const modal = document.getElementById("modal") as HTMLDialogElement;
-  const modalTitle = document.getElementById(
-    "modalTitle",
-  ) as HTMLHeadingElement;
-  const modalContent = document.getElementById(
-    "modalContent",
-  ) as HTMLDivElement;
-  const confirmBtn = document.getElementById("confirmBtn") as HTMLButtonElement;
+	// Get the modal element
+	const modal = document.getElementById("modal") as HTMLDialogElement;
+	const modalTitle = document.getElementById(
+		"modalTitle",
+	) as HTMLHeadingElement;
+	const modalContent = document.getElementById(
+		"modalContent",
+	) as HTMLDivElement;
+	const confirmBtn = document.getElementById(
+		"confirmBtn",
+	) as HTMLButtonElement;
 
-  // Get Edit modal element
-  const editModal = document.getElementById("editModal") as HTMLDialogElement;
-  const editModalTitle = document.getElementById(
-    "editModalTitle",
-  ) as HTMLHeadingElement;
-  const createConfirmBtn = document.getElementById("createConfirmBtn") as HTMLButtonElement; 
-  const editConfirmBtn = document.getElementById("editConfirmBtn") as HTMLButtonElement;
+	// Get Edit modal element
+	const editModal = document.getElementById("editModal") as HTMLDialogElement;
+	const editModalTitle = document.getElementById(
+		"editModalTitle",
+	) as HTMLHeadingElement;
+	const createConfirmBtn = document.getElementById(
+		"createConfirmBtn",
+	) as HTMLButtonElement;
+	const editConfirmBtn = document.getElementById(
+		"editConfirmBtn",
+	) as HTMLButtonElement;
 
-  // Get User info elements
-  const planElement = document.getElementById("plan") as HTMLSpanElement;
-  const workspaceQuata = document.getElementById("workspacequata") as HTMLProgressElement;
-  const memberQuata = document.getElementById("memberquata") as HTMLProgressElement;
-  const workspaceQuataVal = document.getElementById("workspacequataVal") as HTMLSpanElement;
-  const memberQuataVal = document.getElementById("memberquataVal") as HTMLSpanElement;
-  const workspaceQuataMaxVal = document.getElementById("workspacequataMaxVal") as HTMLSpanElement;
-  const memberQuataMaxVal = document.getElementById("memberquataMaxVal") as HTMLSpanElement;
-  const createWokspaceBtn = document.getElementById("createWokspaceBtn") as HTMLButtonElement;
-  const workspaceQuataHint = document.getElementById("workspacequatahint") as HTMLSpanElement;
-  const memberQuataHint = document.getElementById("memberquatahint") as HTMLSpanElement;
-  // Get the edit name button and input field
-  const editNameBtn = document.getElementById("editname") as HTMLButtonElement;
-  const workspaceNameInput = document.getElementById("workspaceName") as HTMLInputElement;
+	// Get User info elements
+	const planElement = document.getElementById("plan") as HTMLSpanElement;
+	const workspaceQuata = document.getElementById(
+		"workspacequata",
+	) as HTMLProgressElement;
+	const memberQuata = document.getElementById(
+		"memberquata",
+	) as HTMLProgressElement;
+	const workspaceQuataVal = document.getElementById(
+		"workspacequataVal",
+	) as HTMLSpanElement;
+	const memberQuataVal = document.getElementById(
+		"memberquataVal",
+	) as HTMLSpanElement;
+	const workspaceQuataMaxVal = document.getElementById(
+		"workspacequataMaxVal",
+	) as HTMLSpanElement;
+	const memberQuataMaxVal = document.getElementById(
+		"memberquataMaxVal",
+	) as HTMLSpanElement;
+	const createWokspaceBtn = document.getElementById(
+		"createWokspaceBtn",
+	) as HTMLButtonElement;
+	const workspaceQuataHint = document.getElementById(
+		"workspacequatahint",
+	) as HTMLSpanElement;
+	const memberQuataHint = document.getElementById(
+		"memberquatahint",
+	) as HTMLSpanElement;
+	// Get the edit name button and input field
+	const editNameBtn = document.getElementById(
+		"editname",
+	) as HTMLButtonElement;
+	const workspaceNameInput = document.getElementById(
+		"workspaceName",
+	) as HTMLInputElement;
 
-  // Get workspace table
-  const workspaceTable = document.getElementById("workspaceTable") as HTMLTableElement;
+	// Get workspace table
+	const workspaceTable = document.getElementById(
+		"workspaceTable",
+	) as HTMLTableElement;
 
-  // Get Member Container element
-  const memberContainer = document.getElementById("memberContainer") as HTMLDivElement;
-  // Get Members Table element
-  const membersTable = document.getElementById("membersTable") as HTMLTableElement;
-  // Get your role container
-  const yourroleContainer = document.getElementById("yourroleContainer") as HTMLDivElement;
-  const yourrole = document.getElementById("yourrole") as HTMLSpanElement;
-  // Get invite member button
-  const invitebtn = document.getElementById("invitebtn") as HTMLButtonElement;
-  
-  // Dissolve Workspace Function
-  async function dissolveWorkspace(workspace_id: string, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    // Show loading modal
-    modalTitle.innerText = "⏳ Processing...";
-    modalContent.innerText = "Dissolving Workspace...";
-    confirmBtn.classList.toggle("hidden", true);
-    modal.showModal();
-    const url = new URL("/api/user/workspace/delete/" + workspace_id, window.location.origin);
-    const response = await fetch(url.toString(), {
-        method: "DELETE"
-    });
-    if (response.status == 401) {
-        console.error("JWT Expired");
-        throw new Error("JWT Expired");
-    } else if (response.status === 404) {
-        console.error("No workspace Found");
-        throw new Error("Not Found");
-    }
-    else if (!response.ok) {
-        console.error("Failed to delete workspace", response.statusText);
-        throw new Error("Failed to delete workspace");
-    } else {
-      modalTitle.innerText = "🎉 Tida";
-      modalContent.innerText = "Workspace has been dissolved successfully";
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
-    }
-    // refresh page
-    window.location.reload();
-    return;
-  }
+	// Get Member Container element
+	const memberContainer = document.getElementById(
+		"memberContainer",
+	) as HTMLDivElement;
+	// Get Members Table element
+	const membersTable = document.getElementById(
+		"membersTable",
+	) as HTMLTableElement;
+	// Get your role container
+	const yourroleContainer = document.getElementById(
+		"yourroleContainer",
+	) as HTMLDivElement;
+	const yourrole = document.getElementById("yourrole") as HTMLSpanElement;
+	// Get invite member button
+	const invitebtn = document.getElementById("invitebtn") as HTMLButtonElement;
 
-  // Remove member from workspace
-  async function removeMember(workspace_id: string, member_id: string, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    // Show loading modal
-    modalTitle.innerText = "⏳ Processing...";
-    modalContent.innerText = "Removing Member...";
-    confirmBtn.classList.toggle("hidden", true);
-    modal.showModal();
-    const url = new URL("/api/user/workspace/member/remove/" + workspace_id + "?member_id=" + member_id, window.location.origin);
-    const response = await fetch(url.toString(), {
-        method: "DELETE"
-    });
-    if (response.status == 401) {
-        console.error("JWT Expired");
-        throw new Error("JWT Expired");
-    } else if (response.status === 404) {
-        console.error("No workspace Found");
-        throw new Error("Not Found");
-    }
-    else if (!response.ok) {
-        console.error("Failed to remove member", response.statusText);
-        throw new Error("Failed to remove member");
-    } else {
-      modalTitle.innerText = "🎉 Tida";
-      modalContent.innerText = "Member has been removed successfully";
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
-    }
-    // refresh page
-    window.location.reload();
-    return;
-  }
+	// Dissolve Workspace Function
+	async function dissolveWorkspace(workspace_id: string, event: Event) {
+		event.preventDefault();
+		event.stopPropagation();
+		// Show loading modal
+		modalTitle.innerText = "⏳ Processing...";
+		modalContent.innerText = "Dissolving Workspace...";
+		confirmBtn.classList.toggle("hidden", true);
+		modal.showModal();
+		const url = new URL(
+			"/api/user/workspace/delete/" + workspace_id,
+			window.location.origin,
+		);
+		const response = await fetch(url.toString(), {
+			method: "DELETE",
+		});
+		if (response.status == 401) {
+			console.error("JWT Expired");
+			throw new Error("JWT Expired");
+		} else if (response.status === 404) {
+			console.error("No workspace Found");
+			throw new Error("Not Found");
+		} else if (!response.ok) {
+			console.error("Failed to delete workspace", response.statusText);
+			throw new Error("Failed to delete workspace");
+		} else {
+			modalTitle.innerText = "🎉 Tida";
+			modalContent.innerText =
+				"Workspace has been dissolved successfully";
+			confirmBtn.classList.toggle("hidden", true);
+			modal.showModal();
+		}
+		// refresh page
+		window.location.reload();
+		return;
+	}
 
-  // Invite member to workspace
-  async function inviteMember(workspace_id: string, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    // Show loading modal
-    modalTitle.innerText = "⏳ Processing...";
-    modalContent.innerText = "Generating Invite Token...";
-    confirmBtn.classList.toggle("hidden", true);
-    modal.showModal();
-    const url = new URL("/api/user/workspace/member/invite/" + workspace_id, window.location.origin);
-    const response = await fetch(url.toString(), {
-        method: "POST"
-    });
-    const data = await response.json() as InviteTokenResponse;
-    if (response.status == 401) {
-      console.error("JWT Expired");
-      modalTitle.innerText = "😮 Oops...";
-      modalContent.innerText = "Your login has expired, please login again!";
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
-    } else if (!response.ok) {
-      console.error("Failed to generate token");
-      modalTitle.innerText = "😮 Oops...";
-      modalContent.innerText = data.res;
-      confirmBtn.classList.toggle("hidden", true);
-      modal.showModal();
-    } else {
-      // copy the token to clipboard
-      navigator.clipboard.writeText(data.res).then(() => {
-        modalTitle.innerText = "🎉 Copied! Send the Token to your members.";
-        modalContent.innerHTML = `<div>Your workspace invite Token has been copied to your clipboard!✌️</div><div>You can send it to your members so they can join your workspace.</div>`;
-        modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${data.res}</div>`;
-        confirmBtn.classList.toggle("hidden", true);
-        modal.showModal();
-      });
-    }
-    return;
-  }
+	// Remove member from workspace
+	async function removeMember(
+		workspace_id: string,
+		member_id: string,
+		event: Event,
+	) {
+		event.preventDefault();
+		event.stopPropagation();
+		// Show loading modal
+		modalTitle.innerText = "⏳ Processing...";
+		modalContent.innerText = "Removing Member...";
+		confirmBtn.classList.toggle("hidden", true);
+		modal.showModal();
+		const url = new URL(
+			"/api/user/workspace/member/remove/" +
+				workspace_id +
+				"?member_id=" +
+				member_id,
+			window.location.origin,
+		);
+		const response = await fetch(url.toString(), {
+			method: "DELETE",
+		});
+		if (response.status == 401) {
+			console.error("JWT Expired");
+			throw new Error("JWT Expired");
+		} else if (response.status === 404) {
+			console.error("No workspace Found");
+			throw new Error("Not Found");
+		} else if (!response.ok) {
+			console.error("Failed to remove member", response.statusText);
+			throw new Error("Failed to remove member");
+		} else {
+			modalTitle.innerText = "🎉 Tida";
+			modalContent.innerText = "Member has been removed successfully";
+			confirmBtn.classList.toggle("hidden", true);
+			modal.showModal();
+		}
+		// refresh page
+		window.location.reload();
+		return;
+	}
 
-  // Function of getting user info
-  async function getWorkspaceInfo() {
-    try{
-      const { user, workspacesObject } = await fetchUserWorkspaces() as GetWorkspacesResponse;
-      console.log("User API Return Data>>>", user, "Workspaces API Return Data>>>", workspacesObject);
-      planElement.textContent = user.plan_type;
-      if (user.plan_type === "TEAM") {
-        // Team plan
-        workspaceQuata.max = 1;
-        workspaceQuataMaxVal.textContent = "1";
-        workspaceQuata.value = workspacesObject.managed.total || 0;
-        workspaceQuataVal.textContent = String(workspacesObject.managed.total) || "0";
-        memberQuata.max = 10;
-        memberQuataMaxVal.textContent = "10";
-        memberQuata.value = workspacesObject.managed.total_member_count || 0;
-        memberQuataVal.textContent = String(workspacesObject.managed.total_member_count) || "0";
-      } else if (user.plan_type === "ENTERPRISE") {
-        // Enterprise plan
-        workspaceQuata.max = 10;
-        workspaceQuataMaxVal.textContent = "10";
-        workspaceQuata.value = workspacesObject.managed.total || 0;
-        workspaceQuataVal.textContent = String(workspacesObject.managed.total) || "0";
-        memberQuata.max = 100;
-        memberQuataMaxVal.textContent = "100";
-        memberQuata.value = workspacesObject.managed.total_member_count || 0;
-        memberQuataVal.textContent = String(workspacesObject.managed.total_member_count) || "0";
-      } else {
-        // Free plan
-        workspaceQuata.max = 0;
-        workspaceQuataMaxVal.textContent = "0";
-        workspaceQuata.value = 0;
-        workspaceQuataVal.textContent = "0";
-        memberQuata.max = 0;
-        memberQuataMaxVal.textContent = "0";
-        memberQuata.value = 0;
-        memberQuataVal.textContent = "0";
-        createWokspaceBtn.classList.toggle("btn-disabled", true);
-        createWokspaceBtn.classList.toggle("btn", true);
-      }
-      // If workspaces quata is full, disable create workspace button and display hint
-      if (workspaceQuata.value >= workspaceQuata.max) {
-        createWokspaceBtn.disabled = true;
-        createWokspaceBtn.classList.toggle("btn-disabled", true);
-        createWokspaceBtn.classList.toggle("btn", true);
-        workspaceQuata.classList.toggle("progress-error", true);
-        workspaceQuata.classList.toggle("progress-primary", false);
-        workspaceQuataHint.classList.toggle("hidden", false);
-      } else {
-        createWokspaceBtn.disabled = false;
-        createWokspaceBtn.classList.toggle("btn-disabled", false);
-        createWokspaceBtn.classList.toggle("btn", false);
-        workspaceQuata.classList.toggle("progress-error", false);
-        workspaceQuata.classList.toggle("progress-primary", true);
-        workspaceQuataHint.classList.toggle("hidden", true);
-      }
-      // If member quata is full, disable invite member button and display hint
-      if (memberQuata.value >= memberQuata.max) {
-        invitebtn.disabled = true;
-        invitebtn.classList.toggle("btn-disabled", true);
-        memberQuata.classList.toggle("progress-error", true);
-        memberQuata.classList.toggle("progress-primary", false);
-        memberQuataHint.classList.toggle("hidden", false);
-      } else {
-        invitebtn.disabled = false;
-        invitebtn.classList.toggle("btn-disabled", false);
-        memberQuata.classList.toggle("progress-error", false);
-        memberQuata.classList.toggle("progress-primary", true);
-        memberQuataHint.classList.toggle("hidden", true);
-      }
-      if(workspacesObject.joined.workspaces.length > 0) {
-        // Get joined workspace table
-        workspaceTable.innerHTML = "";
-        workspacesObject.joined.workspaces.forEach((workspaces: JoinedWorkspace) => {
-          console.log("Workspaces>>>", workspaces);
-          const row = document.createElement("tr");
-          row.classList.add("hover");
-          row.id = `${workspaces.id}`;
-          row.innerHTML = `
+	// Invite member to workspace
+	async function inviteMember(workspace_id: string, event: Event) {
+		event.preventDefault();
+		event.stopPropagation();
+		// Show loading modal
+		modalTitle.innerText = "⏳ Processing...";
+		modalContent.innerText = "Generating Invite Token...";
+		confirmBtn.classList.toggle("hidden", true);
+		modal.showModal();
+		const url = new URL(
+			"/api/user/workspace/member/invite/" + workspace_id,
+			window.location.origin,
+		);
+		const response = await fetch(url.toString(), {
+			method: "POST",
+		});
+		const data = (await response.json()) as InviteTokenResponse;
+		if (response.status == 401) {
+			console.error("JWT Expired");
+			modalTitle.innerText = "😮 Oops...";
+			modalContent.innerText =
+				"Your login has expired, please login again!";
+			confirmBtn.classList.toggle("hidden", true);
+			modal.showModal();
+		} else if (!response.ok) {
+			console.error("Failed to generate token");
+			modalTitle.innerText = "😮 Oops...";
+			modalContent.innerText = data.res;
+			confirmBtn.classList.toggle("hidden", true);
+			modal.showModal();
+		} else {
+			// copy the token to clipboard
+			navigator.clipboard.writeText(data.res).then(() => {
+				modalTitle.innerText =
+					"🎉 Copied! Send the Token to your members.";
+				modalContent.innerHTML = `<div>Your workspace invite Token has been copied to your clipboard, Valid for 24 hours✌️</div><div>You can send it to your members so they can join your workspace.</div>`;
+				modalContent.innerHTML += `<div class="break-words italic text-sm bg-gray-100 dark:bg-[--darkbgoffset] text-gray-500 dark:text-blue px-2 py-1 rounded-md my-2">${data.res}</div>`;
+				confirmBtn.classList.toggle("hidden", true);
+				modal.showModal();
+			});
+		}
+		return;
+	}
+
+	// Function of getting user info
+	async function getWorkspaceInfo() {
+		try {
+			const { user, workspacesObject } =
+				(await fetchUserWorkspaces()) as GetWorkspacesResponse;
+			console.log(
+				"User API Return Data>>>",
+				user,
+				"Workspaces API Return Data>>>",
+				workspacesObject,
+			);
+			planElement.textContent = user.plan_type;
+			if (user.plan_type === "TEAM") {
+				// Team plan
+				workspaceQuata.max = 1;
+				workspaceQuataMaxVal.textContent = "1";
+				workspaceQuata.value = workspacesObject.managed.total || 0;
+				workspaceQuataVal.textContent =
+					String(workspacesObject.managed.total) || "0";
+				memberQuata.max = 10;
+				memberQuataMaxVal.textContent = "10";
+				memberQuata.value =
+					workspacesObject.managed.total_member_count || 0;
+				memberQuataVal.textContent =
+					String(workspacesObject.managed.total_member_count) || "0";
+			} else if (user.plan_type === "ENTERPRISE") {
+				// Enterprise plan
+				workspaceQuata.max = 10;
+				workspaceQuataMaxVal.textContent = "10";
+				workspaceQuata.value = workspacesObject.managed.total || 0;
+				workspaceQuataVal.textContent =
+					String(workspacesObject.managed.total) || "0";
+				memberQuata.max = 100;
+				memberQuataMaxVal.textContent = "100";
+				memberQuata.value =
+					workspacesObject.managed.total_member_count || 0;
+				memberQuataVal.textContent =
+					String(workspacesObject.managed.total_member_count) || "0";
+			} else {
+				// Free plan
+				workspaceQuata.max = 0;
+				workspaceQuataMaxVal.textContent = "0";
+				workspaceQuata.value = 0;
+				workspaceQuataVal.textContent = "0";
+				memberQuata.max = 0;
+				memberQuataMaxVal.textContent = "0";
+				memberQuata.value = 0;
+				memberQuataVal.textContent = "0";
+			}
+			if (user.plan_type === "FREE") {
+				createWokspaceBtn.classList.toggle("btn-disabled", true);
+				createWokspaceBtn.classList.toggle("btn", true);
+				createWokspaceBtn.disabled = true;
+			} else {
+				// If workspaces quata is full, disable create workspace button and display hint
+				if (workspaceQuata.value >= workspaceQuata.max) {
+					createWokspaceBtn.disabled = true;
+					createWokspaceBtn.classList.toggle("btn-disabled", true);
+					createWokspaceBtn.classList.toggle("btn", true);
+					workspaceQuata.classList.toggle("progress-error", true);
+					workspaceQuata.classList.toggle("progress-primary", false);
+					workspaceQuataHint.classList.toggle("hidden", false);
+				} else {
+					createWokspaceBtn.disabled = false;
+					createWokspaceBtn.classList.toggle("btn-disabled", false);
+					createWokspaceBtn.classList.toggle("btn", false);
+					workspaceQuata.classList.toggle("progress-error", false);
+					workspaceQuata.classList.toggle("progress-primary", true);
+					workspaceQuataHint.classList.toggle("hidden", true);
+				}
+				// If member quata is full, disable invite member button and display hint
+				if (memberQuata.value >= memberQuata.max) {
+					invitebtn.disabled = true;
+					invitebtn.classList.toggle("btn-disabled", true);
+					memberQuata.classList.toggle("progress-error", true);
+					memberQuata.classList.toggle("progress-primary", false);
+					memberQuataHint.classList.toggle("hidden", false);
+				} else {
+					invitebtn.disabled = false;
+					invitebtn.classList.toggle("btn-disabled", false);
+					memberQuata.classList.toggle("progress-error", false);
+					memberQuata.classList.toggle("progress-primary", true);
+					memberQuataHint.classList.toggle("hidden", true);
+				}
+			}
+			if (workspacesObject.joined.workspaces.length > 0) {
+				// Get joined workspace table
+				workspaceTable.innerHTML = "";
+				workspacesObject.joined.workspaces.forEach(
+					(workspaces: JoinedWorkspace) => {
+						console.log("Workspaces>>>", workspaces);
+						const row = document.createElement("tr");
+						row.classList.add("hover");
+						row.id = `${workspaces.id}`;
+						row.innerHTML = `
             <td class="text-xs sm:table-cell sm:w-6/12">${workspaces.name}</td>
-            <td class="text-xs sm:2/12">${workspaces.role === 'OWNER' ? "✅" : "❎"}</td>
+            <td class="text-xs sm:2/12">${workspaces.role === "OWNER" ? "✅" : "❎"}</td>
             <td class="text-xs sm:table-cell sm:w-2/12" data-workspace-id="${workspaces.id}">
               <button class="manage btn btn-sm btn-outline w-full" id="manageworkspace" data-workspace-id="${workspaces.id}">⚙️</button>
             </td>
             <td class="text-xs sm:w-2/12" data-workspace-id="${workspaces.id}" data-workspace-name="${workspaces.name}">
-              ${workspaces.role === 'OWNER' ? `<button class="dissolve btn btn-sm btn-outline btn-error w-full" id="dissolveworkspace" data-workspace-id="${workspaces.id}" data-workspace-name="${workspaces.name}">✕</button>` : "-"}
+              ${workspaces.role === "OWNER" ? `<button class="dissolve btn btn-sm btn-outline btn-error w-full" id="dissolveworkspace" data-workspace-id="${workspaces.id}" data-workspace-name="${workspaces.name}">✕</button>` : "-"}
             </td>
           `;
-          workspaceTable.appendChild(row);
-        });
-        // Add event listener to workspace table
-        workspaceTable.addEventListener("click", async (event: Event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          const target = event.target as HTMLElement;
-          const manageButton = target.closest("button.manage") as HTMLButtonElement;
-          const dissolveButton = target.closest("button.dissolve") as HTMLButtonElement;
-          // Check if the clicked element is a manage workspace button
-          if (manageButton) {
-            event.preventDefault();
-            event.stopPropagation();
-            try {
-              workspaceNameInput.value = "Loading";
-              workspaceNameInput.disabled = true;
-              yourrole.innerText = "Loading";
-              membersTable.innerHTML = `<tr>
+						workspaceTable.appendChild(row);
+					},
+				);
+				// Add event listener to workspace table
+				workspaceTable.addEventListener(
+					"click",
+					async (event: Event) => {
+						event.preventDefault();
+						event.stopPropagation();
+						const target = event.target as HTMLElement;
+						const manageButton = target.closest(
+							"button.manage",
+						) as HTMLButtonElement;
+						const dissolveButton = target.closest(
+							"button.dissolve",
+						) as HTMLButtonElement;
+						// Check if the clicked element is a manage workspace button
+						if (manageButton) {
+							event.preventDefault();
+							event.stopPropagation();
+							try {
+								workspaceNameInput.value = "Loading";
+								workspaceNameInput.disabled = true;
+								yourrole.innerText = "Loading";
+								membersTable.innerHTML = `<tr>
                         <td class="text-xs sm:table-cell sm:w-6/12">Loading...</td>
                         <td class="text-xs sm:3/12">-</td>
                         <td class="text-xs sm:table-cell sm:w-3/12">-</td>
                       </tr>`;
-              const workspaceId = manageButton.dataset.workspaceId;
-              console.log("Manage workspace button clicked for workspace ID:", workspaceId);
-              editModalTitle.innerText = "Manage Workspace";
-              memberContainer.classList.toggle("hidden", false);
-              invitebtn.classList.toggle("hidden", false);
-              invitebtn.dataset.workspaceId = workspaceId as string;
-              // remove existing listener to invite member button
-              invitebtn.removeEventListener("click", async (event: Event) => {
-                await inviteMember(workspaceId as string, event);
-              });
-              // add new listener to invite member button
-              invitebtn.addEventListener("click", async (event: Event) => {
-                await inviteMember(workspaceId as string, event);
-              });
-              editConfirmBtn.classList.toggle("hidden", false);
-              createConfirmBtn.classList.toggle("hidden", true);
-              yourroleContainer.classList.toggle("hidden", false);
-              editModal.showModal();
-              // load workspace info from api
-              const specificWorkspaceData: WorkspaceResponse = await fetchSpecificWorkspace(workspaceId as string);
-              console.log("Specific workspace data>>>", specificWorkspaceData);
-              workspaceNameInput.value = specificWorkspaceData.name;
-              workspaceNameInput.disabled = false;
-              yourrole.innerText = specificWorkspaceData.owner_id == user.id ? "Owner" : "Member";
-              if(yourrole.innerText === "Member") {
-                workspaceNameInput.disabled = true;
-                invitebtn.classList.toggle("hidden", true);
-              }
-              // load member table
-              membersTable.innerHTML = "";
-              specificWorkspaceData.members.forEach((member) => {
-                const row = document.createElement("tr");
-                row.classList.add("hover");
-                row.id = `${member.id}`;
-                row.innerHTML = `
+								const workspaceId =
+									manageButton.dataset.workspaceId;
+								console.log(
+									"Manage workspace button clicked for workspace ID:",
+									workspaceId,
+								);
+								editModalTitle.innerText = "Manage Workspace";
+								memberContainer.classList.toggle(
+									"hidden",
+									false,
+								);
+								invitebtn.classList.toggle("hidden", false);
+								invitebtn.dataset.workspaceId =
+									workspaceId as string;
+								// remove existing listener to invite member button
+								invitebtn.removeEventListener(
+									"click",
+									async (event: Event) => {
+										await inviteMember(
+											workspaceId as string,
+											event,
+										);
+									},
+								);
+								// add new listener to invite member button
+								invitebtn.addEventListener(
+									"click",
+									async (event: Event) => {
+										await inviteMember(
+											workspaceId as string,
+											event,
+										);
+									},
+								);
+								editConfirmBtn.classList.toggle(
+									"hidden",
+									false,
+								);
+								createConfirmBtn.classList.toggle(
+									"hidden",
+									true,
+								);
+								yourroleContainer.classList.toggle(
+									"hidden",
+									false,
+								);
+								editModal.showModal();
+								// load workspace info from api
+								const specificWorkspaceData: WorkspaceResponse =
+									await fetchSpecificWorkspace(
+										workspaceId as string,
+									);
+								console.log(
+									"Specific workspace data>>>",
+									specificWorkspaceData,
+								);
+								workspaceNameInput.value =
+									specificWorkspaceData.name;
+								workspaceNameInput.disabled = false;
+								yourrole.innerText =
+									specificWorkspaceData.owner_id == user.id
+										? "Owner"
+										: "Member";
+								if (yourrole.innerText === "Member") {
+									workspaceNameInput.disabled = true;
+									invitebtn.classList.toggle("hidden", true);
+								}
+								// load member table
+								membersTable.innerHTML = "";
+								specificWorkspaceData.members.forEach(
+									(member) => {
+										const row =
+											document.createElement("tr");
+										row.classList.add("hover");
+										row.id = `${member.id}`;
+										row.innerHTML = `
                   <td class="text-xs sm:table-cell sm:w-6/12">${member.username}</td>
                   <td class="text-xs sm:2/12">
                       ${member.role}
@@ -437,144 +662,228 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
                     ${specificWorkspaceData.owner_id === user.id ? `<button class="btn btn-sm btn-error btn-outline" id="dissolvemember" data-member-id="${member.id}">✕</button>` : "-"}
                   </td>
                 `;
-                membersTable.appendChild(row);
-                // add event listener to dissolve member button
-                if(specificWorkspaceData.owner_id === user.id){
-                  membersTable.addEventListener("click", async (event: Event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    const target = event.target as HTMLElement;
-                    const removeMemberButton = target.closest("button#dissolvemember") as HTMLButtonElement;
-                    if (removeMemberButton) {
-                      const memberId = removeMemberButton.dataset.memberId;
-                      console.log("Dissolve member button clicked for member ID:", memberId);
-                      await removeMember(workspaceId as string, memberId as string, event);
-                    }
-                  });
-                }
-              });
-            } catch (error) {
-              if ((error as Error).message === "JWT Expired") {
-                sessionStorage.removeItem("username");
-                modalTitle.innerText = "😮 Oops...";
-                modalContent.innerText = "Your login has expired, please login again!";
-                const confirmBtn = document.getElementById(
-                  "confirmBtn",
-                ) as HTMLButtonElement;
-                confirmBtn.textContent = "Login again";
-                confirmBtn.classList.toggle("btn-error", true);
-                confirmBtn.classList.toggle("hidden", false);
-                confirmBtn.addEventListener("click", (event: Event) => {
-                  event.preventDefault();
-                  window.location.href = "/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
-                });
-                modal.showModal();
-              } else {
-                console.error("Error loading workspace data:", error);
-                modalTitle.innerText = "⚠️ Error";
-                confirmBtn.classList.toggle("hidden", true);
-                modalContent.innerText =
-                  "Failed to fetch workspace data. Please Login again or check your connection.";
-                modal.showModal();
-              }
-            }
-          } else if (dissolveButton) {
-            // Check if the clicked element is a dissolve workspace button
-            event.preventDefault();
-            event.stopPropagation();
-            try {
-              const workspaceId = dissolveButton.dataset.workspaceId;
-              const workspaceName = dissolveButton.dataset.workspaceName;
-              modalTitle.innerText = "🤔 Dissolve Workspace";
-              modalContent.innerText = "Are you sure you want to dissolve this workspace: " + workspaceName + "?";
-              confirmBtn.classList.toggle("hidden", false);
-              confirmBtn.textContent = "Delete";
-              confirmBtn.classList.toggle("btn-error", true);
-              confirmBtn.removeEventListener("click", (event: Event) => {
-                dissolveWorkspace(workspaceId as string, event)
-              });
-              confirmBtn.addEventListener("click", (event: Event) => {
-                dissolveWorkspace(workspaceId as string, event)
-              });
-              modal.showModal();
-            } catch (error) {
-              if ((error as Error).message === "JWT Expired") {
-                sessionStorage.removeItem("username");
-                modalTitle.innerText = "😮 Oops...";
-                modalContent.innerText = "Your login has expired, please login again!";
-                const confirmBtn = document.getElementById(
-                  "confirmBtn",
-                ) as HTMLButtonElement;
-                confirmBtn.textContent = "Login again";
-                confirmBtn.classList.toggle("btn-error", true);
-                confirmBtn.classList.toggle("hidden", false);
-                confirmBtn.addEventListener("click", (event: Event) => {
-                  event.preventDefault();
-                  window.location.href = "/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
-                });
-                modal.showModal();
-              } else {
-                console.error("Error in Dissolve Workspace:", error);
-                modalTitle.innerText = "⚠️ Error";
-                confirmBtn.classList.toggle("hidden", true);
-                modalContent.innerText =
-                  "Failed to dissolve workspace. Please try again or check your connection.";
-                modal.showModal();
-              }
-            }
-          }
-        });
-      } else {
-        // If Joined workspace is empty, return empty table
-        workspaceTable.innerHTML = `
+										membersTable.appendChild(row);
+										// add event listener to dissolve member button
+										if (
+											specificWorkspaceData.owner_id ===
+											user.id
+										) {
+											membersTable.addEventListener(
+												"click",
+												async (event: Event) => {
+													event.preventDefault();
+													event.stopPropagation();
+													const target =
+														event.target as HTMLElement;
+													const removeMemberButton =
+														target.closest(
+															"button#dissolvemember",
+														) as HTMLButtonElement;
+													if (removeMemberButton) {
+														const memberId =
+															removeMemberButton
+																.dataset
+																.memberId;
+														console.log(
+															"Dissolve member button clicked for member ID:",
+															memberId,
+														);
+														await removeMember(
+															workspaceId as string,
+															memberId as string,
+															event,
+														);
+													}
+												},
+											);
+										}
+									},
+								);
+							} catch (error) {
+								if (
+									(error as Error).message === "JWT Expired"
+								) {
+									sessionStorage.removeItem("username");
+									modalTitle.innerText = "😮 Oops...";
+									modalContent.innerText =
+										"Your login has expired, please login again!";
+									const confirmBtn = document.getElementById(
+										"confirmBtn",
+									) as HTMLButtonElement;
+									confirmBtn.textContent = "Login again";
+									confirmBtn.classList.toggle(
+										"btn-error",
+										true,
+									);
+									confirmBtn.classList.toggle(
+										"hidden",
+										false,
+									);
+									confirmBtn.addEventListener(
+										"click",
+										(event: Event) => {
+											event.preventDefault();
+											window.location.href =
+												"/login?redirect=" +
+												encodeURIComponent(
+													window.location.pathname +
+														window.location.search,
+												);
+										},
+									);
+									modal.showModal();
+								} else {
+									console.error(
+										"Error loading workspace data:",
+										error,
+									);
+									modalTitle.innerText = "⚠️ Error";
+									confirmBtn.classList.toggle("hidden", true);
+									modalContent.innerText =
+										"Failed to fetch workspace data. Please Login again or check your connection.";
+									modal.showModal();
+								}
+							}
+						} else if (dissolveButton) {
+							// Check if the clicked element is a dissolve workspace button
+							event.preventDefault();
+							event.stopPropagation();
+							try {
+								const workspaceId =
+									dissolveButton.dataset.workspaceId;
+								const workspaceName =
+									dissolveButton.dataset.workspaceName;
+								modalTitle.innerText = "🤔 Dissolve Workspace";
+								modalContent.innerText =
+									"Are you sure you want to dissolve this workspace: " +
+									workspaceName +
+									"?";
+								confirmBtn.classList.toggle("hidden", false);
+								confirmBtn.textContent = "Delete";
+								confirmBtn.classList.toggle("btn-error", true);
+								confirmBtn.removeEventListener(
+									"click",
+									(event: Event) => {
+										dissolveWorkspace(
+											workspaceId as string,
+											event,
+										);
+									},
+								);
+								confirmBtn.addEventListener(
+									"click",
+									(event: Event) => {
+										dissolveWorkspace(
+											workspaceId as string,
+											event,
+										);
+									},
+								);
+								modal.showModal();
+							} catch (error) {
+								if (
+									(error as Error).message === "JWT Expired"
+								) {
+									sessionStorage.removeItem("username");
+									modalTitle.innerText = "😮 Oops...";
+									modalContent.innerText =
+										"Your login has expired, please login again!";
+									const confirmBtn = document.getElementById(
+										"confirmBtn",
+									) as HTMLButtonElement;
+									confirmBtn.textContent = "Login again";
+									confirmBtn.classList.toggle(
+										"btn-error",
+										true,
+									);
+									confirmBtn.classList.toggle(
+										"hidden",
+										false,
+									);
+									confirmBtn.addEventListener(
+										"click",
+										(event: Event) => {
+											event.preventDefault();
+											window.location.href =
+												"/login?redirect=" +
+												encodeURIComponent(
+													window.location.pathname +
+														window.location.search,
+												);
+										},
+									);
+									modal.showModal();
+								} else {
+									console.error(
+										"Error in Dissolve Workspace:",
+										error,
+									);
+									modalTitle.innerText = "⚠️ Error";
+									confirmBtn.classList.toggle("hidden", true);
+									modalContent.innerText =
+										"Failed to dissolve workspace. Please try again or check your connection.";
+									modal.showModal();
+								}
+							}
+						}
+					},
+				);
+			} else {
+				// If Joined workspace is empty, return empty table
+				workspaceTable.innerHTML = `
                       <tr>
                         <td class="text-xs sm:table-cell sm:w-6/12">-</td>
                         <td class="text-xs sm:2/12">-</td>
                         <td class="text-xs sm:table-cell sm:w-2/12">-</td>
                         <td class="text-xs sm:w-2/12">-</td>
-                      </tr>`
-      }
-    } catch (error){
-      if ((error as Error).message === "JWT Expired") {
-        sessionStorage.removeItem("username");
-        modalTitle.innerText = "😮 Oops...";
-        modalContent.innerText = "Your login has expired, please login again!";
-        const confirmBtn = document.getElementById(
-          "confirmBtn",
-        ) as HTMLButtonElement;
-        confirmBtn.textContent = "Login again";
-        confirmBtn.classList.toggle("btn-error", true);
-        confirmBtn.classList.toggle("hidden", false);
-        confirmBtn.addEventListener("click", (event: Event) => {
-          event.preventDefault();
-          window.location.href = "/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
-        });
-        modal.showModal();
-      } else {
-        console.error("Error loading workspace data:", error);
-        modalTitle.innerText = "⚠️ Error";
-        confirmBtn.classList.toggle("hidden", true);
-        modalContent.innerText =
-          "Failed to fetch workspace data. Please Login again or check your connection.";
-        modal.showModal();
-      }
-    }
-  }
+                      </tr>`;
+			}
+		} catch (error) {
+			if ((error as Error).message === "JWT Expired") {
+				sessionStorage.removeItem("username");
+				modalTitle.innerText = "😮 Oops...";
+				modalContent.innerText =
+					"Your login has expired, please login again!";
+				const confirmBtn = document.getElementById(
+					"confirmBtn",
+				) as HTMLButtonElement;
+				confirmBtn.textContent = "Login again";
+				confirmBtn.classList.toggle("btn-error", true);
+				confirmBtn.classList.toggle("hidden", false);
+				confirmBtn.addEventListener("click", (event: Event) => {
+					event.preventDefault();
+					window.location.href =
+						"/login?redirect=" +
+						encodeURIComponent(
+							window.location.pathname + window.location.search,
+						);
+				});
+				modal.showModal();
+			} else {
+				console.error("Error loading workspace data:", error);
+				modalTitle.innerText = "⚠️ Error";
+				confirmBtn.classList.toggle("hidden", true);
+				modalContent.innerText =
+					"Failed to fetch workspace data. Please Login again or check your connection.";
+				modal.showModal();
+			}
+		}
+	}
 
-  // Expose the loadworkspace function to the global scope
-  (window as any).loadWorkspaceData = getWorkspaceInfo;
+	// Expose the loadworkspace function to the global scope
+	(window as any).loadWorkspaceData = getWorkspaceInfo;
 
-  document.addEventListener("DOMContentLoaded", () => {
-    getWorkspaceInfo();
-    // Add event listener to create workspace button
-    createWokspaceBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      memberContainer.classList.toggle("hidden", true);
-      invitebtn.classList.toggle("hidden", true);
-      createConfirmBtn.classList.toggle("hidden", false);
-      editConfirmBtn.classList.toggle("hidden", true);
-      yourroleContainer.classList.toggle("hidden", true);
-      editModal.showModal();
-    });
-  });
+	document.addEventListener("DOMContentLoaded", () => {
+		getWorkspaceInfo();
+		// Add event listener to create workspace button
+		createWokspaceBtn.addEventListener("click", (event) => {
+			event.preventDefault();
+			memberContainer.classList.toggle("hidden", true);
+			invitebtn.classList.toggle("hidden", true);
+			createConfirmBtn.classList.toggle("hidden", false);
+			editConfirmBtn.classList.toggle("hidden", true);
+			yourroleContainer.classList.toggle("hidden", true);
+			editModal.showModal();
+		});
+	});
 </script>

@@ -39,7 +39,6 @@ export async function onRequestPost(context: { request: Request; env: Env; param
         const { payload } = await jwtVerify(jwt, new TextEncoder().encode(context.env.AUTH_SECRET));
         // Get workspace info from JWT token in formdata
         const formData = await request.formData();
-        console.log("Decoding Workspace Token...")
         const workspaceToken = decodeURIComponent(formData.get('workspaceToken') as string) || null;
         if(!workspaceToken){
             console.log("No Workspace Token found in formdata")
@@ -65,6 +64,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             const inviteUserName = workspacePayload.username;
             const inviteRole = workspacePayload.role;
             // Check If the user is already in the workspace
+            console.log("Check if the user is already in the workspace...")
             const workspaceMemberResult = await context.env.D1.prepare(
                 "SELECT * FROM workspace_members WHERE user_id =? AND workspace_id =?"
             ).bind(payload.id, workspace_id).first() as any;
@@ -77,6 +77,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
             }
             // Check if the workspace owner's plan is expired
             const planCheckResult = await checkUserPlan(inviteUserId as string, context.env) as CheckUserPlanResult;
+            console.log("User not in workspace, check owner's plan>>>", planCheckResult)
             if (planCheckResult.expired || planCheckResult.plan_type === 'FREE') {
                 console.log("Owner's plan is invaild")
                 return new Response(JSON.stringify({ res: planCheckResult.message }), {
@@ -84,6 +85,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                     status: 403,
                 });
             } else {
+                console.log("Owner's plan is valid, check plan's quata...")
                 // Query owner's workspace count and member count
                 const workspaceCount = await context.env.D1.prepare(
                     "SELECT COUNT(*) AS count FROM workspaces WHERE owner_id =?"
@@ -93,6 +95,7 @@ export async function onRequestPost(context: { request: Request; env: Env; param
                 ).bind(workspace_id).first() as any;
                 const workspaceCountResult = workspaceCount.count;
                 const memberCountResult = memberCount.count;
+                console.log("WorkspaceCount>>>", workspaceCountResult, "MemberCount>>>", memberCountResult)
                 // Check user workspace count and member count whether it exceeds the plan limit
                 if (planCheckResult.plan_type === 'TEAM') {
                     if (workspaceCountResult > TEAM_PLAN_MAX_WORKSPACE) {
