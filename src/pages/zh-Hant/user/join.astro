@@ -104,7 +104,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           if (response.ok) {
             // Redirect to the workspace page
             modalTitle.innerText = "🎉 Join Workspace Success";
-            modalContent.innerText = "You have successfully joined the workspace. Redirecting to workspace page in 2 seconds...";
+            modalContent.innerText = "You have successfully joined the workspace. Redirecting to Workspace page...";
             modal.showModal();
             confirmBtn.classList.toggle("hidden", true);
             setTimeout(() => {
