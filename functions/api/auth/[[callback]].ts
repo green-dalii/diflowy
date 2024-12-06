@@ -170,7 +170,7 @@ export const onRequestGet: (context: EventContext<Env, any, Record<string, unkno
     // 创建 JWT
     const token = await createJWT(userPayload, context.env.AUTH_SECRET);
     // 设置响应头
-    const cookie = `auth_token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`;
+    const cookie = `auth_token=${token}; HttpOnly; Secure; Path=/; Max-Age=21600`;
     const response = new Response(null, {
       status: 302,
       headers: {
