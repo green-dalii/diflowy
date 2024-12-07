@@ -5,6 +5,7 @@ import ReactFlowComponent from "../flow/ReactFlowComponent";
 import { t } from "i18next";
 import { localizePath } from "astro-i18next";
 import background from "../../assets/pics/background.jpg";
+import Banner from "../ui/Banner.astro";
 
 const translations = {
   explore: t("hero.explore"),
@@ -16,6 +17,7 @@ const translations = {
 
 <Section id="home">
   <div id="box" class="absolute inset-0 -z-10"></div>
+  <Banner message={t("site.bannermsg")} linkText={t("site.learnmore")} url="/blog/diflowy-workspace-multi-user-collaboration-beta-launch-en" />
   <div id="static" class="hidden absolute inset-0 -z-20">
     <Image
       src={background}
@@ -24,7 +26,7 @@ const translations = {
     />
   </div>
   <div
-    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 pt-28 sm:pt-44 pb-28"
+    class="grid grid-cols-1 grid-template md:grid-cols-2 md:grid-rows-1 pt-28 sm:pt-28 pb-28"
   >
     <div class="flex flex-col w-full sm:w-[55%] lg:w-[70%] sm:pt-20">
       <div

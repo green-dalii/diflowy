@@ -13,7 +13,9 @@
         "notfound": "Oops | Diflowy",
         "host": "Host | Diflowy",
         "workspace": "Workspace | Diflowy",
-        "joinworkspace": "Join Workspace | Diflowy"
+        "joinworkspace": "Join Workspace | Diflowy",
+        "learnmore": "Learn More",
+        "bannermsg": "Workspace is supported in Diflowy Now! 🎉"
     },
     "navbar": {
         "login": "Login",
@@ -161,7 +163,7 @@
         "privatemsg": "When choosing Private-Hosted mode, your uploaded workflow will be stored with high-strength algorithm encryption, only you have access, allowing you to enjoy the file management convenience brought by Diflowy in a privacy-safe environment.",
         "publicmode": "Public Mode",
         "privatemode": "Private Hosting Mode",
-        "workspaceshare": "Collaboration Model",
+        "workspaceshare": "Collaboration Mode",
         "personalavailable": "Personal available",
         "workspacesharing": "Workspace Sharing",
         "selecttags": "Select Tags [Required]",
@@ -196,7 +198,7 @@
         "rm7": "Add search and filter functionality",
         "rm8": "Apply official Dify Workflow style in v0.1.4",
         "rm9": "Other suggestions are welcome; please post them on our GitHub Discussions",
-        "rm10": "Add Workspace collaboration support for advanced users"
+        "rm10": "Add Workspace collaboration support for advanced users in v0.2.0"
     },
     "workflow": {
         "description": "You can preview, download or import the workflow to your Dify.",

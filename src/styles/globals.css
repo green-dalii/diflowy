@@ -179,5 +179,11 @@
       margin-top: 5px;
       border-radius: 20px;
     }
+    .banner {
+      backdrop-filter: saturate(60%) blur(30px);
+      background-color: #ffffff2e;
+      border-color: rgba(215, 215, 215, 0.2);
+      border-bottom-width: thin;
+    }
   }
 }

@@ -13,7 +13,9 @@
         "notfound": "ページが見つかりません | Diflowy",
         "host": "Diflowy ホスト",
         "workspace": "Diflowy ワークスペース",
-        "joinworkspace": "Diflowy ワークスペースに参加"
+        "joinworkspace": "Diflowy ワークスペースに参加",
+        "learnmore": "詳細はこちら",
+        "bannermsg": "WorkspaceはDiflowyにサポートされています！ 🎉"
     },
     "navbar": {
         "login": "ログイン",
@@ -196,7 +198,7 @@
         "rm7": "検索とフィルタリング機能を追加",
         "rm8": "v0.1.4，公式Dify Workflowスタイルを適用",
         "rm9": "その他の提案はGitHub Discussionsで投稿してください",
-        "rm10": "上級ユーザー向けにワークスペース・コラボレーションのサポートを追加"
+        "rm10": "v0.2.0，上級ユーザー向けにワークスペース・コラボレーションのサポートを追加"
     },
     "workflow": {
         "description": "プレビュー、ダウンロード、またはDifyにワークフローをインポートできます",

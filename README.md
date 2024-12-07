@@ -15,12 +15,13 @@ Diflowy is a vibrant community platform for Dify workflows where you can:
 - 🔗 Connect with global Dify enthusiasts
 - 🎨 Share your creative workflows
 - 🔍 Find workflows to scale your projects
-- 💾 Hosting your workflows
+- 💾 Hosting your workflows and Collaborate with partners
 
 ## 🌟 Features
 
 - 🔒 **Private-Hosted Mode**: Ensures data security and integrity with database-level AES-GCM encryption, ideal for enterprise and personal privacy needs.
 - 📂 **Version Management**: Effortlessly manage multiple versions of Workflow files, simplifying version control.
+- 👥 **Collaborative Working**: Collaborate efficiently with partners in the Workspace and synchronise the progress of Dify Workflows.
 - 📊 **Real-time Preview**: Instantly visualize Workflow structures through node diagrams for clear insights.
 - 📦 **Quick Import**: Easily import via URL to Dify.AI with a seamless one-click process.
 - 👥 **User-driven**: A collaborative Workflow knowledge base that benefits everyone.
@@ -65,6 +66,6 @@ We hope you enjoy being part of Diflowy as much as we do. Let's build something 
 - [x] Login with Google OAuth and Email
 - [x] Apply Dify Official Workflow Style
 - [x] Database-level encryption for Private-Hosted files
-- [ ] Add workspace collaboration support for advanced users
+- [x] Add workspace collaboration support for advanced users
 - [ ] AI Summarization for Workflows
 - [ ] Search and Filter Workflows

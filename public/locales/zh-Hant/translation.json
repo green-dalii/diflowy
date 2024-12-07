@@ -13,7 +13,9 @@
         "notfound": "頁面未找到 | Diflowy",
         "host": "託管 | Diflowy",
         "workspace": "工作區 | Diflowy",
-        "joinworkspace": "加入工作區 | Diflowy"
+        "joinworkspace": "加入工作區 | Diflowy",
+        "learnmore": "瞭解更多",
+        "bannermsg": "Diflowy 現已支援 Workspace 协同工作区！ 🎉"
     },
     "navbar": {
         "login": "登入",
@@ -196,7 +198,7 @@
         "rm7": "添加搜索和篩選功能",
         "rm8": "v0.1.4，實現官方 Dify 工作流樣式",
         "rm9": "任何其他建議歡迎在我們的 GitHub Discussions 上提出",
-        "rm10": "為進階使用者新增工作區協作支援"
+        "rm10": "v0.2.0，实现為進階使用者新增工作區協作支援"
     },
     "workflow": {
         "description": "您可以預覽、下載或将工作流導入到您的 Dify 中",

@@ -13,7 +13,9 @@
         "notfound": "Página no encontrada | Diflowy",
         "host": "Anfitrión | Diflowy",
         "workspace": "Área de trabajo | Diflowy",
-        "joinworkspace": "Unirse al área de trabajo | Diflowy"
+        "joinworkspace": "Unirse al área de trabajo | Diflowy",
+        "learnmore": "Conoce más",
+        "bannermsg": "¡Workspace es soportado en Diflowy ahora! 🎉"
     },
     "navbar": {
         "login": "Iniciar sesión",
@@ -196,7 +198,7 @@
         "rm7": "Añadida la función de búsqueda y filtrado",
         "rm8": "v0.1.4, Aplicación del estilo oficial de Workflow de Dify",
         "rm9": "Cualquier sugerencia adicional es bienvenida en nuestras GitHub Discussions",
-        "rm10": "Añadir soporte de colaboración en el espacio de trabajo para usuarios avanzados"
+        "rm10": "v0.2.0, Añadir soporte de colaboración en el espacio de trabajo para usuarios avanzados"
     },
     "workflow": {
         "description": "Puedes previsualizar, descargar o importar Workflows a tu Dify",
