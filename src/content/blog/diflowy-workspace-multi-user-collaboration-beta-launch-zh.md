@@ -1,7 +1,7 @@
 ---
-title: Diflowy 目前支持 Workspace 多人协同工作
+title: Diflowy 目前支持 Workspace 多人协同工作能力
 pubDate: 2024-12-06
-description: New banding for Diflowy and future work
+description: Workspace目前正在内测中，欢迎申请体验
 author: Greener-Dalii
 occupation: Founder of Diflowy Community
 heroImage: "/src/data/blog/002/HEROIMAGE.jpg"
@@ -13,11 +13,11 @@ multiLanguage:
 - diflowy-workspace-multi-user-collaboration-beta-launch-ja
 ---
 
-为更好的响应团队与企业用户的高级需求，我们很高兴地宣布Diflowy目前已支持**工作区（Workspace）多人协同**工作能力，这意味着您可以在工作区内与您的合作者共享和协作管理多版本工作流，方便您与团队成员高效的进行Dify Workflow文件交流。
+为更好的响应团队与企业用户的高级需求，我们很高兴地宣布Diflowy目前已支持**工作区（Workspace）多人协同**工作能力，这意味着您可以在工作区内与您的成员共享和协作管理多版本工作流，方便您与团队成员高效的进行Dify Workflow文件交流。
 
 目前工作区协同功能属于高级特性，正处于内测阶段，我们欢迎您申请内测（内测参与方式见文末），后期Diflowy也会在做好当前体验的基础上，针对高级特性适时推出付费服务，我们期待您的反馈和建议。
 
-通过以下步骤，您可以创建属于你的工作区（点击[此处](/user/workspace)可跳转到您的工作区页面）：
+登录Diflowy并通过内测后，通过以下步骤，您可以创建属于你的工作区（点击[此处](/user/workspace)可跳转到您的工作区页面）：
 
 ![how_to_create_workspace_in_Diflowy](../../data/blog/002/how_to_create_workspace_in_Diflowy-zh.jpg)
 

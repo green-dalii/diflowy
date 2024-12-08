@@ -1,7 +1,7 @@
 ---
 title: Diflowyは現在、Workspaceの多人数コラボレーションに対応しています
 pubDate: 2024-12-06
-description: New banding for Diflowy and future work
+description: 現在クローズドベータ版ですので、体験に応募することを歓迎します
 author: Greener-Dalii
 occupation: Founder of Diflowy Community
 heroImage: "/src/data/blog/002/HEROIMAGE.jpg"

@@ -1,7 +1,7 @@
 ---
 title: Diflowy currently supports Workspace Multi-User collaboration.
 pubDate: 2024-12-06
-description: New banding for Diflowy and future work
+description: Workspace is currently in closed beta, welcome to apply for a trial
 author: Greener-Dalii
 occupation: Founder of Diflowy Community
 heroImage: "/src/data/blog/002/HEROIMAGE.jpg"

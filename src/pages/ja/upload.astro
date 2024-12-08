@@ -23,21 +23,13 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
         description={description}
       />
       <div class="grid grid-cols-1 sm:grid-cols-4 mt-40">
-        <div id="not-login" class="sm:col-start-2 sm:col-span-2 text-center">
+        <div id="not-login" class="sm:col-start-2 sm:col-span-2 text-center pb-10">
           <p class="text-xs mb-5">
             {t("uploadpage.loginhint")}
           </p>
           <a id="login-link" href={localizePath("/login")}
-            ><button class="btn-primary w-full xl:w-1/2 py-2 text-sm" id="login"
-              >{t("uploadpage.loginbtn")}<br><small>{t("uploadpage.recommended")}</small></button
-            >
-          </a>
-          <p class="mt-16 text-xs mb-5">
-            {t("uploadpage.fillhint")}
-          </p>
-          <a id="form-link" href="https://nvrpmz0g7oy.feishu.cn/share/base/form/shrcnvn7YIMGM0TCs1gMJQgoGvc">
-            <button class="btn-tertiary w-full xl:w-1/2 py-2 text-sm"
-              >{t("uploadpage.fillbtn")}</button
+            ><button class="btn-primary w-full xl:w-1/2 py-4 text-sm" id="login"
+              >{t("uploadpage.loginbtn")}</button
             >
           </a>
         </div>
