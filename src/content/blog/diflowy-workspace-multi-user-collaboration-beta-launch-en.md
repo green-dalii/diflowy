@@ -13,6 +13,9 @@ multiLanguage:
 - diflowy-workspace-multi-user-collaboration-beta-launch-ja
 ---
 
+> **Surprise!!!**: Christmas gift 🎁Diflowy is giving all users three months of TEAM membership hours to experience!
+> For details [Here](/blog/diflowy-christmas-gift-free-team-membership-en) 
+
 To better meet the advanced needs of team and enterprise users, we are thrilled to announce that Diflowy now supports **Multi-User Collaboration in Workspaces**. This means you can share and collaborate on multiple versions of workflows within your workspace, facilitating efficient communication of Dify Workflow files with your team members.
 
 Currently, the Workspace collaboration feature is an advanced capability in beta testing. We welcome you to apply for beta access(See end of article for ways to participate). In the future, Diflowy will introduce paid services for advanced features based on optimizing the current experience. We look forward to your feedback and suggestions.

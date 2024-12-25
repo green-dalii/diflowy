@@ -13,6 +13,9 @@ multiLanguage:
 - diflowy-workspace-multi-user-collaboration-beta-launch-ja
 ---
 
+> **惊喜！！！**：圣诞节礼物🎁Diflowy为所有用户赠送了三个月的TEAM会员时长，欢迎体验！
+> 详见[这里](/blog/diflowy-christmas-gift-free-team-membership-zh)
+
 为更好的响应团队与企业用户的高级需求，我们很高兴地宣布Diflowy目前已支持**工作区（Workspace）多人协同**工作能力，这意味着您可以在工作区内与您的成员共享和协作管理多版本工作流，方便您与团队成员高效的进行Dify Workflow文件交流。
 
 目前工作区协同功能属于高级特性，正处于内测阶段，我们欢迎您申请内测（内测参与方式见文末），后期Diflowy也会在做好当前体验的基础上，针对高级特性适时推出付费服务，我们期待您的反馈和建议。
