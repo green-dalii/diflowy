@@ -527,6 +527,12 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
         tags.push(tag.textContent as string);
       });
       formData.append("tags", JSON.stringify(tags));
+      // Check if workflow is private, add private in formData
+      if(privateToggle.checked){
+        formData.append("isPrivate", "on")
+      } else {
+        formData.append("isPrivate", "off")
+      }
       // Check if workspace is selected, add workspace_id in formData 
       let workspace_id = "";
       if(workspaceRadio.checked && workspaceSelector){
@@ -537,7 +543,8 @@ import PrivateHostedToogle from "./PrivateHostedToogle.astro";
         "FormData>>>",
         formData.get("tags"),
         formData.get("dsl-file"), typeof(formData.get("dsl-file")),
-        formData.get("workspace_id")
+        formData.get("workspace_id"),
+        formData.get("isPrivate"),
       );
       // Send form data to the server
       try {

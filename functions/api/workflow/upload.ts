@@ -35,7 +35,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         let is_private = isPrivate === "on" ? 1 : 0 || 0;
         const workspace_id = formData.get("workspace_id") as string;
         let workspaceID;
-        console.log("Upload workspace id>>>", workspace_id);
+        console.log("Upload workspace id>>>", workspace_id, "is_private>>>", is_private);
         if(workspace_id !== ""){
             is_private = 1;
             workspaceID = workspace_id;
