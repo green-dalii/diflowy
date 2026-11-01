@@ -13,7 +13,8 @@
         "/de/explore/workflow*",
         "/it/explore/workflow*",
         "/ru/explore/workflow*",
-        "/ar/explore/workflow*"
+        "/ar/explore/workflow*",
+        "/og/*"
     ],
     "exclude": []
 }

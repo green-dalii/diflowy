@@ -14,6 +14,7 @@
     "@astrojs/react": "^3.6.0",
     "@astrojs/sitemap": "^3.2.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@cloudflare/pages-plugin-vercel-og": "^0.1.2",
     "@lucia-auth/adapter-sqlite": "^3.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/cloudflare": "^2.7.14",
