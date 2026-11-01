@@ -2,6 +2,10 @@
 dist/
 .vscode/
 
+# local verification tooling (see scripts/verify-workflow-seo.sh)
+.npm-cache/
+.wrangler/
+
 # generated types
 .astro/
 
