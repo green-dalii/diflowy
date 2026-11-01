@@ -215,23 +215,70 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   let currentDownloadUrl: string;
 
   // --- Canonical URL / document title helpers ---------------------------------
+  // Workflow detail pages are path-style: /<locale?>/explore/workflow/<id>.
   // The page is served as static HTML, so the <head> is built without knowing
   // which workflow it is. functions/_middleware.ts fills that in at the edge;
   // these helpers do the same after the fetch, which keeps the page correct in
   // environments where the middleware does not run (dev server, previews...).
 
-  // Single canonical form: the URL the static page is actually served from.
-  // Cloudflare Pages 308-redirects the slashless form to the trailing-slash one,
-  // so the canonical must keep the slash: /<locale>/explore/workflow/?id=<id>
-  function normalizePathname(pathname: string): string {
-    if (pathname === "/") return pathname;
-    return `${pathname.replace(/\/+$/, "")}/`;
+  // Fallback for the legacy query-string form (?id=...): the edge permanently
+  // redirects it to the path form, but a direct client-side visit still needs
+  // the id to be resolved.
+  function getWorkflowId(): string {
+    const queryId = new URLSearchParams(window.location.search).get("id");
+    if (queryId) return queryId;
+    const segments = window.location.pathname.split("/").filter(Boolean);
+    const workflowIndex = segments.lastIndexOf("workflow");
+    if (workflowIndex === -1 || workflowIndex === segments.length - 1) return "";
+    try {
+      return decodeURIComponent(segments[workflowIndex + 1]);
+    } catch {
+      return segments[workflowIndex + 1];
+    }
   }
 
+  const LOCALE_PREFIXES = [
+    "zh",
+    "zh-Hant",
+    "ja",
+    "ko",
+    "fr",
+    "pt",
+    "es",
+    "de",
+    "it",
+    "ru",
+    "ar",
+  ];
+
+  // Locale prefix of the current page ("/ja" for /ja/... or "" for English).
+  function currentLocalePrefix(): string {
+    const firstSegment =
+      window.location.pathname.split("/").filter(Boolean)[0] || "";
+    return LOCALE_PREFIXES.includes(firstSegment) ? `/${firstSegment}` : "";
+  }
+
+  // Canonical form: /<locale?>/explore/workflow/<encoded id>
   function workflowCanonicalUrl(workflowObject: WorkflowContentResponse): string {
-    return `${window.location.origin}${normalizePathname(
-      window.location.pathname,
-    )}?id=${encodeURIComponent(workflowObject.id)}`;
+    return `${window.location.origin}${currentLocalePrefix()}/explore/workflow/${encodeURIComponent(
+      workflowObject.id,
+    )}`;
+  }
+
+  function escapeHtml(value: string): string {
+    return value.replace(
+      /[&<>"']/g,
+      (character) =>
+        (
+          {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          } as Record<string, string>
+        )[character] as string,
+    );
   }
 
   function plainTextFromMarkdown(markdown: string): string {
@@ -275,14 +322,42 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
       "content",
       metaDescription,
     );
+    // Per-workflow social preview image (rendered by functions/og/). The lang
+    // hint keeps CJK workflow names from rendering as tofu boxes on the card.
+    const socialImageLocalePrefix = currentLocalePrefix();
+    const socialImageLocaleHint = socialImageLocalePrefix
+      ? `&lang=${encodeURIComponent(socialImageLocalePrefix.slice(1))}`
+      : "";
+    const socialImageUrl = `${window.location.origin}/og/workflow.png?id=${encodeURIComponent(
+      workflowObject.id,
+    )}${socialImageLocaleHint}`;
+    setMetaContent('meta[property="og:image"]', "content", socialImageUrl);
+    setMetaContent('meta[property="og:image:url"]', "content", socialImageUrl);
+    setMetaContent(
+      'meta[property="og:image:secure_url"]',
+      "content",
+      socialImageUrl,
+    );
+    setMetaContent('meta[property="og:image:type"]', "content", "image/png");
+    setMetaContent('meta[property="og:image:width"]', "content", "1200");
+    setMetaContent('meta[property="og:image:height"]', "content", "630");
+    setMetaContent('meta[property="og:image:alt"]', "content", pageTitle);
+    setMetaContent('meta[name="twitter:image"]', "content", socialImageUrl);
+    setMetaContent('meta[name="twitter:image:alt"]', "content", pageTitle);
+    const encodedWorkflowId = encodeURIComponent(workflowObject.id);
     document
       .querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]')
       .forEach((link) => {
         const href = link.getAttribute("href");
         if (!href) return;
         const localizedUrl = new URL(href, window.location.origin);
-        localizedUrl.pathname = normalizePathname(localizedUrl.pathname);
-        localizedUrl.searchParams.set("id", workflowObject.id);
+        // Static hreflang hrefs point at the id-less locale pages. Turn them
+        // into the path-style detail URL for this workflow, unless the edge
+        // middleware already did it.
+        const basePathname = localizedUrl.pathname.replace(/\/+$/, "");
+        if (basePathname.endsWith(`/${encodedWorkflowId}`)) return;
+        localizedUrl.pathname = `${basePathname}/${encodedWorkflowId}`;
+        localizedUrl.search = "";
         link.setAttribute("href", localizedUrl.toString());
       });
   }
@@ -290,8 +365,13 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   // Function for loading workflow from API
   async function loadWorkflow(): Promise<WorkflowContentResponse> {
     console.log("Executing loadWorkflow...");
-    const urlParams = new URLSearchParams(window.location.search);
-    const workflowId = urlParams.get("id") as string;
+    const workflowId = getWorkflowId();
+    if (!workflowId) {
+      // No id: the edge serves a 302 to the explorer, but a static/dev visit
+      // still needs to end somewhere sensible.
+      window.location.replace(`${currentLocalePrefix()}/explore`);
+      throw new Error("Missing workflow id");
+    }
     const url = new URL("/api/workflow", window.location.origin);
     url.searchParams.append("workflowId", workflowId);
 
@@ -313,8 +393,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
   // Function for changing workflow version
   async function changeWorkflowVersion(version: string) {
     console.log("Executing changeWorkflowVersion...");
-    const urlParams = new URLSearchParams(window.location.search);
-    const workflowId = urlParams.get("id") as string;
+    const workflowId = getWorkflowId();
     const url = new URL("/api/workflow", window.location.origin);
     url.searchParams.append("workflowId", workflowId); // Append workflowId to the URL
     url.searchParams.append("version", version); // Append version to the URL
@@ -499,11 +578,12 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
           })
           .join("");
 
-        // Update the tags
+        // Update the tags: encode the value (tags like "Finance & Business"
+        // would otherwise break the query string) and keep the current locale.
         const tagsHTML = workflowObject.tags
           .map(
             (tag: string) =>
-              `<a href="${window.location.origin}/explore?tags=${tag}"><span class="tag text-xs">${tag}</span></a>`,
+              `<a href="${window.location.origin}${currentLocalePrefix()}/explore?tags=${encodeURIComponent(tag)}"><span class="tag text-xs">${escapeHtml(tag)}</span></a>`,
           )
           .join("");
         workflowTags.innerHTML = tagsHTML;

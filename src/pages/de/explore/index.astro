@@ -109,7 +109,7 @@ const urlList = Astro.url.pathname.split("/").filter(Boolean);
     workflowGrid.innerHTML = "";
     workflows.forEach((workflow) => {
       const workflowLink = document.createElement("a");
-      workflowLink.setAttribute("href", `/de/explore/workflow?id=${workflow.id}`);
+      workflowLink.setAttribute("href", `/de/explore/workflow/${encodeURIComponent(workflow.id)}`);
       const workflowElement = document.createElement("div");
       let tags;
       try {
