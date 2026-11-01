@@ -10,7 +10,12 @@ export default defineConfig({
   site: "https://diflowy.greenerai.top",
   integrations: [tailwind({
     configFile: "./tailwind.config.mjs"
-  }), react(), icon(), sitemap(), astroI18next()],
+  }), react(), icon(), sitemap({
+    // The workflow detail page is only meaningful with a ?id= query string, so
+    // the bare /explore/workflow/ URL must not be advertised to crawlers (it is
+    // redirected at the edge by functions/_middleware.ts).
+    filter: (page) => !/\/explore\/workflow\/?$/.test(new URL(page).pathname),
+  }), astroI18next()],
   security: {
     checkOrigin: true
   },

@@ -1,4 +1,19 @@
 {
     "version": 1,
-    "include": ["/api/*"]
+    "include": [
+        "/api/*",
+        "/explore/workflow*",
+        "/zh/explore/workflow*",
+        "/zh-Hant/explore/workflow*",
+        "/ja/explore/workflow*",
+        "/ko/explore/workflow*",
+        "/fr/explore/workflow*",
+        "/pt/explore/workflow*",
+        "/es/explore/workflow*",
+        "/de/explore/workflow*",
+        "/it/explore/workflow*",
+        "/ru/explore/workflow*",
+        "/ar/explore/workflow*"
+    ],
+    "exclude": []
 }
