@@ -141,3 +141,33 @@ VALUES (
     '2024-06-03T10:00:00Z',
     'user_private_001'
 );
+
+-- ---------------------------------------------------------------------------
+-- 4. Public workflow whose tags use the OLD Chinese spellings, so the tag
+--    filter can be verified against the English label used by the UI
+--    ("Finance & Business" must match 金融与商业, see functions/api/workflow/filter.ts).
+-- ---------------------------------------------------------------------------
+INSERT INTO yaml_files
+    (id, filename, description, tags, icon, is_private, author_data, workspace_id, latest_version, user_id)
+VALUES (
+    'chinesetag0000001',
+    'Chinese-tagged Finance Workflow',
+    'A workflow stored with the Chinese tag spellings.',
+    '["金融与商业","生产力"]',
+    '💰',
+    0,
+    '{"authorName":"legacy"}',
+    NULL,
+    '1.0',
+    'user_public_0001'
+);
+
+INSERT INTO yaml_versions (id, yaml_file_id, version, file_content, created_at, user_id)
+VALUES (
+    'ver_chinesetag_1',
+    'chinesetag0000001',
+    '1.0',
+    CAST('app:\n  description: "Chinese-tagged Finance Workflow"\n  mode: workflow\n  name: Chinese-tagged Finance Workflow\nkind: app\nversion: 0.1.5\nworkflow:\n  edges: []\n  graph:\n    nodes: []\n  features: {}\n' AS BLOB),
+    '2024-06-03T10:00:00Z',
+    'user_public_0001'
+);
