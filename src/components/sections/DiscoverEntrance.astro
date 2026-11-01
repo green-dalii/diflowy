@@ -5,6 +5,11 @@ import Section from "./Section.astro";
 import { t } from "i18next";
 import { localizePath } from "astro-i18next";
 
+// Tag values can contain characters like "&", which would break the query
+// string if not encoded ("Finance & Business" would become two parameters).
+const tagLink = (tag: string) =>
+  localizePath(`/explore?tags=${encodeURIComponent(tag)}`);
+
 import c1 from "../../assets/pics/card-pic1.svg";
 import c2 from "../../assets/pics/card-pic2.svg";
 import c3 from "../../assets/pics/card-pic3.svg";
@@ -21,63 +26,63 @@ const cards = [
     titleTop: t("explore.productivity"),
     img: c1,
     alt: t("explore.productivity"),
-    link: localizePath("/explore?tags=Productivity"),
+    link: tagLink("Productivity"),
   },
   {
     index: 2,
     titleTop: t("explore.assistant"),
     img: c2,
     alt: t("explore.assistant"),
-    link: localizePath("/explore?tags=Assistant"),
+    link: tagLink("Assistant"),
   },
   {
     index: 3,
     titleTop: t("explore.creative"),
     img: c3,
     alt: t("explore.creative"),
-    link: localizePath("/explore?tags=Creative"),
+    link: tagLink("Creative"),
   },
   {
     index: 1,
     titleTop: t("explore.socialmedia"),
     img: c4,
     alt: t("explore.socialmedia"),
-    link: localizePath("/explore?tags=Social Media"),
+    link: tagLink("Social Media"),
   },
   {
     index: 2,
     titleTop: t("explore.financebusiness"),
     img: c5,
     alt: t("explore.financebusiness"),
-    link: localizePath("/explore?tags=Finance & Business"),
+    link: tagLink("Finance & Business"),
   },
   {
     index: 3,
     titleTop: t("explore.lifestylehealth"),
     img: c6,
     alt: t("lifestylehealth"),
-    link: localizePath("/explore?tags=Lifestyle & Health"),
+    link: tagLink("Lifestyle & Health"),
   },
   {
     index: 1,
     titleTop: t("explore.education"),
     img: c7,
     alt: t("explore.education"),
-    link: localizePath("/explore?tags=Education"),
+    link: tagLink("Education"),
   },
   {
     index: 2,
     titleTop: t("explore.entertainment"),
     img: c8,
     alt: t("explore.entertainment"),
-    link: localizePath("/explore?tags=Entertainment"),
+    link: tagLink("Entertainment"),
   },
   {
     index: 3,
     titleTop: t("explore.others"),
     img: c9,
     alt: t("explore.others"),
-    link: localizePath("/explore?tags=Others"),
+    link: tagLink("Others"),
   },
 ];
 

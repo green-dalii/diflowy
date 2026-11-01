@@ -244,10 +244,53 @@ export async function fetchWorkflows(
     return (await response.json()) as GetWorkflowsResponse;
 }
 
+// Show which tags are filtering the explore grid, with a way to clear them.
+// Every explore page calls getTagsFromURL() while loading, so the indicator is
+// rendered from there instead of duplicating markup in the 12 locale pages.
+// Idempotent: re-rendering replaces the previous indicator.
+function renderActiveTagFilter(tags: string[]): void {
+    if (typeof document === "undefined") return;
+    const toolbar = document.getElementById("workflow-toolbar");
+    if (!toolbar) return;
+    const existing = document.getElementById("active-tag-filter");
+    if (tags.length === 0) {
+        existing?.remove();
+        return;
+    }
+    const container = existing ?? document.createElement("div");
+    container.id = "active-tag-filter";
+    container.className = "flex flex-wrap items-center gap-2 mt-4 text-sm";
+    container.replaceChildren();
+
+    const label = document.createElement("span");
+    label.className = "text-xs text-gray-500";
+    label.textContent = "Filtered by";
+    container.appendChild(label);
+
+    tags.forEach((tag) => {
+        const chip = document.createElement("span");
+        chip.className = "tag text-xs";
+        chip.textContent = tag;
+        container.appendChild(chip);
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    params.delete("tags");
+    const query = params.toString();
+    const clearLink = document.createElement("a");
+    clearLink.className = "text-xs underline text-gray-500 hover:text-dark ml-1";
+    clearLink.href = `${window.location.pathname}${query ? `?${query}` : ""}`;
+    clearLink.textContent = "✕ Clear filter";
+    container.appendChild(clearLink);
+
+    if (existing === null) toolbar.insertAdjacentElement("afterend", container);
+}
+
 // Get tags[] from url
 export function getTagsFromURL(): string[] {
     const urlParams = new URLSearchParams(window.location.search);
     const tags: string[] = urlParams.getAll("tags");
+    renderActiveTagFilter(tags);
     return tags;
 }
 
